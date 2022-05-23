@@ -21,7 +21,7 @@ This is the very beginning of pyppbox, and we currently support only **Windows**
 
 ### Install requirements
 * Important: Only support **Python 3.9.x** and **CUDA 11.3.x** + **CUDNN 8.3.x**.
-* Optional: You can create a virtual conda enviroment of **Python 3.9** of your choice.
+* Optional: You can create a virtual conda **Python 3.9** enviroment of your choice.
 ```
 conda create --name pyppbox_env python=3.9
 conda activate pyppbox_env
@@ -47,7 +47,7 @@ testme.cmd
 pip install pyppbox-1.0b5-cp39-cp39-win_amd64.whl
 ```
 
-### Option 2: Built your own pyppbox (Comming soon!)
+### Option 2: Build your own pyppbox (Comming soon!)
 * Build WHL using the setup.py
 ```
 pip install scikit-build
