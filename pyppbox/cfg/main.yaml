@@ -1,0 +1,14 @@
+###########################################################
+# Main config:
+###########################################################
+# detector: None | OpenPose | YOLO
+# tracker: None | Centroid | SORT | DeepSORT
+# reider: None | Facenet | DeepReID
+# input_video: *.avi | *.mkv | *.mov | *.mp4
+# force_hd: True | False
+###########################################################
+detector: YOLO
+tracker: SORT
+reider: DeepReID
+input_video: tmp/demo/hard_sur_hd.mp4
+force_hd: False
