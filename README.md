@@ -9,13 +9,15 @@
 
 ![alt text](https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_launchGUI.png)
 
-## What is PoseTReID?
+## Comparison Results
 
-* PoseTReID is a framework for real-time 2D multi-person tracking in distributed interaction spaces such as malls or parks. More details? [Please kindly refer to our paper here!](https://doi.org/10.1109/ICITEE49829.2020.9271712)
+* Comparisions on PoseTReID datasets
 
-![alt text](https://raw.githubusercontent.com/rathaumons/PoseTReID_DATASET/master/img/framework.png)
+<img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_res001.png">
 
-## 📝 Code? Documentation? 
+* More details? Check our paper: http://arxiv.org/abs/2205.10086
+
+## 📝 Documentation? 
 
 * **[COMING SOON ⌛](https://github.com/rathaumons/pyppbox)**
 
@@ -23,7 +25,15 @@
 
 * Extension of PoseTReID paper:
 ```
-to be added ... ⌛ 
+@misc{https://doi.org/10.48550/arxiv.2205.10086,
+  doi = {10.48550/ARXIV.2205.10086},
+  url = {https://arxiv.org/abs/2205.10086},
+  author = {Siv, Ratha and Mancas, Matei and Gosselin, Bernard and Valy, Dona and Sreng, Sokchenda},
+  keywords = {Computer Vision and Pattern Recognition (cs.CV), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  title = {People Tracking and Re-Identifying in Distributed Contexts: Extension of PoseTReID},
+  publisher = {arXiv},
+  year = {2022},
+  copyright = {Creative Commons Attribution Non Commercial Share Alike 4.0 International}}
 ```
 
 * Original PoseTReID paper:
