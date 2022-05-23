@@ -9,17 +9,65 @@
 
 ![alt text](https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_launchGUI.png)
 
-## Comparison Results
+## ⚽ Comparison Results
 
-* Comparisions on PoseTReID datasets
+* Comparisions on PoseTReID datasets (More details? Check our paper: http://arxiv.org/abs/2205.10086)
 
 <img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_res001.png">
 
-* More details? Check our paper: http://arxiv.org/abs/2205.10086
+## ⚙️ Requirements
+
+This is the very beginning of pyppbox, and we currently support only **Windows** due to the incompatibility of some modules on other platforms with the latest hardware.
+
+### Install requirements
+* Important: Only support **Python 3.9.x** and **CUDA 11.3.x** + **CUDNN 8.3.x**.
+* Optional: You can create a virtual conda enviroment of **Python 3.9** of your choice.
+```
+conda create --name pyppbox_env python=3.9
+conda activate pyppbox_env
+```
+* Simply run the install_pippackages.cmd
+```
+cd requiremnts
+install_pippackages.cmd
+```
+
+### Verify the requirements
+* Simply run the testme.cmd
+```
+testme.cmd
+```
+* If there is no error, then you're all good and ready.
+
+## 🚀 Setup pyppbox
+
+### Option 1: Use the prebuilt WHL file
+* Get the latest WHL from here: https://drive.google.com/open?id=11FEf50FEOYpz1FoHFNwIFea0RXbQzSlo
+```
+pip install pyppbox-1.0b5-cp39-cp39-win_amd64.whl
+```
+
+### Option 2: Built your own pyppbox (Comming soon!)
+* Build WHL using the setup.py
+```
+pip install scikit-build
+pip wheel . --verbose
+```
+* Then simply install your newly created WHL file
+
+### Quick Test
+* On your terminal or CMD:
+```
+python
+import pyppbox
+pyppbox.launchGUI()
+```
+* Now you should see [the GUI of pyppbox for easy demo](https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_launchGUI.png). Just hit the "LAUNCH" button!
 
 ## 📝 Documentation? 
 
 * **[COMING SOON ⌛](https://github.com/rathaumons/pyppbox)**
+* Meanwhile you can check [the examples here](https://github.com/rathaumons/pyppbox/tree/main/examples) ! 
 
 ## 🔗 Citation
 
@@ -29,7 +77,6 @@
   doi = {10.48550/ARXIV.2205.10086},
   url = {https://arxiv.org/abs/2205.10086},
   author = {Siv, Ratha and Mancas, Matei and Gosselin, Bernard and Valy, Dona and Sreng, Sokchenda},
-  keywords = {Computer Vision and Pattern Recognition (cs.CV), FOS: Computer and information sciences, FOS: Computer and information sciences},
   title = {People Tracking and Re-Identifying in Distributed Contexts: Extension of PoseTReID},
   publisher = {arXiv},
   year = {2022},
