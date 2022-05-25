@@ -3,7 +3,7 @@
 ## 🐍📦 pyppbox = Python  + People + Toolbox 
 
 * Yes, pyppbox is an open-source Python toolbox which is originally made for PoseTReID framework. 
-* This toolbox features 3 main moduels: People Detection module, People Tracking module, and People Re-identifying module. These modules support a bunch of well-known people detectors, trackers, and re-identificators which can be used separately or put together with only a few line of codes. 
+* This toolbox features 3 main modules: People Detection module, People Tracking module, and People Re-identifying module. These modules support a bunch of well-known people detectors, trackers, and re-identificators which can be used separately or put together with only a few linee of codes. 
 * **pyppbox** also supports real-time online and offline evaluation on [PoseTReID datasets](https://github.com/rathaumons/PoseTReID_DATASET).
 * The initial version of pyppbox is also intergrated with GUI for easy demo and config. 
 
@@ -17,10 +17,10 @@
 
 ## ⚙️ Requirements
 
-This is the very beginning of pyppbox, and we currently support only **Windows** due to the incompatibility of some modules on other platforms with the latest hardware.
+This is the very first version of pyppbox, and we currently support only **Windows** due to the incompatibility of some modules on other platforms with the latest hardware.
 
 ### Install requirements
-* Important: Only support **Python 3.9.x** and **CUDA 11.3.x** + **CUDNN 8.3.x**.
+* Important: This current version supports only **Python 3.9.x** and **CUDA 11.3.x** + **CUDNN 8.3.x**.
 * Optional: You can create a virtual conda **Python 3.9** enviroment of your choice.
 ```
 conda create --name pyppbox_env python=3.9
@@ -37,7 +37,7 @@ install_pippackages.cmd
 ```
 testme.cmd
 ```
-* If there is no error, then you're all good and ready.
+* If there is no error, then you're all good and ready to go.
 
 ## 🚀 Setup pyppbox
 
