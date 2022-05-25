@@ -13,7 +13,7 @@
 
 * Comparisions on PoseTReID datasets (More details? Check our paper: http://arxiv.org/abs/2205.10086)
 
-<img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_res001.png">
+<img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_res001n.png">
 
 ## ⚙️ Requirements
 
