@@ -28,7 +28,7 @@ conda activate pyppbox_env
 ```
 * Simply run the install_pippackages.cmd
 ```
-cd requiremnts
+cd requirements
 install_pippackages.cmd
 ```
 
