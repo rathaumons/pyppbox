@@ -73,7 +73,7 @@ pyppbox.launchGUI()
 
 ## 🔗 Citation
 
-* Extension of PoseTReID paper:
+* Extension of PoseTReID paper (Pre-printed on ARXIV):
 ```
 @misc{https://doi.org/10.48550/arxiv.2205.10086,
   doi = {10.48550/ARXIV.2205.10086},
