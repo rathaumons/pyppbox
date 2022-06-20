@@ -2,8 +2,8 @@
 
 ## 🐍📦 pyppbox = Python  + People + Toolbox 
 
-* Yes, pyppbox is an open-source Python toolbox which is originally made for PoseTReID framework. 
-* This toolbox features 3 main modules: People Detection module, People Tracking module, and People Re-identifying module. These modules support a bunch of well-known people detectors, trackers, and re-identificators which can be used separately or put together with only a few linee of codes. 
+* Yes, pyppbox is an open-source Python toolbox which was originally made for the PoseTReID framework. 
+* This toolbox features 3 main modules: People Detection module, People Tracking module, and People Re-identifying module. These modules support a bunch of well-known people detectors, trackers, and re-identificators which can be used separately or put together with only a few lines of code. 
 * **pyppbox** also supports real-time online and offline evaluation on [PoseTReID datasets](https://github.com/rathaumons/PoseTReID_DATASET).
 * The initial version of pyppbox is also intergrated with GUI for easy demo and config. 
 
@@ -11,7 +11,7 @@
 
 ## ⚽ Comparison Results
 
-* Comparisions on PoseTReID datasets (More details? Check our paper: http://arxiv.org/abs/2205.10086)
+* Comparisions on PoseTReID datasets (More details? Check our pre-printed paper: http://arxiv.org/abs/2205.10086)
 * [Click here for raw results in the paper](https://drive.google.com/open?id=13pVqKKd0mtoAaVQh1USxOwZwxg4HmzyQ)
 
 <img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_res001n.png">
@@ -82,7 +82,6 @@ pyppbox.launchGUI()
   title = {People Tracking and Re-Identifying in Distributed Contexts: Extension of PoseTReID},
   publisher = {arXiv},
   year = {2022},
-  copyright = {Creative Commons Attribution Non Commercial Share Alike 4.0 International}}
 ```
 
 * Original PoseTReID paper:
