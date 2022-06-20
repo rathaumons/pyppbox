@@ -11,7 +11,7 @@
 
 ## ⚽ Comparison Results
 
-* Comparisions on PoseTReID datasets (More details? Check our pre-printed paper: http://arxiv.org/abs/2205.10086)
+* Comparisions on PoseTReID datasets (Check our pre-printed paper: http://arxiv.org/abs/2205.10086)
 * [Click here for raw results in the paper](https://drive.google.com/open?id=13pVqKKd0mtoAaVQh1USxOwZwxg4HmzyQ)
 
 <img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_res001n.png">
