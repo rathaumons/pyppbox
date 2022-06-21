@@ -7,7 +7,12 @@
 * **pyppbox** also supports real-time online and offline evaluation on [PoseTReID datasets](https://github.com/rathaumons/PoseTReID_DATASET).
 * The initial version of pyppbox is also intergrated with GUI for easy demo and config. 
 
-![alt text](https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_launchGUI.png)
+<!--- ![alt text](https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_launchGUI.png) --->
+
+## ⚠️ IMPORTANT NOTICES (June 21, 2022)
+
+* This is the main repo of pyppbox. Unfortunately, due to [the complicated license of OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE), it will be dropped and replaced by [MMPose](https://github.com/open-mmlab/mmpose). Stay tune for this amazing update!
+* Please refer to [this repo pyppbox-paper](https://github.com/rathaumons/pyppbox-paper) for those who want OpenPose or to repduce the results in the paper.
 
 ## ⚽ Comparison Results
 
