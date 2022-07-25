@@ -50,18 +50,12 @@ testme.cmd
 ## 🚀 Setup pyppbox
 
 ### Option 1: Use the prebuilt WHL file
-* Get the latest WHL from here: https://drive.google.com/open?id=11FEf50FEOYpz1FoHFNwIFea0RXbQzSlo
-```
-pip install pyppbox-1.0b5-cp39-cp39-win_amd64.whl
-```
+* Download [WHL here](https://drive.google.com/open?id=12dxv5t-jHKg_N4P6bAxMZPnd2a3bD779) and install `pip install pyppbox-1.0b6-cp39-cp39-win_amd64.whl`
 
-### Option 2: Build your own pyppbox (Comming soon!)
-* Build WHL using the setup.py
-```
-pip install scikit-build
-pip wheel . --verbose
-```
-* Then simply install your newly created WHL file
+### Option 2: Build your own pyppbox
+* Download [the extra models & weights](https://drive.google.com/open?id=149VQPQw-Nxz0X5nwGritFzHpV_oQTDDm) and extract to the root `pyppbox-paper`
+* Create WHL by running `creat_whl.cmd`
+* Install WHL `pip install pyppbox-1.0b6-cp39-cp39-win_amd64.whl`
 
 ### Quick Test
 * On your terminal or CMD:
