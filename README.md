@@ -9,7 +9,7 @@
 
 <!--- ![alt text](https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_launchGUI.png) --->
 
-## ⚠️ IMPORTANT NOTICES (Jully 25, 2022)
+## ⚠️ IMPORTANT NOTICES (July 25, 2022)
 
 * Add GPL-3.0 license
 * This is the main repo of pyppbox. Unfortunately, due to [the complicated license of OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE), it will be dropped and replaced by [MMPose](https://github.com/open-mmlab/mmpose). Stay tune for this amazing update!
