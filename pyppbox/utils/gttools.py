@@ -1,3 +1,22 @@
+"""
+    pyppbox: Toolbox for people detecting, tracking, and re-identifying.
+    Copyright (C) 2022 UMONS-Numediart
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
+
 from __future__ import division, print_function, absolute_import
 
 import re
@@ -243,7 +262,8 @@ class MyEval(object):
             self.current_frame += 1
 
     def getSummary(self):
-        self.score = float(((self.gt_loader.total_detections - self.missed_detect - self.fault_detect - self.diff_count)/self.gt_loader.total_detections)*100)
+        # self.score = float(((self.gt_loader.total_detections - self.missed_detect - self.fault_detect - self.diff_count)/self.gt_loader.total_detections)*100)
+        self.score = float(((self.gt_loader.total_detections - self.diff_count)/self.gt_loader.total_detections)*100)
         print("------------------------------------------------------------------------------")
         print(" ")
         print(" Summary: ")

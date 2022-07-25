@@ -1,0 +1,13 @@
+###########################################################
+# NOTES: DO NOT CHANGE THE ORDER !!!
+###########################################################
+#
+--- # Facenet
+gpu_mem: 0.9
+model_det: models/det
+model_file: models/20180402-114759/20180402-114759.pb
+classifier_file: classifier/train.pkl
+data_path: data/train_aligned
+batch_size: 1000
+min_confidence: 0.5
+#
