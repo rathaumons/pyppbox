@@ -1,8 +1,0 @@
-hard_aio_hd.mp4=realID_hard_aio.txt
-hard_front_hd.mp4=realID_hard_front.txt
-hard_high_hd.mp4=realID_hard_high.txt
-hard_low_hd.mp4=realID_hard_low.txt
-hard_sur_hd.mp4=realID_hard_sur.txt
-normal_aio_hd.mp4=realID_normal_aio.txt
-normal_high_hd.mp4=realID_normal_high.txt
-normal_low_hd.mp4=realID_normal_low.txt
