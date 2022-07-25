@@ -1,7 +1,5 @@
 # Welcome to pyppbox !
 
-## This repo includes OpenPose and is for those who want to reproduce the results in the paper.
-
 ## 🐍📦 pyppbox = Python  + People + Toolbox 
 
 * Yes, pyppbox is an open-source Python toolbox which was originally made for the PoseTReID framework. 
@@ -9,7 +7,13 @@
 * **pyppbox** also supports real-time online and offline evaluation on [PoseTReID datasets](https://github.com/rathaumons/PoseTReID_DATASET).
 * The initial version of pyppbox is also intergrated with GUI for easy demo and config. 
 
-![alt text](https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_launchGUI.png)
+<!--- ![alt text](https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_launchGUI.png) --->
+
+## ⚠️ IMPORTANT NOTICES (Jully 25, 2022)
+
+* Add GPL-3.0 license
+* This is the main repo of pyppbox. Unfortunately, due to [the complicated license of OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE), it will be dropped and replaced by [MMPose](https://github.com/open-mmlab/mmpose). Stay tune for this amazing update!
+* Please refer to [this repo pyppbox-paper](https://github.com/rathaumons/pyppbox-paper) for those who want OpenPose or to repduce the results in the paper.
 
 ## ⚽ Comparison Results
 
@@ -46,12 +50,18 @@ testme.cmd
 ## 🚀 Setup pyppbox
 
 ### Option 1: Use the prebuilt WHL file
-* Download [WHL here](https://drive.google.com/open?id=12dxv5t-jHKg_N4P6bAxMZPnd2a3bD779) and install `pip install pyppbox-1.0b6-cp39-cp39-win_amd64.whl`
+* Get the latest WHL from here: https://drive.google.com/open?id=11FEf50FEOYpz1FoHFNwIFea0RXbQzSlo
+```
+pip install pyppbox-1.0b5-cp39-cp39-win_amd64.whl
+```
 
-### Option 2: Build your own pyppbox
-* Download [the extra models & weights](https://drive.google.com/open?id=149VQPQw-Nxz0X5nwGritFzHpV_oQTDDm) and extract to the root `pyppbox-paper`
-* Create WHL by running `creat_whl.cmd`
-* Install WHL `pip install pyppbox-1.0b6-cp39-cp39-win_amd64.whl`
+### Option 2: Build your own pyppbox (Comming soon!)
+* Build WHL using the setup.py
+```
+pip install scikit-build
+pip wheel . --verbose
+```
+* Then simply install your newly created WHL file
 
 ### Quick Test
 * On your terminal or CMD:
@@ -65,7 +75,7 @@ pyppbox.launchGUI()
 ## 📝 Documentation? 
 
 * **[COMING SOON ⌛](https://github.com/rathaumons/pyppbox)**
-* Meanwhile you can check [the examples here](https://github.com/rathaumons/pyppbox-paper/tree/main/examples) ! 
+* Meanwhile you can check [the examples here](https://github.com/rathaumons/pyppbox/tree/main/examples) ! 
 
 ## 🔗 Citation
 
