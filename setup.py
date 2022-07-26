@@ -33,7 +33,7 @@ def main():
 
     package_name = "pyppbox"
 
-    long_description = "Pure Python toolbox for people detection, tracking, and re-identification... "
+    long_description = "Pure Python toolbox for people detecting, tracking, and re-identificating... "
 
     packages = ['pyppbox', 'pyppbox.cfg', 'pyppbox.dt_openpose', 
                 'pyppbox.dt_openpose.models', 'pyppbox.dt_openpose.models.cameraParameters', 
@@ -93,8 +93,8 @@ def main():
         name=package_name,
         version=package_version,
         url="https://github.com/rathaumons/pyppbox",
-        license="Refer to LICENSE_NOTICES.pdf",
-        description="Python toolbox for people detection, tracking, and re-identification",
+        license="GPLv3+",
+        description="Toolbox for people detecting, tracking, and re-identifying",
         long_description=long_description,
         long_description_content_type="text/markdown",
         packages=packages,
@@ -104,12 +104,13 @@ def main():
         install_requires=None,
         python_requires="==3.9.*",
         classifiers=[
-            "Development Status :: Beta",
+            "Development Status :: 4 - Beta",
             "Environment :: Console",
             "Intended Audience :: Developers",
             "Intended Audience :: Education",
             "Intended Audience :: Information Technology",
             "Intended Audience :: Science/Research",
+            "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
             "Operating System :: Microsoft :: Windows",
             "Programming Language :: Python",
             "Programming Language :: Python :: 3",
