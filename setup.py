@@ -33,7 +33,7 @@ def main():
 
     package_name = "pyppbox"
 
-    long_description = "Pure Python toolbox for people detecting, tracking, and re-identificating... "
+    long_description = "Pure Python toolbox for people detecting, tracking, and re-identifying... "
 
     packages = ['pyppbox', 'pyppbox.cfg', 'pyppbox.dt_openpose', 
                 'pyppbox.dt_openpose.models', 'pyppbox.dt_openpose.models.cameraParameters', 
