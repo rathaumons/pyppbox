@@ -64,7 +64,7 @@ python
 import pyppbox
 pyppbox.launchGUI()
 ```
-* Now you should see [the GUI of pyppbox for easy demo](https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_launchGUI.png). Just hit the "LAUNCH" button!
+* Now you should see [the GUI of pyppbox for easy demo](https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_launchGUI_main.png). Just hit the "LAUNCH" button!
 
 ## 📝 Documentation? 
 
