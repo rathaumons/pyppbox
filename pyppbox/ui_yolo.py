@@ -175,10 +175,9 @@ class Ui_YOLOForm(object):
                     "model_resolution_width": int(self.yl_model_res_w_lineEdit.text()),
                     "model_resolution_height": int(self.yl_model_res_h_lineEdit.text()),
                     "repspoint_callibration": float(self.yl_repspint_callib_lineEdit.text())}
-        openpose_doc = self.mycfg.dcfg_openpose.getDocument()
         gt_doc = self.mycfg.dcfg_gt.getDocument()
         cfgio = MyCFGIO()
-        cfgio.dumpDetectorsWithHeader([yolo_doc, openpose_doc, gt_doc])
+        cfgio.dumpDetectorsWithHeader([yolo_doc, gt_doc])
         YOLOForm.close()
 
 
@@ -204,3 +203,4 @@ class Ui_YOLOForm(object):
         source_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Model weights file", default_path, weight_filter)
         if source_file:
             self.yl_model_weights_lineEdit.setText(source_file)
+

@@ -83,7 +83,7 @@ try:
             fps_imutils.update()
             fps = (fps + (1./((1.000000000001*time.time())-t1))) / 2
             cv2.putText(det_frame, str(int(fps)) + " | " + str(frame_id), (15, 30), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (255, 255, 255), 1, cv2.LINE_AA)
-            cv2.imshow("PP Tracking System", det_frame)
+            cv2.imshow("pyppbox Demo", det_frame)
 
             # Take screenshot
             if screenshot_at == frame_id:

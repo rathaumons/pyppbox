@@ -28,7 +28,6 @@ from collections import Counter
 # my objects & tools
 from .utils.person import Person
 from .utils.gttools import *
-from .utils.advanced_facebox import *
 from .utils.mytools import *
 
 # my configurator
@@ -36,7 +35,6 @@ from .config import MyConfigurator
 
 # my detectors
 from .dt_yolocv.myyolocv import MyYOLOCV
-from .dt_openpose.myopenpose import MyOpenPose
 
 # my trackers
 from .tk_sort.mysort import MySort
@@ -113,11 +111,7 @@ class PManager(object):
     ###########################################
 
     def setDetector(self):
-        if self.cfg.mcfg.detector.lower() == self.mstruct.str.openpose:
-            self.dt = MyOpenPose(self.cfg.dcfg_openpose)
-            self.dt_name = self.mstruct.str.dtname_op
-            self.kpmng = KeypointsManager()
-        elif self.cfg.mcfg.detector.lower() == self.mstruct.str.yolo:
+        if self.cfg.mcfg.detector.lower() == self.mstruct.str.yolo:
             self.dt = MyYOLOCV(self.cfg.dcfg_yolo)
             self.dt_name = self.mstruct.str.dtname_yl
         elif self.cfg.mcfg.detector.lower() == self.mstruct.str.gt:
@@ -132,22 +126,8 @@ class PManager(object):
         self.frame_clean = frame.copy()
         self.frame_visual = frame.copy()
         tmp_ppobl = []
-
-        if self.dt_name == self.mstruct.str.dtname_op:
-            if visual:
-                self.frame_visual, keypoints = self.dt.detectFrame(frame)
-                self.kpmng.updateKeypoints(keypoints)
-            else:
-                _, keypoints = self.dt.detectFrame(frame)
-                self.kpmng.updateKeypoints(keypoints)
-            if self.kpmng.isNotEmpty:
-                for i in range(0, self.kpmng.countPeople()):
-                    tmp_ppobl.append(
-                        Person(i, i, self.mstruct.str.unk_fid, self.mstruct.str.unk_did, self.kpmng.getNeck(i), 
-                        bbox=self.kpmng.getBBox(i), bbox_tlbr=self.kpmng.getBBoxTLBR(i))
-                    )
                     
-        elif self.dt_name == self.mstruct.str.dtname_yl:
+        if self.dt_name == self.mstruct.str.dtname_yl:
             self.frame_visual, bboxes, bboxes_tlbr, repspoints = self.dt.detectFrame(frame, visual=visual, repspoint_callibration=self.cfg.dcfg_yolo.repspoint_callibration)
             for i in range(0, len(bboxes_tlbr)):
                 tmp_ppobl.append(
@@ -290,9 +270,6 @@ class PManager(object):
                     if self.dt_name == self.mstruct.str.dtname_yl:
                         miniframe = miniframe[int(y+self.cfg.rcfg_facenet.yl_h_callibration[0]):int(y+self.cfg.rcfg_facenet.yl_h_callibration[1]), 
                                                 int(x+self.cfg.rcfg_facenet.yl_w_callibration[0]):int(x+self.cfg.rcfg_facenet.yl_w_callibration[1])]
-                    elif self.dt_name == self.mstruct.str.dtname_op:
-                        _x, _y, size = self.kpmng.getPerfectFaceBox((x, y), weight=3)
-                        miniframe = miniframe[int(_y):int(_y+size), int(_x):int(_x+size)]
                     # cv2.imshow("miniframe", miniframe)
                     miniframe = cv2.cvtColor(miniframe, cv2.COLOR_BGR2RGB)
                     self.curr_ppobjlist[index].updateFaceid(self.ri.recognize_face(miniframe))
@@ -316,9 +293,6 @@ class PManager(object):
                             if self.dt_name == self.mstruct.str.dtname_yl:
                                 miniframe = miniframe[int(y+self.cfg.rcfg_facenet.yl_h_callibration[0]):int(y+self.cfg.rcfg_facenet.yl_h_callibration[1]), 
                                                         int(x+self.cfg.rcfg_facenet.yl_w_callibration[0]):int(x+self.cfg.rcfg_facenet.yl_w_callibration[1])]
-                            elif self.dt_name == self.mstruct.str.dtname_op:
-                                _x, _y, size = self.kpmng.getPerfectFaceBox((x, y), weight=5)
-                                miniframe = miniframe[int(_y):int(_y+size), int(_x):int(_x+size)]
                             # cv2.imshow("miniframe2", miniframe)
                             miniframe = cv2.cvtColor(miniframe, cv2.COLOR_BGR2RGB)
                             self.curr_ppobjlist[index].updateFaceid(self.ri.recognize_face(miniframe))

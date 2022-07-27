@@ -28,7 +28,6 @@ from yaml.loader import SafeLoader
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from pyppbox.ui_yolo import Ui_YOLOForm
-from pyppbox.ui_openpose import Ui_OpenPoseForm
 from pyppbox.ui_gt import Ui_GTForm
 from pyppbox.ui_centroid import Ui_CentroidForm
 from pyppbox.ui_sort import Ui_SORTForm
@@ -74,7 +73,6 @@ class Ui_PPTSLauncher(object):
         font.setBold(True)
         self.detector_comboBox.setFont(font)
         self.detector_comboBox.setObjectName("detector_comboBox")
-        self.detector_comboBox.addItem("")
         self.detector_comboBox.addItem("")
         self.detector_comboBox.addItem("")
         self.detector_comboBox.addItem("")
@@ -244,12 +242,11 @@ class Ui_PPTSLauncher(object):
 
     def retranslateUi(self, PPTSLauncher):
         _translate = QtCore.QCoreApplication.translate
-        PPTSLauncher.setWindowTitle(_translate("PPTSLauncher", "PPTS Launcher"))
+        PPTSLauncher.setWindowTitle(_translate("PPTSLauncher", "pyppbox Launcher (GPLv3+ Edition)"))
         self.launch_pushButton.setText(_translate("PPTSLauncher", "LAUNCH"))
         self.detector_comboBox.setItemText(0, _translate("PPTSLauncher", "None"))
         self.detector_comboBox.setItemText(1, _translate("PPTSLauncher", "YOLO"))
-        self.detector_comboBox.setItemText(2, _translate("PPTSLauncher", "OpenPose"))
-        self.detector_comboBox.setItemText(3, _translate("PPTSLauncher", "GT"))
+        self.detector_comboBox.setItemText(2, _translate("PPTSLauncher", "GT"))
         self.detector_label.setText(_translate("PPTSLauncher", "Detector"))
         self.browse_input_pushButton.setText(_translate("PPTSLauncher", "Browse"))
         self.tracker_label.setText(_translate("PPTSLauncher", "Tracker"))
@@ -303,10 +300,8 @@ class Ui_PPTSLauncher(object):
             self.detector_comboBox.setCurrentIndex(0)
         elif self.mycfg.mcfg.detector.lower() == "yolo":
             self.detector_comboBox.setCurrentIndex(1)
-        elif self.mycfg.mcfg.detector.lower() == "openpose":
-            self.detector_comboBox.setCurrentIndex(2)
         elif self.mycfg.mcfg.detector.lower() == "gt":
-            self.detector_comboBox.setCurrentIndex(3)
+            self.detector_comboBox.setCurrentIndex(2)
         
         if self.mycfg.mcfg.tracker.lower() == "none":
             self.tracker_comboBox.setCurrentIndex(0)
@@ -357,9 +352,7 @@ class Ui_PPTSLauncher(object):
         print("TK = " + str(tracker))
         print("RI = " + str(reider))
 
-        if detector.lower() == "openpose":
-            detector = "OpenPose"
-        elif detector.lower() == "yolo":
+        if detector.lower() == "yolo":
             detector = "YOLO"
         elif detector.lower() == "gt":
             detector = "GT"
@@ -397,10 +390,6 @@ class Ui_PPTSLauncher(object):
         tmp_QDialog.setWindowIcon(QtGui.QIcon(joinFPathFull(root_dir, "gui/settings.ico")))
         if self.detector_comboBox.currentText().lower() == "yolo":
             ui = Ui_YOLOForm()
-            ui.setupUi(tmp_QDialog)
-            tmp_QDialog.exec()
-        elif self.detector_comboBox.currentText().lower() == "openpose":
-            ui = Ui_OpenPoseForm()
             ui.setupUi(tmp_QDialog)
             tmp_QDialog.exec()
         elif self.detector_comboBox.currentText().lower() == "gt":

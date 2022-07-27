@@ -21,7 +21,7 @@ from __future__ import division, print_function, absolute_import
 
 # Info
 
-__version__ = '1.0b6'
+__version__ = '1.0b7'
 __author__ = 'Ratha SIV (rathaROG)'
 __homepage__ = 'https://github.com/rathaumons'
 __description__ = 'Python toolbox for people tracking system'
@@ -31,7 +31,6 @@ __url__ = 'https://github.com/rathaumons/pyppbox.git'
 # Important
 
 from pyppbox import utils
-from pyppbox import dt_openpose
 from pyppbox import dt_yolocv
 from pyppbox import tk_centroid
 from pyppbox import tk_sort
@@ -46,7 +45,6 @@ from pyppbox import ui_gt
 from pyppbox import ui_deepreid
 from pyppbox import ui_deepsort
 from pyppbox import ui_facenet
-from pyppbox import ui_openpose
 from pyppbox import ui_sort
 from pyppbox import ui_yolo
 from pyppbox import uilauncher

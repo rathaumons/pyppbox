@@ -43,7 +43,6 @@ class MyStrings(object):
         # detector
         self.gt = data['gt']
         self.yolo = data['yolo']
-        self.openpose = data['openpose']
         # tracker
         self.sort = data['sort']
         self.deepsort = data['deepsort']
@@ -53,7 +52,6 @@ class MyStrings(object):
         self.deepreid = data['deepreid']
         # internal
         self.dtname_yl = data['dtname_yl']
-        self.dtname_op = data['dtname_op']
         self.dtname_gt = data['dtname_gt']
         self.tkname_ct = data['tkname_ct']
         self.tkname_st = data['tkname_st']

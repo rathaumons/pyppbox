@@ -42,17 +42,17 @@ class MyStruct(object):
         self.tmp_dir = os.path.join(self.root_dir, 'tmp')
         self.gt_dir = os.path.join(self.tmp_dir, 'gt')
         self.res_dir = os.path.join(self.tmp_dir, 'res')
-    
+
     def loadYAML(self):
         self.main_yaml = os.path.join(self.cfg_dir, "main.yaml")
         self.detector_yaml = os.path.join(self.cfg_dir, "detectors.yaml")
         self.tracker_yaml = os.path.join(self.cfg_dir, "trackers.yaml")
         self.reider_yaml = os.path.join(self.cfg_dir, "reiders.yaml")
         self.string_yaml = os.path.join(self.cfg_dir, "strings.yaml")
-    
+
     def loadSTR(self):
         self.str = MyStrings(self.string_yaml)
-    
+
     def loadVS(self):
         self.vp = (150, 30)
         self.vp_reid =  (325, 30)
@@ -86,7 +86,7 @@ class DCFGYOLO(object):
         self.model_weights = joinFPathFull(root_dir, dcfg['model_weights'])
         self.model_resolution = (dcfg['model_resolution_width'], dcfg['model_resolution_height'])
         self.repspoint_callibration = dcfg['repspoint_callibration']
-    
+
     def getDocument(self):
         (w, h) = self.model_resolution
         yolo_doc = {"dt_name": "YOLO",
@@ -99,33 +99,6 @@ class DCFGYOLO(object):
                     "model_resolution_height": h,
                     "repspoint_callibration": self.repspoint_callibration}
         return yolo_doc
-
-
-class DCFGOpenPose(object):
-
-    def __init__(self):
-        self.mstruct = mstruct
-
-    def set(self, dcfg):
-        self.dt_name = dcfg['dt_name']
-        self.hand = dcfg['hand']
-        self.model_pose = dcfg['model_pose']
-        self.model_folder = joinFPathFull(root_dir, dcfg['model_folder'])
-        self.model_resolution = dcfg['model_resolution']
-        self.output_resolution = dcfg['output_resolution']
-        self.number_people_max = dcfg['number_people_max']
-        self.disable_blending = dcfg['disable_blending']
-    
-    def getDocument(self):
-        openpose_doc = {"dt_name": "OpenPose",
-                        "hand": self.hand,
-                        "model_pose": self.model_pose,
-                        "model_folder": normalizePathFDS(root_dir, self.model_folder),
-                        "model_resolution": self.model_resolution,
-                        "output_resolution": self.output_resolution,
-                        "number_people_max": self.number_people_max,
-                        "disable_blending": self.disable_blending}
-        return openpose_doc
 
 
 class DCFGGT(object):
@@ -170,7 +143,7 @@ class TCFGSORT(object):
         self.max_age = tcfg['max_age']
         self.min_hits = tcfg['min_hits']
         self.iou_threshold = tcfg['iou_threshold']
-    
+
     def getDocument(self):
         sort_doc = {"tk_name": "SORT",
                     "max_age": self.max_age,
@@ -277,7 +250,6 @@ class MyConfigurator(object):
         self.cfgio = MyCFGIO()
         self.mcfg = MainCFG()
         self.dcfg_yolo = DCFGYOLO()
-        self.dcfg_openpose = DCFGOpenPose()
         self.dcfg_gt = DCFGGT()
         self.tcfg_centroid = TCFGCentroid()
         self.tcfg_sort = TCFGSORT()
@@ -285,21 +257,19 @@ class MyConfigurator(object):
         self.rcfg_facenet = RCFGFacenet()
         self.rcfg_deepreid = RCFGDeepReID()
         self.mstruct = mstruct
-    
+
     def getMStruct(self):
         return self.mstruct
 
     def loadMCFG(self):
         data = self.cfgio.loadDocument(main_yaml)
         self.mcfg.set(data)
-    
+
     def loadDCFG(self):
         docs = self.cfgio.loadAllDocuments(detector_yaml)
         for d in docs:
             if d['dt_name'].lower() == "yolo":
                 self.dcfg_yolo.set(d)
-            elif d['dt_name'].lower() == "openpose":
-                self.dcfg_openpose.set(d)
             elif d['dt_name'].lower() == "gt":
                 self.dcfg_gt.set(d)
 
@@ -337,14 +307,14 @@ class MyCFGHeaderNote(object):
         header=("###########################################################\n"
                 "# Main config:\n"
                 "###########################################################\n"
-                "# detector: None | OpenPose | YOLO\n"
+                "# detector: None | YOLO\n"
                 "# tracker: None | Centroid | SORT | DeepSORT\n"
                 "# reider: None | Facenet | DeepReID\n"
                 "# input_video: *.avi | *.mkv | *.mov | *.mp4\n"
                 "# force_hd: True | False\n"
                 "###########################################################\n")
         return header
-    
+
     def detectorHeader(self):
         header=("###########################################################\n"
                 "# Detector config:\n"
@@ -360,23 +330,13 @@ class MyCFGHeaderNote(object):
                 "# model_resolution_height: 416\n"
                 "# repspoint_callibration: 0.25\n"
                 "###########################################################\n"
-                "# --- # OpenPose\n"
-                "# dt_name: OpenPose\n"
-                "# hand: False\n"
-                "# model_pose: BODY_25\n"
-                "# model_folder: dt_openpose/models\n"
-                "# model_resolution: -1x256\n"
-                "# output_resolution: -1x-1\n"
-                "# number_people_max: 0\n"
-                "# disable_blending: False\n"
-                "###########################################################\n"
                 "# --- # GT aka Ground Truth\n"
                 "# dt_name: GT\n"
                 "# gt_file: tmp/gt/realID_hard_sur.txt\n"
                 "# input_gt_map_file: tmp/gt/input_gt_map.txt\n"
                 "###########################################################\n")
         return header
-    
+
     def trackerHeader(self):
         header=("###########################################################\n"
                 "# Tracker config:\n"
@@ -399,7 +359,7 @@ class MyCFGHeaderNote(object):
                 "# model_file: tk_deepsort/mars-small128.pb\n"
                 "###########################################################\n")
         return header
-    
+
     def reiderHeader(self):
         header=("###########################################################\n"
                 "# ReIDer config:\n"
@@ -440,7 +400,7 @@ class MyCFGIO(object):
         with open(cfg_yaml, 'r') as cfg:
             data = yaml.load(cfg, Loader=SafeLoader)
         return data
-    
+
     def loadAllDocuments(self, cfg_yaml):
         documents = []
         with open(cfg_yaml, 'r') as cfg:

@@ -23,7 +23,7 @@ import os
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from pyppbox.config import MyConfigurator, MyCFGIO
-from pyppbox.utils.mytools import replaceLine, normalizePathFDS, getAbsPathFDS, joinFPathFull
+from pyppbox.utils.mytools import normalizePathFDS, getAbsPathFDS, joinFPathFull
 
 root_dir = os.path.dirname(__file__)
 cfg_dir = joinFPathFull(root_dir, 'cfg')
@@ -101,8 +101,7 @@ class Ui_GTForm(object):
                   "gt_file": normalizePathFDS(root_dir, self.gt_file_lineEdit.text()),
                   "input_gt_map_file": normalizePathFDS(root_dir, self.mycfg.dcfg_gt.input_gt_map_file)}
         yolo_doc = self.mycfg.dcfg_yolo.getDocument()
-        openpose_doc = self.mycfg.dcfg_openpose.getDocument()
         cfgio = MyCFGIO()
-        cfgio.dumpDetectorsWithHeader([yolo_doc, openpose_doc, gt_doc])
+        cfgio.dumpDetectorsWithHeader([yolo_doc, gt_doc])
         GTForm.close()
-        
+

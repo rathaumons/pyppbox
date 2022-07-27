@@ -35,14 +35,9 @@ def main():
 
     long_description = "Pure Python toolbox for people detecting, tracking, and re-identifying... "
 
-    packages = ['pyppbox', 'pyppbox.cfg', 'pyppbox.dt_openpose', 
-                'pyppbox.dt_openpose.models', 'pyppbox.dt_openpose.models.cameraParameters', 
-                'pyppbox.dt_openpose.models.cameraParameters.flir', 'pyppbox.dt_openpose.models.hand', 
-                'pyppbox.dt_openpose.models.pose', 'pyppbox.dt_openpose.models.pose.body_25', 
-                'pyppbox.dt_openpose.models.pose.coco', 'pyppbox.dt_openpose.models.pose.mpi', 
-                'pyppbox.dt_openpose.pybin', 'pyppbox.dt_yolocv', 'pyppbox.gui', 'pyppbox.ri_deepreid', 
+    packages = ['pyppbox', 'pyppbox.cfg', 'pyppbox.dt_yolocv', 'pyppbox.gui', 'pyppbox.ri_deepreid', 
                 'pyppbox.ri_deepreid.classifier', 'pyppbox.ri_deepreid.classifier.gta5p5', 
-                'pyppbox.ri_deepreid.data', 'pyppbox.ri_deepreid.pretrained', 'pyppbox.ri_deepreid.pretrained.base',
+                'pyppbox.ri_deepreid.data', 'pyppbox.ri_deepreid.pretrained', 'pyppbox.ri_deepreid.pretrained.base', 
                 'pyppbox.ri_deepreid.pretrained.torchreid', 'pyppbox.ri_facenet', 'pyppbox.ri_facenet.classifier', 
                 'pyppbox.ri_facenet.classifier.gta5p5', 'pyppbox.ri_facenet.data', 'pyppbox.ri_facenet.models', 
                 'pyppbox.ri_facenet.models.20180402-114759', 'pyppbox.ri_facenet.models.det', 'pyppbox.tk_centroid', 
@@ -53,16 +48,6 @@ def main():
     package_data = {
         "pyppbox" : ["*.*"], 
         "pyppbox.cfg" : ["*.*"], 
-        "pyppbox.dt_openpose" : ["*.*"], 
-        "pyppbox.dt_openpose.models" : ["*.*"], 
-        "pyppbox.dt_openpose.models.cameraParameters" : ["*.*"], 
-        "pyppbox.dt_openpose.models.cameraParameters.flir" : ["*.*"], 
-        "pyppbox.dt_openpose.models.hand" : ["*.*"], 
-        "pyppbox.dt_openpose.models.pose" : ["*.*"], 
-        "pyppbox.dt_openpose.models.pose.body_25" : ["*.*"], 
-        "pyppbox.dt_openpose.models.pose.coco" : ["*.*"], 
-        "pyppbox.dt_openpose.models.pose.mpi" : ["*.*"], 
-        "pyppbox.dt_openpose.pybin" : ["*.*"], 
         "pyppbox.dt_yolocv" : ["*.*"], 
         "pyppbox.gui" : ["*.*"], 
         "pyppbox.ri_deepreid" : ["*.*"], 
@@ -126,7 +111,7 @@ def main():
 
 
 def get_and_set_info_static():
-    return "1.0b6"
+    return "1.0b7"
 
 
 class EmptyListWithLength(list):
