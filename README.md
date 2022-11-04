@@ -26,7 +26,7 @@
 
 * This is the very first version of pyppbox, and we currently support only **Windows** due to the incompatibility of some modules on other platforms with the latest hardware.
 
-* This current version supports only **Python 3.9.x** and **CUDA 11.3.x** & **CUDNN 8.3.x**. If you wish to build pyppbox on different version of Python and CUDA & CUDNN, etc., you must build the corresponding required packages such as [opencv-contrib-python (With CVDNN)](https://github.com/rathaumons/pyppbox/blob/main/requirements/cust/opencv_contrib_python-4.5.5-cp310-cp310-win_amd64.whl) and the [customized torchreid](https://github.com/rathaumons/pyppbox/blob/main/requirements/cust/torchreid-1.4.0-cp310-cp310-win_amd64.whl) (Check out the [customized torchreid repo here](https://github.com/rathaumons/torchreid-for-pyppbox)).
+* This branch supports only **Python 3.10.x** and **CUDA 11.6.x** & **CUDNN 8.6.0**. If you wish to build pyppbox on different version of Python and CUDA & CUDNN, etc., you must build the corresponding required packages such as [opencv-contrib-python (With CVDNN)](https://github.com/rathaumons/pyppbox/blob/main/requirements/cust/opencv_contrib_python-4.5.5-cp310-cp310-win_amd64.whl) and the [customized torchreid](https://github.com/rathaumons/pyppbox/blob/main/requirements/cust/torchreid-1.4.0-cp310-cp310-win_amd64.whl) (Check out the [customized torchreid repo here](https://github.com/rathaumons/torchreid-for-pyppbox)).
 
 ### Install requirements
 * Optional: If you prefer conda, you can create a virtual conda **Python 3.9** enviroment of your choice.
