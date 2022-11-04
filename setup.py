@@ -87,7 +87,7 @@ def main():
         maintainer="rathaROG",
         ext_modules=EmptyListWithLength(),
         install_requires=None,
-        python_requires="==3.9.*",
+        python_requires="==3.10.*",
         classifiers=[
             "Development Status :: 4 - Beta",
             "Environment :: Console",
@@ -100,7 +100,7 @@ def main():
             "Programming Language :: Python",
             "Programming Language :: Python :: 3",
             "Programming Language :: Python :: 3 :: Only",
-            "Programming Language :: Python :: 3.9",
+            "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: Implementation :: CPython",
             "Topic :: Scientific/Engineering",
             "Topic :: Scientific/Engineering :: Image Recognition",
