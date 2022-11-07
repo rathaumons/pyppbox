@@ -35,10 +35,6 @@ def main():
 
     long_description = "Pure Python toolbox for people detecting, tracking, and re-identifying... "
 
-    install_requires = [
-        'numpy>=1.23.4; python_version>="3.9"',
-    ]
-
     packages = ["pyppbox", "pyppbox.cfg", "pyppbox.dt_yolocv", "pyppbox.gui", "pyppbox.ri_deepreid", 
                 "pyppbox.ri_deepreid.classifier", "pyppbox.ri_deepreid.classifier.gta5p5", 
                 "pyppbox.ri_deepreid.data", "pyppbox.ri_deepreid.pretrained", "pyppbox.ri_deepreid.pretrained.base", 
@@ -90,7 +86,7 @@ def main():
         package_data=package_data,
         maintainer="rathaROG",
         ext_modules=EmptyListWithLength(),
-        install_requires=install_requires,
+        install_requires=None,
         python_requires=">=3.9",
         classifiers=[
             "Development Status :: 4 - Beta",
