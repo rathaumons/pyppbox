@@ -24,38 +24,17 @@
 
 ## ⚙️ Requirements
 
-* This is the very first version of pyppbox, and we currently support only **Windows** due to the incompatibility of some modules on other platforms with the latest hardware.
-
-* This branch supports only **Python 3.10.x** and **CUDA 11.6.x** & **CUDNN 8.6.0**. If you wish to build pyppbox on different version of Python and CUDA & CUDNN, etc., you must build the corresponding required packages such as [opencv-contrib-python (With CVDNN)](https://github.com/rathaumons/pyppbox/blob/main/requirements/cust/opencv_contrib_python-4.5.5-cp310-cp310-win_amd64.whl) and the [customized torchreid](https://github.com/rathaumons/pyppbox/blob/main/requirements/cust/torchreid-1.4.0-cp310-cp310-win_amd64.whl) (Check out the [customized torchreid repo here](https://github.com/rathaumons/torchreid-for-pyppbox)).
-
-### Install requirements
-* Optional: If you prefer conda, you can create a virtual conda **Python 3.9** enviroment of your choice.
-```
-conda create --name pyppbox_env python=3.9
-conda activate pyppbox_env
-```
-* Simply run the install_pippackages.cmd
-```
-cd requirements
-install_pippackages.cmd
-```
-
-### Verify the requirements
-* Simply run the testme.cmd
-```
-testme.cmd
-```
-* If there is no error, then you're all good and ready to go.
+* Please check the [README.md](requirements/README.md) in [requirements](requirements) (Can be installed later).
 
 ## 🚀 Setup pyppbox
 
-### Option 1: Use the prebuilt WHL file
-* Download [WHL here](https://drive.google.com/open?id=1LY5WNsSoEMwxYjET26yry4AQMHiPDaM0) and install `pip install pyppbox-1.0b7-cp310-cp310-win_amd64.whl`
+### Option 1: Use the [prebuilt WHL file here](https://drive.google.com/open?id=1LY5WNsSoEMwxYjET26yry4AQMHiPDaM0) 
+* `pip install pyppbox-xxx.whl`
 
 ### Option 2: Build your own pyppbox
 * Download [the extra models & weights](https://drive.google.com/open?id=1EQzkwZ8aCpZqGrgxEo6PD_8hPhHlcaqz) and extract to the root `pyppbox`
 * Create WHL by running `creat_whl.cmd`
-* Install WHL `pip install pyppbox-1.0b7-cp310-cp310-win_amd64.whl`
+* Install newly created WHL `pip install pyppbox-xxx.whl`
 
 ### Quick Test
 * On your terminal or CMD:
