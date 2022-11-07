@@ -35,43 +35,47 @@ def main():
 
     long_description = "Pure Python toolbox for people detecting, tracking, and re-identifying... "
 
-    packages = ['pyppbox', 'pyppbox.cfg', 'pyppbox.dt_yolocv', 'pyppbox.gui', 'pyppbox.ri_deepreid', 
-                'pyppbox.ri_deepreid.classifier', 'pyppbox.ri_deepreid.classifier.gta5p5', 
-                'pyppbox.ri_deepreid.data', 'pyppbox.ri_deepreid.pretrained', 'pyppbox.ri_deepreid.pretrained.base', 
-                'pyppbox.ri_deepreid.pretrained.torchreid', 'pyppbox.ri_facenet', 'pyppbox.ri_facenet.classifier', 
-                'pyppbox.ri_facenet.classifier.gta5p5', 'pyppbox.ri_facenet.data', 'pyppbox.ri_facenet.models', 
-                'pyppbox.ri_facenet.models.20180402-114759', 'pyppbox.ri_facenet.models.det', 'pyppbox.tk_centroid', 
-                'pyppbox.tk_deepsort', 'pyppbox.tk_sort', 'pyppbox.tmp', 'pyppbox.tmp.demo', 'pyppbox.tmp.gt', 
-                'pyppbox.tmp.res', 'pyppbox.utils']
+    install_requires = [
+        'numpy>=1.23.4; python_version>="3.9"',
+    ]
+
+    packages = ["pyppbox", "pyppbox.cfg", "pyppbox.dt_yolocv", "pyppbox.gui", "pyppbox.ri_deepreid", 
+                "pyppbox.ri_deepreid.classifier", "pyppbox.ri_deepreid.classifier.gta5p5", 
+                "pyppbox.ri_deepreid.data", "pyppbox.ri_deepreid.pretrained", "pyppbox.ri_deepreid.pretrained.base", 
+                "pyppbox.ri_deepreid.pretrained.torchreid", "pyppbox.ri_facenet", "pyppbox.ri_facenet.classifier", 
+                "pyppbox.ri_facenet.classifier.gta5p5", "pyppbox.ri_facenet.data", "pyppbox.ri_facenet.models", 
+                "pyppbox.ri_facenet.models.20180402-114759", "pyppbox.ri_facenet.models.det", "pyppbox.tk_centroid", 
+                "pyppbox.tk_deepsort", "pyppbox.tk_sort", "pyppbox.tmp", "pyppbox.tmp.demo", "pyppbox.tmp.gt", 
+                "pyppbox.tmp.res", "pyppbox.utils"]
 
 
     package_data = {
-        "pyppbox" : ["*.*"], 
-        "pyppbox.cfg" : ["*.*"], 
-        "pyppbox.dt_yolocv" : ["*.*"], 
-        "pyppbox.gui" : ["*.*"], 
-        "pyppbox.ri_deepreid" : ["*.*"], 
-        "pyppbox.ri_deepreid.classifier" : ["*.*"], 
-        "pyppbox.ri_deepreid.classifier.gta5p5" : ["*.*"], 
-        "pyppbox.ri_deepreid.data" : ["*.*"], 
-        "pyppbox.ri_deepreid.pretrained" : ["*.*"], 
-        "pyppbox.ri_deepreid.pretrained.base" : ["*.*"], 
-        "pyppbox.ri_deepreid.pretrained.torchreid" : ["*.*"], 
-        "pyppbox.ri_facenet" : ["*.*"], 
-        "pyppbox.ri_facenet.classifier" : ["*.*"], 
-        "pyppbox.ri_facenet.classifier.gta5p5" : ["*.*"], 
-        "pyppbox.ri_facenet.data" : ["*.*"], 
-        "pyppbox.ri_facenet.models" : ["*.*"], 
-        "pyppbox.ri_facenet.models.20180402-114759" : ["*.*"], 
-        "pyppbox.ri_facenet.models.det" : ["*.*"], 
-        "pyppbox.tk_centroid" : ["*.*"], 
-        "pyppbox.tk_deepsort" : ["*.*"], 
-        "pyppbox.tk_sort" : ["*.*"], 
-        "pyppbox.tmp" : ["*.*"], 
-        "pyppbox.tmp.demo" : ["*.*"], 
-        "pyppbox.tmp.gt" : ["*.*"], 
-        "pyppbox.tmp.res" : ["*.*"], 
-        "pyppbox.utils" : ["*.*"], 
+        "pyppbox": ["*"], 
+        "pyppbox.cfg": ["*"], 
+        "pyppbox.dt_yolocv": ["*"], 
+        "pyppbox.gui": ["*"], 
+        "pyppbox.ri_deepreid": ["*"], 
+        "pyppbox.ri_deepreid.classifier": ["*"], 
+        "pyppbox.ri_deepreid.classifier.gta5p5": ["*"], 
+        "pyppbox.ri_deepreid.data": ["*"], 
+        "pyppbox.ri_deepreid.pretrained": ["*"], 
+        "pyppbox.ri_deepreid.pretrained.base": ["*"], 
+        "pyppbox.ri_deepreid.pretrained.torchreid": ["*"], 
+        "pyppbox.ri_facenet": ["*"], 
+        "pyppbox.ri_facenet.classifier": ["*"], 
+        "pyppbox.ri_facenet.classifier.gta5p5": ["*"], 
+        "pyppbox.ri_facenet.data": ["*"], 
+        "pyppbox.ri_facenet.models": ["*"], 
+        "pyppbox.ri_facenet.models.20180402-114759": ["*"], 
+        "pyppbox.ri_facenet.models.det": ["*"], 
+        "pyppbox.tk_centroid": ["*"], 
+        "pyppbox.tk_deepsort": ["*"], 
+        "pyppbox.tk_sort": ["*"], 
+        "pyppbox.tmp": ["*"], 
+        "pyppbox.tmp.demo": ["*"], 
+        "pyppbox.tmp.gt": ["*"], 
+        "pyppbox.tmp.res": ["*"], 
+        "pyppbox.utils": ["*"], 
     }
 
     skbuild.setup(
@@ -86,8 +90,8 @@ def main():
         package_data=package_data,
         maintainer="rathaROG",
         ext_modules=EmptyListWithLength(),
-        install_requires=None,
-        python_requires="==3.10.*",
+        install_requires=install_requires,
+        python_requires=">=3.9",
         classifiers=[
             "Development Status :: 4 - Beta",
             "Environment :: Console",
@@ -100,6 +104,7 @@ def main():
             "Programming Language :: Python",
             "Programming Language :: Python :: 3",
             "Programming Language :: Python :: 3 :: Only",
+            "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: Implementation :: CPython",
             "Topic :: Scientific/Engineering",
@@ -111,7 +116,7 @@ def main():
 
 
 def get_and_set_info_static():
-    return "1.0b7"
+    return "1.0b8"
 
 
 class EmptyListWithLength(list):
