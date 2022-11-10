@@ -1,0 +1,33 @@
+###########################################################
+# Tracker config:
+###########################################################
+# --- # Centroid
+# tk_name: Centroid
+# max_distance: 50
+###########################################################
+# --- # SORT
+# tk_name: SORT
+# max_age: 1
+# min_hits: 3
+# iou_threshold: 0.3
+###########################################################
+# --- # DeepSORT
+# tk_name: DeepSORT
+# nn_budget: 100
+# nms_max_overlap: 0.5
+# max_cosine_distance: 0.1
+# model_file: tk_deepsort/mars-small128.pb
+###########################################################
+tk_name: Centroid
+max_distance: 50
+---
+tk_name: SORT
+max_age: 1
+min_hits: 3
+iou_threshold: 0.3
+---
+tk_name: DeepSORT
+nn_budget: 100
+nms_max_overlap: 0.5
+max_cosine_distance: 0.1
+model_file: tk_deepsort/mars-small128.pb

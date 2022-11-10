@@ -1,0 +1,11 @@
+###########################################################
+# NOTES: This config file is only used for train.py
+# train_data: train_gta5_128x256 | train_gta5_128x384
+###########################################################
+--- # DeepReID
+classes_txt: classifier/gta5.txt
+classifier_pkl: classifier/gta5_mlfn.pkl
+train_data: data/train_gta5_128x256
+model_name: mlfn
+model_path: pretrained/base/mlfn-9cb5a267.pth.tar
+#

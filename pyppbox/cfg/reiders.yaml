@@ -1,0 +1,44 @@
+###########################################################
+# ReIDer config:
+###########################################################
+# --- # Facenet
+# ri_name: Facenet
+# gpu_mem: 0.585
+# model_det: ri_facenet/models/det
+# model_file: ri_facenet/models/20180402-114759/20180402-114759.pb
+# classifier_file: ri_facenet/classifier/train.pkl
+# batch_size: 1000
+# min_confidence: 0.75
+# yl_h_callibration: [-125, 75]
+# yl_w_callibration: [-55, 55]
+# op_h_callibration: [-85, 25]
+# op_w_callibration: [-35, 35]
+###########################################################
+# --- # DeepReID
+# ri_name: DeepReID
+# classes_txt: ri_deepreid/classifier/gta5.txt
+# classifier_pkl: ri_deepreid/classifier/gta5_mlfn.pkl
+# train_data: ri_deepreid/data
+# model_name: mlfn
+# model_path: ri_deepreid/pretrained/torchreid/mlfn-9cb5a267.pth.tar
+# min_confidence: 0.35
+###########################################################
+ri_name: Facenet
+gpu_mem: 0.585
+model_det: ri_facenet/models/det
+model_file: ri_facenet/models/20180402-114759/20180402-114759.pb
+classifier_file: ri_facenet/classifier/train.pkl
+batch_size: 1000
+min_confidence: 0.75
+yl_h_callibration: [-125, 75]
+yl_w_callibration: [-55, 55]
+op_h_callibration: [-85, 25]
+op_w_callibration: [-35, 35]
+---
+ri_name: DeepReID
+classes_txt: ri_deepreid/classifier/gta5.txt
+classifier_pkl: ri_deepreid/classifier/gta5_mlfn.pkl
+train_data: ri_deepreid/data
+model_name: mlfn
+model_path: ri_deepreid/pretrained/torchreid/mlfn-9cb5a267.pth.tar
+min_confidence: 0.35

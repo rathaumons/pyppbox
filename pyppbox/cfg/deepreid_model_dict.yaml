@@ -1,0 +1,27 @@
+--- # Torchreid - mlfn
+name: mlfn
+arch: mlfn
+height: 256
+width: 128
+model_files: 
+  - mlfn-9cb5a267.pth.tar
+#
+--- # Torchreid - osnet_ain_x1_0
+name: osnet_ain_x1_0
+arch: osnet_ain_x1_0
+height: 256
+width: 128
+model_files: 
+  - osnet_ain_ms_d_c.pth.tar
+  - osnet_ain_x1_0_imagenet.pth
+#
+--- # Torchreid - osnet_x1_0
+name: osnet_x1_0
+arch: osnet_x1_0
+height: 256
+width: 128
+model_files: 
+  - osnet_ms_d_c.pth.tar
+  - osnet_x1_0_imagenet.pth
+  - osnet_x1_0_market_256x128_amsgrad_ep150_stp60_lr0.0015_b64_fb10_softmax_labelsmooth_flip.pth
+#
