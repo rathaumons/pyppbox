@@ -13,10 +13,10 @@
   - For Python 3.9 `conda create --name pyppbox_env python=3.9`
   - For Python 3.10 `conda create --name pyppbox_env python=3.10`
 * Run the installer: 
-  - For Python 3.9 & CUDA 11.6.X `install_req_p39_cuda116.cmd`
-  - For Python 3.9 & CUDA 11.7.X `install_req_p39_cuda117.cmd`
-  - For Python 3.10 & CUDA 11.6.X `install_req_p310_cuda116.cmd`
-  - For Python 3.10 & CUDA 11.7.X `install_req_p310_cuda117.cmd`
+  - For Python 3.9 & CUDA 11.6.x `install_req_p39_cuda116.cmd`
+  - For Python 3.9 & CUDA 11.7.x `install_req_p39_cuda117.cmd`
+  - For Python 3.10 & CUDA 11.6.x `install_req_p310_cuda116.cmd`
+  - For Python 3.10 & CUDA 11.7.x `install_req_p310_cuda117.cmd`
 
 ## Verify the requirements
 * Simply run the `testme.cmd`
