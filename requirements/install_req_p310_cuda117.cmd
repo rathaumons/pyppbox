@@ -22,6 +22,6 @@ python -m pip install --upgrade pip
 pip install numpy==1.23.5
 pip install https://github.com/rathaumons/pyppbox-custpkg/raw/main/py310/cuda117/opencv_contrib_python-4.5.5-cp310-cp310-win_amd64.whl
 pip install -r pippackages.txt
-pip install torch==1.13.0+cu117 torchvision==0.14.0+cu117 torchaudio==0.13.0+cu117 --extra-index-url https://download.pytorch.org/whl/cu117
+pip install torch==1.13.1+cu117 torchaudio==0.13.1+cu117 torchvision==0.14.1+cu117 --extra-index-url https://download.pytorch.org/whl/cu117
 pip install https://github.com/rathaumons/pyppbox-custpkg/raw/main/py310/cuda117/torchreid-1.4.0-cp310-cp310-win_amd64.whl
 pause
