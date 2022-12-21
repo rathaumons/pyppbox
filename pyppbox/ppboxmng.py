@@ -50,7 +50,8 @@ from .ri_deepreid.mydeepreid import MyDeepReID
 class PManager(object):
 
 
-    def __init__(self):
+    def __init__(self, enableEval=False):
+        self.enableEval = enableEval
         self.curr_ppobjlist = []
         self.dt_name = ""
         self.tk_name = ""
@@ -58,6 +59,7 @@ class PManager(object):
         self.evalmode = ""
         self.loadCFG()
         self.setCFG()
+        self.loadAllEval()
 
     def loadCFG(self):
         self.cfg = MyConfigurator()
@@ -66,7 +68,6 @@ class PManager(object):
         self.cfg.loadDCFG()
         self.cfg.loadTCFG()
         self.cfg.loadRCFG()
-        self.loadAllEva()
 
     def setCFG(self):
         self.setDetector()
@@ -92,16 +93,20 @@ class PManager(object):
         info = self.dt_name + self.mstruct.vp_sp + self.tk_name + self.mstruct.vp_sp + self.ri_name
         cv2.putText(self.frame_visual, info, self.mstruct.vp, self.mstruct.vp_font, 1, self.mstruct.vp_co, 1, cv2.LINE_AA)
 
-    def loadAllEva(self):
+    def loadAllEval(self):
         # Auto config GT file according to known inputed video
-        self.eva_io = EvalIO()
-        self.eva_io.loadInputGTMap(self.cfg.dcfg_gt.input_gt_map_file)
-        gt_file = self.eva_io.getGTFileName(self.cfg.mcfg.input_video)
-        if gt_file != "":
-            tmp = os.path.join(self.mstruct.gt_dir, self.eva_io.getGTFileName(self.cfg.mcfg.input_video))
-            self.cfg.dcfg_gt.gt_file = normalizePathFDS(self.mstruct.root_dir, tmp)
-        # Last to load
-        self.eva = MyEval(joinFPathFull(self.mstruct.root_dir, self.cfg.dcfg_gt.gt_file))
+        self.eva_io = EvalIO(mode=self.evalmode)
+        if self.enableEval:
+            print(" - EVA : Enable")
+            self.eva_io.loadInputGTMap(self.cfg.dcfg_gt.input_gt_map_file)
+            gt_file = self.eva_io.getGTFileName(self.cfg.mcfg.input_video)
+            if gt_file != "":
+                tmp = os.path.join(self.mstruct.gt_dir, self.eva_io.getGTFileName(self.cfg.mcfg.input_video))
+                self.cfg.dcfg_gt.gt_file = normalizePathFDS(self.mstruct.root_dir, tmp)
+                # Last to load
+                self.eva = MyEval(joinFPathFull(self.mstruct.root_dir, self.cfg.dcfg_gt.gt_file))
+        else:
+            print(" - EVA : Disable")
 
 
 
@@ -314,13 +319,16 @@ class PManager(object):
 
 
     def selfRealtimeEval(self):
-        self.eva.checkFrame(self.curr_ppobjlist, id_mode=self.evalmode)
+        if self.enableEval:
+            self.eva.checkFrame(self.curr_ppobjlist, id_mode=self.evalmode)
     
     def selfRealtimeEvalReIDCheckIn(self):
-        self.eva.checkInReID()
+        if self.enableEval:
+            self.eva.checkInReID()
 
     def getRealtimeEvalResult(self):
-        return self.eva.getSummary()
+        if self.enableEval:
+            return self.eva.getSummary()
 
     def generateExtraInfoForOfflineEva(self):
         res_txt = str(self.cfg.mcfg.detector).lower() + "_" + str(self.cfg.mcfg.tracker).lower() + "_" + str(self.cfg.mcfg.reider).lower()

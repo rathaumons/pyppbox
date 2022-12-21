@@ -60,7 +60,7 @@ pyppbox.setMainCFG(main_config)
 
 try:
 
-    pmg = PManager()
+    pmg = PManager(enableEval=True)
     
     input_source = pmg.getInputFile()
     print("Input video: " + str(input_source))

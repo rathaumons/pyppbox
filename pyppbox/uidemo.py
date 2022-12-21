@@ -30,7 +30,8 @@ from pyppbox.ppboxmng import PManager
 
 try:
 
-    pmg = PManager()
+    # pmg = PManager()
+    pmg = PManager(enableEval=True)
     
     input_source = pmg.getInputFile()
     print("Input video: " + str(input_source))
@@ -74,7 +75,7 @@ try:
                 cv2.putText(det_frame, str(person.getDeepid()), (int(x - 85), int(y - 90)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 200, 0), 2)
                 cv2.putText(det_frame, str(person.getFaceid()), (int(x - 85), int(y - 125)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2)
                 # Update offline EVA
-                pmg.eva_io.add_person(frame_id, person, mode=pmg.evalmode)
+                pmg.eva_io.add_person(frame_id, person)
 
             # Update realtime EVA frame by frame
             pmg.selfRealtimeEval()

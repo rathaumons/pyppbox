@@ -290,12 +290,13 @@ class MyEval(object):
 
 class EvalIO(object):
 
-    def __init__(self):
+    def __init__(self, mode="deepid"):
         self.storage = []
         self.map_list = []
+        self.mode = mode
 
-    def add_person(self, frame, person, mode="deepid"):
-        if mode.lower() == "faceid":
+    def add_person(self, frame, person):
+        if self.mode.lower() == "faceid":
             self.storage.append([frame, person.repspoint, person.faceid])
         else:
             self.storage.append([frame, person.repspoint, person.deepid])
