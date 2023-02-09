@@ -35,9 +35,9 @@ from sklearn.svm import SVC
 class MyDeepReID(object):
 
     def __init__(self, cfg):
-        self.unk = cfg.mstruct.str.unk_did
-        self.err = cfg.mstruct.str.err_did
-        self.mdir = os.path.join(cfg.mstruct.root_dir, 'ri_deepreid/pretrained/base')
+        self.unk = cfg.unk_did
+        self.err = cfg.err_did
+        self.mdir = cfg.base_model_path
         self.classes_txt = cfg.classes_txt
         self.classifier_pkl = cfg.classifier_pkl
         self.train_data = cfg.train_data

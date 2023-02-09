@@ -23,13 +23,14 @@ import os
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from pyppbox.config import MyConfigurator, MyCFGIO
-from pyppbox.utils.mytools import replaceLine, getAbsPathFDS, normalizePathFDS, joinFPathFull, get2Dlist
+from pyppbox.utils.mytools import getAbsPathFDS, normalizePathFDS, joinFPathFull, get2Dlist
 
 root_dir = os.path.dirname(__file__)
 cfg_dir = joinFPathFull(root_dir, 'cfg')
 
 
 class Ui_FacenetForm(object):
+    
     def setupUi(self, FacenetForm):
         FacenetForm.setObjectName("FacenetForm")
         FacenetForm.resize(390, 360)
