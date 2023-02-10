@@ -1,0 +1,5 @@
+detector: YOLO
+tracker: SORT
+reider: DeepReID
+input_video: C:/pyppbox/media/hard_sur_hd.mp4
+force_hd: False

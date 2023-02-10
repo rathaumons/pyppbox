@@ -16,18 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-
+import os
 import cv2
-import pyppbox
 from pyppbox.ppboxmng import PManager
 
-# set main config
-main_config = {'detector': 'YOLO', 
-               'tracker': 'Centroid', 
-               'reider': 'DeepReID', 
-               'input_video': 'C:/pyppbox/media/hard_sur_hd.mp4', 
-               'force_hd': False}
-pyppbox.setMainCFG(main_config)
 
 #####################################################################################
 # IMPORTANT CHANGES FROM v1.1
@@ -42,7 +34,11 @@ pyppbox.setMainCFG(main_config)
 # - More info, please visit https://github.com/rathaumons/pyppbox/tree/main/examples
 #####################################################################################
 
-pmg = PManager()
+# Your current dir
+this_dir = os.path.dirname(__file__)
+
+pmg = PManager(elocalConfig=True)
+pmg.setLocalConfig(os.path.join(this_dir, 'cfg'))
 
 # start video
 cap = cv2.VideoCapture(pmg.getInputFile())
