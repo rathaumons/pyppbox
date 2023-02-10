@@ -26,12 +26,22 @@ import imutils.video
 
 from timeit import time
 from pyppbox.ppboxmng import PManager
+from pyppbox.utils.mytools import loadUITMP, joinFPathFull
+
+
+# Check mode from ui.tmp file
+root_dir = os.path.dirname(__file__)
+cfg_mode, cfg_dir = loadUITMP(joinFPathFull(root_dir, "tmp/ui.tmp"))
+
+# Set PManager() accordingly
+if cfg_mode == 0:
+    pmg = PManager(enableEval=True)
+else:
+    pmg = PManager(enableEval=True, localConfig=True)
+    pmg.setLocalConfig(local_cfg_dir=cfg_dir)
 
 
 try:
-
-    # pmg = PManager()
-    pmg = PManager(enableEval=True)
     
     input_source = pmg.getInputFile()
     print("Input video: " + str(input_source))

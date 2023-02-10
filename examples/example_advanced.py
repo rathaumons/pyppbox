@@ -26,6 +26,19 @@ import pyppbox
 from timeit import time
 from pyppbox.ppboxmng import PManager
 
+#####################################################################################
+# IMPORTANT CHANGES FROM v1.1
+#####################################################################################
+# - PManager() now has the default __init__(enableEval=False, localConfig=False).
+# - The "localConfig=False" means PManager uses the GLOBAL "cfg" dir inside the 
+#   pyppbox package.
+# - When "localConfig=True", you must call "setLocalConfig(local_cfg_dir)" in order 
+#   to set your new LOCAL "cfg" dir.
+# - The idea of GLOBAL & LOCAL enables pyppbox to be used in multi-threading without 
+#   inteferring with the GLOBAL "cfg" dir.
+# - More info, please visit https://github.com/rathaumons/pyppbox/tree/main/examples
+#####################################################################################
+
 # show main config
 pyppbox.showMainCFG()
 

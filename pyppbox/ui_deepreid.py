@@ -22,16 +22,27 @@ from __future__ import division, print_function, absolute_import
 import os
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from pyppbox.config import MyConfigurator, MyCFGIO
-from pyppbox.utils.mytools import getAbsPathFDS, extendPathFDS, normalizePathFDS, getFileName, joinFPathFull
+from pyppbox.config import MyConfigurator as MyGlobalCFG
+from pyppbox.config import MyCFGIO as GlobalCFGIO
+from pyppbox.localconfig import MyLocalConfigurator as MyLocalCFG
+from pyppbox.localconfig import MyCFGIO as LocalCFGIO
+from pyppbox.utils.mytools import getAbsPathFDS, extendPathFDS, normalizePathFDS, getFileName, getAncestorDir, joinFPathFull
 from pyppbox.utils.deepreid_model_dict import ModelDictionary
 
 root_dir = os.path.dirname(__file__)
-cfg_dir = joinFPathFull(root_dir, 'cfg')
+global_cfg_dir = joinFPathFull(root_dir, 'cfg')
 
 
 class Ui_DeepReIDForm(object):
 
+    def __init__(self, cfg_mode, cfg_dir):
+        self.cfg_dir = cfg_dir
+        if cfg_mode == 0:
+            self.mycfg = MyGlobalCFG()
+            self.cfgIO = GlobalCFGIO()
+        else:
+            self.mycfg = MyLocalCFG(self.cfg_dir)
+            self.cfgIO = LocalCFGIO(self.cfg_dir)
 
     def setupUi(self, DeepReIDForm):
         DeepReIDForm.setObjectName("DeepReIDForm")
@@ -113,9 +124,8 @@ class Ui_DeepReIDForm(object):
         # custom
 
         self.md = ModelDictionary()
-        self.md.loadCFG(joinFPathFull(cfg_dir, "deepreid_model_dict.yaml"))
+        self.md.loadCFG(joinFPathFull(global_cfg_dir, "deepreid_model_dict.yaml"))
         
-        self.loadCFG()
         self.loadDR()
 
         self.dr_classes_txt_pushButton.clicked.connect(self.browseClassesTXT)
@@ -144,12 +154,8 @@ class Ui_DeepReIDForm(object):
         self.dr_classes_txt_label.setText(_translate("DeepReIDForm", "classes_txt"))
 
 
-    def loadCFG(self):
-        self.mycfg = MyConfigurator()
-        self.mycfg.loadRCFG()
-
-
     def loadDR(self):
+        self.mycfg.loadRCFG()
         self.dr_classes_txt_lineEdit.setText(getAbsPathFDS(self.mycfg.rcfg_deepreid.classes_txt))
         self.dr_classifier_pkl_lineEdit.setText(getAbsPathFDS(self.mycfg.rcfg_deepreid.classifier_pkl))
         self.dr_train_data_lineEdit.setText(getAbsPathFDS(self.mycfg.rcfg_deepreid.train_data))
@@ -167,20 +173,21 @@ class Ui_DeepReIDForm(object):
                        "model_path": normalizePathFDS(root_dir, self.dr_model_path_lineEdit.text()),
                        "min_confidence": float(self.dr_min_confidence_lineEdit.text())}
         facenet_doc = self.mycfg.rcfg_facenet.getDocument()
-        cfgio = MyCFGIO()
-        cfgio.dumpReidersWithHeader([facenet_doc, deepreid_doc])
+        self.cfgIO.dumpReidersWithHeader([facenet_doc, deepreid_doc])
         DeepReIDForm.close()
 
 
     def browseTrainData(self):
-        default_path = extendPathFDS(root_dir, 'ri_deepreid/data/train')
+        # default_path = extendPathFDS(root_dir, 'ri_deepreid/data/train')
+        default_path = getAncestorDir(self.mycfg.rcfg_deepreid.train_data)
         train_data = QtWidgets.QFileDialog.getExistingDirectory(None, "Train data folder", default_path)
         if train_data:
             self.dr_train_data_lineEdit.setText(train_data)
 
 
     def browseModelPath(self):
-        default_path = extendPathFDS(root_dir, 'ri_deepreid/pretrained')
+        # default_path = extendPathFDS(root_dir, 'ri_deepreid/pretrained')
+        default_path = getAncestorDir(self.mycfg.rcfg_deepreid.model_path)
         model_filter = "PyTorch model (*.pth;*.pyth;*.tar)"
         source_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Model file", default_path, model_filter)
         if source_file:
@@ -189,7 +196,8 @@ class Ui_DeepReIDForm(object):
 
 
     def browseClassifierPKL(self):
-        default_path = extendPathFDS(root_dir, 'ri_deepreid/classifier')
+        # default_path = extendPathFDS(root_dir, 'ri_deepreid/classifier')
+        default_path = getAncestorDir(self.mycfg.rcfg_deepreid.classifier_pkl)
         pkl_filter = "Pickle (*.pkl)"
         source_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Classifier file", default_path, pkl_filter)
         if source_file:
@@ -197,7 +205,8 @@ class Ui_DeepReIDForm(object):
 
 
     def browseClassesTXT(self):
-        default_path = joinFPathFull(root_dir, 'ri_deepreid/classifier')
+        # default_path = joinFPathFull(root_dir, 'ri_deepreid/classifier')
+        default_path = getAncestorDir(self.mycfg.rcfg_deepreid.classes_txt)
         txt_filter = "Text (*.txt)"
         source_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Classes file", default_path, txt_filter)
         if source_file:

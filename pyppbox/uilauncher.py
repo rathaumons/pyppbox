@@ -21,10 +21,9 @@ from __future__ import division, print_function, absolute_import
 
 import os
 import sys
-import yaml
+import argparse
 import webbrowser
 import subprocess as sp
-from yaml.loader import SafeLoader
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from pyppbox.ui_yolo import Ui_YOLOForm
@@ -34,29 +33,38 @@ from pyppbox.ui_sort import Ui_SORTForm
 from pyppbox.ui_deepsort import Ui_DeepSORTForm
 from pyppbox.ui_facenet import Ui_FacenetForm
 from pyppbox.ui_deepreid import Ui_DeepReIDForm
-from pyppbox.config import MyConfigurator, MyCFGIO
-from pyppbox.utils.mytools import getAbsPathFDS, normalizePathFDS, joinFPathFull, getBool
+from pyppbox.config import MyConfigurator as MyGlobalCFG
+from pyppbox.config import MyCFGIO as GlobalCFGIO
+from pyppbox.localconfig import MyLocalConfigurator as MyLocalCFG
+from pyppbox.localconfig import MyCFGIO as LocalCFGIO
+from pyppbox.utils.mytools import getAbsPathFDS, normalizePathFDS, joinFPathFull, getBool, getAncestorDir, loadUITMP
 
 root_dir = os.path.dirname(__file__)
-cfg_dir = joinFPathFull(root_dir, 'cfg')
-main_yaml = os.path.join(cfg_dir, "main.yaml")
 
 
+class Ui_PYPPBOXLauncher(object):
 
-
-class Ui_PPTSLauncher(object):
-
-    def setupUi(self, PPTSLauncher):
-        PPTSLauncher.setObjectName("PPTSLauncher")
-        PPTSLauncher.resize(490, 550)
+    def __init__(self, cfg_mode, cfg_dir):
+        self.cfg_mode = cfg_mode
+        self.cfg_dir = getAbsPathFDS(cfg_dir)
+        if cfg_mode == 0:
+            self.mycfg = MyGlobalCFG()
+            self.cfgIO = GlobalCFGIO()
+        else:
+            self.mycfg = MyLocalCFG(self.cfg_dir)
+            self.cfgIO = LocalCFGIO(self.cfg_dir)
+        
+    def setupUi(self, PYPPBOXLauncher):
+        PYPPBOXLauncher.setObjectName("PYPPBOXLauncher")
+        PYPPBOXLauncher.resize(490, 550)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(PPTSLauncher.sizePolicy().hasHeightForWidth())
-        PPTSLauncher.setSizePolicy(sizePolicy)
-        PPTSLauncher.setMinimumSize(QtCore.QSize(490, 550))
-        PPTSLauncher.setMaximumSize(QtCore.QSize(490, 550))
-        self.centralwidget = QtWidgets.QWidget(PPTSLauncher)
+        sizePolicy.setHeightForWidth(PYPPBOXLauncher.sizePolicy().hasHeightForWidth())
+        PYPPBOXLauncher.setSizePolicy(sizePolicy)
+        PYPPBOXLauncher.setMinimumSize(QtCore.QSize(490, 550))
+        PYPPBOXLauncher.setMaximumSize(QtCore.QSize(490, 550))
+        self.centralwidget = QtWidgets.QWidget(PYPPBOXLauncher)
         self.centralwidget.setObjectName("centralwidget")
         self.launch_pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.launch_pushButton.setGeometry(QtCore.QRect(110, 500, 271, 31))
@@ -210,9 +218,9 @@ class Ui_PPTSLauncher(object):
         self.first_line.setFrameShape(QtWidgets.QFrame.Shape.HLine)
         self.first_line.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
         self.first_line.setObjectName("first_line")
-        PPTSLauncher.setCentralWidget(self.centralwidget)
+        PYPPBOXLauncher.setCentralWidget(self.centralwidget)
 
-        self.retranslateUi(PPTSLauncher)
+        self.retranslateUi(PYPPBOXLauncher)
 
         # custom defs:
 
@@ -234,43 +242,37 @@ class Ui_PPTSLauncher(object):
 
         self.launch_pushButton.clicked.connect(self.launchNow)
         
-        self.loadMCFG()
         self.setMainCFG()
 
-        QtCore.QMetaObject.connectSlotsByName(PPTSLauncher)
+        QtCore.QMetaObject.connectSlotsByName(PYPPBOXLauncher)
 
 
-    def retranslateUi(self, PPTSLauncher):
+    def retranslateUi(self, PYPPBOXLauncher):
         _translate = QtCore.QCoreApplication.translate
-        PPTSLauncher.setWindowTitle(_translate("PPTSLauncher", "pyppbox Launcher (GPLv3+ Edition)"))
-        self.launch_pushButton.setText(_translate("PPTSLauncher", "LAUNCH"))
-        self.detector_comboBox.setItemText(0, _translate("PPTSLauncher", "None"))
-        self.detector_comboBox.setItemText(1, _translate("PPTSLauncher", "YOLO"))
-        self.detector_comboBox.setItemText(2, _translate("PPTSLauncher", "GT"))
-        self.detector_label.setText(_translate("PPTSLauncher", "Detector"))
-        self.browse_input_pushButton.setText(_translate("PPTSLauncher", "Browse"))
-        self.tracker_label.setText(_translate("PPTSLauncher", "Tracker"))
-        self.tracker_comboBox.setItemText(0, _translate("PPTSLauncher", "None"))
-        self.tracker_comboBox.setItemText(1, _translate("PPTSLauncher", "Centroid"))
-        self.tracker_comboBox.setItemText(2, _translate("PPTSLauncher", "SORT"))
-        self.tracker_comboBox.setItemText(3, _translate("PPTSLauncher", "DeepSORT"))
-        self.reider_label.setText(_translate("PPTSLauncher", "Re-IDer"))
-        self.reider_comboBox.setItemText(0, _translate("PPTSLauncher", "None"))
-        self.reider_comboBox.setItemText(1, _translate("PPTSLauncher", "Facenet"))
-        self.reider_comboBox.setItemText(2, _translate("PPTSLauncher", "DeepReID"))
-        self.input_video_file_label.setText(_translate("PPTSLauncher", "Input file"))
-        self.input_force_hd_label.setText(_translate("PPTSLauncher", "Force HD"))
-        self.input_force_hd_comboBox.setItemText(0, _translate("PPTSLauncher", "True"))
-        self.input_force_hd_comboBox.setItemText(1, _translate("PPTSLauncher", "False"))
-        self.config_dt_pushButton.setText(_translate("PPTSLauncher", "Config..."))
-        self.config_tk_pushButton.setText(_translate("PPTSLauncher", "Config..."))
-        self.config_ri_pushButton.setText(_translate("PPTSLauncher", "Config..."))
-        self.treid_info_label.setText(_translate("PPTSLauncher", "<< Click here for our papers & GitHub repo >>"))
-
-
-    def loadMCFG(self):
-        self.mycfg = MyConfigurator()
-        self.mycfg.loadMCFG()
+        PYPPBOXLauncher.setWindowTitle(_translate("PYPPBOXLauncher", "pyppbox Launcher (GPLv3+ Edition)"))
+        self.launch_pushButton.setText(_translate("PYPPBOXLauncher", "LAUNCH"))
+        self.detector_comboBox.setItemText(0, _translate("PYPPBOXLauncher", "None"))
+        self.detector_comboBox.setItemText(1, _translate("PYPPBOXLauncher", "YOLO"))
+        self.detector_comboBox.setItemText(2, _translate("PYPPBOXLauncher", "GT"))
+        self.detector_label.setText(_translate("PYPPBOXLauncher", "Detector"))
+        self.browse_input_pushButton.setText(_translate("PYPPBOXLauncher", "Browse"))
+        self.tracker_label.setText(_translate("PYPPBOXLauncher", "Tracker"))
+        self.tracker_comboBox.setItemText(0, _translate("PYPPBOXLauncher", "None"))
+        self.tracker_comboBox.setItemText(1, _translate("PYPPBOXLauncher", "Centroid"))
+        self.tracker_comboBox.setItemText(2, _translate("PYPPBOXLauncher", "SORT"))
+        self.tracker_comboBox.setItemText(3, _translate("PYPPBOXLauncher", "DeepSORT"))
+        self.reider_label.setText(_translate("PYPPBOXLauncher", "Re-IDer"))
+        self.reider_comboBox.setItemText(0, _translate("PYPPBOXLauncher", "None"))
+        self.reider_comboBox.setItemText(1, _translate("PYPPBOXLauncher", "Facenet"))
+        self.reider_comboBox.setItemText(2, _translate("PYPPBOXLauncher", "DeepReID"))
+        self.input_video_file_label.setText(_translate("PYPPBOXLauncher", "Input file"))
+        self.input_force_hd_label.setText(_translate("PYPPBOXLauncher", "Force HD"))
+        self.input_force_hd_comboBox.setItemText(0, _translate("PYPPBOXLauncher", "True"))
+        self.input_force_hd_comboBox.setItemText(1, _translate("PYPPBOXLauncher", "False"))
+        self.config_dt_pushButton.setText(_translate("PYPPBOXLauncher", "Config..."))
+        self.config_tk_pushButton.setText(_translate("PYPPBOXLauncher", "Config..."))
+        self.config_ri_pushButton.setText(_translate("PYPPBOXLauncher", "Config..."))
+        self.treid_info_label.setText(_translate("PYPPBOXLauncher", "<< Click here for our papers & GitHub repo >>"))
 
 
     def detectorFilter(self, val):
@@ -295,6 +297,8 @@ class Ui_PPTSLauncher(object):
 
 
     def setMainCFG(self):
+
+        self.mycfg.loadMCFG()
 
         if self.mycfg.mcfg.detector.lower() == "none":
             self.detector_comboBox.setCurrentIndex(0)
@@ -329,7 +333,8 @@ class Ui_PPTSLauncher(object):
 
 
     def browseInputFile(self):
-        default_path = joinFPathFull(root_dir, "tmp/demo")
+        # default_path = joinFPathFull(root_dir, "tmp/demo")
+        default_path = getAncestorDir(self.mycfg.mcfg.input_video)
         video_filter = "Video (*.avi *.mkv *.mov *.mp4)"
         source_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Input video file", default_path, video_filter)
         if source_file:
@@ -342,7 +347,7 @@ class Ui_PPTSLauncher(object):
         programName = "uidemo.cmd"
         p = sp.Popen([programName])
         stdout, stderr = p.communicate()
-        self.loadMCFG()
+        self.mycfg.loadMCFG()
         launcher.show()
 
 
@@ -381,19 +386,18 @@ class Ui_PPTSLauncher(object):
                      'input_video': normalizePathFDS(root_dir, input), 
                      'force_hd': getBool(force_hd)}
                     
-        cfgIO = MyCFGIO()
-        cfgIO.dumpMainWithHeader(main_data)
+        self.cfgIO.dumpMainWithHeader(main_data)
 
 
     def loadDTQDialog(self):
         tmp_QDialog = QtWidgets.QDialog(None, QtCore.Qt.WindowType.WindowCloseButtonHint)
         tmp_QDialog.setWindowIcon(QtGui.QIcon(joinFPathFull(root_dir, "gui/settings.ico")))
         if self.detector_comboBox.currentText().lower() == "yolo":
-            ui = Ui_YOLOForm()
+            ui = Ui_YOLOForm(self.cfg_mode, self.cfg_dir)
             ui.setupUi(tmp_QDialog)
             tmp_QDialog.exec()
         elif self.detector_comboBox.currentText().lower() == "gt":
-            ui = Ui_GTForm()
+            ui = Ui_GTForm(self.cfg_mode, self.cfg_dir)
             ui.setupUi(tmp_QDialog)
             tmp_QDialog.exec()
         elif self.detector_comboBox.currentText().lower() == "none":
@@ -404,15 +408,15 @@ class Ui_PPTSLauncher(object):
         tmp_QDialog = QtWidgets.QDialog(None, QtCore.Qt.WindowType.WindowCloseButtonHint)
         tmp_QDialog.setWindowIcon(QtGui.QIcon(joinFPathFull(root_dir, "gui/settings.ico")))
         if self.tracker_comboBox.currentText().lower() == "centroid":
-            ui = Ui_CentroidForm()
+            ui = Ui_CentroidForm(self.cfg_mode, self.cfg_dir)
             ui.setupUi(tmp_QDialog)
             tmp_QDialog.exec()
         elif self.tracker_comboBox.currentText().lower() == "sort":
-            ui = Ui_SORTForm()
+            ui = Ui_SORTForm(self.cfg_mode, self.cfg_dir)
             ui.setupUi(tmp_QDialog)
             tmp_QDialog.exec()
         elif self.tracker_comboBox.currentText().lower() == "deepsort":
-            ui = Ui_DeepSORTForm()
+            ui = Ui_DeepSORTForm(self.cfg_mode, self.cfg_dir)
             ui.setupUi(tmp_QDialog)
             tmp_QDialog.exec()
         elif self.tracker_comboBox.currentText().lower() == "none":
@@ -423,11 +427,11 @@ class Ui_PPTSLauncher(object):
         tmp_QDialog = QtWidgets.QDialog(None, QtCore.Qt.WindowType.WindowCloseButtonHint)
         tmp_QDialog.setWindowIcon(QtGui.QIcon(joinFPathFull(root_dir, "gui/settings.ico")))
         if self.reider_comboBox.currentText().lower() == "facenet":
-            ui = Ui_FacenetForm()
+            ui = Ui_FacenetForm(self.cfg_mode, self.cfg_dir)
             ui.setupUi(tmp_QDialog)
             tmp_QDialog.exec()
         elif self.reider_comboBox.currentText().lower() == "deepreid":
-            ui = Ui_DeepReIDForm()
+            ui = Ui_DeepReIDForm(self.cfg_mode, self.cfg_dir)
             ui.setupUi(tmp_QDialog)
             tmp_QDialog.exec()
         elif self.reider_comboBox.currentText().lower() == "none":
@@ -443,12 +447,25 @@ class Ui_PPTSLauncher(object):
         webbrowser.open('https://github.com/rathaumons/pyppbox.git')
 
 
-
 if __name__ == "__main__":
+
+    # Option 0: Use ui.tmp file
+    cfg_mode, cfg_dir = loadUITMP(joinFPathFull(root_dir, "tmp/ui.tmp"))
+
+    # Option 1: Use Parser with the rewritten cmd file
+    '''
+    parser = argparse.ArgumentParser(description="Help you choose between GLOBAL and LOCAL mode...")
+    parser.add_argument("--cfgmode", type=int, default=0, help="0=GLOBAL, 1=LOCAL")
+    parser.add_argument("--cfgdir", type=str, default=joinFPathFull(root_dir, 'cfg'), help="CFG dir which is only use in LOCAL mode")
+    args = parser.parse_args()
+    cfg_mode = args.cfgmode
+    cfg_dir = args.cfgdir
+    '''
+
     app = QtWidgets.QApplication(sys.argv)
     launcher = QtWidgets.QMainWindow()
     launcher.setWindowIcon(QtGui.QIcon(joinFPathFull(root_dir, "gui/settings.ico")))
-    ui = Ui_PPTSLauncher()
+    ui = Ui_PYPPBOXLauncher(cfg_mode=cfg_mode, cfg_dir=cfg_dir)
     ui.setupUi(launcher)
     launcher.show()
     sys.exit(app.exec())

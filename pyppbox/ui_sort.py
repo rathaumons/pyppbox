@@ -22,14 +22,25 @@ from __future__ import division, print_function, absolute_import
 import os
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from pyppbox.config import MyConfigurator, MyCFGIO
-from pyppbox.utils.mytools import joinFPathFull
+from pyppbox.config import MyConfigurator as MyGlobalCFG
+from pyppbox.config import MyCFGIO as GlobalCFGIO
+from pyppbox.localconfig import MyLocalConfigurator as MyLocalCFG
+from pyppbox.localconfig import MyCFGIO as LocalCFGIO
+from pyppbox.utils.mytools import replaceLine, joinFPathFull
 
 root_dir = os.path.dirname(__file__)
-cfg_dir = joinFPathFull(root_dir, 'cfg')
 
 
 class Ui_SORTForm(object):
+
+    def __init__(self, cfg_mode, cfg_dir):
+        self.cfg_dir = cfg_dir
+        if cfg_mode == 0:
+            self.mycfg = MyGlobalCFG()
+            self.cfgIO = GlobalCFGIO()
+        else:
+            self.mycfg = MyLocalCFG(self.cfg_dir)
+            self.cfgIO = LocalCFGIO(self.cfg_dir)
 
     def setupUi(self, SORTForm):
         SORTForm.setObjectName("SORTForm")
@@ -72,7 +83,6 @@ class Ui_SORTForm(object):
         self.save_pushButton.setDefault(True)
 
         # custom
-        self.loadCFG()
         self.loadST()
 
         self.save_pushButton.clicked.connect(lambda: self.updateCFG(SORTForm))
@@ -90,12 +100,8 @@ class Ui_SORTForm(object):
         self.st_iou_threshold_label.setText(_translate("SORTForm", "iou_threshold"))
 
 
-    def loadCFG(self):
-        self.mycfg = MyConfigurator()
-        self.mycfg.loadTCFG()
-
-
     def loadST(self):
+        self.mycfg.loadTCFG()
         self.st_iou_threshold_lineEdit.setText(str(self.mycfg.tcfg_sort.iou_threshold))
         self.st_max_age_lineEdit.setText(str(self.mycfg.tcfg_sort.max_age))
         self.st_min_hits_lineEdit.setText(str(self.mycfg.tcfg_sort.min_hits))
@@ -108,7 +114,6 @@ class Ui_SORTForm(object):
                     "iou_threshold": float(self.st_iou_threshold_lineEdit.text())}
         centroid_doc = self.mycfg.tcfg_centroid.getDocument()
         deepsort_doc = self.mycfg.tcfg_deepsort.getDocument()
-        cfgio = MyCFGIO()
-        cfgio.dumpTrackersWithHeader([centroid_doc, sort_doc, deepsort_doc])
+        self.cfgIO.dumpTrackersWithHeader([centroid_doc, sort_doc, deepsort_doc])
         SORTForm.close()
 

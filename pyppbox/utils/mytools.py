@@ -93,3 +93,18 @@ def customDumpMultiDoc(output_file, docs, header):
             if sep_index < len(docs):
                 dumping.write("---\n")
                 sep_index += 1
+
+def loadUITMP(uitmp):
+    cfg_mode = 0
+    cfg_dir = ""
+    with open(uitmp) as uitmp_file:
+        lines = uitmp_file.read().splitlines()
+        if len(lines) > 1:
+            cfg_mode = int(lines[0])
+            cfg_dir = getAbsPathFDS(str(lines[1]))
+    return cfg_mode, cfg_dir
+
+def writeUITMP(uitmp, cfg_mode, cfg_dir):
+    with open(uitmp, "w") as uitmp_file:
+        uitmp_file.write(str(cfg_mode) + "\n")
+        uitmp_file.write(cfg_dir + "\n")

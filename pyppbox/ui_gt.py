@@ -22,14 +22,25 @@ from __future__ import division, print_function, absolute_import
 import os
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from pyppbox.config import MyConfigurator, MyCFGIO
-from pyppbox.utils.mytools import normalizePathFDS, getAbsPathFDS, joinFPathFull
+from pyppbox.config import MyConfigurator as MyGlobalCFG
+from pyppbox.config import MyCFGIO as GlobalCFGIO
+from pyppbox.localconfig import MyLocalConfigurator as MyLocalCFG
+from pyppbox.localconfig import MyCFGIO as LocalCFGIO
+from pyppbox.utils.mytools import normalizePathFDS, getAbsPathFDS, getAncestorDir, joinFPathFull
 
 root_dir = os.path.dirname(__file__)
-cfg_dir = joinFPathFull(root_dir, 'cfg')
 
 
 class Ui_GTForm(object):
+
+    def __init__(self, cfg_mode, cfg_dir):
+        self.cfg_dir = cfg_dir
+        if cfg_mode == 0:
+            self.mycfg = MyGlobalCFG()
+            self.cfgIO = GlobalCFGIO()
+        else:
+            self.mycfg = MyLocalCFG(self.cfg_dir)
+            self.cfgIO = LocalCFGIO(self.cfg_dir)
 
     def setupUi(self, GTForm):
         GTForm.setObjectName("GTForm")
@@ -61,7 +72,6 @@ class Ui_GTForm(object):
         self.save_pushButton.setDefault(True)
 
         # custom 
-        self.loadCFG()
         self.loadGT()
 
         self.gt_browse_pushButton.clicked.connect(self.browseInputFile)
@@ -79,17 +89,14 @@ class Ui_GTForm(object):
         self.save_pushButton.setText(_translate("GTForm", "Save"))
 
 
-    def loadCFG(self):
-        self.mycfg = MyConfigurator()
-        self.mycfg.loadDCFG()
-
-
     def loadGT(self):
+        self.mycfg.loadDCFG()
         self.gt_file_lineEdit.setText(getAbsPathFDS(self.mycfg.dcfg_gt.gt_file))
 
 
     def browseInputFile(self):
-        default_path = joinFPathFull(root_dir, 'tmp/gt')
+        # default_path = joinFPathFull(root_dir, 'tmp/gt')
+        default_path = getAncestorDir(self.mycfg.dcfg_gt.gt_file)
         file_filter = "TXT (*.txt)"
         source_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Input GT file", default_path, file_filter)
         if source_file:
@@ -101,7 +108,6 @@ class Ui_GTForm(object):
                   "gt_file": normalizePathFDS(root_dir, self.gt_file_lineEdit.text()),
                   "input_gt_map_file": normalizePathFDS(root_dir, self.mycfg.dcfg_gt.input_gt_map_file)}
         yolo_doc = self.mycfg.dcfg_yolo.getDocument()
-        cfgio = MyCFGIO()
-        cfgio.dumpDetectorsWithHeader([yolo_doc, gt_doc])
+        self.cfgIO.dumpDetectorsWithHeader([yolo_doc, gt_doc])
         GTForm.close()
 
