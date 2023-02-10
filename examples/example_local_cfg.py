@@ -37,7 +37,7 @@ from pyppbox.ppboxmng import PManager
 # Your current dir
 this_dir = os.path.dirname(__file__)
 
-pmg = PManager(elocalConfig=True)
+pmg = PManager(localConfig=True)
 pmg.setLocalConfig(os.path.join(this_dir, 'cfg'))
 
 # start video
