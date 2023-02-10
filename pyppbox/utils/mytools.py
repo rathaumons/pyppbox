@@ -21,7 +21,7 @@ from __future__ import division, print_function, absolute_import
 
 import os
 
-from posixpath import abspath
+# from posixpath import abspath
 from pathlib import Path 
 
 
@@ -51,6 +51,14 @@ def joinFPathFull(main, to_join):
 
 def getFileName(input):
     return Path(input).name
+
+def getAncestorDir(from_file, num_of_step=0):
+    ancestor_dir = Path(getAbsPathFDS(from_file)).parent
+    step_count = 0
+    while step_count < int(num_of_step):
+        step_count += 1
+        ancestor_dir = Path(ancestor_dir).parent
+    return getAbsPathFDS(ancestor_dir)
 
 def getBool(input_string):
     res = False

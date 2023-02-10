@@ -10,7 +10,7 @@ tqdm
 tables
 h5py
 matplotlib
-tensorflow-gpu
+tensorflow
 shapely
 filterpy
 lap

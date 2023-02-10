@@ -17,12 +17,9 @@
 """
 
 
-import io
 import os
 import os.path
-import sysconfig
 import skbuild
-from glob import glob
 
 
 def main():
@@ -112,7 +109,7 @@ def main():
 
 
 def get_and_set_info_static():
-    return "1.0b10"
+    return "1.0b11"
 
 
 class EmptyListWithLength(list):

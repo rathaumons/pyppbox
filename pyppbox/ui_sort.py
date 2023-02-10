@@ -23,7 +23,7 @@ import os
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from pyppbox.config import MyConfigurator, MyCFGIO
-from pyppbox.utils.mytools import replaceLine, joinFPathFull
+from pyppbox.utils.mytools import joinFPathFull
 
 root_dir = os.path.dirname(__file__)
 cfg_dir = joinFPathFull(root_dir, 'cfg')

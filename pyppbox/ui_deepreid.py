@@ -23,7 +23,7 @@ import os
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from pyppbox.config import MyConfigurator, MyCFGIO
-from pyppbox.utils.mytools import replaceLine, getAbsPathFDS, extendPathFDS, normalizePathFDS, getFileName, joinFPathFull
+from pyppbox.utils.mytools import getAbsPathFDS, extendPathFDS, normalizePathFDS, getFileName, joinFPathFull
 from pyppbox.utils.deepreid_model_dict import ModelDictionary
 
 root_dir = os.path.dirname(__file__)
