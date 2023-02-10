@@ -12,9 +12,9 @@ This repo was reinitiated from version 1.0b9. The complete history is available 
 
 <!--- ![alt text](https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_launchGUI.png) --->
 
-## ⚠️ IMPORTANT NOTICES (Febuary 10, 2022)
+## ⚠️ IMPORTANT NOTICES (Febuary 10, 2023)
 
-* 🆕 Introduce **GLOBAL** & **LOCAL** `cfg` for multi-threading application -> Check [`examples` page](examples) for more details.
+* 🆕 Introduce **GLOBAL** & **LOCAL** `cfg` for multi-threading application -> Check [`examples`](examples) page for more details.
 * Add GPLv3+ license
 * [`OpenPose`](https://github.com/CMU-Perceptual-Computing-Lab/openpose) submodule is completely removed due to [the complicated license of OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE) ~~and it will be replaced by [MMPose](https://github.com/open-mmlab/mmpose) in the future versions. Stay tune for this amazing update!~~ 🆕 **Maybe the [official YOLOv7](https://github.com/WongKinYiu/yolov7) instead!** 🆕
 * Please refer to [this repo `pyppbox-paper`](https://github.com/rathaumons/pyppbox-paper) for those who need `OpenPose` or need to reproduce the results in the paper.
