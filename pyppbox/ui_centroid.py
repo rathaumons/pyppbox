@@ -22,14 +22,25 @@ from __future__ import division, print_function, absolute_import
 import os
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from pyppbox.config import MyConfigurator, MyCFGIO
+from pyppbox.config import MyConfigurator as MyGlobalCFG
+from pyppbox.config import MyCFGIO as GlobalCFGIO
+from pyppbox.localconfig import MyLocalConfigurator as MyLocalCFG
+from pyppbox.localconfig import MyCFGIO as LocalCFGIO
 from pyppbox.utils.mytools import joinFPathFull
 
 root_dir = os.path.dirname(__file__)
-cfg_dir = joinFPathFull(root_dir, 'cfg')
 
 
 class Ui_CentroidForm(object):
+
+    def __init__(self, cfg_mode, cfg_dir):
+        self.cfg_dir = cfg_dir
+        if cfg_mode == 0:
+            self.mycfg = MyGlobalCFG()
+            self.cfgIO = GlobalCFGIO()
+        else:
+            self.mycfg = MyLocalCFG(self.cfg_dir)
+            self.cfgIO = LocalCFGIO(self.cfg_dir)
 
     def setupUi(self, CentroidForm):
         CentroidForm.setObjectName("CentroidForm")
@@ -58,7 +69,6 @@ class Ui_CentroidForm(object):
         self.save_pushButton.setDefault(True)
 
         # custom 
-        self.loadCFG()
         self.loadCT()
 
         self.save_pushButton.clicked.connect(lambda: self.updateCFG(CentroidForm))
@@ -72,14 +82,10 @@ class Ui_CentroidForm(object):
         CentroidForm.setWindowTitle(_translate("CentroidForm", "Centroid"))
         self.ct_max_distance_label.setText(_translate("CentroidForm", "max_distance"))
         self.save_pushButton.setText(_translate("CentroidForm", "Save"))
-
-
-    def loadCFG(self):
-        self.mycfg = MyConfigurator()
-        self.mycfg.loadTCFG()
-
+        
 
     def loadCT(self):
+        self.mycfg.loadTCFG()
         self.ct_max_distance_lineEdit.setText(str(self.mycfg.tcfg_centroid.max_distance))
 
 
@@ -88,7 +94,6 @@ class Ui_CentroidForm(object):
                         "max_distance": int(self.ct_max_distance_lineEdit.text())}
         sort_doc = self.mycfg.tcfg_sort.getDocument()
         deepsort_doc = self.mycfg.tcfg_deepsort.getDocument()
-        cfgio = MyCFGIO()
-        cfgio.dumpTrackersWithHeader([centroid_doc, sort_doc, deepsort_doc])
+        self.cfgIO.dumpTrackersWithHeader([centroid_doc, sort_doc, deepsort_doc])
         CentroidForm.close()
         

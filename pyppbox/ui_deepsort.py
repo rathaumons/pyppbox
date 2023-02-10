@@ -22,14 +22,25 @@ from __future__ import division, print_function, absolute_import
 import os
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from pyppbox.config import MyConfigurator, MyCFGIO
-from pyppbox.utils.mytools import getAbsPathFDS, normalizePathFDS, joinFPathFull
+from pyppbox.config import MyConfigurator as MyGlobalCFG
+from pyppbox.config import MyCFGIO as GlobalCFGIO
+from pyppbox.localconfig import MyLocalConfigurator as MyLocalCFG
+from pyppbox.localconfig import MyCFGIO as LocalCFGIO
+from pyppbox.utils.mytools import getAbsPathFDS, normalizePathFDS, getAncestorDir, joinFPathFull
 
 root_dir = os.path.dirname(__file__)
-cfg_dir = joinFPathFull(root_dir, 'cfg')
 
 
 class Ui_DeepSORTForm(object):
+
+    def __init__(self, cfg_mode, cfg_dir):
+        self.cfg_dir = cfg_dir
+        if cfg_mode == 0:
+            self.mycfg = MyGlobalCFG()
+            self.cfgIO = GlobalCFGIO()
+        else:
+            self.mycfg = MyLocalCFG(self.cfg_dir)
+            self.cfgIO = LocalCFGIO(self.cfg_dir)
 
     def setupUi(self, DeepSORTForm):
         DeepSORTForm.setObjectName("DeepSORTForm")
@@ -83,7 +94,6 @@ class Ui_DeepSORTForm(object):
         self.save_pushButton.setDefault(True)
 
         # custom 
-        self.loadCFG()
         self.loadDS()
 
         self.ds_model_file_pushButton.clicked.connect(self.browseModelFile)
@@ -104,12 +114,8 @@ class Ui_DeepSORTForm(object):
         self.ds_max_overlap_label.setText(_translate("DeepSORTForm", "max_overlap"))
 
 
-    def loadCFG(self):
-        self.mycfg = MyConfigurator()
-        self.mycfg.loadTCFG()
-
-
     def loadDS(self):
+        self.mycfg.loadTCFG()
         self.ds_cosine_distance_lineEdit.setText(str(self.mycfg.tcfg_deepsort.max_cosine_distance))
         self.ds_max_overlap_lineEdit.setText(str(self.mycfg.tcfg_deepsort.nms_max_overlap))
         self.ds_nn_budget_lineEdit.setText(str(self.mycfg.tcfg_deepsort.nn_budget))
@@ -124,13 +130,13 @@ class Ui_DeepSORTForm(object):
                         "model_file": normalizePathFDS(root_dir, self.ds_model_file_lineEdit.text())}
         centroid_doc = self.mycfg.tcfg_centroid.getDocument()
         sort_doc = self.mycfg.tcfg_sort.getDocument()
-        cfgio = MyCFGIO()
-        cfgio.dumpTrackersWithHeader([centroid_doc, sort_doc, deepsort_doc])
+        self.cfgIO.dumpTrackersWithHeader([centroid_doc, sort_doc, deepsort_doc])
         YOLOForm.close()
 
 
     def browseModelFile(self):
-        default_path = joinFPathFull(root_dir, 'tk_deepsort')
+        # default_path = joinFPathFull(root_dir, 'tk_deepsort')
+        default_path = getAncestorDir(self.mycfg.tcfg_deepsort.model_file)
         model_filter = "Protobuf (*.pb)"
         source_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Model file", default_path, model_filter)
         if source_file:

@@ -28,19 +28,21 @@ from .utils.deepreid_model_dict import ModelDictionary
 from .utils.mystrings import MyStrings
 from .utils.mytools import getFileName, joinFPathFull, normalizePathFDS, getAbsPathFDS, getAncestorDir, customDumpSingleDoc, customDumpMultiDoc
 
-class MyStruct(object):
+global_root_dir = os.path.dirname(__file__)
+global_cfg_dir = joinFPathFull(global_root_dir, 'cfg')
 
-    def __init__(self):
+class MyLocalStruct(object):
+
+    def __init__(self, cfg_dir):
+        self.cfg_dir = cfg_dir
+        self.global_root_dir = global_root_dir
         self.loadDIR()
         self.loadYAML()
         self.loadSTR()
         self.loadVS()
 
     def loadDIR(self):
-        self.root_dir = os.path.dirname(__file__)
-        self.global_root_dir = self.root_dir
-        self.cfg_dir = joinFPathFull(self.root_dir, 'cfg')
-        self.tmp_dir = os.path.join(self.root_dir, 'tmp')
+        self.tmp_dir = os.path.join(global_root_dir, 'tmp')
         self.gt_dir = os.path.join(self.tmp_dir, 'gt')
         self.res_dir = os.path.join(self.tmp_dir, 'res')
 
@@ -49,7 +51,7 @@ class MyStruct(object):
         self.detector_yaml = os.path.join(self.cfg_dir, "detectors.yaml")
         self.tracker_yaml = os.path.join(self.cfg_dir, "trackers.yaml")
         self.reider_yaml = os.path.join(self.cfg_dir, "reiders.yaml")
-        self.string_yaml = os.path.join(self.cfg_dir, "strings.yaml")
+        self.string_yaml = os.path.join(global_cfg_dir, "strings.yaml")
 
     def loadSTR(self):
         self.str = MyStrings(self.string_yaml)
@@ -61,15 +63,6 @@ class MyStruct(object):
         self.vp_sp = " "
         self.vp_font = cv2.FONT_HERSHEY_COMPLEX_SMALL
 
-mstruct = MyStruct()
-root_dir = mstruct.root_dir
-global_root_dir = mstruct.root_dir
-cfg_dir = mstruct.cfg_dir
-main_yaml = mstruct.main_yaml
-detector_yaml = mstruct.detector_yaml
-tracker_yaml = mstruct.tracker_yaml
-reider_yaml = mstruct.reider_yaml
-
 
 ################################################################################################################
 
@@ -77,15 +70,15 @@ reider_yaml = mstruct.reider_yaml
 class DCFGYOLO(object):
 
     def __init__(self):
-        self.mstruct = mstruct
+        pass
 
     def set(self, dcfg):
         self.dt_name = dcfg['dt_name']
         self.nms_threshold = dcfg['nms_threshold']
         self.conf_threshold = dcfg['conf_threshold']
-        self.class_file = joinFPathFull(root_dir, dcfg['class_file'])
-        self.model_cfg_file = joinFPathFull(root_dir, dcfg['model_cfg_file'])
-        self.model_weights = joinFPathFull(root_dir, dcfg['model_weights'])
+        self.class_file = getAbsPathFDS(dcfg['class_file'])
+        self.model_cfg_file = getAbsPathFDS(dcfg['model_cfg_file'])
+        self.model_weights = getAbsPathFDS(dcfg['model_weights'])
         self.model_resolution = (dcfg['model_resolution_width'], dcfg['model_resolution_height'])
         self.repspoint_callibration = dcfg['repspoint_callibration']
 
@@ -94,9 +87,9 @@ class DCFGYOLO(object):
         yolo_doc = {"dt_name": "YOLO",
                     "nms_threshold": self.nms_threshold,
                     "conf_threshold": self.conf_threshold,
-                    "class_file": normalizePathFDS(root_dir, self.class_file),
-                    "model_cfg_file": normalizePathFDS(root_dir, self.model_cfg_file),
-                    "model_weights": normalizePathFDS(root_dir, self.model_weights),
+                    "class_file": getAbsPathFDS(self.class_file),
+                    "model_cfg_file": getAbsPathFDS(self.model_cfg_file),
+                    "model_weights": getAbsPathFDS(self.model_weights),
                     "model_resolution_width": w,
                     "model_resolution_height": h,
                     "repspoint_callibration": self.repspoint_callibration}
@@ -106,24 +99,24 @@ class DCFGYOLO(object):
 class DCFGGT(object):
 
     def __init__(self):
-        self.mstruct = mstruct
+        pass
 
     def set(self, dcfg):
         self.dt_name = dcfg['dt_name']
-        self.gt_file = joinFPathFull(root_dir, dcfg['gt_file'])
-        self.input_gt_map_file = joinFPathFull(root_dir, dcfg['input_gt_map_file'])
+        self.gt_file = joinFPathFull(global_root_dir, dcfg['gt_file'])
+        self.input_gt_map_file = joinFPathFull(global_root_dir, dcfg['input_gt_map_file'])
 
     def getDocument(self):
         gt_doc = {"dt_name": "GT",
-                  "gt_file": normalizePathFDS(root_dir, self.gt_file),
-                  "input_gt_map_file": normalizePathFDS(root_dir, self.input_gt_map_file)}
+                  "gt_file": normalizePathFDS(global_root_dir, self.gt_file),
+                  "input_gt_map_file": normalizePathFDS(global_root_dir, self.input_gt_map_file)}
         return gt_doc
 
 
 class TCFGCentroid(object):
 
     def __init__(self):
-        self.mstruct = mstruct
+        pass
 
     def set(self, tcfg):
         self.tk_name = tcfg['tk_name']
@@ -138,7 +131,7 @@ class TCFGCentroid(object):
 class TCFGSORT(object):
 
     def __init__(self):
-        self.mstruct = mstruct
+        pass
 
     def set(self, tcfg):
         self.tk_name = tcfg['tk_name']
@@ -157,35 +150,35 @@ class TCFGSORT(object):
 class TCFGDeepSORT(object):
 
     def __init__(self):
-        self.mstruct = mstruct
+        pass
 
     def set(self, tcfg):
         self.tk_name = tcfg['tk_name']
         self.nn_budget = tcfg['nn_budget']
         self.nms_max_overlap = tcfg['nms_max_overlap']
         self.max_cosine_distance = tcfg['max_cosine_distance']
-        self.model_file = joinFPathFull(root_dir, tcfg['model_file'])
+        self.model_file = getAbsPathFDS(tcfg['model_file'])
 
     def getDocument(self):
         deepsort_doc = {"tk_name": "DeepSORT",
                         "nn_budget": self.nn_budget,
                         "nms_max_overlap": self.nms_max_overlap,
                         "max_cosine_distance": self.max_cosine_distance,
-                        "model_file": normalizePathFDS(root_dir, self.model_file)}
+                        "model_file": getAbsPathFDS(self.model_file)}
         return deepsort_doc
 
 
 class RCFGFacenet(object):
 
     def __init__(self):
-        self.mstruct = mstruct
+        pass
 
     def set(self, rcfg):
         self.ri_name = rcfg['ri_name']
         self.gpu_mem = rcfg['gpu_mem']
-        self.model_det = joinFPathFull(root_dir, rcfg['model_det'])
-        self.model_file = joinFPathFull(root_dir, rcfg['model_file'])
-        self.classifier_file = joinFPathFull(root_dir, rcfg['classifier_file'])
+        self.model_det = getAbsPathFDS(rcfg['model_det'])
+        self.model_file = getAbsPathFDS(rcfg['model_file'])
+        self.classifier_file = getAbsPathFDS(rcfg['classifier_file'])
         self.batch_size = rcfg['batch_size']
         self.min_confidence = rcfg['min_confidence']
         self.yl_h_callibration = rcfg['yl_h_callibration']
@@ -196,9 +189,9 @@ class RCFGFacenet(object):
     def getDocument(self):
         facenet_doc = {"ri_name": "Facenet",
                         "gpu_mem": self.gpu_mem,
-                        "model_det": normalizePathFDS(root_dir, self.model_det), 
-                        "model_file": normalizePathFDS(root_dir, self.model_file),
-                        "classifier_file": normalizePathFDS(root_dir, self.classifier_file),
+                        "model_det": getAbsPathFDS(self.model_det), 
+                        "model_file": getAbsPathFDS(self.model_file),
+                        "classifier_file": getAbsPathFDS(self.classifier_file),
                         "batch_size": self.batch_size,
                         "min_confidence": self.min_confidence,
                         "yl_h_callibration": self.yl_h_callibration,
@@ -210,16 +203,16 @@ class RCFGFacenet(object):
 
 class RCFGDeepReID(object):
 
-    def __init__(self):
+    def __init__(self, mstruct):
         self.mstruct = mstruct
 
     def set(self, rcfg):
         self.ri_name = rcfg['ri_name']
-        self.classes_txt = joinFPathFull(root_dir, rcfg['classes_txt'])
-        self.classifier_pkl = joinFPathFull(root_dir, rcfg['classifier_pkl'])
-        self.train_data = joinFPathFull(root_dir, rcfg['train_data'])
+        self.classes_txt = getAbsPathFDS(rcfg['classes_txt'])
+        self.classifier_pkl = getAbsPathFDS(rcfg['classifier_pkl'])
+        self.train_data = getAbsPathFDS(rcfg['train_data'])
         self.model_name = rcfg['model_name']
-        self.model_path = joinFPathFull(root_dir, rcfg['model_path'])
+        self.model_path = getAbsPathFDS(rcfg['model_path'])
         self.min_confidence = rcfg['min_confidence']
         self.setExtra()
     
@@ -230,11 +223,11 @@ class RCFGDeepReID(object):
 
     def getDocument(self):
         deepreid_doc = {"ri_name": "DeepReID",
-                       "classes_txt": normalizePathFDS(root_dir, self.classes_txt),
-                       "classifier_pkl": normalizePathFDS(root_dir, self.classifier_pkl),
-                       "train_data": normalizePathFDS(root_dir, self.train_data),
+                       "classes_txt": getAbsPathFDS(self.classes_txt),
+                       "classifier_pkl": getAbsPathFDS(self.classifier_pkl),
+                       "train_data": getAbsPathFDS(self.train_data),
                        "model_name": self.model_name,
-                       "model_path": normalizePathFDS(root_dir, self.model_path),
+                       "model_path": getAbsPathFDS(self.model_path),
                        "min_confidence": self.min_confidence}
         return deepreid_doc
 
@@ -242,7 +235,7 @@ class RCFGDeepReID(object):
 class MainCFG(object):
 
     def __init__(self):
-        self.mstruct = mstruct
+        pass
 
     def set(self, mcfg):
         self.detector = mcfg['detector']
@@ -252,10 +245,11 @@ class MainCFG(object):
         self.force_hd = mcfg['force_hd']
 
 
-class MyConfigurator(object):
+class MyLocalConfigurator(object):
 
-    def __init__(self):
-        self.cfgio = MyCFGIO()
+    def __init__(self, local_cfg_dir):
+        self.cfgio = MyCFGIO(local_cfg_dir)
+        self.mstruct = self.cfgio.getMStruct()
         self.mcfg = MainCFG()
         self.dcfg_yolo = DCFGYOLO()
         self.dcfg_gt = DCFGGT()
@@ -263,15 +257,14 @@ class MyConfigurator(object):
         self.tcfg_sort = TCFGSORT()
         self.tcfg_deepsort = TCFGDeepSORT()
         self.rcfg_facenet = RCFGFacenet()
-        self.rcfg_deepreid = RCFGDeepReID()
-        self.mstruct = mstruct
+        self.rcfg_deepreid = RCFGDeepReID(mstruct=self.mstruct)
 
     def loadMCFG(self):
-        data = self.cfgio.loadDocument(main_yaml)
+        data = self.cfgio.loadDocument(self.mstruct.main_yaml)
         self.mcfg.set(data)
 
     def loadDCFG(self):
-        docs = self.cfgio.loadAllDocuments(detector_yaml)
+        docs = self.cfgio.loadAllDocuments(self.mstruct.detector_yaml)
         for d in docs:
             if d['dt_name'].lower() == "yolo":
                 self.dcfg_yolo.set(d)
@@ -279,7 +272,7 @@ class MyConfigurator(object):
                 self.dcfg_gt.set(d)
 
     def loadTCFG(self):
-        docs = self.cfgio.loadAllDocuments(tracker_yaml)
+        docs = self.cfgio.loadAllDocuments(self.mstruct.tracker_yaml)
         for d in docs:
             if d['tk_name'].lower() == "centroid":
                 self.tcfg_centroid.set(d)
@@ -289,7 +282,7 @@ class MyConfigurator(object):
                 self.tcfg_deepsort.set(d)
 
     def loadRCFG(self):
-        docs = self.cfgio.loadAllDocuments(reider_yaml)
+        docs = self.cfgio.loadAllDocuments(self.mstruct.reider_yaml)
         for d in docs:
             if d['ri_name'].lower() == "facenet":
                 self.rcfg_facenet.set(d)
@@ -299,7 +292,7 @@ class MyConfigurator(object):
 
     def loadExtra(self):
         self.dr_md = ModelDictionary()
-        self.dr_md.loadCFG(joinFPathFull(cfg_dir, 'deepreid_model_dict.yaml'))
+        self.dr_md.loadCFG(joinFPathFull(global_cfg_dir, 'deepreid_model_dict.yaml'))
         self.dr_wh = self.dr_md.getWH(getFileName(self.rcfg_deepreid.model_path))
 
 
@@ -412,12 +405,14 @@ class MyCFGHeaderNote(object):
         return header
 
 
-
 class MyCFGIO(object):
 
-    def __init__(self):
-        self.mstruct = mstruct
+    def __init__(self, local_cfg_dir):
+        self.mstruct = MyLocalStruct(local_cfg_dir)
         self.headers = MyCFGHeaderNote()
+
+    def getMStruct(self):
+        return self.mstruct
 
     def loadDocument(self, cfg_yaml):
         data = []
@@ -434,14 +429,14 @@ class MyCFGIO(object):
         return documents
 
     def dumpMainWithHeader(self, data):
-        customDumpSingleDoc(main_yaml, data, self.headers.mainHeader())
+        customDumpSingleDoc(self.mstruct.main_yaml, data, self.headers.mainHeader())
 
     def dumpDetectorsWithHeader(self, documents):
-        customDumpMultiDoc(detector_yaml, documents, self.headers.detectorHeader())
+        customDumpMultiDoc(self.mstruct.detector_yaml, documents, self.headers.detectorHeader())
 
     def dumpTrackersWithHeader(self, documents):
-        customDumpMultiDoc(tracker_yaml, documents, self.headers.trackerHeader())
+        customDumpMultiDoc(self.mstruct.tracker_yaml, documents, self.headers.trackerHeader())
 
     def dumpReidersWithHeader(self, documents):
-        customDumpMultiDoc(reider_yaml, documents, self.headers.reiderHeader())
+        customDumpMultiDoc(self.mstruct.reider_yaml, documents, self.headers.reiderHeader())
 

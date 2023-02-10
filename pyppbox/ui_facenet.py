@@ -22,15 +22,26 @@ from __future__ import division, print_function, absolute_import
 import os
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from pyppbox.config import MyConfigurator, MyCFGIO
-from pyppbox.utils.mytools import getAbsPathFDS, normalizePathFDS, joinFPathFull, get2Dlist
+from pyppbox.config import MyConfigurator as MyGlobalCFG
+from pyppbox.config import MyCFGIO as GlobalCFGIO
+from pyppbox.localconfig import MyLocalConfigurator as MyLocalCFG
+from pyppbox.localconfig import MyCFGIO as LocalCFGIO
+from pyppbox.utils.mytools import getAbsPathFDS, normalizePathFDS, getAncestorDir, joinFPathFull, get2Dlist
 
 root_dir = os.path.dirname(__file__)
-cfg_dir = joinFPathFull(root_dir, 'cfg')
 
 
 class Ui_FacenetForm(object):
-    
+
+    def __init__(self, cfg_mode, cfg_dir):
+        self.cfg_dir = cfg_dir
+        if cfg_mode == 0:
+            self.mycfg = MyGlobalCFG()
+            self.cfgIO = GlobalCFGIO()
+        else:
+            self.mycfg = MyLocalCFG(self.cfg_dir)
+            self.cfgIO = LocalCFGIO(self.cfg_dir)
+
     def setupUi(self, FacenetForm):
         FacenetForm.setObjectName("FacenetForm")
         FacenetForm.resize(390, 360)
@@ -136,8 +147,6 @@ class Ui_FacenetForm(object):
         self.save_pushButton.setDefault(True)
 
         # custom
-
-        self.loadCFG()
         self.loadFN()
 
         self.fn_model_det_pushButton.clicked.connect(self.browseModelDet)
@@ -168,12 +177,8 @@ class Ui_FacenetForm(object):
         self.fn_op_w_callib_label.setText(_translate("FacenetForm", "op_w_callib"))
 
 
-    def loadCFG(self):
-        self.mycfg = MyConfigurator()
-        self.mycfg.loadRCFG()
-
-
     def loadFN(self):
+        self.mycfg.loadRCFG()
         self.fn_batch_size_lineEdit.setText(str(self.mycfg.rcfg_facenet.batch_size))
         self.fn_gpu_mem_lineEdit.setText(str(self.mycfg.rcfg_facenet.gpu_mem))
         self.fn_min_confidence_lineEdit.setText(str(self.mycfg.rcfg_facenet.min_confidence))
@@ -199,20 +204,21 @@ class Ui_FacenetForm(object):
                         "op_h_callibration": get2Dlist(self.fn_op_h_callib_lineEdit.text()),
                         "op_w_callibration": get2Dlist(self.fn_op_w_callib_lineEdit.text())}
         deepreid_doc = self.mycfg.rcfg_deepreid.getDocument()
-        cfgio = MyCFGIO()
-        cfgio.dumpReidersWithHeader([facenet_doc, deepreid_doc])
+        self.cfgIO.dumpReidersWithHeader([facenet_doc, deepreid_doc])
         FacenetForm.close()
 
 
     def browseModelDet(self):
-        default_path = joinFPathFull(root_dir, 'ri_facenet/models/det')
+        # default_path = joinFPathFull(root_dir, 'ri_facenet/models/det')
+        default_path = getAncestorDir(self.mycfg.rcfg_facenet.model_det)
         model_det = QtWidgets.QFileDialog.getExistingDirectory(None, "Det folder (det1.npy, det2.npy, det3.npy)", default_path)
         if model_det:
             self.fn_model_det_lineEdit.setText(model_det)
 
 
     def browseModelFile(self):
-        default_path = joinFPathFull(root_dir, 'ri_facenet/models/20180402-114759')
+        # default_path = joinFPathFull(root_dir, 'ri_facenet/models/20180402-114759')
+        default_path = getAncestorDir(self.mycfg.rcfg_facenet.model_file)
         model_filter = "Protobuf (*.pb)"
         source_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Model file", default_path, model_filter)
         if source_file:
@@ -220,7 +226,8 @@ class Ui_FacenetForm(object):
 
 
     def browseClassifierFile(self):
-        default_path = joinFPathFull(root_dir, 'ri_facenet/classifier')
+        # default_path = joinFPathFull(root_dir, 'ri_facenet/classifier')
+        default_path = getAncestorDir(self.mycfg.rcfg_facenet.classifier_file)
         pkl_filter = "Pickle (*.pkl)"
         source_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Classifier file", default_path, pkl_filter)
         if source_file:

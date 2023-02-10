@@ -32,6 +32,7 @@ from .utils.mytools import *
 
 # my configurator
 from .config import MyConfigurator
+from .localconfig import MyLocalConfigurator
 
 # my detectors
 from .dt_yolocv.myyolocv import MyYOLOCV
@@ -50,20 +51,35 @@ from .ri_deepreid.mydeepreid import MyDeepReID
 class PManager(object):
 
 
-    def __init__(self, enableEval=False):
+    def __init__(self, enableEval=False, localConfig=False):
         self.enableEval = enableEval
         self.curr_ppobjlist = []
         self.dt_name = ""
         self.tk_name = ""
         self.ri_name = ""
         self.evalmode = ""
-        self.loadCFG()
+        if not localConfig:
+            self.loadCFG()
+            self.setCFG()
+            self.loadAllEval()
+    
+    def setLocalConfig(self, local_cfg_dir):
+        # print("local_cfg_dir = " + str(getAbsPathFDS(local_cfg_dir)))
+        self.loadLocalCFG(getAbsPathFDS(local_cfg_dir))
         self.setCFG()
         self.loadAllEval()
 
+    def loadLocalCFG(self, local_cfg_dir):
+        self.cfg = MyLocalConfigurator(local_cfg_dir)
+        self.mstruct = self.cfg.mstruct
+        self.cfg.loadMCFG()
+        self.cfg.loadDCFG()
+        self.cfg.loadTCFG()
+        self.cfg.loadRCFG()
+
     def loadCFG(self):
         self.cfg = MyConfigurator()
-        self.mstruct = self.cfg.getMStruct()
+        self.mstruct = self.cfg.mstruct
         self.cfg.loadMCFG()
         self.cfg.loadDCFG()
         self.cfg.loadTCFG()
@@ -101,10 +117,10 @@ class PManager(object):
             self.eva_io.loadInputGTMap(self.cfg.dcfg_gt.input_gt_map_file)
             gt_file = self.eva_io.getGTFileName(self.cfg.mcfg.input_video)
             if gt_file != "":
-                tmp = os.path.join(self.mstruct.gt_dir, self.eva_io.getGTFileName(self.cfg.mcfg.input_video))
-                self.cfg.dcfg_gt.gt_file = normalizePathFDS(self.mstruct.root_dir, tmp)
+                tmp = os.path.join(self.mstruct.gt_dir, gt_file)
+                self.cfg.dcfg_gt.gt_file = normalizePathFDS(self.mstruct.global_root_dir, tmp)
                 # Last to load
-                self.eva = MyEval(joinFPathFull(self.mstruct.root_dir, self.cfg.dcfg_gt.gt_file))
+                self.eva = MyEval(joinFPathFull(self.mstruct.global_root_dir, self.cfg.dcfg_gt.gt_file))
         else:
             print(" - EVA : Disable")
 

@@ -21,7 +21,7 @@ from __future__ import division, print_function, absolute_import
 
 # Info
 
-__version__ = '1.0b11'
+__version__ = '1.1b1'
 __author__ = 'Ratha SIV (rathaROG)'
 __homepage__ = 'https://github.com/rathaumons'
 __description__ = 'Python toolbox for people tracking system'
@@ -54,9 +54,28 @@ from pyppbox import uilauncher
 
 import os
 import subprocess as sp
-from pyppbox.config import MyCFGIO
+from pyppbox.config import MyCFGIO as GlobalCFGIO
+from pyppbox.localconfig import MyCFGIO as LocalCFGIO
+from pyppbox.utils.mytools import getAbsPathFDS, joinFPathFull, writeUITMP
 
-cfgIO = MyCFGIO()
+cfgIO = GlobalCFGIO()
+cfg_mode = 0
+cfg_dir = ""
+
+def switchToLocalCFG(_cfg_dir):
+    global cfgIO, cfg_mode, cfg_dir
+    cfg_mode = 1
+    cfg_dir = getAbsPathFDS(_cfg_dir)
+    cfgIO = None
+    cfgIO = LocalCFGIO(cfg_dir)
+    print("Switched to LOCAL mode!")
+
+def switchToGlobalCFG():
+    global cfgIO, cfg_mode
+    cfg_mode = 0
+    cfgIO = None
+    cfgIO = GlobalCFGIO()
+    print("Switched to GLOBAL mode!")
 
 def showMainCFGTemplate():
     print(cfgIO.headers.mainHeader())
@@ -83,9 +102,12 @@ def showReIDersCFG():
     print(cfgIO.loadAllDocuments(cfgIO.mstruct.reider_yaml))
 
 def resetCFG():
-    from pyunpack import Archive
-    Archive(os.path.join(cfgIO.mstruct.cfg_dir, 'cfg.7z')).extractall(cfgIO.mstruct.cfg_dir)
-    print("Reset successfully!")
+    if cfg_mode == 0:
+        from pyunpack import Archive
+        Archive(os.path.join(cfgIO.mstruct.cfg_dir, 'cfg.7z')).extractall(cfgIO.mstruct.cfg_dir)
+        print("Reset successfully!")
+    else:
+        print("Reminder: pyppbox was set to LOCAL mode.")
 
 def setMainCFG(input):
     cfgIO.dumpMainWithHeader(input)
@@ -121,14 +143,39 @@ def setInputVideo(input, force_hd=False):
     showCFCNote()
 
 def launchGUI():
-    programName = os.path.join(cfgIO.mstruct.root_dir, "GUILauncher.cmd")
-    p = sp.Popen([programName])
-    stdout, stderr = p.communicate()
+    uitmp = joinFPathFull(cfgIO.mstruct.global_root_dir, "tmp/ui.tmp")
+    if cfg_mode == 0:
+        writeUITMP(uitmp, cfg_mode, cfg_dir)
+        programName = joinFPathFull(cfgIO.mstruct.global_root_dir, "GUILauncher.cmd")
+        p = sp.Popen([programName])
+        stdout, stderr = p.communicate()
+    else:
+        # Option 0: Use ui.tmp file
+        writeUITMP(uitmp, cfg_mode, cfg_dir)
+        programName = joinFPathFull(cfgIO.mstruct.global_root_dir, "GUILauncher.cmd")
+        p = sp.Popen([programName])
+        stdout, stderr = p.communicate()
+
+        # Option 1: Use Parser with the rewritten cmd file
+        '''
+        command = (
+            "@echo off \n"
+            "setlocal \n"
+            "cd /d %~dp0 \n"
+            "python -W ignore uilauncher.py --cfgmode 1 --cfgdir \"" + cfg_dir + "\" \n"
+            "pause \n"
+            )
+        programName = joinFPathFull(cfgIO.mstruct.global_root_dir, "GUILauncher1.cmd")
+        with open(programName, "w") as guilauncher1_cmd:
+            guilauncher1_cmd.write(cfgIO.headers.copyrightCMDHeader())
+            guilauncher1_cmd.write(command)
+        p = sp.Popen([programName])
+        stdout, stderr = p.communicate()
+        '''
 
 def showCFCNote():
     note = ("Note:\n"
             " * pyppbox does not check and verify your config\n"
-            " * pyppbox can reset all config by using 'pyppbox.resetCFG()'\n"
+            " * pyppbox can reset the global config by using 'pyppbox.resetCFG()'\n"
             " * pyppbox can also be configured through GUI: 'pyppbox.launchGUI()'")
     print(note)
-

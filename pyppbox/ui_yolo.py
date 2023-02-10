@@ -22,14 +22,25 @@ from __future__ import division, print_function, absolute_import
 import os
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from pyppbox.config import MyConfigurator, MyCFGIO
-from pyppbox.utils.mytools import getAbsPathFDS, extendPathFDS, normalizePathFDS, joinFPathFull
+from pyppbox.config import MyConfigurator as MyGlobalCFG
+from pyppbox.config import MyCFGIO as GlobalCFGIO
+from pyppbox.localconfig import MyLocalConfigurator as MyLocalCFG
+from pyppbox.localconfig import MyCFGIO as LocalCFGIO
+from pyppbox.utils.mytools import getAbsPathFDS, normalizePathFDS, getAncestorDir
 
 root_dir = os.path.dirname(__file__)
-cfg_dir = joinFPathFull(root_dir, 'cfg')
 
 
 class Ui_YOLOForm(object):
+
+    def __init__(self, cfg_mode, cfg_dir):
+        self.cfg_dir = cfg_dir
+        if cfg_mode == 0:
+            self.mycfg = MyGlobalCFG()
+            self.cfgIO = GlobalCFGIO()
+        else:
+            self.mycfg = MyLocalCFG(self.cfg_dir)
+            self.cfgIO = LocalCFGIO(self.cfg_dir)
 
     def setupUi(self, YOLOForm):
         YOLOForm.setObjectName("YOLOForm")
@@ -119,7 +130,6 @@ class Ui_YOLOForm(object):
         self.save_pushButton.setDefault(True)
 
         # custom 
-        self.loadCFG()
         self.loadYL()
 
         self.yl_class_file_pushButton.clicked.connect(self.browseClassFile)
@@ -148,12 +158,8 @@ class Ui_YOLOForm(object):
         self.save_pushButton.setText(_translate("YOLOForm", "Save"))
 
 
-    def loadCFG(self):
-        self.mycfg = MyConfigurator()
-        self.mycfg.loadDCFG()
-
-
     def loadYL(self):
+        self.mycfg.loadDCFG()
         self.yl_nms_threshold_lineEdit.setText(str(self.mycfg.dcfg_yolo.nms_threshold))
         self.yl_conf_threshold_lineEdit.setText(str(self.mycfg.dcfg_yolo.conf_threshold))
         self.yl_model_cfg_file_lineEdit.setText(getAbsPathFDS(self.mycfg.dcfg_yolo.model_cfg_file))
@@ -176,13 +182,12 @@ class Ui_YOLOForm(object):
                     "model_resolution_height": int(self.yl_model_res_h_lineEdit.text()),
                     "repspoint_callibration": float(self.yl_repspint_callib_lineEdit.text())}
         gt_doc = self.mycfg.dcfg_gt.getDocument()
-        cfgio = MyCFGIO()
-        cfgio.dumpDetectorsWithHeader([yolo_doc, gt_doc])
+        self.cfgIO.dumpDetectorsWithHeader([yolo_doc, gt_doc])
         YOLOForm.close()
 
 
     def browseClassFile(self):
-        default_path = extendPathFDS(root_dir, 'dt_yolocv')
+        default_path = getAncestorDir(self.mycfg.dcfg_yolo.class_file)
         file_filter = "COCO (*.names)"
         source_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, "COCO class file", default_path, file_filter)
         if source_file:
@@ -190,7 +195,7 @@ class Ui_YOLOForm(object):
 
 
     def browseModelCFG(self):
-        default_path = extendPathFDS(root_dir, 'dt_yolocv')
+        default_path = getAncestorDir(self.mycfg.dcfg_yolo.model_cfg_file)
         cfg_filter = "Configurator (*.cfg)"
         source_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Model configurator file", default_path, cfg_filter)
         if source_file:
@@ -198,7 +203,7 @@ class Ui_YOLOForm(object):
 
 
     def browseModelWeights(self):
-        default_path = extendPathFDS(root_dir, 'dt_yolocv')
+        default_path = getAncestorDir(self.mycfg.dcfg_yolo.model_weights)
         weight_filter = "Weights (*.weights)"
         source_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Model weights file", default_path, weight_filter)
         if source_file:
