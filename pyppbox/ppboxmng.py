@@ -176,6 +176,8 @@ class PManager(object):
     def updateTrackerPPOBL(self, current_ppobl):
         if current_ppobl:
             self.curr_ppobjlist = self.tk.update(self.frame_clean, current_ppobl)
+        else:
+            self.curr_ppobjlist = []
 
 
 
