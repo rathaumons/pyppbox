@@ -42,21 +42,23 @@ class MySort(object):
 
 
     def getUpdatedID(self, box, dets):
+        id = -1000
         box_list = box.tolist()
         det_list = dets.tolist()
         spread_list = []
 
-        for b in det_list:
-            max_spread = -1
-            for i in range(0, 4):
-                sub_spread = abs(box_list[i] - b[i])
-                if sub_spread > max_spread:
-                    max_spread = sub_spread
-            spread_list.append(max_spread)
-        
-        sm_spread = min(spread_list)
-        sm_index = spread_list.index(sm_spread)
-        id = int(det_list[sm_index][4])
+        if len(box_list) > 0 and len(det_list) > 0:
+            for b in det_list:
+                max_spread = -1
+                for i in range(0, 4):
+                    sub_spread = abs(box_list[i] - b[i])
+                    if sub_spread > max_spread:
+                        max_spread = sub_spread
+                spread_list.append(max_spread)
+            
+            sm_spread = min(spread_list)
+            sm_index = spread_list.index(sm_spread)
+            id = int(det_list[sm_index][4])
 
         return id
 
