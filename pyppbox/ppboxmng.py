@@ -64,7 +64,6 @@ class PManager(object):
             self.loadAllEval()
     
     def setLocalConfig(self, local_cfg_dir):
-        # print("local_cfg_dir = " + str(getAbsPathFDS(local_cfg_dir)))
         self.loadLocalCFG(getAbsPathFDS(local_cfg_dir))
         self.setCFG()
         self.loadAllEval()
@@ -121,6 +120,8 @@ class PManager(object):
                 self.cfg.dcfg_gt.gt_file = normalizePathFDS(self.mstruct.global_root_dir, tmp)
                 # Last to load
                 self.eva = MyEval(joinFPathFull(self.mstruct.global_root_dir, self.cfg.dcfg_gt.gt_file))
+            else:
+                self.eva = MyEvalEmpty()
         else:
             print(" - EVA : Disable")
 
