@@ -109,7 +109,7 @@ def main():
 
 
 def get_and_set_info_static():
-    return "1.0b12"
+    return "1.0b13"
 
 
 class EmptyListWithLength(list):

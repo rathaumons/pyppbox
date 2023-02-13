@@ -105,6 +105,8 @@ class PManager(object):
                 self.cfg.dcfg_gt.gt_file = normalizePathFDS(self.mstruct.root_dir, tmp)
                 # Last to load
                 self.eva = MyEval(joinFPathFull(self.mstruct.root_dir, self.cfg.dcfg_gt.gt_file))
+            else:
+                self.eva = MyEvalEmpty()
         else:
             print(" - EVA : Disable")
 

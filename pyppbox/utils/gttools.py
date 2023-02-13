@@ -226,6 +226,21 @@ def countDiff(gt, dt, frame):
     return diff_count, missed_detect, fault_detect
 
 
+class MyEvalEmpty(object):
+    def __init__(self):
+        pass
+    def checkInReID(self):
+        pass
+    def checkFrame(self, pp, id_mode="deepid"):
+        pass
+    def getSummary(self):
+        print("------------------------------------------------------------------------------")
+        print(" - EVA: EVA does not evaluate in \"None/None/None\" or \"DT only\" mode.")
+        print(" - EVA: EVA cannot do real-time EVA for DT+TK (Without RI) mode due to the ")
+        print("        randomized IDs given by the tracker ---> Use the offline EVA tool.")
+        print("------------------------------------------------------------------------------")
+
+
 class MyEval(object):
 
     def __init__(self, gt_file_txt):
@@ -285,7 +300,6 @@ class MyEval(object):
             print(" ")
             print("------------------------------------------------------------------------------")
             return self.gt_loader.total_detections, self.diff_count, self.missed_detect, self.fault_detect, self.reid_count, self.score
-
 
 
 class EvalIO(object):
