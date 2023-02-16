@@ -125,6 +125,15 @@ class PManager(object):
         else:
             print(" - EVA : Disable")
 
+    def setFrame(self, frame):
+        self.frame_clean = frame.copy()
+        self.frame_visual = frame.copy()
+    
+    def setPPObjList(self, current_ppobl):
+        if current_ppobl:
+            self.curr_ppobjlist = current_ppobl
+        else:
+            self.curr_ppobjlist = []
 
 
 
