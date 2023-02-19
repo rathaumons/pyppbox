@@ -1,8 +1,8 @@
 imageio
 imutils
-scikit-image
-scikit-learn
-scipy
+scikit-image==0.19.3
+scikit-learn==1.2.1
+scipy==1.10.0
 pandas
 Pillow
 psutil
@@ -17,7 +17,6 @@ lap
 pyyaml
 PyQt6
 Cython
-tb-nightly
 future
 yacs
 gdown
