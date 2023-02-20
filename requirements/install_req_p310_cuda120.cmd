@@ -19,10 +19,10 @@
 setlocal
 cd /d %~dp0
 python -m pip install --upgrade pip
-pip install "setuptools>=67.2.0"
+pip install --upgrade --force-reinstall setuptools
 pip install "numpy>=1.24.2"
-pip install https://github.com/rathaumons/pyppbox-custpkg/raw/main/py310/opencv_contrib_python-4.7.0+cu120-cp310-cp310-win_amd64.whl
+pip install https://github.com/rathaumons/pyppbox-custpkg/raw/main/py310/cu120/opencv_contrib_python-4.7.0+cu120-cp310-cp310-win_amd64.whl
 pip install -r pippackages.txt
 pip install torch==1.13.1+cu120 torchaudio==0.13.1+cu120 torchvision==0.14.1+cu120 --extra-index-url https://download.pytorch.org/whl/cu120
-pip install https://github.com/rathaumons/pyppbox-custpkg/raw/main/py310/torchreid-1.4.0+pyppbox-cp310-cp310-win_amd64.whl
+pip install https://github.com/rathaumons/pyppbox-custpkg/raw/main/py310/cu120/torchreid-1.4.0-cp310-cp310-win_amd64.whl
 pause

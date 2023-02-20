@@ -21,6 +21,7 @@ from __future__ import division, print_function, absolute_import
 
 import os
 import cv2
+import numpy as np
 
 from collections import Counter
 

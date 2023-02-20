@@ -20,6 +20,5 @@ setlocal
 cd /d %~dp0
 python -m pip install --upgrade pip
 pip install scikit-build
-rem pip wheel . --verbose
-python setup.py bdist_wheel
+pip wheel . --verbose
 pause

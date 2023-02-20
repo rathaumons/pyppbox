@@ -16,7 +16,7 @@ filterpy
 lap
 pyyaml
 PyQt6
-Cython>=0.29.33
+Cython
 future
 yacs
 gdown
