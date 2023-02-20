@@ -55,15 +55,17 @@ pyppbox.launchGUI()
 
 ## 🔗 Citation
 
-* Extension of PoseTReID paper (Pre-printed on ARXIV):
+* Extension of PoseTReID paper ([Pre-printed on ARXIV](https://doi.org/10.48550/arxiv.2205.10086)):
 ```
-@misc{https://doi.org/10.48550/arxiv.2205.10086,
-  doi = {10.48550/ARXIV.2205.10086},
-  url = {https://arxiv.org/abs/2205.10086},
-  author = {Siv, Ratha and Mancas, Matei and Gosselin, Bernard and Valy, Dona and Sreng, Sokchenda},
-  title = {People Tracking and Re-Identifying in Distributed Contexts: Extension of PoseTReID},
-  publisher = {arXiv},
-  year = {2022},
+@INPROCEEDINGS{ptreid9946587,
+  author={Siv, Ratha and Mancas, Matei and Gosselin, Bernard and Valy, Dona and Sreng, Sokchenda},
+  booktitle={2022 9th International Conference on Electrical Engineering, Computer Science and Informatics (EECSI)}, 
+  title={People Tracking and Re-Identifying in Distributed Contexts: Extension Study of PoseTReID}, 
+  year={2022},
+  volume={},
+  number={},
+  pages={337-342},
+  doi={10.23919/EECSI56542.2022.9946587}}
 ```
 
 * Original PoseTReID paper:

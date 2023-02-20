@@ -21,10 +21,8 @@ from __future__ import division, print_function, absolute_import
 
 import os
 import sys
-import yaml
 import webbrowser
 import subprocess as sp
-from yaml.loader import SafeLoader
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from pyppbox.ui_yolo import Ui_YOLOForm
