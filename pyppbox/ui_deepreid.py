@@ -26,7 +26,7 @@ from pyppbox.config import MyConfigurator as MyGlobalCFG
 from pyppbox.config import MyCFGIO as GlobalCFGIO
 from pyppbox.localconfig import MyLocalConfigurator as MyLocalCFG
 from pyppbox.localconfig import MyCFGIO as LocalCFGIO
-from pyppbox.utils.mytools import getAbsPathFDS, extendPathFDS, normalizePathFDS, getFileName, getAncestorDir, joinFPathFull
+from pyppbox.utils.mytools import getAbsPathFDS, normalizePathFDS, getFileName, getAncestorDir, joinFPathFull
 from pyppbox.utils.deepreid_model_dict import ModelDictionary
 
 root_dir = os.path.dirname(__file__)
