@@ -20,7 +20,7 @@
 # classifier_pkl: ri_deepreid/classifier/gta5_mlfn.pkl
 # train_data: ri_deepreid/data
 # model_name: mlfn
-# model_path: ri_deepreid/pretrained/torchreid/mlfn-9cb5a267.pth.tar
+# model_path: ri_deepreid/pretrained/base/mlfn-9cb5a267.pth.tar
 # min_confidence: 0.35
 ###########################################################
 ri_name: Facenet
@@ -40,5 +40,5 @@ classes_txt: ri_deepreid/classifier/gta5.txt
 classifier_pkl: ri_deepreid/classifier/gta5_mlfn.pkl
 train_data: ri_deepreid/data
 model_name: mlfn
-model_path: ri_deepreid/pretrained/torchreid/mlfn-9cb5a267.pth.tar
+model_path: ri_deepreid/pretrained/base/mlfn-9cb5a267.pth.tar
 min_confidence: 0.35
