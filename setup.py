@@ -26,20 +26,20 @@ def main():
 
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-    package_version = get_and_set_info_static()
-
     package_name = "pyppbox"
-
+    package_version = get_version_info()
     long_description = "Pure Python toolbox for people detecting, tracking, and re-identifying... "
 
-    packages = ["pyppbox", "pyppbox.cfg", "pyppbox.dt_yolocv", "pyppbox.gui", "pyppbox.ri_deepreid", 
-                "pyppbox.ri_deepreid.classifier", "pyppbox.ri_deepreid.classifier.gta5p5", 
-                "pyppbox.ri_deepreid.data", "pyppbox.ri_deepreid.pretrained", "pyppbox.ri_deepreid.pretrained.base", 
-                "pyppbox.ri_deepreid.pretrained.torchreid", "pyppbox.ri_facenet", "pyppbox.ri_facenet.classifier", 
-                "pyppbox.ri_facenet.classifier.gta5p5", "pyppbox.ri_facenet.data", "pyppbox.ri_facenet.models", 
-                "pyppbox.ri_facenet.models.20180402-114759", "pyppbox.ri_facenet.models.det", "pyppbox.tk_centroid", 
-                "pyppbox.tk_deepsort", "pyppbox.tk_sort", "pyppbox.tmp", "pyppbox.tmp.demo", "pyppbox.tmp.gt", 
-                "pyppbox.tmp.res", "pyppbox.utils"]
+    packages = [
+        "pyppbox", "pyppbox.cfg", "pyppbox.dt_yolocv", "pyppbox.gui", "pyppbox.ri_deepreid", 
+        "pyppbox.ri_deepreid.classifier", "pyppbox.ri_deepreid.classifier.gta5p5", 
+        "pyppbox.ri_deepreid.data", "pyppbox.ri_deepreid.pretrained", "pyppbox.ri_deepreid.pretrained.base", 
+        "pyppbox.ri_deepreid.pretrained.torchreid", "pyppbox.ri_facenet", "pyppbox.ri_facenet.classifier", 
+        "pyppbox.ri_facenet.classifier.gta5p5", "pyppbox.ri_facenet.data", "pyppbox.ri_facenet.models", 
+        "pyppbox.ri_facenet.models.20180402-114759", "pyppbox.ri_facenet.models.det", "pyppbox.tk_centroid", 
+        "pyppbox.tk_deepsort", "pyppbox.tk_sort", "pyppbox.tmp", "pyppbox.tmp.demo", "pyppbox.tmp.gt", 
+        "pyppbox.tmp.res", "pyppbox.utils"
+    ]
 
 
     package_data = {
@@ -108,9 +108,11 @@ def main():
     )
 
 
-def get_and_set_info_static():
-    return "1.1b3"
-
+def get_version_info():
+    version_py = "pyppbox/__init__.py"
+    with open(version_py) as version_file:
+        exec(compile(version_file.read(), version_py, 'exec'))
+    return locals()['__version__']
 
 class EmptyListWithLength(list):
     def __len__(self):

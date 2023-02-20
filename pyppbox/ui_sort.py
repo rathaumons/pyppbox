@@ -26,7 +26,6 @@ from pyppbox.config import MyConfigurator as MyGlobalCFG
 from pyppbox.config import MyCFGIO as GlobalCFGIO
 from pyppbox.localconfig import MyLocalConfigurator as MyLocalCFG
 from pyppbox.localconfig import MyCFGIO as LocalCFGIO
-from pyppbox.utils.mytools import replaceLine, joinFPathFull
 
 root_dir = os.path.dirname(__file__)
 

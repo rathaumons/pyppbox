@@ -381,7 +381,7 @@ class MyCFGHeaderNote(object):
                 "# classifier_pkl: ri_deepreid/classifier/gta5_mlfn.pkl\n"
                 "# train_data: ri_deepreid/data\n"
                 "# model_name: mlfn\n"
-                "# model_path: ri_deepreid/pretrained/torchreid/mlfn-9cb5a267.pth.tar\n"
+                "# model_path: ri_deepreid/pretrained/base/mlfn-9cb5a267.pth.tar\n"
                 "# min_confidence: 0.35\n"
                 "###########################################################\n")
         return header
