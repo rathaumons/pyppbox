@@ -23,6 +23,6 @@ pip install "setuptools>=67.2.0"
 pip install "numpy>=1.24.2"
 pip install https://github.com/rathaumons/pyppbox-custpkg/raw/main/py39/opencv_contrib_python-4.7.0+cu117-cp39-cp39-win_amd64.whl
 pip install -r pippackages.txt
-pip install torch==1.13.1+cu117 torchaudio==0.13.1+cu117 torchvision==0.14.1+cu117 --extra-index-url https://download.pytorch.org/whl/cu117
+pip install torch==2.0.0+cu117 torchaudio==2.0.1+cu117 torchvision==0.15.1+cu117 --extra-index-url https://download.pytorch.org/whl/cu117
 pip install https://github.com/rathaumons/pyppbox-custpkg/raw/main/py39/torchreid-1.4.0+pyppbox-cp39-cp39-win_amd64.whl
 pause

@@ -21,7 +21,7 @@ from __future__ import division, print_function, absolute_import
 
 # Info
 
-__version__ = '1.2b2'
+__version__ = '1.2b3'
 __author__ = 'Ratha SIV (rathaROG)'
 __homepage__ = 'https://github.com/rathaumons'
 __description__ = 'Python toolbox for people tracking system'
