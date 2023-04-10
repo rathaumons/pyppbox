@@ -10,7 +10,7 @@ tqdm
 tables
 h5py
 matplotlib
-tensorflow
+tensorflow>=2.10,<2.11
 shapely
 filterpy
 lap
