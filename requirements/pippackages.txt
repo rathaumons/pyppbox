@@ -13,7 +13,7 @@ matplotlib
 tensorflow>=2.10,<2.11
 shapely
 filterpy
-lap
+lap05
 pyyaml
 PyQt6
 Cython>=0.29.33
