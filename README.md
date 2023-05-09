@@ -1,8 +1,5 @@
 # Welcome to [**`pyppbox`**](https://github.com/rathaumons/pyppbox) !
 
-This repo was reinitiated from version 1.0b9. The complete history is available here [33da563](https://github.com/rathaumons/pyppbox/tree/33da56302d27204931337b44d9a6a5adc1eb5257).
-***
-
 ## 🐍📦 [**`pyppbox`**](https://github.com/rathaumons/pyppbox) = Python + People + Toolbox 
 
 * Yes, **`pyppbox`** is an open-source Python toolbox which was originally made for the PoseTReID framework. 
@@ -12,11 +9,10 @@ This repo was reinitiated from version 1.0b9. The complete history is available 
 
 <!--- ![alt text](https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_launchGUI.png) --->
 
-## ⚠️ IMPORTANT NOTICES (November 11, 2022)
+## ⚠️ IMPORTANT NOTICES (May 9, 2023) - LEGRACY - DISCONTINUED
 
-* Add GPLv3+ license
-* [`OpenPose`](https://github.com/CMU-Perceptual-Computing-Lab/openpose) submodule is completely removed due to [the complicated license of OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE) ~~and it will be replaced by [MMPose](https://github.com/open-mmlab/mmpose) in the future versions. Stay tune for this amazing update!~~ 🆕 **Maybe the [official YOLOv7](https://github.com/WongKinYiu/yolov7) instead!** 🆕
-* Please refer to [this repo `pyppbox-paper`](https://github.com/rathaumons/pyppbox-paper) for those who need `OpenPose` or need to reproduce the results in the paper.
+* **This `legacy` branch has limitted features and is discontinued -> Check the [`main`](https://github.com/rathaumons/pyppbox/tree/main) branch instead!**
+* [`OpenPose`](https://github.com/CMU-Perceptual-Computing-Lab/openpose) submodule was removed due to [its complicated license](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE) -> Check this repo [`pyppbox-paper`](https://github.com/rathaumons/pyppbox-paper) if you need `OpenPose` or need to reproduce the results in the paper.
 
 ## ⚽ Comparison Results
 
