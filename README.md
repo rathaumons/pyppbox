@@ -11,7 +11,7 @@
 
 ## ⚠️ IMPORTANT NOTICES (May 9, 2023) - LEGRACY - DISCONTINUED
 
-* **This `legacy` branch has limitted features and is discontinued -> Check the [`main`](https://github.com/rathaumons/pyppbox/tree/main) branch instead!**
+* **This `legacy` branch has limited features and is discontinued -> Check the [`main`](https://github.com/rathaumons/pyppbox/tree/main) branch instead!**
 * [`OpenPose`](https://github.com/CMU-Perceptual-Computing-Lab/openpose) submodule was removed due to [its complicated license](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE) -> Check this repo [`pyppbox-paper`](https://github.com/rathaumons/pyppbox-paper) if you need `OpenPose` or need to reproduce the results in the paper.
 
 ## ⚽ Comparison Results
