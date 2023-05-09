@@ -1,4 +1,4 @@
-## Release Notes 
+## Old Release Notes 
 
 * pyppbox [v1.1b5](https://github.com/rathaumons/pyppbox/tree/v1.1b5) - [9f119f8](https://github.com/rathaumons/pyppbox/commit/9f119f8b31ff49fef13f44619655a35afbc2c27b)
   - Add support for **CUDA 11.8** -  Ready for RTX 4000 series :)
@@ -29,3 +29,4 @@
   - Check the **LOCAL** [`cfg`](examples/cfg) and [`example_local_cfg.py`](examples/example_local_cfg.py) as an example.
   - Check pull https://github.com/rathaumons/pyppbox/pull/4 for more details.
 
+* This repo was reinitiated from version 1.0b9 where the complete history is available here [33da563](https://github.com/rathaumons/pyppbox/tree/33da56302d27204931337b44d9a6a5adc1eb5257).
