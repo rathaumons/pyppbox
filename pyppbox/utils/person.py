@@ -21,14 +21,15 @@ from __future__ import division, print_function, absolute_import
 
 class Person(object):
 
-    def __init__(self, init_id, cid, faceid, deepid, repspoint, bbox=[], bbox_tlbr=[]):
+    def __init__(self, init_id, cid, faceid, deepid, repspoint, box_xywh=[], box_xyxy=[], keypoints=[]):
         self.init_id = init_id
         self.cid = cid
         self.faceid = faceid
         self.deepid = deepid
         self.repspoint = repspoint
-        self.bbox = bbox
-        self.bbox_tlbr = bbox_tlbr
+        self.box_xywh = box_xywh
+        self.box_xyxy = box_xyxy
+        self.keypoints = keypoints
         self.ontracked = 0
 
     def updateCid(self, new_cid):
@@ -43,25 +44,29 @@ class Person(object):
     def updateRepspoint(self, new_repspoint):
         self.repspoint = new_repspoint
 
-    def updateBbox(self, new_bbox):
-        self.bbox = new_bbox
+    def updateKeypoints(self, new_keypoints):
+        self.keypoints = new_keypoints
 
-    def updateBboxTlbr(self, new_bbox_tlbr):
-        self.bbox_tlbr = new_bbox_tlbr
+    def updateBoxXYWH(self, new_box_xywh):
+        self.box_xywh = new_box_xywh
+
+    def updateBoxXYXY(self, new_box_xyxy):
+        self.box_xyxy = new_box_xyxy
 
     def updateOnTracked(self, nframe):
-        self.bbox = self.bbox + nframe
+        self.ontracked = self.ontracked + nframe
 
     def incrementOnTracked(self):
-        self.bbox += 1
+        self.ontracked += 1
 
-    def updateDetails(self, new_id, new_faceid, new_deepid, new_repspoint, new_bbox, new_bbox_tlbr):
+    def updateDetails(self, new_id, new_faceid, new_deepid, new_repspoint, new_box_xywh, new_box_xyxy, new_keypoints):
         self.cid = new_id
         self.faceid = new_faceid
         self.deepid = new_deepid
         self.repspoint = new_repspoint
-        self.bbox = new_bbox
-        self.bbox_tlbr = new_bbox_tlbr
+        self.box_xywh = new_box_xywh
+        self.box_xyxy = new_box_xyxy
+        self.keypoints = new_keypoints
 
     def updateIDs(self, new_id, new_faceid, new_deepid):
         self.cid = new_id
@@ -83,12 +88,15 @@ class Person(object):
     def getRepspoint(self):
         return self.repspoint
 
-    def getBbox(self):
-        return self.bbox
+    def getKeypoint(self):
+        return self.keypoints
 
-    def getBboxTlbr(self):
-        return self.bbox_tlbr
+    def getBoxXYWH(self):
+        return self.box_xywh
+
+    def getBoxXYXY(self):
+        return self.box_xyxy
 
     def getDetails(self):
-        return self.init_id, self.cid, self.faceid, self.deepid, self.repspoint, self.bbox, self.bbox_tlbr
+        return self.init_id, self.cid, self.faceid, self.deepid, self.repspoint, self.box_xywh, self.box_xyxy, self.keypoints
 

@@ -19,7 +19,7 @@
 
 import os
 import os.path
-import skbuild
+from setuptools import setup
 
 
 def main():
@@ -28,35 +28,33 @@ def main():
 
     package_name = "pyppbox"
     package_version = get_version_info()
-    long_description = "Pure Python toolbox for people detecting, tracking, and re-identifying... "
+    long_description = "Pure Python toolbox for people detecting, tracking, and re-identifying..."
 
     packages = [
-        "pyppbox", "pyppbox.cfg", "pyppbox.dt_yolocv", "pyppbox.gui", "pyppbox.ri_deepreid", 
-        "pyppbox.ri_deepreid.classifier", "pyppbox.ri_deepreid.classifier.gta5p5", 
-        "pyppbox.ri_deepreid.data", "pyppbox.ri_deepreid.pretrained", "pyppbox.ri_deepreid.pretrained.base", 
-        "pyppbox.ri_deepreid.pretrained.torchreid", "pyppbox.ri_facenet", "pyppbox.ri_facenet.classifier", 
-        "pyppbox.ri_facenet.classifier.gta5p5", "pyppbox.ri_facenet.data", "pyppbox.ri_facenet.models", 
-        "pyppbox.ri_facenet.models.20180402-114759", "pyppbox.ri_facenet.models.det", "pyppbox.tk_centroid", 
-        "pyppbox.tk_deepsort", "pyppbox.tk_sort", "pyppbox.tmp", "pyppbox.tmp.demo", "pyppbox.tmp.gt", 
-        "pyppbox.tmp.res", "pyppbox.utils"
+        "pyppbox", "pyppbox.cfg", "pyppbox.dt_yolocv", "pyppbox.dt_yolopt", "pyppbox.gui", 
+        "pyppbox.ri_deepreid", "pyppbox.ri_deepreid.classifier", "pyppbox.ri_deepreid.data", 
+        "pyppbox.ri_deepreid.pretrained", "pyppbox.ri_deepreid.pretrained.base", 
+        "pyppbox.ri_deepreid.pretrained.torchreid", "pyppbox.ri_facenet", 
+        "pyppbox.ri_facenet.classifier", "pyppbox.ri_facenet.data", "pyppbox.ri_facenet.models", 
+        "pyppbox.ri_facenet.models.20180402-114759", "pyppbox.ri_facenet.models.det", 
+        "pyppbox.tk_centroid", "pyppbox.tk_deepsort", "pyppbox.tk_sort", "pyppbox.tmp", 
+        "pyppbox.tmp.demo", "pyppbox.tmp.gt", "pyppbox.tmp.res", "pyppbox.utils"
     ]
-
 
     package_data = {
         "pyppbox": ["*"], 
         "pyppbox.cfg": ["*"], 
         "pyppbox.dt_yolocv": ["*"], 
+        "pyppbox.dt_yolopt": ["*"], 
         "pyppbox.gui": ["*"], 
         "pyppbox.ri_deepreid": ["*"], 
         "pyppbox.ri_deepreid.classifier": ["*"], 
-        "pyppbox.ri_deepreid.classifier.gta5p5": ["*"], 
         "pyppbox.ri_deepreid.data": ["*"], 
         "pyppbox.ri_deepreid.pretrained": ["*"], 
         "pyppbox.ri_deepreid.pretrained.base": ["*"], 
         "pyppbox.ri_deepreid.pretrained.torchreid": ["*"], 
         "pyppbox.ri_facenet": ["*"], 
         "pyppbox.ri_facenet.classifier": ["*"], 
-        "pyppbox.ri_facenet.classifier.gta5p5": ["*"], 
         "pyppbox.ri_facenet.data": ["*"], 
         "pyppbox.ri_facenet.models": ["*"], 
         "pyppbox.ri_facenet.models.20180402-114759": ["*"], 
@@ -68,10 +66,10 @@ def main():
         "pyppbox.tmp.demo": ["*"], 
         "pyppbox.tmp.gt": ["*"], 
         "pyppbox.tmp.res": ["*"], 
-        "pyppbox.utils": ["*"], 
+        "pyppbox.utils": ["*"]
     }
 
-    skbuild.setup(
+    setup(
         name=package_name,
         version=package_version,
         url="https://github.com/rathaumons/pyppbox",
@@ -82,7 +80,6 @@ def main():
         packages=packages,
         package_data=package_data,
         maintainer="rathaROG",
-        ext_modules=EmptyListWithLength(),
         install_requires=None,
         python_requires=">=3.9",
         classifiers=[
@@ -114,10 +111,12 @@ def get_version_info():
         exec(compile(version_file.read(), version_py, 'exec'))
     return locals()['__version__']
 
-class EmptyListWithLength(list):
-    def __len__(self):
-        return 1
+def force_tags(force=True):
+    if force:
+        import sys
+        sys.argv.extend(['--plat-name', 'win_amd64'])
 
 
 if __name__ == "__main__":
+    force_tags()
     main()

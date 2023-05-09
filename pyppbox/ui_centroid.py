@@ -89,8 +89,10 @@ class Ui_CentroidForm(object):
 
 
     def updateCFG(self, CentroidForm):
-        centroid_doc = {"tk_name": "Centroid",
-                        "max_distance": int(self.ct_max_distance_lineEdit.text())}
+        centroid_doc = {
+            "tk_name": "Centroid",
+            "max_distance": int(self.ct_max_distance_lineEdit.text())
+        }
         sort_doc = self.mycfg.tcfg_sort.getDocument()
         deepsort_doc = self.mycfg.tcfg_deepsort.getDocument()
         self.cfgIO.dumpTrackersWithHeader([centroid_doc, sort_doc, deepsort_doc])

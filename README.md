@@ -1,8 +1,5 @@
 # Welcome to [**`pyppbox`**](https://github.com/rathaumons/pyppbox) !
 
-This repo was reinitiated from version 1.0b9. The complete history is available here [33da563](https://github.com/rathaumons/pyppbox/tree/33da56302d27204931337b44d9a6a5adc1eb5257).
-***
-
 ## 🐍📦 [**`pyppbox`**](https://github.com/rathaumons/pyppbox) = Python + People + Toolbox 
 
 * Yes, **`pyppbox`** is an open-source Python toolbox which was originally made for the PoseTReID framework. 
@@ -10,33 +7,30 @@ This repo was reinitiated from version 1.0b9. The complete history is available 
 * **`pyppbox`** also supports real-time online and offline evaluation on [PoseTReID datasets](https://github.com/rathaumons/PoseTReID_DATASET).
 * The initial version of **`pyppbox`** is also intergrated with GUI for easy demo and config. 
 
-<!--- ![alt text](https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_launchGUI.png) --->
-
-## ⚠️ IMPORTANT NOTICES (Febuary 10, 2023)
-
-* 🆕 Introduce **GLOBAL** & **LOCAL** `cfg` for multi-threading application -> Check [`examples`](examples) page for more details.
-* Add GPLv3+ license
-* [`OpenPose`](https://github.com/CMU-Perceptual-Computing-Lab/openpose) submodule is completely removed due to [the complicated license of OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE) ~~and it will be replaced by [MMPose](https://github.com/open-mmlab/mmpose) in the future versions. Stay tune for this amazing update!~~ 🆕 **Maybe the [official YOLOv7](https://github.com/WongKinYiu/yolov7) instead!** 🆕
-* Please refer to [this repo `pyppbox-paper`](https://github.com/rathaumons/pyppbox-paper) for those who need `OpenPose` or need to reproduce the results in the paper.
+## ⚠️ IMPORTANT NOTICES FOR VERSION 2 (May 15, 2023)
+* 🆕 **Integrate the [Ultralytics YOLOv8](https://github.com/rathaumons/ultralytics-for-pyppbox) in `pyppbox`!**
+* **Check more important releases/commits here [RELEASENOTES.md](RELEASENOTES.md).**
 
 ## ⚽ Comparison Results
 
 * Comparisions on [PoseTReID datasets](https://github.com/rathaumons/PoseTReID_DATASET) (Check our pre-printed paper: http://arxiv.org/abs/2205.10086)
 * [Click here for raw results in the paper](https://drive.google.com/open?id=13pVqKKd0mtoAaVQh1USxOwZwxg4HmzyQ)
-
-<img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_res001n.png">
+  <details><summary>Click to expand</summary>
+  <img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_res001n.png">
+  </details>
 
 ## ⚙️ Requirements
 
-* Please check the [README.md](requirements/README.md) in [requirements](requirements) (Can be installed later).
+* You must install all requirements before you are able to build.
+* Please check the [README.md](requirements/README.md) in [requirements](requirements).
 
 ## 🚀 Setup `pyppbox`
 
-### Option 1: Use the [prebuilt WHL file here](https://drive.google.com/open?id=1LY5WNsSoEMwxYjET26yry4AQMHiPDaM0) 
+### Option 1: Use the [prebuilt WHL (Lite) for V2 here](https://drive.google.com/open?id=1TsxFA_d6TqzM-rXNkLi0IxCCezVzJf4y) 
 * `pip install pyppbox-xxx.whl`
 
 ### Option 2: Build your own `pyppbox`
-* Download [the extra models & weights](https://drive.google.com/open?id=1EQzkwZ8aCpZqGrgxEo6PD_8hPhHlcaqz) and extract to the root [`pyppbox`](https://github.com/rathaumons/pyppbox/)
+* Download the extra models & weights [Lite for V2](https://drive.google.com/open?id=1tL6w-RfF_NlIWNlSmuzD0VhEQA9M9h11) or [Full for V2](https://drive.google.com/open?id=11Tm7dMafajtpNzQUa-jWcK_CkHPSDxWf) and extract to the root [`pyppbox`](https://github.com/rathaumons/pyppbox/)
 * Create WHL by running `creat_whl.cmd`
 * Install newly created WHL `pip install pyppbox-xxx.whl`
 

@@ -26,6 +26,7 @@ import subprocess as sp
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from pyppbox.ui_yolo import Ui_YOLOForm
+from pyppbox.ui_yoloutlt import Ui_YOLOUTLTForm
 from pyppbox.ui_gt import Ui_GTForm
 from pyppbox.ui_centroid import Ui_CentroidForm
 from pyppbox.ui_sort import Ui_SORTForm
@@ -80,6 +81,7 @@ class Ui_PYPPBOXLauncher(object):
         font.setBold(True)
         self.detector_comboBox.setFont(font)
         self.detector_comboBox.setObjectName("detector_comboBox")
+        self.detector_comboBox.addItem("")
         self.detector_comboBox.addItem("")
         self.detector_comboBox.addItem("")
         self.detector_comboBox.addItem("")
@@ -252,7 +254,8 @@ class Ui_PYPPBOXLauncher(object):
         self.launch_pushButton.setText(_translate("PYPPBOXLauncher", "LAUNCH"))
         self.detector_comboBox.setItemText(0, _translate("PYPPBOXLauncher", "None"))
         self.detector_comboBox.setItemText(1, _translate("PYPPBOXLauncher", "YOLO"))
-        self.detector_comboBox.setItemText(2, _translate("PYPPBOXLauncher", "GT"))
+        self.detector_comboBox.setItemText(2, _translate("PYPPBOXLauncher", "YOLO_Ultralytics"))
+        self.detector_comboBox.setItemText(3, _translate("PYPPBOXLauncher", "GT"))
         self.detector_label.setText(_translate("PYPPBOXLauncher", "Detector"))
         self.browse_input_pushButton.setText(_translate("PYPPBOXLauncher", "Browse"))
         self.tracker_label.setText(_translate("PYPPBOXLauncher", "Tracker"))
@@ -303,8 +306,10 @@ class Ui_PYPPBOXLauncher(object):
             self.detector_comboBox.setCurrentIndex(0)
         elif self.mycfg.mcfg.detector.lower() == "yolo":
             self.detector_comboBox.setCurrentIndex(1)
-        elif self.mycfg.mcfg.detector.lower() == "gt":
+        elif self.mycfg.mcfg.detector.lower() == "yolo_ultralytics":
             self.detector_comboBox.setCurrentIndex(2)
+        elif self.mycfg.mcfg.detector.lower() == "gt":
+            self.detector_comboBox.setCurrentIndex(3)
         
         if self.mycfg.mcfg.tracker.lower() == "none":
             self.tracker_comboBox.setCurrentIndex(0)
@@ -358,6 +363,8 @@ class Ui_PYPPBOXLauncher(object):
 
         if detector.lower() == "yolo":
             detector = "YOLO"
+        elif detector.lower() == "yolo_ultralytics":
+            detector = "YOLO_Ultralytics"
         elif detector.lower() == "gt":
             detector = "GT"
         else:
@@ -379,11 +386,13 @@ class Ui_PYPPBOXLauncher(object):
         else:
             reider = "None"
 
-        main_data = {'detector': detector, 
-                     'tracker': tracker, 
-                     'reider': reider, 
-                     'input_video': normalizePathFDS(root_dir, input), 
-                     'force_hd': getBool(force_hd)}
+        main_data = {
+            'detector': detector, 
+            'tracker': tracker, 
+            'reider': reider, 
+            'input_video': normalizePathFDS(root_dir, input), 
+            'force_hd': getBool(force_hd)
+        }
                     
         self.cfgIO.dumpMainWithHeader(main_data)
 
@@ -393,6 +402,10 @@ class Ui_PYPPBOXLauncher(object):
         tmp_QDialog.setWindowIcon(QtGui.QIcon(joinFPathFull(root_dir, "gui/settings.ico")))
         if self.detector_comboBox.currentText().lower() == "yolo":
             ui = Ui_YOLOForm(self.cfg_mode, self.cfg_dir)
+            ui.setupUi(tmp_QDialog)
+            tmp_QDialog.exec()
+        elif self.detector_comboBox.currentText().lower() == "yolo_ultralytics":
+            ui = Ui_YOLOUTLTForm(self.cfg_mode, self.cfg_dir)
             ui.setupUi(tmp_QDialog)
             tmp_QDialog.exec()
         elif self.detector_comboBox.currentText().lower() == "gt":

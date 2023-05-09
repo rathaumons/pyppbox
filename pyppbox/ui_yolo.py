@@ -123,23 +123,18 @@ class Ui_YOLOForm(object):
         self.yl_model_res_w_lineEdit = QtWidgets.QLineEdit(YOLOForm)
         self.yl_model_res_w_lineEdit.setGeometry(QtCore.QRect(110, 160, 241, 21))
         self.yl_model_res_w_lineEdit.setObjectName("yl_model_res_w_lineEdit")
-
         font = QtGui.QFont()
         font.setPointSize(12)
         self.save_pushButton.setFont(font)
         self.save_pushButton.setDefault(True)
-
         # custom 
         self.loadYL()
-
         self.yl_class_file_pushButton.clicked.connect(self.browseClassFile)
         self.yl_model_cfg_file_pushButton.clicked.connect(self.browseModelCFG)
         self.yl_model_weights_pushButton.clicked.connect(self.browseModelWeights)
         self.save_pushButton.clicked.connect(lambda: self.updateCFG(YOLOForm))
-
         self.retranslateUi(YOLOForm)
         QtCore.QMetaObject.connectSlotsByName(YOLOForm)
-
 
     def retranslateUi(self, YOLOForm):
         _translate = QtCore.QCoreApplication.translate
@@ -157,53 +152,51 @@ class Ui_YOLOForm(object):
         self.yl_model_weights_label.setText(_translate("YOLOForm", "model_weights"))
         self.save_pushButton.setText(_translate("YOLOForm", "Save"))
 
-
     def loadYL(self):
         self.mycfg.loadDCFG()
-        self.yl_nms_threshold_lineEdit.setText(str(self.mycfg.dcfg_yolo.nms_threshold))
-        self.yl_conf_threshold_lineEdit.setText(str(self.mycfg.dcfg_yolo.conf_threshold))
-        self.yl_model_cfg_file_lineEdit.setText(getAbsPathFDS(self.mycfg.dcfg_yolo.model_cfg_file))
-        self.yl_class_file_lineEdit.setText(getAbsPathFDS(self.mycfg.dcfg_yolo.class_file))
-        self.yl_model_weights_lineEdit.setText(getAbsPathFDS(self.mycfg.dcfg_yolo.model_weights))
-        (res_w, res_h) = self.mycfg.dcfg_yolo.model_resolution
+        self.yl_nms_threshold_lineEdit.setText(str(self.mycfg.dcfg_yolocv.nms_threshold))
+        self.yl_conf_threshold_lineEdit.setText(str(self.mycfg.dcfg_yolocv.conf_threshold))
+        self.yl_model_cfg_file_lineEdit.setText(getAbsPathFDS(self.mycfg.dcfg_yolocv.model_cfg_file))
+        self.yl_class_file_lineEdit.setText(getAbsPathFDS(self.mycfg.dcfg_yolocv.class_file))
+        self.yl_model_weights_lineEdit.setText(getAbsPathFDS(self.mycfg.dcfg_yolocv.model_weights))
+        (res_w, res_h) = self.mycfg.dcfg_yolocv.model_resolution
         self.yl_model_res_h_lineEdit.setText(str(res_h))
         self.yl_model_res_w_lineEdit.setText(str(res_w))
-        self.yl_repspint_callib_lineEdit.setText(str(self.mycfg.dcfg_yolo.repspoint_callibration))
-
+        self.yl_repspint_callib_lineEdit.setText(str(self.mycfg.dcfg_yolocv.repspoint_callibration))
 
     def updateCFG(self, YOLOForm):
-        yolo_doc = {"dt_name": "YOLO",
-                    "nms_threshold": float(self.yl_nms_threshold_lineEdit.text()),
-                    "conf_threshold": float(self.yl_conf_threshold_lineEdit.text()),
-                    "class_file": normalizePathFDS(root_dir, self.yl_class_file_lineEdit.text()),
-                    "model_cfg_file": normalizePathFDS(root_dir, self.yl_model_cfg_file_lineEdit.text()),
-                    "model_weights": normalizePathFDS(root_dir, self.yl_model_weights_lineEdit.text()),
-                    "model_resolution_width": int(self.yl_model_res_w_lineEdit.text()),
-                    "model_resolution_height": int(self.yl_model_res_h_lineEdit.text()),
-                    "repspoint_callibration": float(self.yl_repspint_callib_lineEdit.text())}
+        yolo_doc = {
+            "dt_name": "YOLO",
+            "nms_threshold": float(self.yl_nms_threshold_lineEdit.text()),
+            "conf_threshold": float(self.yl_conf_threshold_lineEdit.text()),
+            "class_file": normalizePathFDS(root_dir, self.yl_class_file_lineEdit.text()),
+            "model_cfg_file": normalizePathFDS(root_dir, self.yl_model_cfg_file_lineEdit.text()),
+            "model_weights": normalizePathFDS(root_dir, self.yl_model_weights_lineEdit.text()),
+            "model_resolution_width": int(self.yl_model_res_w_lineEdit.text()),
+            "model_resolution_height": int(self.yl_model_res_h_lineEdit.text()),
+            "repspoint_callibration": float(self.yl_repspint_callib_lineEdit.text())
+        }
+        yolo_utlt_doc = self.mycfg.dcfg_yolopt.getDocument()
         gt_doc = self.mycfg.dcfg_gt.getDocument()
-        self.cfgIO.dumpDetectorsWithHeader([yolo_doc, gt_doc])
+        self.cfgIO.dumpDetectorsWithHeader([yolo_doc, yolo_utlt_doc, gt_doc])
         YOLOForm.close()
 
-
     def browseClassFile(self):
-        default_path = getAncestorDir(self.mycfg.dcfg_yolo.class_file)
+        default_path = getAncestorDir(self.mycfg.dcfg_yolocv.class_file)
         file_filter = "COCO (*.names)"
         source_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, "COCO class file", default_path, file_filter)
         if source_file:
             self.yl_class_file_lineEdit.setText(source_file)
 
-
     def browseModelCFG(self):
-        default_path = getAncestorDir(self.mycfg.dcfg_yolo.model_cfg_file)
+        default_path = getAncestorDir(self.mycfg.dcfg_yolocv.model_cfg_file)
         cfg_filter = "Configurator (*.cfg)"
         source_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Model configurator file", default_path, cfg_filter)
         if source_file:
             self.yl_model_cfg_file_lineEdit.setText(source_file)
 
-
     def browseModelWeights(self):
-        default_path = getAncestorDir(self.mycfg.dcfg_yolo.model_weights)
+        default_path = getAncestorDir(self.mycfg.dcfg_yolocv.model_weights)
         weight_filter = "Weights (*.weights)"
         source_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Model weights file", default_path, weight_filter)
         if source_file:

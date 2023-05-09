@@ -17,9 +17,6 @@
 """
 
 
-import cv2
-print("OpenCV = " + str(cv2.__version__))
-import pyppbox_torchreid
-print("Torchreid = " + str(pyppbox_torchreid.__version__))
-import ultralytics
-print("Ultralytics = " + str(ultralytics.__version__))
+from __future__ import print_function, absolute_import
+
+from .myyolopt import *

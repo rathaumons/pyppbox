@@ -21,7 +21,7 @@ from __future__ import division, print_function, absolute_import
 
 # Info
 
-__version__ = '1.2b3'
+__version__ = '2.0b1'
 __author__ = 'Ratha SIV (rathaROG)'
 __homepage__ = 'https://github.com/rathaumons'
 __description__ = 'Python toolbox for people tracking system'
@@ -32,6 +32,7 @@ __url__ = 'https://github.com/rathaumons/pyppbox.git'
 
 from pyppbox import utils
 from pyppbox import dt_yolocv
+from pyppbox import dt_yolopt
 from pyppbox import tk_centroid
 from pyppbox import tk_sort
 from pyppbox import tk_deepsort
@@ -133,11 +134,13 @@ def setInputVideo(input, force_hd=False):
     from pyppbox.config import MainCFG
     mainCFG = MainCFG()
     mainCFG.set(cfgIO.loadDocument(cfgIO.mstruct.main_yaml))
-    new_data = {'detector': mainCFG.detector, 
-                'tracker': mainCFG.tracker, 
-                'reider': mainCFG.reider, 
-                'input_video': os.path.abspath(input).replace(os.sep, '/'), 
-                'force_hd': force_hd}
+    new_data = {
+        'detector': mainCFG.detector, 
+        'tracker': mainCFG.tracker, 
+        'reider': mainCFG.reider, 
+        'input_video': os.path.abspath(input).replace(os.sep, '/'), 
+        'force_hd': force_hd
+    }
     cfgIO.dumpMainWithHeader(new_data)
     print("Saved successfully!")
     showCFCNote()

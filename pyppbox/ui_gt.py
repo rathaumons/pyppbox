@@ -107,7 +107,8 @@ class Ui_GTForm(object):
         gt_doc = {"dt_name": "GT",
                   "gt_file": normalizePathFDS(root_dir, self.gt_file_lineEdit.text()),
                   "input_gt_map_file": normalizePathFDS(root_dir, self.mycfg.dcfg_gt.input_gt_map_file)}
-        yolo_doc = self.mycfg.dcfg_yolo.getDocument()
-        self.cfgIO.dumpDetectorsWithHeader([yolo_doc, gt_doc])
+        yolo_doc = self.mycfg.dcfg_yolocv.getDocument()
+        yolo_utlt_doc = self.mycfg.dcfg_yolopt.getDocument()
+        self.cfgIO.dumpDetectorsWithHeader([yolo_doc, yolo_utlt_doc, gt_doc])
         GTForm.close()
 

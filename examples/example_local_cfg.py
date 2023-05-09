@@ -34,10 +34,10 @@ from pyppbox.ppboxmng import PManager
 # - More info, please visit https://github.com/rathaumons/pyppbox/tree/main/examples
 #####################################################################################
 
-# your current dir
+# Your current dir
 this_dir = os.path.dirname(__file__)
 
-# initial PManager() with localConfig=True
+# Initialize PManager() with localConfig=True
 pmg = PManager(localConfig=True)
 
 # Since localConfig=True, you must call setLocalConfig(local_cfg_dir)
@@ -47,23 +47,23 @@ pmg.setLocalConfig(os.path.join(this_dir, 'cfg'))
 # - Make sure all input files such as pre-trained weights/models 
 #   and other files exist according to your LOCAL cfg
 
-# start video
+# Start video
 cap = cv2.VideoCapture(pmg.getInputFile())
 while cap.isOpened():
     hasFrame, frame = cap.read()
     if hasFrame:
 
-        # update detecter
+        # Update detecter
         ppobl = pmg.detectFramePPOBL(frame, True)
 
-        # track
+        # Update tracker
         pmg.updateTrackerPPOBL(ppobl)
 
-        # reid normal + duplicate ID killer
-        pmg.reidNormal()
-        pmg.reidDupkiller()
+        # Call reider
+        pmg.reidNormal()        # Level 1: normal
+        pmg.reidDupkiller()     # Level 2: dupkiller
 
-        # display info
+        # Display info
         updated_pp = pmg.getCurrentPPOBL()
         for person in updated_pp:
             (x, y) = person.getRepspoint()

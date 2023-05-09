@@ -2,7 +2,7 @@ ri_name: Facenet
 gpu_mem: 0.585
 model_det: C:/pyppbox/ri_facenet/models/det
 model_file: C:/pyppbox/ri_facenet/models/20180402-114759/20180402-114759.pb
-classifier_file: C:/pyppbox/ri_facenet/classifier/train.pkl
+classifier_file: C:/pyppbox/ri_facenet/classifier/gta5.pkl
 batch_size: 1000
 min_confidence: 0.75
 yl_h_callibration: [-125, 75]
@@ -12,8 +12,8 @@ op_w_callibration: [-35, 35]
 ---
 ri_name: DeepReID
 classes_txt: C:/pyppbox/ri_deepreid/classifier/gta5.txt
-classifier_pkl: C:/pyppbox/ri_deepreid/classifier/gta5_mlfn.pkl
+classifier_pkl: C:/pyppbox/ri_deepreid/classifier/gta5_osnet_ain_ms_d_c.pkl
 train_data: C:/pyppbox/ri_deepreid/data
-model_name: mlfn
-model_path: C:/pyppbox/ri_deepreid/pretrained/base/mlfn-9cb5a267.pth.tar
+model_name: osnet_ain_x1_0
+model_path: C:/pyppbox/ri_deepreid/pretrained/torchreid/osnet_ain_ms_d_c.pth.tar
 min_confidence: 0.35

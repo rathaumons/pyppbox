@@ -39,35 +39,62 @@ from pyppbox.ppboxmng import PManager
 # - More info, please visit https://github.com/rathaumons/pyppbox/tree/main/examples
 #####################################################################################
 
-# show main config
+# Show main config
 pyppbox.showMainCFG()
 
-# set input video
+# Set input video
 # pyppbox.setInputVideo('C:/media/hard_sur_hd.mp4')
 
-# set detector configs
+# Set config for all detector
 '''
 detectors_config = [
-    {'dt_name': 'YOLO', 'nms_threshold': 0.45, 'conf_threshold': 0.5, 
-    'class_file': 'dt_yolocv/coco.names', 'model_cfg_file': 'dt_yolocv/yolov4.cfg', 
-    'model_weights': 'dt_yolocv/yolov4.weights', 'model_resolution_width': 416, 
-    'model_resolution_height': 416, 'repspoint_callibration': 0.25}, 
-    
-    {'dt_name': 'GT', 'gt_file': 'tmp/gt/realID_hard_sur.txt', 
-    'input_gt_map_file': 'tmp/gt/input_gt_map.txt'}
+    {
+        'dt_name': 'YOLO', 
+        'nms_threshold': 0.45, 
+        'conf_threshold': 0.5, 
+        'class_file': 'dt_yolocv/coco.names', 
+        'model_cfg_file': 'dt_yolocv/yolov4.cfg', 
+        'model_weights': 'dt_yolocv/yolov4.weights', 
+        'model_resolution_width': 416, 
+        'model_resolution_height': 416, 
+        'repspoint_callibration': 0.25
+    },
+    {
+        'dt_name': 'YOLO_Ultralytics', 
+        'conf': 0.5, 
+        'iou': 0.7, 
+        'imgsz': 416, 
+        'classes': 0, 
+        'boxes': True, 
+        'device': 0, 
+        'max_det': 100, 
+        'hide_labels': True, 
+        'hide_conf': True, 
+        'line_width': 500, 
+        'visualize': False, 
+        'model_file': 'dt_yolopt/yolov8l-pose.pt', 
+        'repspoint_callibration': 0.25
+    }, 
+    {
+        'dt_name': 'GT', 
+        'gt_file': 'tmp/gt/realID_hard_sur.txt', 
+        'input_gt_map_file': 'tmp/gt/input_gt_map.txt'
+    }
 ]
 pyppbox.setDetectorsCFG(detectors_config)
 '''
 
-# set main config
-main_config = {'detector': 'YOLO', 
-               'tracker': 'Centroid', 
-               'reider': 'DeepReID', 
-               'input_video': 'C:/media/hard_sur_hd.mp4', 
-               'force_hd': False}
+# Set main config
+main_config = {
+    'detector': 'YOLO_Ultralytics', 
+    'tracker': 'SORT', 
+    'reider': 'DeepReID', 
+    'input_video': 'C:/media/hard_sur_hd.mp4', 
+    'force_hd': False
+}
 pyppbox.setMainCFG(main_config)
 
-# luanch GUI
+# Luanch GUI
 # pyppbox.launchGUI()
 
 
@@ -82,34 +109,36 @@ try:
     cap_width  = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
     cap_height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
-    # screenshot a frame for offline EVA
+    # Screenshot a frame for offline EVA-IO
     screenshot = []
     screenshot_at = 60
 
     fps = 0.0
     fps_imutils = imutils.video.FPS().start()
+
+    # Need frame_id for display & offline EVA-IO
     frame_id = 0
 
-    # start video
+    # Start video
     while cap.isOpened():
         t1 = time.time()
         hasFrame, frame = cap.read()
         if hasFrame:
 
-            # resize frame if force HD
+            # Resize frame if force HD
             if pmg.forceHD(): frame = cv2.resize(frame, (1280, int((1280/cap_width) * cap_height)))
 
-            # update detecter
+            # Update detecter
             ppobl = pmg.detectFramePPOBL(frame, True)
 
-            # update tracker
+            # Update tracker
             pmg.updateTrackerPPOBL(ppobl)
 
-            # update reid 
-            pmg.reidNormal() # level 1: normal
-            pmg.reidDupkiller() # level 2: dupkiller
+            # Call reider
+            pmg.reidNormal()        # Level 1: normal
+            pmg.reidDupkiller()     # Level 2: dupkiller
 
-            # put info
+            # Display info
             updated_pp = pmg.getCurrentPPOBL()
             det_frame = pmg.getFrameVisual()
             for person in updated_pp:
@@ -117,19 +146,19 @@ try:
                 cv2.putText(det_frame, str(person.getCid()), (int(x - 10), int(y - 60)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
                 cv2.putText(det_frame, str(person.getDeepid()), (int(x - 85), int(y - 90)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 200, 0), 2)
                 cv2.putText(det_frame, str(person.getFaceid()), (int(x - 85), int(y - 125)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2)
-                # Update offline EVA
+                # Add tracked person to the offline EVA-IO
                 pmg.eva_io.add_person(frame_id, person, mode=pmg.evalmode)
 
-            # update realtime EVA frame by frame
+            # Update online realtime EVA-RT frame by frame
             pmg.selfRealtimeEval()
 
-            # display framerate & info
+            # Add framerate & info
             fps_imutils.update()
             fps = (fps + (1./((1.000000000001*time.time())-t1))) / 2
             cv2.putText(det_frame, str(int(fps)) + " | " + str(frame_id), (15, 30), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (255, 255, 255), 1, cv2.LINE_AA)
             cv2.imshow("pyppbox Demo", det_frame)
 
-            # take a screenshot
+            # Take a screenshot
             if screenshot_at == frame_id:
                 screenshot = det_frame.copy()
 
@@ -143,12 +172,12 @@ try:
     
     cap.release()
 
-    # real-time online EVA
-    # note: only supports faceid and deepid on PoseTReID dataset
+    # Online realtime EVA-RT
+    # Note: Realtime EVA-RT only supports faceid and deepid on GTA V dataset
     pmg.getRealtimeEvalResult()
 
-    # offline EVA
-    # note: only supports faceid and deepid on PoseTReID dataset
+    # Offline EVA-IO
+    # Note: only supports faceid and deepid on PoseTReID dataset
     res_txt, extra_info = pmg.generateExtraInfoForOfflineEva()
     docs_path = os.path.expanduser('~/Documents/pyppbox')
     if not os.path.exists(docs_path): os.makedirs(docs_path)

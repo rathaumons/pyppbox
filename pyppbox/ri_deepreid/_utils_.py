@@ -20,7 +20,7 @@
 import os
 import sys
 
-from torchreid.utils import FeatureExtractor
+from pyppbox_torchreid.utils import FeatureExtractor
 
 
 class ImageClass():

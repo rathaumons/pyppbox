@@ -43,6 +43,7 @@ class MyStrings(object):
         # detector
         self.gt = data['gt']
         self.yolo = data['yolo']
+        self.yolo_utlt = data['yolo_utlt']
         # tracker
         self.sort = data['sort']
         self.deepsort = data['deepsort']

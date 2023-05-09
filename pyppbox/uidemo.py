@@ -33,7 +33,7 @@ from pyppbox.utils.mytools import loadUITMP, joinFPathFull
 root_dir = os.path.dirname(__file__)
 cfg_mode, cfg_dir = loadUITMP(joinFPathFull(root_dir, "tmp/ui.tmp"))
 
-# Set PManager() accordingly
+# Initialize PManager() accordingly
 if cfg_mode == 0:
     pmg = PManager(enableEval=True)
 else:
@@ -50,12 +50,14 @@ try:
     cap_width  = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
     cap_height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
-    # screenshot a frame for offline EVA
+    # Screenshot a frame for offline EVA-IO
     screenshot = []
     screenshot_at = 60
 
     fps = 0.0
     fps_imutils = imutils.video.FPS().start()
+
+    # Need frame_id for display & offline EVA-IO
     frame_id = 0
 
     while cap.isOpened():
@@ -63,20 +65,20 @@ try:
         hasFrame, frame = cap.read()
         if hasFrame:
 
-            # resize frame if force HD
+            # Resize frame if force HD
             if pmg.forceHD(): frame = cv2.resize(frame, (1280, int((1280/cap_width) * cap_height)))
 
-            # update detector
+            # Update detector
             ppobl = pmg.detectFramePPOBL(frame, True)
 
-            # update tracker
+            # Update tracker
             pmg.updateTrackerPPOBL(ppobl)
 
-            # update reid 
-            pmg.reidNormal() # level 1: normal
-            pmg.reidDupkiller() # level 2: dupkiller
+            # Call reider
+            pmg.reidNormal()        # Level 1: normal
+            pmg.reidDupkiller()     # Level 2: dupkiller
 
-            # put info
+            # Display info
             updated_pp = pmg.getCurrentPPOBL()
             det_frame = pmg.getFrameVisual()
             for person in updated_pp:
@@ -84,13 +86,13 @@ try:
                 cv2.putText(det_frame, str(person.getCid()), (int(x - 10), int(y - 60)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
                 cv2.putText(det_frame, str(person.getDeepid()), (int(x - 85), int(y - 90)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 200, 0), 2)
                 cv2.putText(det_frame, str(person.getFaceid()), (int(x - 85), int(y - 125)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2)
-                # Update offline EVA
-                pmg.eva_io.add_person(frame_id, person)
+                # Add tracked person to the offline EVA-IO
+                pmg.addPersonEVAIO(frame_id, person)
 
-            # Update realtime EVA frame by frame
-            pmg.selfRealtimeEval()
+            # Update online realtime EVA-RT frame by frame
+            pmg.updateEVART()
 
-            # Framerate & info
+            # Add framerate & info
             fps_imutils.update()
             fps = (fps + (1./((1.000000000001*time.time())-t1))) / 2
             cv2.putText(det_frame, str(int(fps)) + " | " + str(frame_id), (15, 30), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (255, 255, 255), 1, cv2.LINE_AA)
@@ -110,17 +112,18 @@ try:
     
     cap.release()
 
-    # Realtime EVA
-    # Note: Realtime EVA only supports faceid and deepid on GTA V dataset
-    pmg.getRealtimeEvalResult()
+    # Online realtime EVA-RT
+    # Note: Realtime EVA-RT only supports faceid and deepid on GTA V dataset
+    pmg.getEVARTSummary()
 
-    # Offline EVA
-    res_txt, extra_info = pmg.generateExtraInfoForOfflineEva()
+    # Offline EVA-IO
+    # Note: only supports faceid and deepid on PoseTReID dataset
+    res_txt, extra_info = pmg.generateExtraInfoForEVAIO()
     docs_path = os.path.expanduser('~/Documents/pyppbox')
     if not os.path.exists(docs_path): os.makedirs(docs_path)
 
     res_txt = os.path.join(docs_path, res_txt)
-    pmg.eva_io.dump(res_txt)
+    pmg.dumpResultEVAIO(res_txt)
 
     screenshot_jpg = res_txt[:-4] + "_info.jpg"
     cv2.imwrite(screenshot_jpg, screenshot)

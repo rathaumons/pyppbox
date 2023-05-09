@@ -67,7 +67,7 @@ class MyLocalStruct(object):
 ################################################################################################################
 
 
-class DCFGYOLO(object):
+class DCFGYOLOCV(object):
 
     def __init__(self):
         pass
@@ -84,16 +84,59 @@ class DCFGYOLO(object):
 
     def getDocument(self):
         (w, h) = self.model_resolution
-        yolo_doc = {"dt_name": "YOLO",
-                    "nms_threshold": self.nms_threshold,
-                    "conf_threshold": self.conf_threshold,
-                    "class_file": getAbsPathFDS(self.class_file),
-                    "model_cfg_file": getAbsPathFDS(self.model_cfg_file),
-                    "model_weights": getAbsPathFDS(self.model_weights),
-                    "model_resolution_width": w,
-                    "model_resolution_height": h,
-                    "repspoint_callibration": self.repspoint_callibration}
-        return yolo_doc
+        yolocv_doc = {
+            "dt_name": "YOLO",
+            "nms_threshold": self.nms_threshold,
+            "conf_threshold": self.conf_threshold,
+            "class_file": getAbsPathFDS(self.class_file),
+            "model_cfg_file": getAbsPathFDS(self.model_cfg_file),
+            "model_weights": getAbsPathFDS(self.model_weights),
+            "model_resolution_width": w,
+            "model_resolution_height": h,
+            "repspoint_callibration": self.repspoint_callibration
+        }
+        return yolocv_doc
+
+
+class DCFGYOLOPT(object):
+
+    def __init__(self):
+        pass
+
+    def set(self, dcfg):
+        self.dt_name = dcfg['dt_name']
+        self.conf = dcfg['conf']
+        self.iou = dcfg['iou']
+        self.imgsz = dcfg['imgsz']
+        self.classes = dcfg['classes']
+        self.boxes = dcfg['boxes']
+        self.device = dcfg['device']
+        self.max_det = dcfg['max_det']
+        self.hide_labels = dcfg['hide_labels']
+        self.hide_conf = dcfg['hide_conf']
+        self.line_width = dcfg['line_width']
+        self.visualize = dcfg['visualize']
+        self.model_file = getAbsPathFDS(dcfg['model_file'])
+        self.repspoint_callibration = dcfg['repspoint_callibration']
+
+    def getDocument(self):
+        yolopt_doc = {
+            "dt_name": "YOLO_Ultralytics",
+            "conf": self.conf,
+            "iou": self.iou,
+            "imgsz": self.imgsz,
+            "classes": self.classes,
+            "boxes": self.boxes,
+            "device": self.device,
+            "max_det": self.max_det,
+            "hide_labels": self.hide_labels,
+            "hide_conf": self.hide_conf,
+            "line_width": self.line_width,
+            "visualize": self.visualize,
+            "model_file": getAbsPathFDS(self.model_file),
+            "repspoint_callibration": self.repspoint_callibration
+        }
+        return yolopt_doc
 
 
 class DCFGGT(object):
@@ -107,9 +150,11 @@ class DCFGGT(object):
         self.input_gt_map_file = joinFPathFull(global_root_dir, dcfg['input_gt_map_file'])
 
     def getDocument(self):
-        gt_doc = {"dt_name": "GT",
-                  "gt_file": normalizePathFDS(global_root_dir, self.gt_file),
-                  "input_gt_map_file": normalizePathFDS(global_root_dir, self.input_gt_map_file)}
+        gt_doc = {
+            "dt_name": "GT",
+            "gt_file": normalizePathFDS(global_root_dir, self.gt_file),
+            "input_gt_map_file": normalizePathFDS(global_root_dir, self.input_gt_map_file)
+        }
         return gt_doc
 
 
@@ -123,8 +168,10 @@ class TCFGCentroid(object):
         self.max_distance = tcfg['max_distance']
 
     def getDocument(self):
-        centroid_doc = {"tk_name": "Centroid",
-                        "max_distance": self.max_distance}
+        centroid_doc = {
+            "tk_name": "Centroid",
+            "max_distance": self.max_distance
+        }
         return centroid_doc
 
 
@@ -140,10 +187,12 @@ class TCFGSORT(object):
         self.iou_threshold = tcfg['iou_threshold']
 
     def getDocument(self):
-        sort_doc = {"tk_name": "SORT",
-                    "max_age": self.max_age,
-                    "min_hits": self.min_hits,
-                    "iou_threshold": self.iou_threshold}
+        sort_doc = {
+            "tk_name": "SORT",
+            "max_age": self.max_age,
+            "min_hits": self.min_hits,
+            "iou_threshold": self.iou_threshold
+        }
         return sort_doc
         
 
@@ -160,11 +209,13 @@ class TCFGDeepSORT(object):
         self.model_file = getAbsPathFDS(tcfg['model_file'])
 
     def getDocument(self):
-        deepsort_doc = {"tk_name": "DeepSORT",
-                        "nn_budget": self.nn_budget,
-                        "nms_max_overlap": self.nms_max_overlap,
-                        "max_cosine_distance": self.max_cosine_distance,
-                        "model_file": getAbsPathFDS(self.model_file)}
+        deepsort_doc = {
+            "tk_name": "DeepSORT",
+            "nn_budget": self.nn_budget,
+            "nms_max_overlap": self.nms_max_overlap,
+            "max_cosine_distance": self.max_cosine_distance,
+            "model_file": getAbsPathFDS(self.model_file)
+        }
         return deepsort_doc
 
 
@@ -187,17 +238,19 @@ class RCFGFacenet(object):
         self.op_w_callibration = rcfg['op_w_callibration']
 
     def getDocument(self):
-        facenet_doc = {"ri_name": "Facenet",
-                        "gpu_mem": self.gpu_mem,
-                        "model_det": getAbsPathFDS(self.model_det), 
-                        "model_file": getAbsPathFDS(self.model_file),
-                        "classifier_file": getAbsPathFDS(self.classifier_file),
-                        "batch_size": self.batch_size,
-                        "min_confidence": self.min_confidence,
-                        "yl_h_callibration": self.yl_h_callibration,
-                        "yl_w_callibration": self.yl_w_callibration,
-                        "op_h_callibration": self.op_h_callibration,
-                        "op_w_callibration": self.op_w_callibration}
+        facenet_doc = {
+            "ri_name": "Facenet",
+            "gpu_mem": self.gpu_mem,
+            "model_det": getAbsPathFDS(self.model_det), 
+            "model_file": getAbsPathFDS(self.model_file),
+            "classifier_file": getAbsPathFDS(self.classifier_file),
+            "batch_size": self.batch_size,
+            "min_confidence": self.min_confidence,
+            "yl_h_callibration": self.yl_h_callibration,
+            "yl_w_callibration": self.yl_w_callibration,
+            "op_h_callibration": self.op_h_callibration,
+            "op_w_callibration": self.op_w_callibration
+        }
         return facenet_doc
 
 
@@ -222,13 +275,15 @@ class RCFGDeepReID(object):
         self.err_did = self.mstruct.str.err_did
 
     def getDocument(self):
-        deepreid_doc = {"ri_name": "DeepReID",
-                       "classes_txt": getAbsPathFDS(self.classes_txt),
-                       "classifier_pkl": getAbsPathFDS(self.classifier_pkl),
-                       "train_data": getAbsPathFDS(self.train_data),
-                       "model_name": self.model_name,
-                       "model_path": getAbsPathFDS(self.model_path),
-                       "min_confidence": self.min_confidence}
+        deepreid_doc = {
+            "ri_name": "DeepReID",
+            "classes_txt": getAbsPathFDS(self.classes_txt),
+            "classifier_pkl": getAbsPathFDS(self.classifier_pkl),
+            "train_data": getAbsPathFDS(self.train_data),
+            "model_name": self.model_name,
+            "model_path": getAbsPathFDS(self.model_path),
+            "min_confidence": self.min_confidence
+        }
         return deepreid_doc
 
 
@@ -251,7 +306,8 @@ class MyLocalConfigurator(object):
         self.cfgio = MyCFGIO(local_cfg_dir)
         self.mstruct = self.cfgio.getMStruct()
         self.mcfg = MainCFG()
-        self.dcfg_yolo = DCFGYOLO()
+        self.dcfg_yolocv = DCFGYOLOCV()
+        self.dcfg_yolopt = DCFGYOLOPT()
         self.dcfg_gt = DCFGGT()
         self.tcfg_centroid = TCFGCentroid()
         self.tcfg_sort = TCFGSORT()
@@ -267,7 +323,9 @@ class MyLocalConfigurator(object):
         docs = self.cfgio.loadAllDocuments(self.mstruct.detector_yaml)
         for d in docs:
             if d['dt_name'].lower() == "yolo":
-                self.dcfg_yolo.set(d)
+                self.dcfg_yolocv.set(d)
+            elif d['dt_name'].lower() == "yolo_ultralytics":
+                self.dcfg_yolopt.set(d)
             elif d['dt_name'].lower() == "gt":
                 self.dcfg_gt.set(d)
 
@@ -305,7 +363,7 @@ class MyCFGHeaderNote(object):
         header=("###########################################################\n"
                 "# Main config:\n"
                 "###########################################################\n"
-                "# detector: None | YOLO\n"
+                "# detector: None | YOLO | YOLO_Ultralytics\n"
                 "# tracker: None | Centroid | SORT | DeepSORT\n"
                 "# reider: None | Facenet | DeepReID\n"
                 "# input_video: *.avi | *.mkv | *.mov | *.mp4\n"
@@ -326,6 +384,22 @@ class MyCFGHeaderNote(object):
                 "# model_weights: dt_yolocv/yolov4.weights\n"
                 "# model_resolution_width: 416\n"
                 "# model_resolution_height: 416\n"
+                "# repspoint_callibration: 0.25\n"
+                "###########################################################\n"
+                "# --- # YOLO_Ultralytics\n"
+                "# dt_name: YOLO_Ultralytics\n"
+                "# conf: 0.5\n"
+                "# iou: 0.7\n"
+                "# imgsz: 416\n"
+                "# classes: 0\n"
+                "# boxes: True\n"
+                "# device: 0\n"
+                "# max_det: 50\n"
+                "# hide_labels: True\n"
+                "# hide_conf: True\n"
+                "# line_width: 500\n"
+                "# visualize: False\n"
+                "# model_file: dt_yolopt/yolov8l-pose.pt\n"
                 "# repspoint_callibration: 0.25\n"
                 "###########################################################\n"
                 "# --- # GT aka Ground Truth\n"
@@ -367,7 +441,7 @@ class MyCFGHeaderNote(object):
                 "# gpu_mem: 0.585\n"
                 "# model_det: ri_facenet/models/det\n"
                 "# model_file: ri_facenet/models/20180402-114759/20180402-114759.pb\n"
-                "# classifier_file: ri_facenet/classifier/train.pkl\n"
+                "# classifier_file: ri_facenet/classifier/gta5.pkl\n"
                 "# batch_size: 1000\n"
                 "# min_confidence: 0.75\n"
                 "# yl_h_callibration: [-125, 75]\n"
@@ -378,10 +452,10 @@ class MyCFGHeaderNote(object):
                 "# --- # DeepReID\n"
                 "# ri_name: DeepReID\n"
                 "# classes_txt: ri_deepreid/classifier/gta5.txt\n"
-                "# classifier_pkl: ri_deepreid/classifier/gta5_mlfn.pkl\n"
+                "# classifier_pkl: ri_deepreid/classifier/gta5_osnet_ain_ms_d_c.pkl\n"
                 "# train_data: ri_deepreid/data\n"
-                "# model_name: mlfn\n"
-                "# model_path: ri_deepreid/pretrained/base/mlfn-9cb5a267.pth.tar\n"
+                "# model_name: osnet_ain_x1_0\n"
+                "# model_path: ri_deepreid/pretrained/torchreid/osnet_ain_ms_d_c.pth.tar\n"
                 "# min_confidence: 0.35\n"
                 "###########################################################\n")
         return header

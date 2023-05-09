@@ -57,7 +57,7 @@ class MyDeepSort(object):
 
         for p in ppobj:
             max_spread = -1
-            pbbox_list = p.getBbox().tolist()
+            pbbox_list = p.getBoxXYWH().tolist()
             for i in range(0, 4):
                 sub_spread = abs(box_list[i] - pbbox_list[i])
                 if sub_spread > max_spread:
@@ -69,13 +69,13 @@ class MyDeepSort(object):
         return index
 
 
-    def getCurrentIndexByBbox(self, box):
+    def getCurrentIndexByBoxXYXY(self, box):
         box_list = box.tolist()
         spread_list = []
 
         for p in self.clist:
             max_spread = -1
-            pbbox_list = p.getBboxTlbr().tolist()
+            pbbox_list = p.getBoxXYXY().tolist()
             for i in range(0, 4):
                 sub_spread = abs(box_list[i] - pbbox_list[i])
                 if sub_spread > max_spread:
@@ -110,7 +110,7 @@ class MyDeepSort(object):
         dclasses = []
 
         for i in range(0, len(ppobjlist)):
-            dboxes.append(ppobjlist[i].getBbox())
+            dboxes.append(ppobjlist[i].getBoxXYWH())
             dconfidences.append(0.5)
             dclasses.append('person')
 
@@ -131,7 +131,7 @@ class MyDeepSort(object):
                 continue
             box = track.to_tlbr()
             new_cid = int(track.track_id)
-            cindex = self.getCurrentIndexByBbox(box)
+            cindex = self.getCurrentIndexByBoxXYXY(box)
             self.clist[cindex].updateCid(new_cid)
             faceid, deepid = self.getOldIDsByCid(new_cid)
             self.clist[cindex].updateFaceid(faceid)

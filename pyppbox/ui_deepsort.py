@@ -123,11 +123,13 @@ class Ui_DeepSORTForm(object):
 
 
     def updateCFG(self, YOLOForm):
-        deepsort_doc = {"tk_name": "DeepSORT",
-                        "nn_budget": int(self.ds_nn_budget_lineEdit.text()),
-                        "nms_max_overlap": float(self.ds_max_overlap_lineEdit.text()),
-                        "max_cosine_distance": float(self.ds_cosine_distance_lineEdit.text()),
-                        "model_file": normalizePathFDS(root_dir, self.ds_model_file_lineEdit.text())}
+        deepsort_doc = {
+            "tk_name": "DeepSORT",
+            "nn_budget": int(self.ds_nn_budget_lineEdit.text()),
+            "nms_max_overlap": float(self.ds_max_overlap_lineEdit.text()),
+            "max_cosine_distance": float(self.ds_cosine_distance_lineEdit.text()),
+            "model_file": normalizePathFDS(root_dir, self.ds_model_file_lineEdit.text())
+        }
         centroid_doc = self.mycfg.tcfg_centroid.getDocument()
         sort_doc = self.mycfg.tcfg_sort.getDocument()
         self.cfgIO.dumpTrackersWithHeader([centroid_doc, sort_doc, deepsort_doc])

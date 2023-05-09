@@ -192,17 +192,19 @@ class Ui_FacenetForm(object):
 
 
     def updateCFG(self, FacenetForm):
-        facenet_doc = {"ri_name": "Facenet",
-                        "gpu_mem": float(self.fn_gpu_mem_lineEdit.text()),
-                        "model_det": normalizePathFDS(root_dir, self.fn_model_det_lineEdit.text()), 
-                        "model_file": normalizePathFDS(root_dir, self.fn_model_file_lineEdit.text()),
-                        "classifier_file": normalizePathFDS(root_dir, self.fn_classifier_file_lineEdit.text()),
-                        "batch_size": int(self.fn_batch_size_lineEdit.text()),
-                        "min_confidence": float(self.fn_min_confidence_lineEdit.text()),
-                        "yl_h_callibration": get2Dlist(self.fn_yl_h_callib_lineEdit.text()),
-                        "yl_w_callibration": get2Dlist(self.fn_yl_w_callib_lineEdit.text()),
-                        "op_h_callibration": get2Dlist(self.fn_op_h_callib_lineEdit.text()),
-                        "op_w_callibration": get2Dlist(self.fn_op_w_callib_lineEdit.text())}
+        facenet_doc = {
+            "ri_name": "Facenet",
+            "gpu_mem": float(self.fn_gpu_mem_lineEdit.text()),
+            "model_det": normalizePathFDS(root_dir, self.fn_model_det_lineEdit.text()), 
+            "model_file": normalizePathFDS(root_dir, self.fn_model_file_lineEdit.text()),
+            "classifier_file": normalizePathFDS(root_dir, self.fn_classifier_file_lineEdit.text()),
+            "batch_size": int(self.fn_batch_size_lineEdit.text()),
+            "min_confidence": float(self.fn_min_confidence_lineEdit.text()),
+            "yl_h_callibration": get2Dlist(self.fn_yl_h_callib_lineEdit.text()),
+            "yl_w_callibration": get2Dlist(self.fn_yl_w_callib_lineEdit.text()),
+            "op_h_callibration": get2Dlist(self.fn_op_h_callib_lineEdit.text()),
+            "op_w_callibration": get2Dlist(self.fn_op_w_callib_lineEdit.text())
+        }
         deepreid_doc = self.mycfg.rcfg_deepreid.getDocument()
         self.cfgIO.dumpReidersWithHeader([facenet_doc, deepreid_doc])
         FacenetForm.close()

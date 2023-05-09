@@ -1,8 +1,10 @@
+### Common
+Cython>=0.29.33
+scikit-image>=0.20.0
+scikit-learn>=1.2.2
+scipy>=1.10.0
 imageio
 imutils
-scikit-image==0.19.3
-scikit-learn==1.2.1
-scipy==1.10.0
 pandas
 Pillow
 psutil
@@ -10,18 +12,15 @@ tqdm
 tables
 h5py
 matplotlib
+PyYAML
+future
+pyunpack
 tensorflow>=2.10,<2.11
-shapely
+### Tracker: SORT
 filterpy
 lap05
-pyyaml
+### GUI
 PyQt6
-Cython>=0.29.33
-future
-yacs
-gdown
-flake8
-yapf
-isort
-pyunpack
-patool
+### Unused
+# shapely
+# patool

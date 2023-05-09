@@ -82,12 +82,12 @@ class MySort(object):
 
         dets = np.empty((0, 5))
         for i in range(0, len(ppobjlist)):
-            row = np.append(ppobjlist[i].getBboxTlbr(), 0).reshape(1, 5)
+            row = np.append(ppobjlist[i].getBoxXYXY(), 0).reshape(1, 5)
             dets = np.append(dets, row, axis=0)
 
         dets = self.st.update(dets)
         for i in range (0, len(self.clist)):
-            new_cid = self.getUpdatedID(self.clist[i].getBboxTlbr(), dets)
+            new_cid = self.getUpdatedID(self.clist[i].getBoxXYXY(), dets)
             self.clist[i].updateCid(new_cid)
             if len(self.plist) > 0:
                 try:

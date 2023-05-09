@@ -6,6 +6,7 @@ reider: reider
 # detector
 gt: gt
 yolo: yolo
+yolo_utlt: yolo_ultralytics
 # tracker
 sort: sort
 deepsort: deepsort

@@ -75,20 +75,15 @@ class Ui_SORTForm(object):
         self.st_max_age_lineEdit = QtWidgets.QLineEdit(SORTForm)
         self.st_max_age_lineEdit.setGeometry(QtCore.QRect(110, 10, 241, 21))
         self.st_max_age_lineEdit.setObjectName("st_max_age_lineEdit")
-
         font = QtGui.QFont()
         font.setPointSize(12)
         self.save_pushButton.setFont(font)
         self.save_pushButton.setDefault(True)
-
         # custom
         self.loadST()
-
         self.save_pushButton.clicked.connect(lambda: self.updateCFG(SORTForm))
-
         self.retranslateUi(SORTForm)
         QtCore.QMetaObject.connectSlotsByName(SORTForm)
-
 
     def retranslateUi(self, SORTForm):
         _translate = QtCore.QCoreApplication.translate
@@ -98,19 +93,19 @@ class Ui_SORTForm(object):
         self.st_max_age_label.setText(_translate("SORTForm", "max_age"))
         self.st_iou_threshold_label.setText(_translate("SORTForm", "iou_threshold"))
 
-
     def loadST(self):
         self.mycfg.loadTCFG()
         self.st_iou_threshold_lineEdit.setText(str(self.mycfg.tcfg_sort.iou_threshold))
         self.st_max_age_lineEdit.setText(str(self.mycfg.tcfg_sort.max_age))
         self.st_min_hits_lineEdit.setText(str(self.mycfg.tcfg_sort.min_hits))
 
-
     def updateCFG(self, SORTForm):
-        sort_doc = {"tk_name": "SORT",
-                    "max_age": int(self.st_max_age_lineEdit.text()),
-                    "min_hits": int(self.st_min_hits_lineEdit.text()),
-                    "iou_threshold": float(self.st_iou_threshold_lineEdit.text())}
+        sort_doc = {
+            "tk_name": "SORT",
+            "max_age": int(self.st_max_age_lineEdit.text()),
+            "min_hits": int(self.st_min_hits_lineEdit.text()),
+            "iou_threshold": float(self.st_iou_threshold_lineEdit.text())
+        }
         centroid_doc = self.mycfg.tcfg_centroid.getDocument()
         deepsort_doc = self.mycfg.tcfg_deepsort.getDocument()
         self.cfgIO.dumpTrackersWithHeader([centroid_doc, sort_doc, deepsort_doc])

@@ -165,13 +165,15 @@ class Ui_DeepReIDForm(object):
 
 
     def updateCFG(self, DeepReIDForm):
-        deepreid_doc = {"ri_name": "DeepReID",
-                       "classes_txt": normalizePathFDS(root_dir, self.dr_classes_txt_lineEdit.text()),
-                       "classifier_pkl": normalizePathFDS(root_dir, self.dr_classifier_pkl_lineEdit.text()),
-                       "train_data": normalizePathFDS(root_dir, self.dr_train_data_lineEdit.text()),
-                       "model_name": self.dr_model_name_lineEdit.text(),
-                       "model_path": normalizePathFDS(root_dir, self.dr_model_path_lineEdit.text()),
-                       "min_confidence": float(self.dr_min_confidence_lineEdit.text())}
+        deepreid_doc = {
+            "ri_name": "DeepReID",
+            "classes_txt": normalizePathFDS(root_dir, self.dr_classes_txt_lineEdit.text()),
+            "classifier_pkl": normalizePathFDS(root_dir, self.dr_classifier_pkl_lineEdit.text()),
+            "train_data": normalizePathFDS(root_dir, self.dr_train_data_lineEdit.text()),
+            "model_name": self.dr_model_name_lineEdit.text(),
+            "model_path": normalizePathFDS(root_dir, self.dr_model_path_lineEdit.text()),
+            "min_confidence": float(self.dr_min_confidence_lineEdit.text())
+        }
         facenet_doc = self.mycfg.rcfg_facenet.getDocument()
         self.cfgIO.dumpReidersWithHeader([facenet_doc, deepreid_doc])
         DeepReIDForm.close()

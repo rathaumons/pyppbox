@@ -18,8 +18,9 @@
 @echo off
 setlocal
 cd /d %~dp0
+set "PYTHONWARNINGS=ignore"
 python -m pip install --upgrade pip
-pip install scikit-build
-rem pip wheel . --verbose
-python setup.py bdist_wheel
+pip install wheel
+pip install build
+python -m build --wheel --skip-dependency-check --no-isolation
 pause

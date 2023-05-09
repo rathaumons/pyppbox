@@ -31,7 +31,7 @@ def getDist(p1, p2):
     res = hypot(x2 - x1, y2 - y1)
     return res
 
-def tlbrToXyah(box):
+def xyxyTOxywh(box):
     box_list = box.tolist()
     w = box_list[2] - box_list[0]
     h = box_list[3] - box_list[1]
@@ -43,7 +43,7 @@ def eliminateZero(points):
     res = res[np.all(res != 0, axis=1)]
     return res
 
-def generateBboxTlbr(points):
+def generateBoxXYXY(points):
     points = eliminateZero(points)
     bot_left_x = min(point[0] for point in points)
     bot_left_y = min(point[1] for point in points)
@@ -83,11 +83,11 @@ class KeypointsManager(object):
             res = False
         return res
 
-    def getBBoxTLBR(self, index):
-        return generateBboxTlbr(self.keypoints[index])
+    def getBoxXYXY(self, index):
+        return generateBoxXYXY(self.keypoints[index])
 
-    def getBBox(self, index):
-        return tlbrToXyah(generateBboxTlbr(self.keypoints[index]))
+    def getBoxXYWH(self, index):
+        return xyxyTOxywh(generateBoxXYXY(self.keypoints[index]))
 
     def getNeck(self, index):
         return (self.keypoints[index][1][0], self.keypoints[index][1][1])
