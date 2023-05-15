@@ -147,10 +147,10 @@ try:
                 cv2.putText(det_frame, str(person.getDeepid()), (int(x - 85), int(y - 90)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 200, 0), 2)
                 cv2.putText(det_frame, str(person.getFaceid()), (int(x - 85), int(y - 125)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2)
                 # Add tracked person to the offline EVA-IO
-                pmg.eva_io.add_person(frame_id, person, mode=pmg.evalmode)
+                pmg.addPersonEVAIO(frame_id, person)
 
             # Update online realtime EVA-RT frame by frame
-            pmg.selfRealtimeEval()
+            pmg.updateEVART()
 
             # Add framerate & info
             fps_imutils.update()
@@ -158,7 +158,7 @@ try:
             cv2.putText(det_frame, str(int(fps)) + " | " + str(frame_id), (15, 30), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (255, 255, 255), 1, cv2.LINE_AA)
             cv2.imshow("pyppbox Demo", det_frame)
 
-            # Take a screenshot
+            # Take screenshot
             if screenshot_at == frame_id:
                 screenshot = det_frame.copy()
 
@@ -174,16 +174,16 @@ try:
 
     # Online realtime EVA-RT
     # Note: Realtime EVA-RT only supports faceid and deepid on GTA V dataset
-    pmg.getRealtimeEvalResult()
+    pmg.getEVARTSummary()
 
     # Offline EVA-IO
     # Note: only supports faceid and deepid on PoseTReID dataset
-    res_txt, extra_info = pmg.generateExtraInfoForOfflineEva()
+    res_txt, extra_info = pmg.generateExtraInfoForEVAIO()
     docs_path = os.path.expanduser('~/Documents/pyppbox')
     if not os.path.exists(docs_path): os.makedirs(docs_path)
 
     res_txt = os.path.join(docs_path, res_txt)
-    pmg.eva_io.dump(res_txt)
+    pmg.dumpResultEVAIO(res_txt)
 
     screenshot_jpg = res_txt[:-4] + "_info.jpg"
     cv2.imwrite(screenshot_jpg, screenshot)
@@ -192,7 +192,7 @@ try:
     with open(info_txt, "a") as info_file:
         info_file.write(extra_info)
 
-    print("\nMore info was saved to " + str(docs_path) + str("\n"))
+    print("\nMore info was saved to " + str(docs_path) + "\n")
 
 
 except Exception as e:
