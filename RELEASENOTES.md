@@ -3,7 +3,7 @@
 * `pyppbox` [v2.0b1](https://github.com/rathaumons/pyppbox/tree/v2.0b1) <!-- - [-------](https://github.com/rathaumons/pyppbox/commit/-------) -->
   - Integrate PyTorch Ultralytics YOLOv8 -> `pyppbox-ultralytics` as package name
   - ***`torchreid` for pyppbox*** is changed to `pyppbox-torchreid` as package name
-  - ***`opencv-contrib-python` for pyppbox*** is changed to `pyppbox-torchreid` as package name
+  - ***`opencv-contrib-python` for pyppbox*** is changed to `pyppbox-opencv` as package name
   - Enhance `Person` object & add `keypoints` abtribute
   - Improve & generalize the names of some ***methods/funtions/objects***
   - Enhance `PManager()` & introduce `__` for private ***objects/methods***
