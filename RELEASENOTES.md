@@ -4,13 +4,13 @@
   - Integrate PyTorch Ultralytics YOLOv8 -> `pyppbox-ultralytics` as package name
   - ***`torchreid` for pyppbox*** is changed to `pyppbox-torchreid` as package name
   - ***`opencv-contrib-python` for pyppbox*** is changed to `pyppbox-opencv` as package name
-  - Enhance `Person` object & add `keypoints` abtribute
+  - Enhance `Person` object & add `keypoints` attribute
   - Improve & generalize the names of some ***methods/funtions/objects***
   - Enhance `PManager()` & introduce `__` for private ***objects/methods***
   - Improve all related ***configurators*** & change some default configurations
   - Introduce ***lite*** & ***full*** edition of the extra models/weights
   - Update ***requirements*** & drop supports for ***Python 3.9 & CUDA 11.6/11.7***
-  - Update the `FacNet` & `Torchreid` pretrained classifier ***PLKs*** for ***GTA5 dataset***
+  - Update the `FacNet` & `Torchreid` pretrained classifier ***PKLs*** for ***GTA5 dataset***
   - Update examples
   - Change to `pypa/build` for `setup.py`
   - **Known issue/limitation**: 
