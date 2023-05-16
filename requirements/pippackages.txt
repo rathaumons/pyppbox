@@ -19,8 +19,9 @@ tensorflow>=2.10,<2.11
 ### Tracker: SORT
 filterpy
 lap05
+### Compression
+patool
 ### GUI
 PyQt6
 ### Unused
 # shapely
-# patool
