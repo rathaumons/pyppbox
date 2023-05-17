@@ -21,7 +21,7 @@ cd /d %~dp0
 :: Set URLs
 set "pyppbox-opencv=https://github.com/rathaumons/pyppbox-custpkg/raw/main/pyppbox_opencv/cp310_cu118/pyppbox_opencv-4.7.0-cp310-none-win_amd64.whl"
 set "pyppbox-torchreid=https://github.com/rathaumons/torchreid-for-pyppbox/releases/download/v1.4.0/pyppbox_torchreid-1.4.0-py3-none-any.whl"
-set "pyppbox-ultralytics=https://github.com/rathaumons/ultralytics-for-pyppbox/releases/download/v8.0.103/pyppbox_ultralytics-8.0.103-py3-none-any.whl"
+set "pyppbox-ultralytics=https://github.com/rathaumons/ultralytics-for-pyppbox/releases/download/v8.0.104/pyppbox_ultralytics-8.0.104-py3-none-any.whl"
 :: Upgrade & install basic packages
 python -m pip install --upgrade pip
 pip install "setuptools>=67.2.0"

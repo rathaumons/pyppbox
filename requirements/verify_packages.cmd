@@ -20,7 +20,7 @@ setlocal
 cd /d %~dp0
 :: Set URLs
 set "pyppbox-opencv=https://github.com/rathaumons/pyppbox-custpkg/raw/main/pyppbox_opencv/cp310_cu118/pyppbox_opencv-4.7.0-cp310-none-win_amd64.whl"
-set "pyppbox-ultralytics=https://github.com/rathaumons/ultralytics-for-pyppbox/releases/download/v8.0.101/pyppbox_ultralytics-8.0.101-py3-none-any.whl"
+set "pyppbox-ultralytics=https://github.com/rathaumons/ultralytics-for-pyppbox/releases/download/v8.0.104/pyppbox_ultralytics-8.0.104-py3-none-any.whl"
 echo.
 :: Make sure there is no conflict for 'pyppbox-ultralytics'
 echo ################################################################
