@@ -9,7 +9,7 @@
 
 ## ⚠️ IMPORTANT NOTICES FOR VERSION 2 (May 15, 2023)
 * 🆕 **Integrate the [Ultralytics YOLOv8](https://github.com/rathaumons/ultralytics-for-pyppbox) in `pyppbox`!**
-* **Check more important releases/commits here [RELEASENOTES.md](RELEASENOTES.md).**
+* **See full release notes here [RELEASENOTES.md](RELEASENOTES.md).**
 
 ## ⚽ Comparison Results
 
@@ -26,7 +26,7 @@
 
 ## 🚀 Setup `pyppbox`
 
-### Option 1: Use the [prebuilt WHL (Lite) for V2 here](https://drive.google.com/open?id=1TsxFA_d6TqzM-rXNkLi0IxCCezVzJf4y) 
+### Option 1: Use the lastest [prebuilt WHL (Lite) for V2 from releases](https://github.com/rathaumons/pyppbox/releases) 
 * `pip install pyppbox-xxx.whl`
 
 ### Option 2: Build your own `pyppbox`
@@ -48,22 +48,20 @@ pyppbox.launchGUI()
 * **[COMING SOON ⌛](https://github.com/rathaumons/pyppbox)**
 * Meanwhile you can check [the examples here](examples) ! 
 
-## 🔗 Citation
+## 🔗 Papper Citation
 
-* Extension of PoseTReID paper ([Pre-printed on ARXIV](https://doi.org/10.48550/arxiv.2205.10086)):
+* Extension of PoseTReID paper [[IEEE]](https://ieeexplore.ieee.org/document/9946587) [[arxiv]](https://doi.org/10.48550/arxiv.2205.10086):
 ```
 @INPROCEEDINGS{ptreid9946587,
   author={Siv, Ratha and Mancas, Matei and Gosselin, Bernard and Valy, Dona and Sreng, Sokchenda},
   booktitle={2022 9th International Conference on Electrical Engineering, Computer Science and Informatics (EECSI)}, 
   title={People Tracking and Re-Identifying in Distributed Contexts: Extension Study of PoseTReID}, 
   year={2022},
-  volume={},
-  number={},
   pages={337-342},
   doi={10.23919/EECSI56542.2022.9946587}}
 ```
 
-* Original PoseTReID paper:
+* Original PoseTReID paper [[IEEE]](https://ieeexplore.ieee.org/document/9271712):
 ```
 @INPROCEEDINGS{ptreid9271712,
   author={Siv, Ratha and Mancas, Matei and Sreng, Sokchenda and Chhun, Sophea and Gosselin, Bernard},
