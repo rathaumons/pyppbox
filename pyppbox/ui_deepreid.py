@@ -17,8 +17,6 @@
 """
 
 
-from __future__ import division, print_function, absolute_import
-
 import os
 
 from PyQt6 import QtCore, QtGui, QtWidgets

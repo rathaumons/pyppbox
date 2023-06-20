@@ -25,10 +25,10 @@ from setuptools import setup
 def main():
 
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    long_description = open("README.md", encoding="utf-8").read()
 
     package_name = "pyppbox"
     package_version = get_version_info()
-    long_description = "Pure Python toolbox for people detecting, tracking, and re-identifying..."
 
     packages = [
         "pyppbox", "pyppbox.cfg", "pyppbox.dt_yolocv", "pyppbox.dt_yolopt", "pyppbox.gui", 
@@ -74,7 +74,7 @@ def main():
         version=package_version,
         url="https://github.com/rathaumons/pyppbox",
         license="GPLv3+",
-        description="Toolbox for people detecting, tracking, and re-identifying",
+        description="Toolbox for people detecting, tracking, and re-identifying.",
         long_description=long_description,
         long_description_content_type="text/markdown",
         packages=packages,
@@ -104,12 +104,16 @@ def main():
 
     )
 
-
 def get_version_info():
     version_py = "pyppbox/__init__.py"
     with open(version_py) as version_file:
-        exec(compile(version_file.read(), version_py, 'exec'))
-    return locals()['__version__']
+        for line in version_file.read().splitlines():
+            if line.startswith('__version__'):
+                delim = '"' if '"' in line else "'"
+                return line.split(delim)[1]
+        else:
+            msg = "Unable to find version string."
+            raise RuntimeError(msg)
 
 def force_tags(force=True):
     if force:

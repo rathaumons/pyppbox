@@ -17,8 +17,6 @@
 """
 
 
-from __future__ import division, print_function, absolute_import
-
 class Person(object):
 
     def __init__(self, init_id, cid, faceid, deepid, repspoint, box_xywh=[], box_xyxy=[], keypoints=[]):

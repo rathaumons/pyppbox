@@ -17,8 +17,6 @@
 """
 
 
-from __future__ import division, print_function, absolute_import
-
 import cv2
 from ultralytics import YOLO
 from ultralytics.yolo.utils.plotting import Colors
@@ -136,12 +134,13 @@ class MyYOLOPT(object):
 					pboxes_xyxy.append(box_xyxy)
 					repspoint = [int((box_xyxy[0] + box_xyxy[2]) / 2), self.calibrate(box_xyxy[1], box_xyxy[3], self.repspoint_callibration)]
 					repspoints.append(repspoint)
-					keypoints.append(kp)
+					keypoint = kp.data[0]
+					keypoints.append(keypoint)
 					if visual:
 						cv2.circle(frame, (repspoint[0], repspoint[1]), radius=5, color=(0, 0, 255), thickness=-1)
 						cv2.rectangle(frame, (int(box_xyxy[0]), int(box_xyxy[1])), (int(box_xyxy[2]), int(box_xyxy[3])), (255, 255, 0), 2)
-						# self.kpts_lite(frame, kp)
-						self.kpts(frame, kp, kpt_line=True)
+						# self.kpts_lite(frame, keypoint)
+						self.kpts(frame, keypoint, kpt_line=True)
 		elif len(dt_boxes_xyxy) > 0:
 			for box_xyxy in dt_boxes_xyxy:
 				box_xywh = self.to_xywh(box_xyxy)
