@@ -17,42 +17,15 @@
 """
 
 
-from __future__ import division, print_function, absolute_import
-
 # Info
-
-__version__ = '2.0b1'
+__version__ = '2.0b2'
 __author__ = 'Ratha SIV (rathaROG)'
 __homepage__ = 'https://github.com/rathaumons'
-__description__ = 'Python toolbox for people tracking system'
+__description__ = 'Toolbox for people detecting, tracking, and re-identifying.'
 __url__ = 'https://github.com/rathaumons/pyppbox.git'
 
 
-# Important
-
-from pyppbox import utils
-from pyppbox import dt_yolocv
-from pyppbox import dt_yolopt
-from pyppbox import tk_centroid
-from pyppbox import tk_sort
-from pyppbox import tk_deepsort
-from pyppbox import ri_deepreid
-from pyppbox import ri_facenet
-from pyppbox import tmp
-from pyppbox import config
-from pyppbox import ppboxmng
-from pyppbox import ui_centroid
-from pyppbox import ui_gt
-from pyppbox import ui_deepreid
-from pyppbox import ui_deepsort
-from pyppbox import ui_facenet
-from pyppbox import ui_sort
-from pyppbox import ui_yolo
-from pyppbox import uilauncher
-
-
 # Extra
-
 import os
 import subprocess as sp
 from pyppbox.config import MyCFGIO as GlobalCFGIO

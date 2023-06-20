@@ -17,8 +17,6 @@
 """
 
 
-from __future__ import division, print_function, absolute_import
-
 import os
 import cv2
 
@@ -178,7 +176,7 @@ class PManager(object):
             for i in range(0, len(pboxes_xyxy)):
                 tmp_ppobl.append(
                     Person(i, i, self.__mstruct__.str.unk_fid, self.__mstruct__.str.unk_did, 
-                    (repspoints[i][0], repspoints[i][1]), box_xywh=pboxes_xywh[i], box_xyxy=pboxes_xyxy[i], keypoints=keypoints)
+                    (repspoints[i][0], repspoints[i][1]), box_xywh=pboxes_xywh[i], box_xyxy=pboxes_xyxy[i], keypoints=keypoints[i])
                 )
         elif self.__dtname__ == self.__mstruct__.str.dtname_gt:
             tmp_ppobl = self.__dt__.nextFrame()

@@ -17,8 +17,6 @@
 """
 
 
-from __future__ import division, print_function, absolute_import
-
 from functools import cache
 import numpy as np
 from math import hypot
