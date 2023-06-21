@@ -31,11 +31,11 @@ jobs:
       run: |
         git clone https://github.com/rathaumons/torchreid-for-pyppbox.git
         pip install future yacs gdown isort chardet
-        cd torchreid-for-pyppbox/metrics/rank_cylib
+        cd torchreid-for-pyppbox/pyppbox_torchreid/metrics/rank_cylib
         python setup.py build_ext --inplace
         mv *.pyd rank_cy.pyd
         python test_cython.py
-        cd ../../
+        cd ../../..
         python -m build --wheel --skip-dependency-check --no-isolation
         cd dist
         pip install *.whl
