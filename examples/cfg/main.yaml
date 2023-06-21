@@ -1,5 +1,10 @@
+###########################################################
+# Main config:
+###########################################################
+# detector: None | YOLO_Classic | YOLO_Ultralytics
+# tracker: None | Centroid | SORT | DeepSORT
+# reider: None | Facenet | Torchreid
+###########################################################
 detector: YOLO_Ultralytics
 tracker: SORT
-reider: DeepReID
-input_video: C:/pyppbox/media/hard_sur_hd.mp4
-force_hd: False
+reider: Torchreid

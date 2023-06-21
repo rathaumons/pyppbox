@@ -1,0 +1,16 @@
+Example 6: Set the Main Modules by Names
+========================================
+
+- **Description**: Use a name of the supported modules to set the main detector/tracker/reider.
+- **Featuring**: 
+   - :py:meth:`pyppbox.standalone.setMainModules`
+   - :py:meth:`pyppbox.standalone.setMainDetector`
+   - :py:meth:`pyppbox.standalone.setMainTracker`
+   - :py:meth:`pyppbox.standalone.setMainReIDer`
+   - :py:func:`pyppbox.standalone.detectPeople`
+   - :py:func:`pyppbox.standalone.trackPeople`
+   - :py:func:`pyppbox.standalone.reidPeople`
+   - :py:func:`pyppbox.utils.visualizetools.visualizePeople`
+
+.. literalinclude:: ../../examples/example_06_module_name.py
+   :encoding: latin-1

@@ -1,52 +1,21 @@
-# Welcome to [**`pyppbox`**](https://github.com/rathaumons/pyppbox) !
+# 🐍📦 [**pyppbox**](https://github.com/rathaumons/pyppbox)
 
-## 🐍📦 [**`pyppbox`**](https://github.com/rathaumons/pyppbox) = Python + People + Toolbox 
+<div align="center">
 
-* Yes, **`pyppbox`** is an open-source Python toolbox which was originally made for the PoseTReID framework. 
-* This toolbox features 3 main modules: People Detection module, People Tracking module, and People Re-identifying module. These modules support a bunch of well-known people detectors, trackers, and re-identificators which can be used separately or put together with only a few lines of code. 
-* **`pyppbox`** also supports real-time online and offline evaluation on [PoseTReID datasets](https://github.com/rathaumons/PoseTReID_DATASET).
-* The initial version of **`pyppbox`** is also intergrated with GUI for easy demo and config. 
+<br /><img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_gui_wide.png"><br />
 
-## ⚠️ IMPORTANT NOTICES FOR VERSION 2 (May 15, 2023)
-* 🆕 **Integrate the [Ultralytics YOLOv8](https://github.com/rathaumons/ultralytics-for-pyppbox) in `pyppbox`!**
-* **See full release notes here [RELEASENOTES.md](RELEASENOTES.md).**
+**[📗 Documentation](https://rathaumons.github.io/pyppbox/) > [🚀 Getting started](https://rathaumons.github.io/pyppbox/getstarted.html) > [💡 Examples](https://rathaumons.github.io/pyppbox/examples.html)**
 
-## ⚽ Comparison Results
+</div>
 
-* Comparisions on [PoseTReID datasets](https://github.com/rathaumons/PoseTReID_DATASET) (Check our pre-printed paper: http://arxiv.org/abs/2205.10086)
-* [Click here for raw results in the paper](https://drive.google.com/open?id=13pVqKKd0mtoAaVQh1USxOwZwxg4HmzyQ)
-  <details><summary>Click to expand</summary>
-  <img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_res001n.png">
-  </details>
+* ` pyppbox = Python + People + Toolbox `
+* Design for both short and long term people detecting, tracking, and re-identifying.
+* Intergrate GUI for easy configurations and demo.
+* Support YAML/JSON configurations -> File, and both raw string and ready dictionary.
+* Support [PoseTReID's GTA_V_Dataset](https://github.com/rathaumons/PoseTReID_DATASET) -> Real-time online and offline evaluation.
+* Check our last paper & results -> [[IEEE]](https://ieeexplore.ieee.org/document/9946587) [[arxiv]](https://doi.org/10.48550/arxiv.2205.10086) | [raw results](https://drive.google.com/open?id=13pVqKKd0mtoAaVQh1USxOwZwxg4HmzyQ).
+  <details><summary><ins>Click here to see the results!</ins></summary><img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_res001n.png"></details>
 
-## ⚙️ Requirements
-
-* You must install all requirements before you are able to build.
-* Please check the [README.md](requirements/README.md) in [requirements](requirements).
-
-## 🚀 Setup `pyppbox`
-
-### Option 1: Use the lastest [prebuilt WHL (Lite) for V2 from releases](https://github.com/rathaumons/pyppbox/releases) 
-* `pip install pyppbox-xxx.whl`
-
-### Option 2: Build your own `pyppbox`
-* Download the extra models & weights [Lite for V2](https://drive.google.com/open?id=1tL6w-RfF_NlIWNlSmuzD0VhEQA9M9h11) or [Full for V2](https://drive.google.com/open?id=11Tm7dMafajtpNzQUa-jWcK_CkHPSDxWf) and extract to the root [`pyppbox`](https://github.com/rathaumons/pyppbox/)
-* Create WHL by running `creat_whl.cmd`
-* Install newly created WHL `pip install pyppbox-xxx.whl`
-
-### Quick Test
-* On your terminal or CMD:
-```
-python
-import pyppbox
-pyppbox.launchGUI()
-```
-* Now you should see [the GUI of pyppbox for easy demo](https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_launchGUI_main.png). Just hit the "LAUNCH" button!
-
-## 📝 Documentation? 
-
-* **[COMING SOON ⌛](https://github.com/rathaumons/pyppbox)**
-* Meanwhile you can check [the examples here](examples) ! 
 
 ## 🔗 Papper Citation
 

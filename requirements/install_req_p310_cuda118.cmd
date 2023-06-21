@@ -38,7 +38,7 @@ pip install %pyppbox-torchreid%
 pip install %pyppbox-ultralytics%
 cls
 :: Make sure there is no conflict
-call verify_packages.cmd
+:: :: :: :: :: call verify_packages.cmd
 :: Show & save installed pip packages to installed_packages.txt
 pip freeze
 pip freeze > installed_packages.txt
