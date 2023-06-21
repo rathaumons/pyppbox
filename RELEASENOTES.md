@@ -32,6 +32,15 @@
 
 ## **pyppbox V2 - Hello Ultralytics YOLOv8**
 
+* `pyppbox` [v2.0b2](https://github.com/rathaumons/pyppbox/tree/v2.0b2)
+
+  - Fix person's keypoint issue in `PManager` when using YOLO Ultralytics with pose estimation model
+  - Add support for the new keypoint data format of YOLO Ultralytics's pose estimation model
+  - Remove unnecessary imports
+  - Update requirements
+  - **Known issue/limitation**: 
+    - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
+
 * `pyppbox` [v2.0b1](https://github.com/rathaumons/pyppbox/tree/v2.0b1)
 
   - Integrate PyTorch Ultralytics YOLOv8 -> `pyppbox-ultralytics` as package name
