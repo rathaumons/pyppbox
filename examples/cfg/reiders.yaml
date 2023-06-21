@@ -1,19 +1,17 @@
 ri_name: Facenet
 gpu_mem: 0.585
-model_det: C:/pyppbox/ri_facenet/models/det
-model_file: C:/pyppbox/ri_facenet/models/20180402-114759/20180402-114759.pb
-classifier_file: C:/pyppbox/ri_facenet/classifier/gta5.pkl
+model_det: C:/pyppbox_v3/data/modules/facenet/models/det
+model_file: C:/pyppbox_v3/data/modules/facenet/models/20180402-114759/20180402-114759.pb
+classifier_pkl: C:/pyppbox_v3/data/modules/facenet/classifier/gta5.pkl
+train_data: C:/pyppbox_v3/data/datasets/GTA_V_DATASET/face_182x182
 batch_size: 1000
 min_confidence: 0.75
-yl_h_callibration: [-125, 75]
-yl_w_callibration: [-55, 55]
-op_h_callibration: [-85, 25]
-op_w_callibration: [-35, 35]
+yl_h_calibration: [-125, 75]
+yl_w_calibration: [-55, 55]
 ---
-ri_name: DeepReID
-classes_txt: C:/pyppbox/ri_deepreid/classifier/gta5.txt
-classifier_pkl: C:/pyppbox/ri_deepreid/classifier/gta5_osnet_ain_ms_d_c.pkl
-train_data: C:/pyppbox/ri_deepreid/data
+ri_name: Torchreid
+classifier_pkl: C:/pyppbox_v3/data/modules/torchreid/classifier/gta5_osnet_ain_ms_d_c.pkl
+train_data: C:/pyppbox_v3/data/datasets/GTA_V_DATASET/body_128x256
 model_name: osnet_ain_x1_0
-model_path: C:/pyppbox/ri_deepreid/pretrained/torchreid/osnet_ain_ms_d_c.pth.tar
+model_path: C:/pyppbox_v3/data/modules/torchreid/models/torchreid/osnet_ain_ms_d_c.pth.tar
 min_confidence: 0.35

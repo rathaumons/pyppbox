@@ -1,0 +1,7 @@
+--- # extra data for pyppbox
+extra_data: 
+  - pyppbox.config.cfg
+  - pyppbox.config.strings
+  - pyppbox.data
+  - pyppbox.gui.assets
+  - pyppbox.gui.tmp

@@ -1,0 +1,10 @@
+###########################################################
+# Main config:
+###########################################################
+# detector: None | YOLO_Classic | YOLO_Ultralytics | GT
+# tracker: None | Centroid | SORT | DeepSORT
+# reider: None | FaceNet | Torchreid
+###########################################################
+detector: YOLO_Classic
+tracker: SORT
+reider: Torchreid

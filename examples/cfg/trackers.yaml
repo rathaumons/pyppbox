@@ -1,5 +1,5 @@
 tk_name: Centroid
-max_distance: 50
+max_spread: 50
 ---
 tk_name: SORT
 max_age: 1
@@ -10,4 +10,4 @@ tk_name: DeepSORT
 nn_budget: 100
 nms_max_overlap: 0.5
 max_cosine_distance: 0.1
-model_file: C:/pyppbox/tk_deepsort/mars-small128.pb
+model_file: C:/pyppbox_v3/data/modules/deepsort/mars-small128.pb
