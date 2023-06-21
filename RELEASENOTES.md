@@ -22,7 +22,7 @@
   - Introduce new online `Sphinx` documentation -> [https://rathaumons.github.io/pyppbox](https://rathaumons.github.io/pyppbox)
   - Remove unnecessary import from submodules and their `__init__.py` files
   - Remove `input_video` and `force_hd` from main configurations, and other unused parameters from other configuration files -> New defaults `{pyppbox root}/config/cfg`
-  - Add and update [examples](https://rathaumons.github.io/pyppbox/examples) for `pyppbox` V3+ -> No longer compatible with older versions of `pyppbox`
+  - Add and update [examples](https://github.com/rathaumons/pyppbox/tree/main/examples) for `pyppbox` V3+ -> No longer compatible with older versions of `pyppbox`
   - Update and improve all supported modules
   - Update and improve GUI
   - Update ***requirements***

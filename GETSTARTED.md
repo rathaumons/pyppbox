@@ -29,7 +29,7 @@
 
 * Verify the requirements -> Simply run the `testme.cmd`
   - If there is no error, then you are all good and ready to go.
-  - If `cv2` encounters `ImportError: DLL load failed ...`, please verify the path of your CUDA & CUDNN. Our pre-built `pyppbox-opencv` uses the default path of CUDA & CUDNN (`C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v1x.x`), and if your CUDA & CUDNN were installed in a different location, you do not need to rebuild the `pyppbox-opencv`, simply modify the `YOUR_PYTHON\Lib\site-packages\cv2\config.py` accordingly.
+  - If `cv2` encounters `ImportError: DLL load failed ...`, please verify the path of your CUDA & cuDNN. Our pre-built `pyppbox-opencv` uses the default path of CUDA & cuDNN (`C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v1x.x`), and if your CUDA & cuDNN were installed in a different location, you do not need to rebuild the `pyppbox-opencv`, simply modify the `YOUR_PYTHON\Lib\site-packages\cv2\config.py` accordingly.
 
 
 ## 💽 Setup
@@ -50,7 +50,7 @@
 
 * Install [`pyppbox-data`](https://github.com/rathaumons/pyppbox-data/)
   - Download the latest from [releases](https://github.com/rathaumons/pyppbox-data/releases)
-  - Or install the ones you neeed directly:
+  - Or install the ones you need directly:
     ```
     # Detectors
     pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_yolocls-1.0-py3-none-any.whl
