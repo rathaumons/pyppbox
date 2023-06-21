@@ -34,11 +34,12 @@ jobs:
         cd torchreid-for-pyppbox/pyppbox_torchreid/metrics/rank_cylib
         python setup.py build_ext --inplace
         cp *.so rank_cy.so
-        python test_cython.py
         cd ../../..
         python -m build --wheel --skip-dependency-check --no-isolation
         cd dist
         pip install *.whl
+        cd ../pyppbox_torchreid/metrics/rank_cylib
+        python test_cython.py
     - name: Install last dependencies
       run: |
         pip install https://github.com/rathaumons/ultralytics-for-pyppbox/releases/download/v8.0.119/pyppbox_ultralytics-8.0.119-py3-none-any.whl
