@@ -33,7 +33,7 @@ jobs:
         pip install future yacs gdown isort chardet
         cd torchreid-for-pyppbox/pyppbox_torchreid/metrics/rank_cylib
         python setup.py build_ext --inplace
-        mv *.pyd rank_cy.pyd
+        cp *.so rank_cy.so
         python test_cython.py
         cd ../../..
         python -m build --wheel --skip-dependency-check --no-isolation
