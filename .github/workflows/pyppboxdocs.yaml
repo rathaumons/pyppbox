@@ -8,12 +8,16 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-python@v3
-    - name: Install dependencies
+    - name: Install base dependencies
       run: |
         python -m pip install --upgrade pip
         pip install wheel build
         pip install Cython numpy opencv-python scikit-learn scikit-image matplotlib filterpy
-        #################### build & install lap -> lap07
+        pip install protobuf>=3.19.5,<=3.20.3
+        pip install tensorflow>=2.10,<2.11 
+        pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+    - name: Build & install lap -> lap07
+      run: |
         git clone https://github.com/rathaROG/lap07.git
         cd lap07
         git fetch --all
@@ -21,11 +25,8 @@ jobs:
         python -m build --wheel --skip-dependency-check --no-isolation
         cd dist
         pip install *.whl
-        cd ../../
-        pip install protobuf>=3.19.5,<=3.20.3
-        pip install tensorflow>=2.10,<2.11 
-        pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-        #################### build & install pyppbox_torchreid
+    - name: Build & install pyppbox_torchreid
+      run: |
         git clone https://github.com/rathaumons/torchreid-for-pyppbox.git
         pip install future yacs gdown isort chardet
         cd torchreid-for-pyppbox/metrics/rank_cylib
@@ -33,11 +34,11 @@ jobs:
         mv *.pyd rank_cy.pyd
         python test_cython.py
         cd ../../
-        cd torchreid-for-pyppbox
         python -m build --wheel --skip-dependency-check --no-isolation
         cd dist
         pip install *.whl
-        cd ../../
+    - name: Install last dependencies
+      run: |
         pip install https://github.com/rathaumons/ultralytics-for-pyppbox/releases/download/v8.0.119/pyppbox_ultralytics-8.0.119-py3-none-any.whl
         pip install sphinx myst-parser pydata-sphinx-theme readthedocs-sphinx-search
         pip install --upgrade sphinx
