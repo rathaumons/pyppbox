@@ -11,5 +11,9 @@ Example 5: Set the Main Modules by a YAML/JSON Dictionary or String
    - :py:func:`pyppbox.standalone.reidPeople`
    - :py:func:`pyppbox.utils.visualizetools.visualizePeople`
 
+ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
+
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
+
 .. literalinclude:: ../../examples/example_05_module_json_str_dict.py
    :encoding: latin-1

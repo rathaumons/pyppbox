@@ -32,6 +32,7 @@ __max_age__ = 86400 * 1 # 1 DAY
 # Remove old logs
 if os.path.exists(__log_dir__):
     for filename in os.listdir(__log_dir__):
+        if "git" in filename: continue
         filestamp = os.stat(os.path.join(__log_dir__, filename)).st_mtime
         if  filestamp < time.time() - __max_age__:
             os.remove(os.path.join(__log_dir__, filename))

@@ -10,5 +10,9 @@ Example 7: Use Result Tools
    - :py:func:`pyppbox.standalone.reidPeople`
    - :py:func:`pyppbox.utils.visualizetools.visualizePeople`
 
+ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
+
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
+
 .. literalinclude:: ../../examples/example_07_restools.py
    :encoding: latin-1

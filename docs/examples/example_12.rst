@@ -6,5 +6,9 @@ Example 12: Use a Supported Module Directly
    - :py:class:`pyppbox.modules.detectors.yoloult.MyYOLOULT`
    - :py:class:`pyppbox.config.myconfig.DCFGYOLOULT`
 
+ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
+
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
+
 .. literalinclude:: ../../examples/example_12_direct_module.py
    :encoding: latin-1

@@ -5,5 +5,9 @@ Example 11: Train a Classifier Using a Supported ReIDer
 - **Featuring**: 
    - :py:meth:`pyppbox.standalone.trainReIDClassifier`
 
+ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
+
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
+
 .. literalinclude:: ../../examples/example_11_reid_classifier.py
    :encoding: latin-1

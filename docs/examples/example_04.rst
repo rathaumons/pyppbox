@@ -11,5 +11,9 @@ Example 4: Set the Main Detector/Tracker/Reider by a YAML or JSON File
    - :py:func:`pyppbox.standalone.reidPeople`
    - :py:func:`pyppbox.utils.visualizetools.visualizePeople`
 
+ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
+
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
+
 .. literalinclude:: ../../examples/example_04_module_yaml_file.py
    :encoding: latin-1

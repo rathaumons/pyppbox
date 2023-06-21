@@ -81,7 +81,7 @@ def __setInternalCFGDir__(load_all):
 def setConfigDir(config_dir=None, load_all=False):
     """Set configurations by a pointing to a config directory :obj:`config_dir`, 
     where stores 4 required YAML files:
-    (1) main.yaml, indicates which detector/tracker/reider is used.
+    (1) main.yaml, tells what main detector/tracker/reider are chosen.
     (2) detectors.yaml, stores all detectors' configurations.
     (3) trackers.yaml, stores all trackers' configurations.
     (4) reiders.yaml, stores all reiders' configurations.
@@ -95,7 +95,7 @@ def setConfigDir(config_dir=None, load_all=False):
         Set :code:`config_dir=None` to use the internal config directory 
         :code:'{pyppbox root}/config/cfg'.
     load_all : bool, default=False
-        Set :code:`load_all=True` to set and load the seletected detector/tracker/reider 
+        Set :code:`load_all=True` to set and load the selected detector/tracker/reider 
         according to the main configurations. 
         Set :code:`load_all=False` to select and load a detector/tracker/reider manually later.
     """
@@ -132,7 +132,7 @@ def setConfigDir(config_dir=None, load_all=False):
 
 def setMainModules(main_yaml=None, load_all=True):
     """Load and set the main detector, the main tracker, and the main reider all at once 
-    accroding to the given main configurations, :obj:`main_yaml`. If the :func:`setConfigDir()` 
+    according to the given main configurations, :obj:`main_yaml`. If the :func:`setConfigDir()` 
     has not yet been called, internal config directory will be used.
 
     Parameters
@@ -143,7 +143,7 @@ def setMainModules(main_yaml=None, load_all=True):
         configured earlier. Leave it as default :obj:`main_yaml=None`, to load and set according 
         to the configurations in the config directory.
     load_all : bool, default=True
-        Set :code:`load_all=True` to set and load the seletected detector/tracker/reider according 
+        Set :code:`load_all=True` to set and load the selected detector/tracker/reider according 
         to the main configurations, which it is meant for using this :func:`setMainModules()` method.
         Set :code:`load_all=False` to select and load a detector/tracker/reider manually later.
     """
@@ -210,8 +210,8 @@ def __revokeGTDTOnly__():
 
 def forceFullGTMode():
     """Normally when :code:`DT='GT'`, pyppbox can automatically decide the GT mode based on the 
-    name of the tracker and/or the name of reider; however, if the decision is not satified 
-    (Should not happend), calling this :func:`forceFUllGTMode()` will overwrite :code:`detect_only=False`.
+    name of the tracker and/or the name of reider; however, if the decision is not satisfied 
+    (Should not happen), calling this :func:`forceFUllGTMode()` will overwrite :code:`detect_only=False`.
     """
     global __dt_is_set__, __dt__, __dt_cfg__, __unistrings__
     success = False
@@ -293,7 +293,7 @@ def setMainDetector(detector=""):
     """Set the main detector by a supported name, a raw YAML/JSON string, a ready YAML/JSON 
     dictionary, or a YAML/JSON file. Calling :func:`setConfigDir()` before :func:`setMainTracker()` 
     is optional. Different from the rest, setting the main detector by its name results 
-    in loading the configurations from the config directory set by last :func:`setConfigDir()`. 
+    in loading the configurations from the config directory set by the last :func:`setConfigDir()`. 
     If :func:`setConfigDir()` has not been called before, setting the main detector by a supported 
     name results in referencing the internal config directory in order to load the 
     corresponding configurations. 
@@ -481,7 +481,7 @@ def setMainTracker(tracker=""):
     """Set the main tracker by a supported name, a raw YAML/JSON string, a ready YAML/JSON 
     dictionary, or a YAML/JSON file. Calling :func:`setConfigDir()` before :func:`setMainTracker()` 
     is optional. Different from the rest, setting the main tracker by its name results 
-    in loading the configurations from the config directory set by last :func:`setConfigDir()`. 
+    in loading the configurations from the config directory set by the last :func:`setConfigDir()`. 
     If :func:`setConfigDir()` has not been called before, setting the main tracker by a supported 
     name results in referencing the internal config directory in order to load the 
     corresponding configurations. 
@@ -653,7 +653,7 @@ def setMainReIDer(reider="", auto_load=True):
     """Set the main reider by a supported name, a raw YAML/JSON string, a ready YAML/JSON 
     dictionary, or a YAML/JSON file. Calling :func:`setConfigDir()` before :func:`setMainTracker()` 
     is optional. Different from the rest, setting the main reider by its name results in 
-    loading the configurations from the config directory set by last :func:`setConfigDir()`. 
+    loading the configurations from the config directory set by the last :func:`setConfigDir()`. 
     If :func:`setConfigDir()` has not been called before, setting the main reider by a supported 
     name results in referencing the internal config directory in order to load the 
     corresponding configurations. 
@@ -918,7 +918,7 @@ def trainReIDClassifier(reider="Default", train_data="", classifier_pkl=""):
     train_data : str, default=""
         A path of data to train, where consists of 2 or more sub-folders which classify 
         2 or more people. Set :code:`train_data=""` or keep default to use the configured 
-        :obj:`train_data` accroding to the input :code:`reider`. All images in this the sub-folders 
+        :obj:`train_data` according to the input :code:`reider`. All images in this the sub-folders 
         must be 128x256 for Torchreid and 182x182 for FaceNet.
     classifier_pkl : str, default=""
         A file path for the classifier PKL file. Set :code:`classifier_pkl=""` or keep default 

@@ -5,5 +5,9 @@ Example 9: Compare a Generated Result to a Reference or Ground-truth
 - **Featuring**: 
    - :py:func:`pyppbox.utils.evatools.compareRes2Ref`
 
+ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
+
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
+
 .. literalinclude:: ../../examples/example_09_eva_offline.py
    :encoding: latin-1

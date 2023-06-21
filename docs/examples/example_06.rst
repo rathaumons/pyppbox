@@ -12,5 +12,9 @@ Example 6: Set the Main Modules by Names
    - :py:func:`pyppbox.standalone.reidPeople`
    - :py:func:`pyppbox.utils.visualizetools.visualizePeople`
 
+ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
+
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
+
 .. literalinclude:: ../../examples/example_06_module_name.py
    :encoding: latin-1

@@ -12,5 +12,9 @@ Example 8: Use Real-time Evaluation Tools
    - :py:func:`pyppbox.standalone.reidPeople`
    - :py:func:`pyppbox.utils.visualizetools.visualizePeople`
 
+ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
+
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
+
 .. literalinclude:: ../../examples/example_08_evatools.py
    :encoding: latin-1

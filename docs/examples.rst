@@ -3,7 +3,9 @@
 
 The examples below will help you make the most use of **pyppbox**. Before you are able to run these examples, make sure you already installed **pyppbox V3+** or check :ref:`getstarted-page` if you haven't already.
 
-All source codes and **required input files** are available here: https://github.com/rathaumons/pyppbox/examples/ 
+ℹ️ Source code and **required input files** are available here: `{pyppbox repo}/examples`_.
+
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
 
 .. toctree::
    :maxdepth: 1
@@ -22,3 +24,4 @@ All source codes and **required input files** are available here: https://github
    examples/example_12
 
 |
+
