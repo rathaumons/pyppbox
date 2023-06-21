@@ -11,24 +11,37 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install Cython numpy opencv-python scikit-learn scikit-image matplotlib filterpy 
-        # build & install lap -> lap07
+        pip install wheel build
+        pip install Cython numpy opencv-python scikit-learn scikit-image matplotlib filterpy
+        twkdir=`pwd`
+        #################### build & install lap -> lap07
         git clone https://github.com/rathaROG/lap07.git
         cd lap07
         git fetch --all
         git reset --hard origin/main
-        pip install wheel build
         python -m build --wheel --skip-dependency-check --no-isolation
         cd dist
         pip install *.whl
-        cd ..
-        cd ..
-        pip install tensorflow torch torchvision torchaudio
-        pip install https://github.com/rathaumons/torchreid-for-pyppbox/releases/download/v1.4.0/pyppbox_torchreid-1.4.0-py3-none-any.whl
+        cd $twkdir
+        pip install protobuf>=3.19.5,<=3.20.3
+        pip install tensorflow>=2.10,<2.11 
+        pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+        #################### build & install pyppbox_torchreid
+        git clone https://github.com/rathaumons/torchreid-for-pyppbox.git
+        pip install future yacs gdown isort chardet
+        cd torchreid-for-pyppbox/metrics/rank_cylib
+        python setup.py build_ext --inplace
+        mv *.pyd rank_cy.pyd
+        python test_cython.py
+        cd $twkdir
+        cd torchreid-for-pyppbox
+        python -m build --wheel --skip-dependency-check --no-isolation
+        cd dist
+        pip install *.whl
+        cd $twkdir
         pip install https://github.com/rathaumons/ultralytics-for-pyppbox/releases/download/v8.0.119/pyppbox_ultralytics-8.0.119-py3-none-any.whl
         pip install sphinx myst-parser pydata-sphinx-theme readthedocs-sphinx-search
         pip install --upgrade sphinx
-        pip install protobuf==3.20.3
         pip freeze
     - name: Sphinx build
       run: |
