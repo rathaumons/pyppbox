@@ -23,8 +23,7 @@ from setuptools import find_packages, setup
 
 def main():
     long_description = open("README.md", encoding="utf-8").read()
-    packages, package_data = get_extra_data()
-    packages = list(set(packages + find_packages()))
+    packages, package_data = get_packages()
     setup(
         name="pyppbox",
         version=get_version_string(),
@@ -64,14 +63,15 @@ def main():
         ],
     )
 
-def get_extra_data():
+def get_packages():
     import yaml
     from yaml.loader import SafeLoader
-    packages = []
+    packages = find_packages()
     package_data = {}
     with open("setup_extra.yaml") as setup_extra:
         extra_dict = yaml.load(setup_extra, Loader=SafeLoader)
-        packages = extra_dict['extra_data']
+        packages = packages + extra_dict['extra_data']
+        packages = list(set(packages))
         for p in packages: package_data.update({p: ["*"]})
     return packages, package_data
 

@@ -36,7 +36,7 @@ if os.path.exists(__log_dir__):
         filestamp = os.stat(os.path.join(__log_dir__, filename)).st_mtime
         if  filestamp < time.time() - __max_age__:
             os.remove(os.path.join(__log_dir__, filename))
-else: os.mkdir(__log_dir__)
+else: os.makedirs(__log_dir__)
 
 # Initial logger
 logging.basicConfig(

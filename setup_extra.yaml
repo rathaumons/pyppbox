@@ -1,7 +1,22 @@
 --- # extra data for pyppbox
 extra_data: 
+  - pyppbox
+  - pyppbox.config
   - pyppbox.config.cfg
   - pyppbox.config.strings
   - pyppbox.data
+  - pyppbox.data.datasets
+  - pyppbox.data.logs
+  - pyppbox.data.modules
+  - pyppbox.data.res
+  - pyppbox.gui
   - pyppbox.gui.assets
   - pyppbox.gui.tmp
+  - pyppbox.modules
+  - pyppbox.modules.detectors
+  - pyppbox.modules.reiders
+  - pyppbox.modules.reiders.facenet.origin
+  - pyppbox.modules.trackers
+  - pyppbox.modules.trackers.deepsort.origin
+  - pyppbox.modules.trackers.sort.origin
+  - pyppbox.utils
