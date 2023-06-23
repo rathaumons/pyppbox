@@ -86,11 +86,5 @@ def get_version_string():
             msg = "Unable to find version string."
             raise RuntimeError(msg)
 
-def force_tags_on_windows():
-    import sys
-    if sys.platform.startswith('win'):
-        sys.argv.extend(['--plat-name', 'win_amd64'])
-
 if __name__ == "__main__":
-    force_tags_on_windows()
     main()
