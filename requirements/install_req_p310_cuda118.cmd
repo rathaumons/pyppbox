@@ -32,14 +32,15 @@ pip uninstall -y ultralytics
 :: Install common packages
 pip install "numpy>=1.24.3"
 pip install %pyppbox-opencv%
-pip install -r pippackages.txt
+pip install -r pippackages_cuda.txt
+pip install git+https://github.com/rathaROG/lapx.git
 pip install torch==2.0.1+cu118 torchaudio==2.0.2+cu118 torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
 pip install %pyppbox-torchreid%
 pip install %pyppbox-ultralytics%
 cls
 :: Make sure there is no conflict
-call verify_packages.cmd
+call verify_packages_cuda118.cmd
 :: Show & save installed pip packages to installed_packages.txt
 pip freeze
-pip freeze > installed_packages.txt
+pip freeze > installed_packages_cuda.txt
 pause

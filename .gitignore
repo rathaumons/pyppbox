@@ -34,7 +34,7 @@ MANIFEST
 *.spec
 
 # Installed pip packages
-requirements/installed_packages.txt
+requirements/installed_*.txt
 
 # Environments
 .env

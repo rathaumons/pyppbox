@@ -18,9 +18,19 @@
 @echo off
 setlocal
 cd /d %~dp0
-set "PYTHONWARNINGS=ignore"
-python -m pip install --upgrade pip
-pip install "setuptools>=67.2.0"
-pip install wheel build PyYAML
-python -m build --wheel --no-isolation
-pause
+:: Set URLs
+set "pyppbox-ultralytics=https://github.com/rathaumons/ultralytics-for-pyppbox/releases/download/v8.0.119/pyppbox_ultralytics-8.0.119-py3-none-any.whl"
+echo.
+:: Make sure there is no conflict for 'pyppbox-ultralytics'
+echo ################################################################
+echo #   Make sure there is no conflict for 'pyppbox-ultralytics'   #
+echo ################################################################
+echo.
+pip uninstall -y pyppbox-ultralytics
+pip uninstall -y ultralytics
+pip install --upgrade --no-deps --force-reinstall %pyppbox-ultralytics%
+echo.
+echo ################################################################
+echo #                            Done!                             #
+echo ################################################################
+echo.

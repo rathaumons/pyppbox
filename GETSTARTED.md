@@ -16,20 +16,22 @@
 ## ⚙️ Requirements
 
 * Prerequisite: 
-  - NVIDIA [CUDA Toolkit 11.8.x](https://developer.nvidia.com/cuda-downloads) with default installation path
-  - NVIDIA [cuDNN 8.9.x](https://developer.nvidia.com/rdp/cudnn-download) with default installation path
+  - For NVIDIA GPU: [CUDA Toolkit 11.8.x](https://developer.nvidia.com/cuda-downloads) with default installation path
+  - For NVIDIA GPU: [cuDNN 8.9.x](https://developer.nvidia.com/rdp/cudnn-download) with default installation path
   - Python [3.10.x for Windows](https://www.python.org/downloads/windows/)
   - Local pyppbox: `git clone https://github.com/rathaumons/pyppbox.git`
 
 * (Optional) If you prefer conda:
-  - Python 3.10 `conda create --name pyppbox_env python=3.10`
+  - For GPU + Python 3.10: `conda create --name pyppbox_env python=3.10`
+  - For CPU only: `conda create --name pyppbox_env python=3.x` (Python 3.8+)
 
 * Run the installer in `pyppbox/requirements/`: 
-  - Python 3.10 & CUDA 11.8.x `install_req_p310_cuda118.cmd`
+  - For GPU + (Python 3.10 & CUDA 11.8.x): `install_req_p310_cuda118.cmd` 
+  - For CPU only + (Python 3.7+):  `install_req_p3x_cpu.cmd`
 
 * Verify the requirements -> Simply run the `testme.cmd`
   - If there is no error, then you are all good and ready to go.
-  - If `cv2` encounters `ImportError: DLL load failed ...`, please verify the path of your CUDA & cuDNN. Our pre-built `pyppbox-opencv` uses the default path of CUDA & cuDNN (`C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v1x.x`), and if your CUDA & cuDNN were installed in a different location, you do not need to rebuild the `pyppbox-opencv`, simply modify the `YOUR_PYTHON\Lib\site-packages\cv2\config.py` accordingly.
+  - For GPU using `pyppbox-opencv`, if `cv2` encounters `ImportError: DLL load failed ...`, please verify the path of your CUDA & cuDNN. Our pre-built `pyppbox-opencv` uses the default path of CUDA & cuDNN (`C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v1x.x`), and if your CUDA & cuDNN were installed in a different location, simply modify the `YOUR_PYTHON\Lib\site-packages\cv2\config.py` accordingly.
 
 
 ## 💽 Setup

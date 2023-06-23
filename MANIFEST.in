@@ -1,4 +1,0 @@
-include *.md
-recursive-include *.*
-recursive-include pyppbox *
-recursive-exclude __pycache__ *

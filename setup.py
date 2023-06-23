@@ -29,7 +29,7 @@ def main():
         name="pyppbox",
         version=get_version_string(),
         url="https://github.com/rathaumons/pyppbox",
-        license="GPLv3+",
+        license="GPL-3.0+",
         description="Toolbox for people detecting, tracking, and re-identifying.",
         long_description=long_description,
         long_description_content_type="text/markdown",
@@ -37,8 +37,8 @@ def main():
         package_data=package_data,
         include_package_data=True,
         maintainer="Ratha SIV",
-        install_requires=None,
-        python_requires=">=3.9",
+        install_requires=["PyYAML", "setuptools>=67.2.0"],
+        python_requires=">=3.8",
         classifiers=[
             "Development Status :: 4 - Beta",
             "Environment :: Console",
@@ -46,13 +46,18 @@ def main():
             "Intended Audience :: Education",
             "Intended Audience :: Information Technology",
             "Intended Audience :: Science/Research",
-            "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+            "License :: OSI Approved :: GNU General Public License v3 or later (GPL-3.0+)",
             "Operating System :: Microsoft :: Windows",
+            "Operating System :: POSIX",
+            "Operating System :: Unix",
+            "Operating System :: MacOS",
             "Programming Language :: Python",
             "Programming Language :: Python :: 3",
             "Programming Language :: Python :: 3 :: Only",
+            "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
+            "Programming Language :: Python :: 3.11",
             "Topic :: Scientific/Engineering",
             "Topic :: Scientific/Engineering :: Image Recognition",
             "Topic :: Software Development",
@@ -67,8 +72,7 @@ def get_extra_data():
     with open("setup_extra.yaml") as setup_extra:
         extra_dict = yaml.load(setup_extra, Loader=SafeLoader)
         packages = extra_dict['extra_data']
-        for p in packages:
-            package_data.update({p: ["*"]})
+        for p in packages: package_data.update({p: ["*"]})
     return packages, package_data
 
 def get_version_string():
@@ -82,12 +86,11 @@ def get_version_string():
             msg = "Unable to find version string."
             raise RuntimeError(msg)
 
-def force_tags(force=True):
-    if force:
-        import sys
+def force_tags_on_windows():
+    import sys
+    if sys.platform.startswith('win'):
         sys.argv.extend(['--plat-name', 'win_amd64'])
 
-
 if __name__ == "__main__":
-    force_tags()
+    force_tags_on_windows()
     main()

@@ -1,0 +1,28 @@
+### Common
+Cython>=0.29.33
+scikit-image>=0.20.0
+scikit-learn>=1.2.2
+scipy>=1.10.0
+imageio
+imutils
+pandas
+Pillow
+psutil
+tqdm
+tables
+h5py
+matplotlib
+PyYAML
+future
+pyunpack
+tensorflow>=2.10,<2.11
+protobuf>=3.19.5,<=3.20.3
+### Tracker: SORT
+filterpy
+# lap05 -> lapx <- Install from install_xxx.cmd
+### Compression
+patool
+### GUI
+PyQt6
+### Unused
+# shapely
