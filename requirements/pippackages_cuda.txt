@@ -19,10 +19,14 @@ tensorflow>=2.10,<2.11
 protobuf>=3.19.5,<=3.20.3
 ### Tracker: SORT
 filterpy
-# lap05 -> lapx <- Install from install_xxx.cmd
+lapx
 ### Compression
 patool
 ### GUI
 PyQt6
 ### Unused
 # shapely
+### Customized pyppbox-torchreid
+pyppbox-torchreid
+### Customized pyppbox-ultralytics
+pyppbox-ultralytics

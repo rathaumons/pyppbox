@@ -18,8 +18,6 @@
 @echo off
 setlocal
 cd /d %~dp0
-:: Set URLs
-set "pyppbox-ultralytics=https://github.com/rathaumons/ultralytics-for-pyppbox/releases/download/v8.0.119/pyppbox_ultralytics-8.0.119-py3-none-any.whl"
 echo.
 :: Make sure there is no conflict for 'pyppbox-ultralytics'
 echo ################################################################
@@ -28,7 +26,7 @@ echo ################################################################
 echo.
 pip uninstall -y pyppbox-ultralytics
 pip uninstall -y ultralytics
-pip install --upgrade --no-deps --force-reinstall %pyppbox-ultralytics%
+pip install --upgrade --no-deps --force-reinstall pyppbox-ultralytics
 echo.
 echo ################################################################
 echo #                            Done!                             #

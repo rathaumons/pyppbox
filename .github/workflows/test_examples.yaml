@@ -1,0 +1,59 @@
+name: Test Examples Windows
+on: [workflow_dispatch]
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install requirements
+      run: |
+        python -m pip install --upgrade pip
+        pip install "setuptools>=67.2.0"
+        pip install wheel build
+        pip install "numpy>=1.24.3"
+        pip install opencv-contrib-python
+        cd requirements
+        pip install -r pippackages_cuda.txt
+        pip install torch==2.0.1+cu118 torchaudio==2.0.2+cu118 torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
+        pip freeze
+    - name: Install pyppbox/modules/dataset
+      run: |
+        pip install https://github.com/rathaumons/pyppbox/releases/download/v3.0b1/pyppbox-3.0b1-py3-none-win_amd64.whl
+        pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_yolocls-1.0-py3-none-any.whl
+        pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_yoloult-1.0-py3-none-any.whl
+        pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_deepsort-1.0-py3-none-any.whl
+        pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_facenet-1.0-py3-none-any.whl
+        pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_torchreid-1.0-py3-none-any.whl
+        pip install https://github.com/rathaumons/PoseTReID_DATASET/releases/download/v2.0/pyppbox_data_gta5-2.0-py3-none-any.whl
+    - name: Test GPU
+      run: |
+        cd requirements
+        nvidia-smi
+        python test_gpu.py
+    - name: Test example 01
+      run: |
+        cd examples
+        python example_01_basic.py
+    - name: Test example 03
+      run: |
+        cd examples
+        python example_03_custom_cfg_directory.py
+    - name: Test example 05
+      run: |
+        cd examples
+        python example_05_module_json_str_dict.py
+    - name: Test example 09
+      run: |
+        cd examples
+        python example_09_eva_offline.py
+    - name: Test example 10
+      run: |
+        cd examples
+        python example_10_detector_gt_file.py   
+    - name: Test example 11
+      run: |
+        cd examples  
+        python example_11_reid_classifier.py

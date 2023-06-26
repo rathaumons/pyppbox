@@ -23,15 +23,19 @@
 
 * (Optional) If you prefer conda:
   - For GPU + Python 3.10: `conda create --name pyppbox_env python=3.10`
-  - For CPU only: `conda create --name pyppbox_env python=3.x` (Python 3.8+)
+  - For CPU-only: `conda create --name pyppbox_env python=3.x` (Python 3.8+)
 
 * Run the installer in `pyppbox/requirements/`: 
   - For GPU + (Python 3.10 & CUDA 11.8.x): `install_req_p310_cuda118.cmd` 
-  - For CPU only + (Python 3.7+):  `install_req_p3x_cpu.cmd`
+  - For CPU-only + (Python 3.8+):  `install_req_p3x_cpu.cmd`
 
-* Verify the requirements -> Simply run the `testme.cmd`
+* Verify the requirements for GPU -> Simply run the `test_gpu.cmd`
   - If there is no error, then you are all good and ready to go.
-  - For GPU using `pyppbox-opencv`, if `cv2` encounters `ImportError: DLL load failed ...`, please verify the path of your CUDA & cuDNN. Our pre-built `pyppbox-opencv` uses the default path of CUDA & cuDNN (`C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v1x.x`), and if your CUDA & cuDNN were installed in a different location, simply modify the `YOUR_PYTHON\Lib\site-packages\cv2\config.py` accordingly.
+  - For `pyppbox-opencv`, if `cv2` encounters `ImportError: DLL load failed ...`, please verify the path of your CUDA & cuDNN. Our pre-built `pyppbox-opencv` uses the default path of CUDA & cuDNN (`C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v1x.x`), and if your CUDA & cuDNN were installed in a different location, simply modify the `YOUR_PYTHON\Lib\site-packages\cv2\config.py` accordingly.
+
+* ***Note for CPU-Only:***
+  - Torchreid does not work for CPU-Only -> It is excluded from `install_req_p3x_cpu.cmd`
+  - YOLO Ultralytics uses GPU by default, you must change the config -> `device: 'cpu'`
 
 
 ## 💽 Setup
@@ -54,12 +58,9 @@
   - Download the latest from [releases](https://github.com/rathaumons/pyppbox-data/releases)
   - Or install the ones you need directly:
     ```
-    # Detectors
     pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_yolocls-1.0-py3-none-any.whl
     pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_yoloult-1.0-py3-none-any.whl
-    # Trackers
     pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_deepsort-1.0-py3-none-any.whl
-    # ReIDers
     pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_facenet-1.0-py3-none-any.whl
     pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_torchreid-1.0-py3-none-any.whl
     ```

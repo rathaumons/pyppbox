@@ -20,7 +20,6 @@ setlocal
 cd /d %~dp0
 :: Set URLs
 set "pyppbox-opencv=https://github.com/rathaumons/pyppbox-custpkg/raw/main/pyppbox_opencv/cp310_cu118/pyppbox_opencv-4.7.0-cp310-none-win_amd64.whl"
-set "pyppbox-ultralytics=https://github.com/rathaumons/ultralytics-for-pyppbox/releases/download/v8.0.119/pyppbox_ultralytics-8.0.119-py3-none-any.whl"
 echo.
 :: Make sure there is no conflict for 'pyppbox-ultralytics'
 echo ################################################################
@@ -29,7 +28,7 @@ echo ################################################################
 echo.
 pip uninstall -y pyppbox-ultralytics
 pip uninstall -y ultralytics
-pip install --upgrade --no-deps --force-reinstall %pyppbox-ultralytics%
+pip install --upgrade --no-deps --force-reinstall pyppbox-ultralytics
 echo.
 :: Make sure there is no conflict for 'pyppbox-opencv'
 echo ################################################################

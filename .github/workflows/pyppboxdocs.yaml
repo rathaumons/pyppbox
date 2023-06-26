@@ -1,4 +1,4 @@
-name: Build pyppboxdocs
+name: Documentation
 on: [push, pull_request, workflow_dispatch]
 permissions:
     contents: write
@@ -15,27 +15,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install "setuptools>=67.2.0"
         pip install wheel build
-        pip install Cython numpy opencv-python scikit-learn scikit-image matplotlib filterpy
+        pip install Cython numpy opencv-contrib-python scikit-learn scikit-image matplotlib filterpy lapx
         pip install "protobuf>=3.19.5,<=3.20.3"
         pip install "tensorflow>=2.10,<2.11"
         pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-        pip install git+https://github.com/rathaROG/lapx.git
-    - name: Build & install pyppbox_torchreid
-      run: |
-        git clone https://github.com/rathaumons/torchreid-for-pyppbox.git
-        pip install future yacs gdown isort chardet
-        cd torchreid-for-pyppbox/pyppbox_torchreid/metrics/rank_cylib
-        python setup.py build_ext --inplace
-        cp *.so rank_cy.so
-        cd ../../..
-        python -m build --wheel --skip-dependency-check --no-isolation
-        cd dist
-        pip install *.whl
-        cd ../pyppbox_torchreid/metrics/rank_cylib
-        python test_cython.py
-    - name: Install last dependencies
-      run: |
-        pip install https://github.com/rathaumons/ultralytics-for-pyppbox/releases/download/v8.0.119/pyppbox_ultralytics-8.0.119-py3-none-any.whl
+        pip install pyppbox-torchreid
+        pip install pyppbox-ultralytics
         pip install sphinx myst-parser pydata-sphinx-theme readthedocs-sphinx-search
         pip install --upgrade sphinx
         pip freeze

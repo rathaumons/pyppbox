@@ -20,8 +20,6 @@ setlocal
 cd /d %~dp0
 :: Set URLs
 set "pyppbox-opencv=https://github.com/rathaumons/pyppbox-custpkg/raw/main/pyppbox_opencv/cp310_cu118/pyppbox_opencv-4.7.0-cp310-none-win_amd64.whl"
-set "pyppbox-torchreid=https://github.com/rathaumons/torchreid-for-pyppbox/releases/download/v1.4.0/pyppbox_torchreid-1.4.0-py3-none-any.whl"
-set "pyppbox-ultralytics=https://github.com/rathaumons/ultralytics-for-pyppbox/releases/download/v8.0.119/pyppbox_ultralytics-8.0.119-py3-none-any.whl"
 :: Upgrade & install basic packages
 python -m pip install --upgrade pip
 pip install "setuptools>=67.2.0"
@@ -33,10 +31,7 @@ pip uninstall -y ultralytics
 pip install "numpy>=1.24.3"
 pip install %pyppbox-opencv%
 pip install -r pippackages_cuda.txt
-pip install git+https://github.com/rathaROG/lapx.git
 pip install torch==2.0.1+cu118 torchaudio==2.0.2+cu118 torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
-pip install %pyppbox-torchreid%
-pip install %pyppbox-ultralytics%
 cls
 :: Make sure there is no conflict
 call verify_packages_cuda118.cmd

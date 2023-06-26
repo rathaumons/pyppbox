@@ -18,9 +18,6 @@
 @echo off
 setlocal
 cd /d %~dp0
-:: Set URLs
-set "pyppbox-torchreid=https://github.com/rathaumons/torchreid-for-pyppbox/releases/download/v1.4.0/pyppbox_torchreid-1.4.0-py3-none-any.whl"
-set "pyppbox-ultralytics=https://github.com/rathaumons/ultralytics-for-pyppbox/releases/download/v8.0.119/pyppbox_ultralytics-8.0.119-py3-none-any.whl"
 :: Upgrade & install basic packages
 python -m pip install --upgrade pip
 pip install "setuptools>=67.2.0"
@@ -28,10 +25,7 @@ pip install "setuptools>=67.2.0"
 pip uninstall -y ultralytics
 :: Install common packages
 pip install -r pippackages_cpu.txt
-pip install git+https://github.com/rathaROG/lapx.git
 pip install torch torchvision torchaudio
-pip install %pyppbox-torchreid%
-pip install %pyppbox-ultralytics%
 cls
 :: Make sure there is no conflict
 call verify_packages_cpu.cmd

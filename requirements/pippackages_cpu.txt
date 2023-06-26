@@ -21,10 +21,14 @@ tensorflow<2.12
 protobuf<=3.20.3
 ### Tracker: SORT
 filterpy
-# lap05 -> lapx <- Install from install_xxx.cmd
+lapx
 ### Compression
 patool
 ### GUI
 PyQt6
 ### Unused
 # shapely
+### Customized pyppbox-torchreid (Not available for CPU)
+# pyppbox-torchreid
+### Customized pyppbox-ultralytics (CPU might work?)
+pyppbox-ultralytics

@@ -1,0 +1,4 @@
+include *.md *.in *.toml LICENSE
+global-include pyppbox *.*
+global-exclude */__pycache__
+global-exclude *.pyc

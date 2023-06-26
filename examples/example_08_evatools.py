@@ -48,6 +48,9 @@ while cap.isOpened():
             img_is_mat=True
         )
 
+        # Count reid
+        total_reid = total_reid + reid_count[0] + reid_count[1]
+
         # Visualize people in video frame with reid status `show_reid=reid_count`
         visualized_mat = visualizePeople(
             frame, 

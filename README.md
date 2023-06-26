@@ -2,7 +2,9 @@
 
 <div align="center">
 
-<br /><img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_gui_wide.png"><br />
+[![Documentation](https://github.com/rathaumons/pyppbox/actions/workflows/pyppboxdocs.yaml/badge.svg)](https://github.com/rathaumons/pyppbox/actions/workflows/pyppboxdocs.yaml) [![Test Examples Windows](https://github.com/rathaumons/pyppbox/actions/workflows/test_examples.yaml/badge.svg)](https://github.com/rathaumons/pyppbox/actions/workflows/test_examples.yaml) [![Test Build Windows](https://github.com/rathaumons/pyppbox/actions/workflows/test_build.yaml/badge.svg)](https://github.com/rathaumons/pyppbox/actions/workflows/test_build.yaml)
+
+<img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_gui_wide.png"><br />
 
 **[📗 Documentation](https://rathaumons.github.io/pyppbox/) > [🚀 Getting started](https://rathaumons.github.io/pyppbox/getstarted.html) > [💡 Examples](https://rathaumons.github.io/pyppbox/examples.html)**
 

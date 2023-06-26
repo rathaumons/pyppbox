@@ -18,5 +18,6 @@
 @echo off
 setlocal
 cd /d %~dp0
-python testme.py
+nvidia-smi
+python test_gpu.py
 pause
