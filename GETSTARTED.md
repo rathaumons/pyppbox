@@ -7,18 +7,18 @@ Installing `pyppbox` is very easy and straightforward. You can install it from [
 All requirements are not strictly limited. However, some specific modules might need some special dependencies. For example, `YOLO_Classic` (With `.weights` model) relies OpenCV DNN in order to make use of GPU power. In this case, you might need to build OpenCV from source by yourself or use our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) instead of the official `opencv-contrib-python` which does not include GPU support.
 
 * Prerequisite: 
-  - For NVIDIA GPU: [CUDA Toolkit 11.8.x](https://developer.nvidia.com/cuda-downloads) with default installation path
-  - For NVIDIA GPU: [cuDNN 8.9.x](https://developer.nvidia.com/rdp/cudnn-download) with default installation path
-  - Python [3.10.x](https://www.python.org/downloads/)
+  - For NVIDIA GPU: [CUDA Toolkit 11.x.x](https://developer.nvidia.com/cuda-downloads) with default installation path
+  - For NVIDIA GPU: [cuDNN 8.x.x](https://developer.nvidia.com/rdp/cudnn-download) with default installation path
+  - Python [[3.9-3.10]](https://www.python.org/downloads/) (3.11 is currently not supported)
   - Local pyppbox repo: `git clone https://github.com/rathaumons/pyppbox.git`
 
 * Install dependencies/requirments: 
-  - If you prefer conda (Python 3.8+): `conda create --name pyppbox_env python=3.10`
+  - If you prefer conda + Python [3.9-3.10]: `conda create --name pyppbox_env python=3.10`
   - On Windows, run the `cmd` inside `pyppbox/requirements/`:
-    - For GPU + (Python 3.10 & CUDA 11.8.x): `install_req_p310_cuda118.cmd` 
-    - For CPU-only + Python 3.8+:  `install_req_p3x_cpu.cmd`
+    - For GPU: `install_req_p3_cuda.cmd` 
+    - For CPU-only: `install_req_p3_cpu.cmd`
   - On Linux/macOS, under `pyppbox/requirements/`:
-    - For GPU + (Python 3.10 & CUDA 11.8.x) + Linux-Only:
+    - For GPU + Linux-Only:
       ```
       pip uninstall -y ultralytics # Remove the official ultralytics
       python -m pip install --upgrade pip
@@ -26,7 +26,7 @@ All requirements are not strictly limited. However, some specific modules might 
       pip install -r pippackages_cuda.txt
       pip install torch==2.0.1+cu118 torchaudio==2.0.2+cu118 torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
       ```
-    - For CPU-only + (Python 3.8+):
+    - For CPU-only:
       ```
       pip uninstall -y ultralytics # Remove the official ultralytics
       python -m pip install --upgrade pip
@@ -43,7 +43,7 @@ All requirements are not strictly limited. However, some specific modules might 
   - For `pyppbox-opencv` on Windows, if `cv2` encounters `ImportError: DLL load failed ...`, please verify the path of your CUDA & cuDNN. Our pre-built `pyppbox-opencv` uses the default path of CUDA & cuDNN (`C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v1x.x`), and if your CUDA & cuDNN were installed in a different location, simply modify the `YOUR_PYTHON\Lib\site-packages\cv2\config.py` accordingly.
 
 * ⚠️ ***Notes for CPU-Only:***
-  - Torchreid does not work for CPU-Only -> It is excluded from `install_req_p3x_cpu.cmd`
+  - Torchreid does not work for CPU-Only -> Excluded from `pippackages_cpu.txt`
   - YOLO Ultralytics uses GPU by default, you must set `cpu` as string for the parameter `device` in its configuration
 
 

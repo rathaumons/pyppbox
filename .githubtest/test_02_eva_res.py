@@ -71,7 +71,6 @@ while cap.isOpened():
 
         # Add `reidentified_people` to ResIO
         resIO.addPeople(frame_index, reidentified_people)
-        frame_index += 1 # Increment the frame index
 
         # Save the visualized frame
         cv2.imwrite("test_02/frame_" + str(frame_index) + ".jpg", visualized_mat)
