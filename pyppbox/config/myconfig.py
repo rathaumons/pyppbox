@@ -22,7 +22,6 @@
 from .unifiedstrings import UnifiedStrings
 from .configtools import (PYPPBOXStructure, getCFGDict, getListCFGDoc, 
                           loadListDocument, dumpDocDict, dumpListDocDict)
-from pyppbox.modules.reiders.torchreid.model_dict import TorchreidModelDict
 from pyppbox.utils.logtools import add_warning_log, add_error_log
 from pyppbox.utils.commontools import (
     getFileName, 
@@ -868,6 +867,7 @@ class RCFGTorchreid(BaseCGF):
         super().loadDoc(input)
         if self.configs:
             try:
+                from pyppbox.modules.reiders.torchreid.model_dict import TorchreidModelDict
                 self.ri_name = self.unified_strings.getUnifiedFormat(self.configs['ri_name'])
                 self.classifier_pkl = getAdaptiveAbsPathFDS(self.from_dir, 
                                                             self.configs['classifier_pkl'])

@@ -25,8 +25,6 @@ from pyppbox.utils.persontools import Person, findRepspoint
 from pyppbox.utils.commontools import to_xywh
 from pyppbox.utils.logtools import ignore_this_logger
 
-from ultralytics.yolo.utils.plotting import Colors
-
 
 class MyYOLOULT(object):
 
@@ -65,6 +63,7 @@ class MyYOLOULT(object):
         else:
             from ultralytics import YOLO
             self.model = YOLO(self.cfg.model_file)
+        from ultralytics.yolo.utils.plotting import Colors
         self.colors = Colors()
         self.skeleton = [[16, 14], [14, 12], [17, 15], [15, 13], 
                          [12, 13], [6, 12], [7, 13], [6, 7], [6, 8],
