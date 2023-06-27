@@ -19,9 +19,17 @@ jobs:
         pip install -r pippackages_cpu.txt
         pip install torch torchvision torchaudio
         pip freeze
-    - name: Install pyppbox/modules/dataset
+    - name: Build and install pyppbox
       run: |
-        pip install https://github.com/rathaumons/pyppbox/releases/download/v3.0b1/pyppbox-3.0b1-py3-none-win_amd64.whl
+        python -m pip install --upgrade pip
+        pip install "setuptools>=67.2.0"
+        pip install wheel build
+        python -m build --wheel --skip-dependency-check   
+        cd dist
+        ls > whl.txt
+        pip install -r whl.txt
+    - name: Install modules' data
+      run: |
         pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_yolocls-1.0-py3-none-any.whl
         pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_yoloult-1.0-py3-none-any.whl
         pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_deepsort-1.0-py3-none-any.whl
