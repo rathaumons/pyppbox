@@ -22,7 +22,8 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, 
-                                       getGlobalRootDir, getAncestorDir)
+                                       getGlobalRootDir, getAncestorDir, 
+                                       getFloat, getInt)
 
 
 root_dir = getGlobalRootDir()
@@ -167,13 +168,13 @@ class Ui_YOLOCLS(object):
         decorated_name = str(self.mycfg.dcfg_yolocs.dt_name).title().replace("Yolo", "YOLO")
         yolocs_doc = {
             "dt_name": decorated_name,
-            "nms": float(self.yl_nms_lineEdit.text()),
-            "conf": float(self.yl_conf_lineEdit.text()),
+            "nms": getFloat(self.yl_nms_lineEdit.text(), default_val=0.45),
+            "conf": getFloat(self.yl_conf_lineEdit.text(), default_val=0.5),
             "class_file": normalizePathFDS(root_dir, self.yl_class_file_lineEdit.text()),
             "model_cfg_file": normalizePathFDS(root_dir, self.yl_model_cfg_file_lineEdit.text()),
             "model_weights": normalizePathFDS(root_dir, self.yl_model_weights_lineEdit.text()),
-            "model_image_size": int(self.yl_model_imgsize_lineEdit.text()),
-            "repspoint_calibration": float(self.yl_repspint_calib_lineEdit.text())
+            "model_image_size": getInt(self.yl_model_imgsize_lineEdit.text(), default_val=416),
+            "repspoint_calibration": getFloat(self.yl_repspint_calib_lineEdit.text(), default_val=0.25)
         }
         yolo_utlt_doc = self.mycfg.dcfg_yolout.getDocument()
         gt_doc = self.mycfg.dcfg_gt.getDocument()

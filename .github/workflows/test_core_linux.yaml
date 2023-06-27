@@ -1,0 +1,60 @@
+name: Test Core Linux
+on: [workflow_dispatch]
+jobs:
+  test_linux:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install requirements
+      run: |
+        python -m pip install --upgrade pip
+        pip install "setuptools>=67.2.0"
+        pip install wheel build
+        cd requirements
+        pip install -r pippackages_cpu.txt
+        pip install torch torchvision torchaudio
+        pip freeze
+    - name: Build and install pyppbox
+      run: |
+        python -m build --wheel --skip-dependency-check
+        cd dist
+        pip install pyppbox-3.0b2-py3-none-any.whl
+    - name: Install modules' data
+      run: |
+        pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_yolocls-1.0-py3-none-any.whl
+        pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_yoloult-1.0-py3-none-any.whl
+        pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_facenet-1.0-py3-none-any.whl
+    - name: Prepare for tests
+      run: |
+        cd .githubtest
+        python prepare_tests.py
+    - name: Test 01 - Basic
+      run: |
+        cd .githubtest
+        python test_01_basic.py
+    - name: Test 02 - Evaluation and Result Tools
+      run: |
+        cd .githubtest
+        python test_02_eva_res.py
+    - name: Test 03 - Evaluation Offline
+      run: |
+        cd .githubtest
+        python test_03_eva_offline.py
+    - name: Test 04 - Detector GT (Ground-truth)
+      run: |
+        cd .githubtest
+        python test_04_dt_gt.py
+    - name: Archive Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: githubtest-results
+        path: |
+          .githubtest

@@ -198,7 +198,7 @@ class Ui_PYPPBOXLauncher(object):
         self.treid_figure_label = QtWidgets.QLabel(self.centralwidget)
         self.treid_figure_label.setGeometry(QtCore.QRect(10, 10, 471, 171))
         self.treid_figure_label.setText("")
-        self.treid_figure_label.setPixmap(QtGui.QPixmap("assets/TReID.png"))
+        self.treid_figure_label.setPixmap(QtGui.QPixmap(joinFPathFull(current_dir, "assets/TReID.png")))
         self.treid_figure_label.setScaledContents(True)
         self.treid_figure_label.setObjectName("treid_figure_label")
         self.treid_info_label = QtWidgets.QLabel(self.centralwidget)
@@ -358,8 +358,7 @@ class Ui_PYPPBOXLauncher(object):
                         self.input_video_file_lineEdit.text(), 
                         self.input_force_hd_comboBox.currentText())
         launcher.hide()
-        programName = "guidemo.cmd"
-        p = sp.Popen([programName])
+        p = sp.Popen(['python', os.path.join(current_dir, 'guidemo.py')])
         stdout, stderr = p.communicate()
         self.mycfg.setMCFG()
         launcher.show()

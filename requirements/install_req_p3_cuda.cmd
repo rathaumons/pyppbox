@@ -18,23 +18,17 @@
 @echo off
 setlocal
 cd /d %~dp0
-:: Set URLs
-set "pyppbox-opencv=https://github.com/rathaumons/pyppbox-custpkg/raw/main/pyppbox_opencv/cp310_cu118/pyppbox_opencv-4.7.0-cp310-none-win_amd64.whl"
 :: Upgrade & install basic packages
 python -m pip install --upgrade pip
 pip install "setuptools>=67.2.0"
 :: Uinstall conflict packages
-pip uninstall -y opencv-python
-pip uninstall -y opencv-contrib-python
 pip uninstall -y ultralytics
 :: Install common packages
-pip install "numpy>=1.24.3"
-pip install %pyppbox-opencv%
 pip install -r pippackages_cuda.txt
 pip install torch==2.0.1+cu118 torchaudio==2.0.2+cu118 torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
 cls
 :: Make sure there is no conflict
-call verify_packages_cuda118.cmd
+call verify_packages.cmd
 :: Show & save installed pip packages to installed_packages.txt
 pip freeze
 pip freeze > installed_packages_cuda.txt

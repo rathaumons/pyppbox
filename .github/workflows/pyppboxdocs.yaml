@@ -18,15 +18,12 @@ jobs:
         python-version: '3.10'
     - name: Install base requirements
       run: |
+        cd requirements
         python -m pip install --upgrade pip
         pip install "setuptools>=67.2.0"
         pip install wheel build
-        pip install Cython numpy opencv-contrib-python scikit-learn scikit-image matplotlib filterpy lapx
-        pip install "protobuf>=3.19.5,<=3.20.3"
-        pip install "tensorflow>=2.10,<2.11"
-        pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-        pip install pyppbox-torchreid
-        pip install pyppbox-ultralytics
+        pip install -r pippackages_cpu.txt
+        pip install torch torchvision torchaudio
         pip install sphinx myst-parser pydata-sphinx-theme readthedocs-sphinx-search
         pip install --upgrade sphinx
         pip freeze

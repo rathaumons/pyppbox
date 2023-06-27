@@ -21,6 +21,7 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
+from pyppbox.utils.commontools import getInt
 
 
 class Ui_Centroid(object):
@@ -78,7 +79,7 @@ class Ui_Centroid(object):
     def updateCFG(self, centroid_ui):
         centroid_doc = {
             "tk_name": "Centroid",
-            "max_spread": int(self.ct_max_distance_lineEdit.text())
+            "max_spread": getInt(self.ct_max_distance_lineEdit.text(), default_val=50)
         }
         sort_doc = self.mycfg.tcfg_sort.getDocument()
         deepsort_doc = self.mycfg.tcfg_deepsort.getDocument()

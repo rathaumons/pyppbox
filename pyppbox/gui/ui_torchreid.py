@@ -23,7 +23,8 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.modules.reiders.torchreid.model_dict import TorchreidModelDict
 from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, getFileName, 
-                                       getGlobalRootDir, getAncestorDir, joinFPathFull)
+                                       getGlobalRootDir, getAncestorDir, joinFPathFull,
+                                       getFloat)
 
 
 root_dir = getGlobalRootDir()
@@ -153,7 +154,7 @@ class Ui_Torchreid(object):
             "train_data": normalizePathFDS(root_dir, self.dr_train_data_lineEdit.text()),
             "model_name": self.dr_model_name_lineEdit.text(),
             "model_path": normalizePathFDS(root_dir, self.dr_model_path_lineEdit.text()),
-            "min_confidence": float(self.dr_min_confidence_lineEdit.text())
+            "min_confidence": getFloat(self.dr_min_confidence_lineEdit.text(), default_val=0.35)
         }
         facenet_doc = self.mycfg.rcfg_facenet.getDocument()
         self.mycfg.dumpAllRCFG([facenet_doc, Torchreid_doc])
