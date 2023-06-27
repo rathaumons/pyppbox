@@ -1,5 +1,8 @@
-name: Test Build
-on: [push, workflow_dispatch]
+name: Build PyPI
+on:
+  push:
+    tags:
+      - "v*"
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -19,7 +22,11 @@ jobs:
     - name: Build .whl
       run: |
         python -m build --wheel --skip-dependency-check
-    - name: Archive Wheels
+    - name: Publish 📦 to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.PYPI_API_TOKEN }}
+    - name: Archive all
       uses: actions/upload-artifact@v3
       with:
         name: dist-all

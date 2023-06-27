@@ -27,6 +27,7 @@ from pyppbox.config.configtools import PYPPBOXStructure, loadDocument, loadListD
 from pyppbox.utils.commontools import getAbsPathFDS, joinFPathFull, isExist
 from pyppbox.gui.guihub import writeUITMP
 
+current_dir = os.path.dirname(__file__)
 pyppbox_struct = PYPPBOXStructure()
 __cfgdir__ =  pyppbox_struct.cfg_dir
 
@@ -92,8 +93,7 @@ def launchGUI():
     """Launch GUI configuration tool of pyppbox.
     """
     writeUITMP(__cfgdir__)
-    programName = joinFPathFull(pyppbox_struct.internal_root_dir, "gui/ui_launcher.cmd")
-    p = sp.Popen([programName])
+    p = sp.Popen(['python', os.path.join(current_dir, 'ui_launcher.py')])
     stdout, stderr = p.communicate()
 
 def generateConfig(cfg_dir, auto_launch_gui=True):

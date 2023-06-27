@@ -21,6 +21,7 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
+from pyppbox.utils.commontools import getFloat, getInt
 
 
 class Ui_SORT(object):
@@ -100,9 +101,9 @@ class Ui_SORT(object):
     def updateCFG(self, sort_ui):
         sort_doc = {
             "tk_name": "SORT",
-            "max_age": int(self.st_max_age_lineEdit.text()),
-            "min_hits": int(self.st_min_hits_lineEdit.text()),
-            "iou_threshold": float(self.st_iou_threshold_lineEdit.text())
+            "max_age": getInt(self.st_max_age_lineEdit.text(), default_val=1),
+            "min_hits": getInt(self.st_min_hits_lineEdit.text(), default_val=3),
+            "iou_threshold": getFloat(self.st_iou_threshold_lineEdit.text(), default_val=0.3)
         }
         centroid_doc = self.mycfg.tcfg_centroid.getDocument()
         deepsort_doc = self.mycfg.tcfg_deepsort.getDocument()

@@ -18,4 +18,18 @@
 @echo off
 setlocal
 cd /d %~dp0
-python -W ignore ui_launcher.py
+:: Upgrade & install basic packages
+python -m pip install --upgrade pip
+pip install "setuptools>=67.2.0"
+:: Uinstall conflict packages
+pip uninstall -y ultralytics
+:: Install common packages
+pip install -r pippackages_cpu.txt
+pip install torch torchvision torchaudio
+cls
+:: Make sure there is no conflict
+call verify_packages.cmd
+:: Show & save installed pip packages to installed_packages.txt
+pip freeze
+pip freeze > installed_packages_cpu.txt
+pause

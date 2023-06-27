@@ -170,6 +170,36 @@ def getBool(input_string):
         raise ValueError("getBool() -> Can't covert {} to a boolean.".format(input_string))
     return res
 
+def getFloat(input_string, default_val=0.0, ignore_raise=True):
+    """
+    :meta private:
+    """
+    res = default_val
+    try:
+        res = float(input_string)
+    except ValueError:
+        msg = "The input can't be converted to float."
+        if ignore_raise:
+            print("IGNORE RAISE : " + msg)
+        else:
+            raise ValueError(msg)
+    return res
+
+def getInt(input_string, default_val=0, ignore_raise=True):
+    """
+    :meta private:
+    """
+    res = default_val
+    try:
+        res = int(input_string)
+    except ValueError:
+        msg = "The input can't be converted to int."
+        if ignore_raise:
+            print("IGNORE RAISE : " + msg)
+        else:
+            raise ValueError(msg)
+    return res
+
 def get2Dlist(input_string):
     """
     :meta private:

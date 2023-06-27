@@ -22,7 +22,8 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, 
-                                       getGlobalRootDir, getAncestorDir)
+                                       getGlobalRootDir, getAncestorDir, 
+                                       getFloat, getInt)
 
 
 root_dir = getGlobalRootDir()
@@ -194,17 +195,22 @@ class Ui_YOLOULT(object):
 
     def updateCFG(self, yoloult_ui):
         decorated_name = str(self.mycfg.dcfg_yolout.dt_name).title().replace("Yolo", "YOLO")
+        device = 0
+        if 'cpu' in self.device_lineEdit.text().lower():
+            device = 'cpu'
+        else:
+            device = getInt(self.device_lineEdit.text())
         yolo_utlt_doc = {
             "dt_name": decorated_name,
-            "conf": float(self.conf_lineEdit.text()),
-            "iou": float(self.iou_lineEdit.text()),
-            "imgsz": int(self.imgsz_lineEdit.text()),
+            "conf": getFloat(self.conf_lineEdit.text(), default_val=0.5),
+            "iou": getFloat(self.iou_lineEdit.text(), default_val=0.7),
+            "imgsz": getInt(self.imgsz_lineEdit.text(), default_val=416),
             "boxes": self.boxes_comboBox.currentText(),
-            "device": int(self.device_lineEdit.text()),
-            "max_det": int(self.max_det_lineEdit.text()),
-            "line_width": int(self.line_width_lineEdit.text()),
+            "device": device,
+            "max_det": getInt(self.max_det_lineEdit.text(), default_val=100),
+            "line_width": getInt(self.line_width_lineEdit.text(), default_val=500),
             "model_file": normalizePathFDS(root_dir, self.model_file_lineEdit.text()),
-            "repspoint_calibration": float(self.repspoint_calib_lineEdit.text())
+            "repspoint_calibration": getFloat(self.repspoint_calib_lineEdit.text(), default_val=0.25)
         }
         yolocs_doc = self.mycfg.dcfg_yolocs.getDocument()
         gt_doc = self.mycfg.dcfg_gt.getDocument()

@@ -22,7 +22,8 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, 
-                                       getGlobalRootDir, getAncestorDir, get2Dlist)
+                                       getGlobalRootDir, getAncestorDir, 
+                                       get2Dlist, getFloat, getInt)
 
 
 root_dir = getGlobalRootDir()
@@ -179,12 +180,12 @@ class Ui_FaceNet(object):
     def updateCFG(self, facenet_ui):
         facenet_doc = {
             "ri_name": "FaceNet",
-            "gpu_mem": float(self.fn_gpu_mem_lineEdit.text()),
+            "gpu_mem": getFloat(self.fn_gpu_mem_lineEdit.text(), default_val=0.585),
             "model_det": normalizePathFDS(root_dir, self.fn_model_det_lineEdit.text()), 
             "model_file": normalizePathFDS(root_dir, self.fn_model_file_lineEdit.text()),
             "classifier_pkl": normalizePathFDS(root_dir, self.fn_classifier_pkl_lineEdit.text()),
-            "batch_size": int(self.fn_batch_size_lineEdit.text()),
-            "min_confidence": float(self.fn_min_confidence_lineEdit.text()),
+            "batch_size": getInt(self.fn_batch_size_lineEdit.text(), default_val=0.5),
+            "min_confidence": getFloat(self.fn_min_confidence_lineEdit.text(), default_val=0.75),
             "yl_h_calibration": get2Dlist(self.fn_yl_h_calib_lineEdit.text()),
             "yl_w_calibration": get2Dlist(self.fn_yl_w_calib_lineEdit.text())
         }
