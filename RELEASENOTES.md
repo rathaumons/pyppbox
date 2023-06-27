@@ -3,6 +3,20 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
+* `pyppbox` [v3.0b2](https://github.com/rathaumons/pyppbox/tree/v3.0b2)
+
+  - Add Linux and macOS supports
+  - Add workflow for Windows/Linux core stability tests
+  - Add workflow for PyPI build -> `pyppbox` is now available on PyPI
+  - Improve independency of the modules
+  - Improve supports for CPU-Only
+  - Improve setup quality
+  - Improve GUI stability
+  - Update and normalize dependencies/requirements
+  - Update and improve documentations
+  - **Known issue/limitation**: 
+    - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
+
 * `pyppbox` [v3.0b1](https://github.com/rathaumons/pyppbox/tree/v3.0b1)
 
   - Introduce new structure of `pyppbox` -> Cleaner and simplier
