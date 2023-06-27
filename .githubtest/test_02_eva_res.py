@@ -36,6 +36,8 @@ cap = cv2.VideoCapture(input_video)
 resIO = ResIO()
 frame_index = 0 # ResIO requires precise frame index
 
+stop_after = 9 # Stop the test after 9 frames
+
 while cap.isOpened():
     hasFrame, frame = cap.read()
 
@@ -75,7 +77,7 @@ while cap.isOpened():
         cv2.imwrite("test_02/frame_" + str(frame_index) + ".jpg", visualized_mat)
         frame_index += 1
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
+        if frame_index == stop_after:
             break
     else:
         break
