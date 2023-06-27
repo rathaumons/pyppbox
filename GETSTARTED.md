@@ -35,7 +35,7 @@
 
 * ***Note for CPU-Only:***
   - Torchreid does not work for CPU-Only -> It is excluded from `install_req_p3x_cpu.cmd`
-  - YOLO Ultralytics uses GPU by default, you must change the config -> `device: 'cpu'`
+  - YOLO Ultralytics uses GPU by default, you must set `cpu` as string for parameter `device` in its configuration
 
 
 ## 💽 Setup

@@ -1,5 +1,5 @@
 #################################################################################
-# Example of using GT (Ground-truth) text file as a detector
+# Test 04: Detector GT (CPU-Only)
 #################################################################################
 
 import cv2
@@ -11,23 +11,25 @@ from pyppbox.utils.visualizetools import visualizePeople
 
 mydetector={
     'dt_name': 'GT', # Here, 'dt_name' must be 'GT' -> Check `gttools` for more
-    'gt_file': 'data/gta.mp4.txt', # Set path of ground-truth text file
-    'gt_map_file': 'data/gt_map.txt' # Set path of Video:GT mapping text file
+    'gt_file': '../examples/data/gta.mp4.txt', # Set path of ground-truth text file
+    'gt_map_file': '../examples/data/gt_map.txt' # Set path of Video:GT mapping text file
 }
 
 setMainDetector(detector=mydetector)
 setMainTracker(tracker="SORT")
-setMainReIDer(reider="Torchreid")
+setMainReIDer(reider="FaceNet")
 
-# Set tracker="None" and reider="None" if you want to run full GT mode including 
+# Set tracker=None and reider=None if you want to run full GT mode including 
 # the real ID as in the GT file.
 """
 setTracker(tracker="None")  # FYI, "None" is not None
 setReIDer(reider="None")    # FYI, "None" is not None
 """
 
-input_video = "data/gta.mp4"
+input_video = "../examples/data/gta.mp4"
 cap = cv2.VideoCapture(input_video)
+
+frame_index = 0
 
 while cap.isOpened():
     hasFrame, frame = cap.read()
@@ -53,10 +55,11 @@ while cap.isOpened():
             reidentified_people, 
             show_reid=reid_count
         )
-        cv2.imshow("pyppbox: example_10_detector_gt_file.py", visualized_mat)
+        
+        # Save the visualized frame
+        cv2.imwrite("test_04/frame" + str(frame_index) + ".jpg", visualized_mat)
+        frame_index += 1
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
     else:
         break
 cap.release()
