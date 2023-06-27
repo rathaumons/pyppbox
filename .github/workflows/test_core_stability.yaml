@@ -19,30 +19,37 @@ jobs:
         pip install -r pippackages_cpu.txt
         pip install torch torchvision torchaudio
         pip freeze
-    - name: Install pyppbox/modules/dataset
+    - name: Build and install pyppbox
       run: |
-        pip install https://github.com/rathaumons/pyppbox/releases/download/v3.0b1/pyppbox-3.0b1-py3-none-win_amd64.whl
+        python -m build --wheel --skip-dependency-check   
+        cd dist
+        pip install pyppbox-3.0b2-py3-none-any.whl
+    - name: Install modules' data
+      run: |
         pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_yolocls-1.0-py3-none-any.whl
         pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_yoloult-1.0-py3-none-any.whl
-        pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_deepsort-1.0-py3-none-any.whl
         pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_facenet-1.0-py3-none-any.whl
-    - name: Test 01
+    - name: Prepare for tests
+      run: |
+        cd .githubtest
+        python prepare_tests.py
+    - name: Test 01 - Basic
       run: |
         cd .githubtest
         python test_01_basic.py
-    - name: Test 02
+    - name: Test 02 - Evaluation and Result Tools
       run: |
         cd .githubtest
-        python test_02_eva.py
-    - name: Test 03
+        python test_02_eva_res.py
+    - name: Test 03 - Evaluation Offline
       run: |
         cd .githubtest
         python test_03_eva_offline.py
-    - name: Test 04
+    - name: Test 04 - Detector GT (Ground-truth)
       run: |
         cd .githubtest
         python test_04_dt_gt.py
-    - name: Archive Wheels
+    - name: Archive Results
       uses: actions/upload-artifact@v3
       with:
         name: githubtest-results

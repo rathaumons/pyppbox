@@ -57,7 +57,7 @@ while cap.isOpened():
         )
         
         # Save the visualized frame
-        cv2.imwrite("test_04/frame" + str(frame_index) + ".jpg", visualized_mat)
+        cv2.imwrite("test_04/frame_" + str(frame_index) + ".jpg", visualized_mat)
         frame_index += 1
 
     else:

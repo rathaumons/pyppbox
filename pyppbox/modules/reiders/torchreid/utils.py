@@ -25,11 +25,6 @@ import os
 from pyppbox.utils.commontools import silencer
 from pyppbox.utils.logtools import ignore_this_logger, add_error_log
 
-ignore_this_logger("torchreid")
-ignore_this_logger("pyppbox_torchreid")
-
-from pyppbox_torchreid.utils import FeatureExtractor
-
 
 class ImageClass():
 
@@ -73,6 +68,9 @@ def get_image_paths(datadir):
 
 @silencer
 def deepreid_extractor(model_name, model_dir, model_path):
+    ignore_this_logger("torchreid")
+    ignore_this_logger("pyppbox_torchreid")
+    from pyppbox_torchreid.utils import FeatureExtractor
     extractor = []
     try:
         extractor = FeatureExtractor(

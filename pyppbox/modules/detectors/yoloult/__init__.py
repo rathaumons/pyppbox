@@ -25,8 +25,6 @@ from pyppbox.utils.persontools import Person, findRepspoint
 from pyppbox.utils.commontools import to_xywh
 from pyppbox.utils.logtools import ignore_this_logger
 
-from ultralytics.yolo.utils.plotting import Colors
-
 
 class MyYOLOULT(object):
 
@@ -57,6 +55,10 @@ class MyYOLOULT(object):
             of detector YOLO_Ultralytics.
         """
         self.cfg = cfg
+        self.cpu_only = False
+        if isinstance(self.cfg.device, str):
+            if self.cfg.device.lower() == 'cpu':
+                self.cpu_only = True
         ignore_this_logger("ultralytics")
         if "nas" in self.cfg.model_file:
             # YOLO NAS isn't stable yet :/
@@ -65,6 +67,7 @@ class MyYOLOULT(object):
         else:
             from ultralytics import YOLO
             self.model = YOLO(self.cfg.model_file)
+        from ultralytics.yolo.utils.plotting import Colors
         self.colors = Colors()
         self.skeleton = [[16, 14], [14, 12], [17, 15], [15, 13], 
                          [12, 13], [6, 12], [7, 13], [6, 7], [6, 8],
@@ -142,6 +145,7 @@ class MyYOLOULT(object):
         float
             A list of the detection confidence of every detected object.
         """
+        numpy_dets = []
         pboxes_xyxy = []
         pboxes_xywh = []
         repspoints = []
@@ -157,7 +161,10 @@ class MyYOLOULT(object):
             max_det=int(self.cfg.max_det),
             line_width=self.cfg.line_width
         )
-        numpy_dets = dets[0].cuda().cpu().to("cpu").numpy()
+        if self.cpu_only:
+            numpy_dets = dets[0].numpy()
+        else:
+            numpy_dets = dets[0].cuda().cpu().to("cpu").numpy()
         dt_boxes_xyxy = numpy_dets.boxes.xyxy
         dt_confidences = numpy_dets.boxes.conf
         dt_keypoints = dets[0].keypoints
@@ -215,6 +222,7 @@ class MyYOLOULT(object):
         Mat
             A cv :obj:`Mat` image.
         """
+        numpy_dets = []
         people = []
         dets = self.model.predict(
             img,
@@ -226,7 +234,10 @@ class MyYOLOULT(object):
             max_det=int(self.cfg.max_det),
             line_width=self.cfg.line_width
         )
-        numpy_dets = dets[0].cuda().cpu().to("cpu").numpy()
+        if self.cpu_only:
+            numpy_dets = dets[0].numpy()
+        else:
+            numpy_dets = dets[0].cuda().cpu().to("cpu").numpy()
         dt_boxes_xyxy = numpy_dets.boxes.xyxy
         dt_confidences = numpy_dets.boxes.conf
         dt_keypoints = dets[0].keypoints
