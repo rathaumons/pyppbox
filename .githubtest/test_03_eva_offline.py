@@ -9,7 +9,7 @@ from pyppbox.utils.evatools import compareRes2Ref
 res_txt = "../examples/data/result_gta.mp4.txt"
 ref_txt = "../examples/data/gta.mp4.txt"
 
-wrong_id, missed_det, fault_det, total_det, score = compareRes2Ref(
+results = compareRes2Ref(
     res_txt=res_txt, 
     ref_txt=ref_txt, 
     res_box_xyxy_index=5, # 4 is index of the bounding box xyxy in res_txt
@@ -19,3 +19,6 @@ wrong_id, missed_det, fault_det, total_det, score = compareRes2Ref(
     box_max_spread= 5 # Similar to IOU, but it uses distancing
 )
 
+with open("test_03/results.txt", 'w') as results_txt:
+    for res in results:
+        results_txt.write(str(res))

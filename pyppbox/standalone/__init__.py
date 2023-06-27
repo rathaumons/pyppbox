@@ -37,22 +37,9 @@ from pyppbox.config.myconfig import (
 
 # Classes & tools
 from pyppbox.utils.persontools import Person
-from pyppbox.utils.gttools import GTInterpreter 
+from pyppbox.utils.gttools import GTInterpreter
 from pyppbox.utils.evatools import NothingDetecter, NothingTracker, NothingReider, TKOReider
 from pyppbox.utils.commontools import getAbsPathFDS, isExist, getCVMat, getAncestorDir
-
-# Detectors
-from pyppbox.modules.detectors.yolocls import MyYOLOCLS
-from pyppbox.modules.detectors.yoloult import MyYOLOULT
-
-# Trackers
-from pyppbox.modules.trackers.sort import MySORT
-from pyppbox.modules.trackers.deepsort import MyDeepSORT
-from pyppbox.modules.trackers.centroid import MyCentroid
-
-# Reiders
-from pyppbox.modules.reiders.facenet import MyFaceNet
-from pyppbox.modules.reiders.torchreid import MyTorchreid
 
 
 ###########################################
@@ -237,10 +224,12 @@ def __loadDefaultDetector__():
     global __dt__, __dt_cfg__, __dt_is_set__, __none_cfg__
     if __cfg_is_set__:
         if __cfg__.mcfg.detector.lower() == __unistrings__.yolo_cls:
+            from pyppbox.modules.detectors.yolocls import MyYOLOCLS
             __dt_cfg__ = __cfg__.dcfg_yolocs
             __dt__ = MyYOLOCLS(__dt_cfg__)
             __dt_is_set__ = True
         elif __cfg__.mcfg.detector.lower() == __unistrings__.yolo_ult:
+            from pyppbox.modules.detectors.yoloult import MyYOLOULT
             __dt_cfg__ = __cfg__.dcfg_yolout
             __dt__ = MyYOLOULT(__dt_cfg__)
             __dt_is_set__ = True
@@ -261,12 +250,14 @@ def __setCustomDetector__(detector_dict):
     global __unistrings__, __dt__, __dt_cfg__, __dt_is_set__, __none_cfg__
     if detector_dict:
         if detector_dict['dt_name'].lower() == __unistrings__.yolo_cls:
+            from pyppbox.modules.detectors.yolocls import MyYOLOCLS
             __dt_cfg__ = DCFGYOLOCLS()
             __dt_cfg__.set(detector_dict)
             __dt__ = MyYOLOCLS(__dt_cfg__)
             __dt_is_set__ = True
             add_info_log("---PYPPBOX : Set detector='" + __dt_cfg__.dt_name + "'")
         elif detector_dict['dt_name'].lower() == __unistrings__.yolo_ult:
+            from pyppbox.modules.detectors.yoloult import MyYOLOULT
             __dt_cfg__ = DCFGYOLOULT()
             __dt_cfg__.set(detector_dict)
             __dt__ = MyYOLOULT(__dt_cfg__)
@@ -328,6 +319,7 @@ def setMainDetector(detector=""):
             __loadDefaultDetector__()
             add_info_log("---PYPPBOX : Use detector according to the \"main.yaml\"")
         elif detector.lower() == __unistrings__.yolo_cls:
+            from pyppbox.modules.detectors.yolocls import MyYOLOCLS
             if not __cfg_is_set__: setConfigDir()
             __cfg__.setAllDCFG()
             __dt_cfg__ = __cfg__.dcfg_yolocs
@@ -335,6 +327,7 @@ def setMainDetector(detector=""):
             __dt_is_set__ = True
             add_info_log("---PYPPBOX : Set detector='" + str(detector) + "'")
         elif detector.lower() == __unistrings__.yolo_ult:
+            from pyppbox.modules.detectors.yoloult import MyYOLOULT
             if not __cfg_is_set__: setConfigDir()
             __cfg__.setAllDCFG()
             __dt_cfg__ = __cfg__.dcfg_yolout
@@ -421,16 +414,19 @@ def __loadDefaultTracker__():
     global __tk_cfg__, __tk_is_set__, __none_cfg__
     if __cfg_is_set__:
         if __cfg__.mcfg.tracker.lower() == __unistrings__.centroid:
+            from pyppbox.modules.trackers.centroid import MyCentroid
             __tk_cfg__ = __cfg__.tcfg_centroid
             __tk__ = MyCentroid(__tk_cfg__)
             __tk_is_set__ = True
             __setGTDTOnly__()
         elif __cfg__.mcfg.tracker.lower() == __unistrings__.sort:
+            from pyppbox.modules.trackers.sort import MySORT
             __tk_cfg__ = __cfg__.tcfg_sort
             __tk__ = MySORT(__tk_cfg__)
             __tk_is_set__ = True
             __setGTDTOnly__()
         elif __cfg__.mcfg.tracker.lower() == __unistrings__.deepsort:
+            from pyppbox.modules.trackers.deepsort import MyDeepSORT
             __tk_cfg__ = __cfg__.tcfg_deepsort
             __tk__ = MyDeepSORT(__tk_cfg__)
             __tk_is_set__ = True
@@ -447,6 +443,7 @@ def __setCustomTracker__(tracker_dict):
     global __unistrings__, __tk__, __tk_cfg__, __tk_is_set__, __none_cfg__
     if tracker_dict:
         if tracker_dict['tk_name'].lower() == __unistrings__.centroid:
+            from pyppbox.modules.trackers.centroid import MyCentroid
             __tk_cfg__ = TCFGCentroid()
             __tk_cfg__.set(tracker_dict)
             __tk__ = MyCentroid(__tk_cfg__)
@@ -454,6 +451,7 @@ def __setCustomTracker__(tracker_dict):
             __setGTDTOnly__()
             add_info_log("---PYPPBOX : Set tracker='" + __tk_cfg__.tk_name + "'")
         elif tracker_dict['tk_name'].lower() == __unistrings__.sort:
+            from pyppbox.modules.trackers.sort import MySORT
             __tk_cfg__ = TCFGSORT()
             __tk_cfg__.set(tracker_dict)
             __tk__ = MySORT(__tk_cfg__)
@@ -461,6 +459,7 @@ def __setCustomTracker__(tracker_dict):
             __setGTDTOnly__()
             add_info_log("---PYPPBOX : Set tracker='" + __tk_cfg__.tk_name + "'")
         elif tracker_dict['tk_name'].lower() == __unistrings__.deepsort:
+            from pyppbox.modules.trackers.deepsort import MyDeepSORT
             __tk_cfg__ = TCFGDeepSORT()
             __tk_cfg__.set(tracker_dict)
             __tk__ = MyDeepSORT(__tk_cfg__)
@@ -513,6 +512,7 @@ def setMainTracker(tracker=""):
             __loadDefaultTracker__()
             add_info_log("---PYPPBOX : Use tracker according to the \"main.yaml\"")
         elif tracker.lower() == __unistrings__.centroid:
+            from pyppbox.modules.trackers.centroid import MyCentroid
             if not __cfg_is_set__: setConfigDir()
             __cfg__.setAllTCFG()
             __tk_cfg__ = __cfg__.tcfg_centroid
@@ -521,6 +521,7 @@ def setMainTracker(tracker=""):
             __setGTDTOnly__()
             add_info_log("---PYPPBOX : Set tracker='" + str(tracker) + "'")
         elif tracker.lower() == __unistrings__.sort:
+            from pyppbox.modules.trackers.sort import MySORT
             if not __cfg_is_set__: setConfigDir()
             __cfg__.setAllTCFG()
             __tk_cfg__ = __cfg__.tcfg_sort
@@ -529,6 +530,7 @@ def setMainTracker(tracker=""):
             __setGTDTOnly__()
             add_info_log("---PYPPBOX : Set tracker='" + str(tracker) + "'")
         elif tracker.lower() == __unistrings__.deepsort:
+            from pyppbox.modules.trackers.deepsort import MyDeepSORT
             if not __cfg_is_set__: setConfigDir()
             __cfg__.setAllTCFG()
             __tk_cfg__ = __cfg__.tcfg_deepsort
@@ -594,11 +596,13 @@ def __loadDefaultReIDer__(auto_load=True):
     global __ri_is_set__, __none_cfg__, __dt_cfg__, __tk_cfg__
     if __cfg_is_set__:
         if __cfg__.mcfg.reider.lower() == __unistrings__.facenet:
+            from pyppbox.modules.reiders.facenet import MyFaceNet
             __ri_cfg__ = __cfg__.rcfg_facenet
             __ri__ = MyFaceNet(__ri_cfg__, auto_load=auto_load)
             __ri_is_set__ = True
             __setGTDTOnly__()
         elif __cfg__.mcfg.reider.lower() == __unistrings__.torchreid:
+            from pyppbox.modules.reiders.torchreid import MyTorchreid
             __ri_cfg__ = __cfg__.rcfg_torchreid
             __ri__ = MyTorchreid(__ri_cfg__, auto_load=auto_load)
             __ri_is_set__ = True
@@ -621,6 +625,7 @@ def __setCustomReIDer__(reider_dict, auto_load=True):
     global __none_cfg__, __dt_cfg__, __tk_cfg__
     if reider_dict:
         if reider_dict['ri_name'].lower() == __unistrings__.facenet:
+            from pyppbox.modules.reiders.facenet import MyFaceNet
             __ri_cfg__ = RCFGFaceNet()
             __ri_cfg__.set(reider_dict)
             __ri__ = MyFaceNet(__ri_cfg__, auto_load=auto_load)
@@ -628,6 +633,7 @@ def __setCustomReIDer__(reider_dict, auto_load=True):
             add_info_log("---PYPPBOX : Set reider='" + __ri_cfg__.ri_name + "'")
             __setGTDTOnly__()
         elif reider_dict['ri_name'].lower() == __unistrings__.torchreid:
+            from pyppbox.modules.reiders.torchreid import MyTorchreid
             __ri_cfg__ = RCFGTorchreid()
             __ri_cfg__.set(reider_dict)
             __ri__ = MyTorchreid(__ri_cfg__, auto_load=auto_load)
@@ -696,6 +702,7 @@ def setMainReIDer(reider="", auto_load=True):
             __loadDefaultReIDer__(auto_load=auto_load)
             add_info_log("---PYPPBOX : Use reider according to the \"main.yaml\"")
         elif reider.lower() == __unistrings__.facenet:
+            from pyppbox.modules.reiders.facenet import MyFaceNet
             if not __cfg_is_set__: setConfigDir()
             __cfg__.setAllRCFG()
             __ri_cfg__ = __cfg__.rcfg_facenet
@@ -704,6 +711,7 @@ def setMainReIDer(reider="", auto_load=True):
             add_info_log("---PYPPBOX : Set reider='" + str(reider) + "'")
             __setGTDTOnly__()
         elif reider.lower() == __unistrings__.torchreid:
+            from pyppbox.modules.reiders.torchreid import MyTorchreid
             if not __cfg_is_set__: setConfigDir()
             __cfg__.setAllRCFG()
             __ri_cfg__ = __cfg__.rcfg_torchreid
@@ -943,6 +951,8 @@ def trainReIDClassifier(reider="Default", train_data="", classifier_pkl=""):
                               "' is not valid.")
             if valid_pkl: __ri_cfg__.classifier_pkl = getAbsPathFDS(classifier_pkl)
         if valid_train_data and valid_pkl:
+            from pyppbox.modules.reiders.facenet import MyFaceNet
+            from pyppbox.modules.reiders.torchreid import MyTorchreid
             if isinstance(__ri__, MyFaceNet):
                 __ri__ = MyFaceNet(__ri_cfg__, auto_load=False)
                 add_info_log("------------- FaceNet --------------")
