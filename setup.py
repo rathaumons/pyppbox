@@ -28,15 +28,17 @@ def main():
         name="pyppbox",
         version=get_version_string(),
         url="https://github.com/rathaumons/pyppbox",
-        license="GPL-3.0+",
+        license="GPL-3.0-or-later",
         description="Toolbox for people detecting, tracking, and re-identifying.",
         long_description=long_description,
         long_description_content_type="text/markdown",
         packages=packages,
         package_data=package_data,
         include_package_data=True,
-        maintainer="Ratha SIV",
+        author="Ratha SIV",
+        maintainer="rathaROG",
         install_requires=["PyYAML", "setuptools>=67.2.0"],
+        keywords=['Toolbox', 'People Detecting', 'People Tracking', 'People Re-Identification'],
         python_requires=">=3.8",
         classifiers=[
             "Development Status :: 4 - Beta",
@@ -45,11 +47,7 @@ def main():
             "Intended Audience :: Education",
             "Intended Audience :: Information Technology",
             "Intended Audience :: Science/Research",
-            "License :: OSI Approved :: GNU General Public License v3 or later (GPL-3.0+)",
-            "Operating System :: Microsoft :: Windows",
-            "Operating System :: POSIX",
-            "Operating System :: Unix",
-            "Operating System :: MacOS",
+            "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
             "Programming Language :: Python",
             "Programming Language :: Python :: 3",
             "Programming Language :: Python :: 3 :: Only",
@@ -60,6 +58,10 @@ def main():
             "Topic :: Scientific/Engineering",
             "Topic :: Scientific/Engineering :: Image Recognition",
             "Topic :: Software Development",
+            "Operating System :: Microsoft :: Windows",
+            "Operating System :: POSIX",
+            "Operating System :: Unix",
+            "Operating System :: MacOS",
         ],
     )
 
@@ -82,9 +84,6 @@ def get_version_string():
             if line.startswith('__version__'):
                 delim = '"' if '"' in line else "'"
                 return line.split(delim)[1]
-        else:
-            msg = "Unable to find version string."
-            raise RuntimeError(msg)
 
 if __name__ == "__main__":
     main()
