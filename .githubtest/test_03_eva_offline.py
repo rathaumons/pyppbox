@@ -21,4 +21,4 @@ results = compareRes2Ref(
 
 with open("test_03/results.txt", 'w') as results_txt:
     for res in results:
-        results_txt.write(str(res))
+        results_txt.write(str(res) + '\n')
