@@ -55,6 +55,10 @@ class MyYOLOULT(object):
             of detector YOLO_Ultralytics.
         """
         self.cfg = cfg
+        self.cpu_only = False
+        if isinstance(self.cfg.device, str):
+            if self.cfg.device.lower() == 'cpu':
+                self.cpu_only = True
         ignore_this_logger("ultralytics")
         if "nas" in self.cfg.model_file:
             # YOLO NAS isn't stable yet :/
@@ -157,9 +161,8 @@ class MyYOLOULT(object):
             max_det=int(self.cfg.max_det),
             line_width=self.cfg.line_width
         )
-        if isinstance(self.cfg.device, str):
-            if self.cfg.device.lower() == 'cpu':
-                numpy_dets = dets[0]
+        if self.cpu_only:
+            numpy_dets = dets[0].numpy()
         else:
             numpy_dets = dets[0].cuda().cpu().to("cpu").numpy()
         dt_boxes_xyxy = numpy_dets.boxes.xyxy
@@ -231,12 +234,10 @@ class MyYOLOULT(object):
             max_det=int(self.cfg.max_det),
             line_width=self.cfg.line_width
         )
-        if isinstance(self.cfg.device, str):
-            if self.cfg.device.lower() == 'cpu':
-                numpy_dets = dets[0]
+        if self.cpu_only:
+            numpy_dets = dets[0].numpy()
         else:
             numpy_dets = dets[0].cuda().cpu().to("cpu").numpy()
-        numpy_dets = dets[0].cuda().cpu().to("cpu").numpy()
         dt_boxes_xyxy = numpy_dets.boxes.xyxy
         dt_confidences = numpy_dets.boxes.conf
         dt_keypoints = dets[0].keypoints
