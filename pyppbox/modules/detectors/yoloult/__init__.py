@@ -141,6 +141,7 @@ class MyYOLOULT(object):
         float
             A list of the detection confidence of every detected object.
         """
+        numpy_dets = []
         pboxes_xyxy = []
         pboxes_xywh = []
         repspoints = []
@@ -156,7 +157,11 @@ class MyYOLOULT(object):
             max_det=int(self.cfg.max_det),
             line_width=self.cfg.line_width
         )
-        numpy_dets = dets[0].cuda().cpu().to("cpu").numpy()
+        if isinstance(self.cfg.device, str):
+            if self.cfg.device.lower() == 'cpu':
+                numpy_dets = dets[0]
+        else:
+            numpy_dets = dets[0].cuda().cpu().to("cpu").numpy()
         dt_boxes_xyxy = numpy_dets.boxes.xyxy
         dt_confidences = numpy_dets.boxes.conf
         dt_keypoints = dets[0].keypoints
@@ -214,6 +219,7 @@ class MyYOLOULT(object):
         Mat
             A cv :obj:`Mat` image.
         """
+        numpy_dets = []
         people = []
         dets = self.model.predict(
             img,
@@ -225,6 +231,11 @@ class MyYOLOULT(object):
             max_det=int(self.cfg.max_det),
             line_width=self.cfg.line_width
         )
+        if isinstance(self.cfg.device, str):
+            if self.cfg.device.lower() == 'cpu':
+                numpy_dets = dets[0]
+        else:
+            numpy_dets = dets[0].cuda().cpu().to("cpu").numpy()
         numpy_dets = dets[0].cuda().cpu().to("cpu").numpy()
         dt_boxes_xyxy = numpy_dets.boxes.xyxy
         dt_confidences = numpy_dets.boxes.conf
