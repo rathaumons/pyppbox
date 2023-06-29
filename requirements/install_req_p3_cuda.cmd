@@ -25,7 +25,7 @@ pip install "setuptools>=67.2.0"
 pip uninstall -y ultralytics
 :: Install common packages
 pip install -r pippackages_cuda.txt
-pip install torch==2.0.1+cu118 torchaudio==2.0.2+cu118 torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 cls
 :: Make sure there is no conflict
 call verify_packages.cmd

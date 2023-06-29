@@ -25,19 +25,19 @@ All requirements are not strictly limited. However, some specific modules might 
   - On Linux/macOS, under `pyppbox/requirements/`:
     - For GPU + Linux-Only (Example for PyTorch CUDA 11.8):
       ```
-      pip uninstall -y ultralytics # Remove the official ultralytics
       python -m pip install --upgrade pip
+      pip uninstall -y ultralytics # Remove the official ultralytics
       pip install "setuptools>=67.2.0"
       pip install -r pippackages_cuda.txt
-      pip install torch==2.0.1+cu118 torchaudio==2.0.2+cu118 torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
+      pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
       ```
     - For CPU-only:
       ```
-      pip uninstall -y ultralytics # Remove the official ultralytics
       python -m pip install --upgrade pip
+      pip uninstall -y ultralytics # Remove the official ultralytics
       pip install "setuptools>=67.2.0"
       pip install -r pippackages_cpu.txt
-      pip install torch torchvision torchaudio
+      pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
       ```
   - ⚠️ ***Important***: For Python 3.11, you might need to reinstall `numpy>=1.24.4`
     ```
