@@ -7,7 +7,7 @@
 
   - Fix GUI for GT
   - Improve supports for Python [3.8-3.11]
-  - Update dependencies/requirements
+  - Update and improve dependencies/requirements
   - Update and improve `GETSTARTED.md`
   - Update test workflows for Python [3.8-3.11]
   - **Known issue/limitation**: 
