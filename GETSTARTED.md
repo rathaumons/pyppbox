@@ -11,16 +11,19 @@ All requirements are not strictly limited. However, some specific modules might 
 * Prerequisite: 
   - For NVIDIA GPU: [CUDA Toolkit 11.x.x](https://developer.nvidia.com/cuda-downloads) with default installation path
   - For NVIDIA GPU: [cuDNN 8.x.x](https://developer.nvidia.com/rdp/cudnn-download) with default installation path
-  - Python [[3.9-3.10]](https://www.python.org/downloads/) (3.11 is currently not supported)
+  - Python [[3.8-3.11]](https://www.python.org/downloads/)
   - Local pyppbox repo: `git clone https://github.com/rathaumons/pyppbox.git`
 
+* Before you install dependencies/requirements:
+  - If you prefer conda + Python [3.8-3.11]: `conda create --name pyppbox_env python=3.10`
+  - If you don't know whether to install only Tensorflow or PyTorch or both -> Check [Supported Modules](https://rathaumons.github.io/pyppbox/pyppbox/modules.html)
+
 * Install dependencies/requirments: 
-  - If you prefer conda + Python [3.9-3.10]: `conda create --name pyppbox_env python=3.10`
   - On Windows, run the `cmd` inside `pyppbox/requirements/`:
-    - For GPU: `install_req_p3_cuda.cmd` 
+    - For GPU: `install_req_p3_cuda.cmd` (Line 28 -> PyTorch + CUDA 11.8, change if you need to)
     - For CPU-only: `install_req_p3_cpu.cmd`
   - On Linux/macOS, under `pyppbox/requirements/`:
-    - For GPU + Linux-Only:
+    - For GPU + Linux-Only (Example for PyTorch CUDA 11.8):
       ```
       pip uninstall -y ultralytics # Remove the official ultralytics
       python -m pip install --upgrade pip
@@ -36,6 +39,10 @@ All requirements are not strictly limited. However, some specific modules might 
       pip install -r pippackages_cpu.txt
       pip install torch torchvision torchaudio
       ```
+  - ⚠️ ***Important***: For Python 3.11, you might need to reinstall `numpy>=1.24.4`
+    ```
+    pip install numpy==1.24.4
+    ```
 
 * (Optional) For GPU-Only -> Verify the installed dependencies:
   - Execute the `test_gup.py`
@@ -44,9 +51,10 @@ All requirements are not strictly limited. However, some specific modules might 
   - If there is no error, then you are all good and ready to go.
   - For OpenCV, the official `opencv-contrib-python` (No GPU support) is set in the `pippackages_cuda.txt` file. If you need GPU support, check our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) or build one from source by yourself.
 
-* ⚠️ ***Notes for CPU-Only:***
-  - Torchreid does not work for CPU-Only -> Excluded from `pippackages_cpu.txt`
-  - YOLO Ultralytics uses GPU by default, you must set `cpu` as string for the parameter `device` in its configuration
+* ⚠️ ***Notes:***
+  - For CPU-Only, Torchreid does not work on CPU -> `pyppbox-torchreid` is excluded from `pippackages_cpu.txt`.
+  - For CPU-Only, YOLO Ultralytics uses GPU by default, you must set `cpu` as string for the parameter `device` in its configuration.
+  - For GPU on Windows, Tensorflow 2.11+ no long provides native GPU support. 
 
 
 ## 💽 Setup

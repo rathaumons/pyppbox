@@ -6,14 +6,9 @@ A toolbox for people detecting, tracking, and re-identifying
     *  Copyright (C) 2022 UMONS-Numediart GPLV3+  *
     * * * * * * * * * * * * * * * * * * * * * * * *
 
-# Launch GUI:
->>> pyppbox.launchGUI()
-
-# Read online documentation:
->>> pyppbox.docs()
-
-# Go to our GitHub:
->>> pyppbox.github()
+>>> pyppbox.launchGUI() # Launch GUI
+>>> pyppbox.docs() # Read online documentation
+>>> pyppbox.github() # Go to our GitHub
 
 """
 
@@ -52,7 +47,7 @@ from pyppbox.gui.guitools import (
 )
 
 
-__version__ = '3.0b2'
+__version__ = '3.0b3'
 __author__ = 'Ratha SIV'
 __description__ = 'Toolbox for people detecting, tracking, and re-identifying.'
 __homepage__ = 'https://rathaumons.github.io/pyppbox'

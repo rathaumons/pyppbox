@@ -15,30 +15,30 @@ The table below shows all the current supported modules which are integrated in 
    +============+==============+==================+=================================================+
    | Detectors  | YOLO         | YOLO_Classic     | | * Built-in by using OpenCV DNN                |
    |            |              |                  | | * Model: .weights `V2, V3`_, V4_              |
-   |            |              |                  | | * Hardware: CPU or GPU                        |
+   |            |              |                  | | * Run on: CPU or GPU (OpenCV DNN)             |
    |            |              +------------------+-------------------------------------------------+
    |            |              | YOLO_Ultralytics | | * Integrated by linking `ultralytics`         |
    |            |              |                  | | * Model: .pt `V3, V5, V8`_                    |
-   |            |              |                  | | * Hardware: CPU or GPU                        |
+   |            |              |                  | | * Run on: CPU or GPU (PyTorch)                |
    +------------+--------------+------------------+-------------------------------------------------+
    | Trackers   | Centroid     | Centroid         | | * Built-in / Native                           |
-   |            |              |                  | | * Hardware: CPU                               |
+   |            |              |                  | | * Run on: CPU                                 |
    |            +--------------+------------------+-------------------------------------------------+
    |            | SORT         | SORT             | | * Integrated by embedding                     |
    |            |              |                  | | * `SORT repo`_                                |
-   |            |              |                  | | * Hardware: CPU                               |
+   |            |              |                  | | * Run on: CPU                                 |
    |            +--------------+------------------+-------------------------------------------------+
    |            | DeepSORT     | DeepSORT         | | * Integrated by embedding                     |
    |            |              |                  | | * `DeepSORT repo`_                            |
-   |            |              |                  | | * Hardware: CPU or GPU                        |
+   |            |              |                  | | * Run on: CPU or GPU (Tensorflow)             |
    +------------+--------------+------------------+-------------------------------------------------+
    | ReIDers    | FaceNet      | FaceNet          | | * Integrated by embedding                     |
    |            |              |                  | | * `FaceNet repo`_                             |
-   |            |              |                  | | * Hardware: CPU or GPU                        |
+   |            |              |                  | | * Run on: CPU or GPU (Tensorflow)             |
    |            +--------------+------------------+-------------------------------------------------+
    |            | Torchreid    | Trochreid        | | * Integrated by linking `pyppbox-torchreid`_  |
    |            |              |                  | | * Model: OSNet-AIN, OSNet, MLFN               |
-   |            |              |                  | | * Hardware: GPU-Only                          |
+   |            |              |                  | | * Run on: GPU-Only (PyTorch)                  |
    +------------+--------------+------------------+-------------------------------------------------+
 
 .. _V2, V3: https://pjreddie.com/darknet/yolo/

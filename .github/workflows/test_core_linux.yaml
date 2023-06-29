@@ -6,7 +6,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9", "3.10"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
@@ -21,6 +21,7 @@ jobs:
         cd requirements
         pip install -r pippackages_cpu.txt
         pip install torch torchvision torchaudio
+        pip install numpy==1.24.4
         pip freeze
     - name: Build and install pyppbox
       run: |
