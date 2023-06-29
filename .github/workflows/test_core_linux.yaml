@@ -21,7 +21,6 @@ jobs:
         cd requirements
         pip install -r pippackages_cpu.txt
         pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-        pip install numpy==1.24.4
         pip freeze
     - name: Build and install pyppbox
       run: |
