@@ -2,7 +2,7 @@
 
 Installing `pyppbox` is very easy and straightforward. You can install it from [PyPI](https://pypi.org/project/pyppbox/) directly or use the prebuilt `.whl` files on [GitHub releases](https://github.com/rathaumons/pyppbox/releases) or install from GitHub directly or build it from source on your own machine. However, in order to get it work, you need to install all the necessary dependcies or requirements for the modules you needs.
 
-🆕 `pyppbox` `v3.0b2` supports all Windows, Linux and macOS.
+🆕 `pyppbox` `v3.0b2+` supports all Windows, Linux and macOS.
 
 ## ⚙️ Requirements
 
@@ -39,7 +39,7 @@ All requirements are not strictly limited. However, some specific modules might 
       pip install -r pippackages_cpu.txt
       pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
       ```
-  - ⚠️ ***Important***: For Python 3.11, you might need to reinstall `numpy>=1.24.4`
+  - ⚠️ ***Important***: Reinstall `numpy>=1.24.4` if you use `pyppbox-torchreid`
     ```
     pip install numpy==1.24.4
     ```
