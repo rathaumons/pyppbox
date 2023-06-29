@@ -73,7 +73,7 @@ class Ui_GT(object):
         self.gt_map_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
                                        QtCore.Qt.AlignmentFlag.AlignTrailing|
                                        QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.gt_map_label.setObjectName("gt_file_label")
+        self.gt_map_label.setObjectName("gt_map_label")
         font = QtGui.QFont()
         font.setPointSize(12)
         self.save_pushButton.setFont(font)
@@ -82,7 +82,7 @@ class Ui_GT(object):
         # custom
         self.loadGT()  
         self.gt_file_browse_pushButton.clicked.connect(self.browseGTFile)
-        self.gt_map_lineEdit.clicked.connect(self.browseGTMap)
+        self.gt_map_browse_pushButton.clicked.connect(self.browseGTMap)
         self.save_pushButton.clicked.connect(lambda: self.updateCFG(gi_ui))
         QtCore.QMetaObject.connectSlotsByName(gi_ui)
 
@@ -91,13 +91,14 @@ class Ui_GT(object):
         gi_ui.setWindowTitle(_translate("gi_ui", "GT"))
         self.gt_file_label.setText(_translate("gi_ui", "gt_file"))
         self.gt_file_browse_pushButton.setText(_translate("gi_ui", "..."))
-        self.gt_file_label.setText(_translate("gi_ui", "gt_map_file"))
+        self.gt_map_label.setText(_translate("gi_ui", "gt_map_file"))
         self.gt_map_browse_pushButton.setText(_translate("gi_ui", "..."))
         self.save_pushButton.setText(_translate("gi_ui", "Save"))
 
     def loadGT(self):
         self.mycfg.setAllDCFG()
         self.gt_file_lineEdit.setText(getAbsPathFDS(self.mycfg.dcfg_gt.gt_file))
+        self.gt_map_lineEdit.setText(getAbsPathFDS(self.mycfg.dcfg_gt.gt_map_file))
 
     def browseGTFile(self):
         default_path = getAncestorDir(self.mycfg.dcfg_gt.gt_file)
@@ -118,7 +119,7 @@ class Ui_GT(object):
     def updateCFG(self, gi_ui):
         gt_doc = {"dt_name": "GT",
                   "gt_file": normalizePathFDS(root_dir, self.gt_file_lineEdit.text()),
-                  "gt_map_file": normalizePathFDS(root_dir, self.mycfg.dcfg_gt.gt_map_file)}
+                  "gt_map_file": normalizePathFDS(root_dir, self.gt_map_lineEdit.text())}
         yolo_doc = self.mycfg.dcfg_yolocs.getDocument()
         yolo_utlt_doc = self.mycfg.dcfg_yolout.getDocument()
         self.mycfg.dumpAllDCFG([yolo_doc, yolo_utlt_doc, gt_doc])

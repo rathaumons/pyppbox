@@ -2,6 +2,8 @@
 
 Installing `pyppbox` is very easy and straightforward. You can install it from [PyPI](https://pypi.org/project/pyppbox/) directly or use the prebuilt `.whl` files on [GitHub releases](https://github.com/rathaumons/pyppbox/releases) or install from GitHub directly or build it from source on your own machine. However, in order to get it work, you need to install all the necessary dependcies or requirements for the modules you needs.
 
+🆕 `pyppbox` `v3.0b2` supports all Windows, Linux and macOS.
+
 ## ⚙️ Requirements
 
 All requirements are not strictly limited. However, some specific modules might need some special dependencies. For example, `YOLO_Classic` (With `.weights` model) relies OpenCV DNN in order to make use of GPU power. In this case, you might need to build OpenCV from source by yourself or use our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) instead of the official `opencv-contrib-python` which does not include GPU support.
@@ -9,16 +11,19 @@ All requirements are not strictly limited. However, some specific modules might 
 * Prerequisite: 
   - For NVIDIA GPU: [CUDA Toolkit 11.x.x](https://developer.nvidia.com/cuda-downloads) with default installation path
   - For NVIDIA GPU: [cuDNN 8.x.x](https://developer.nvidia.com/rdp/cudnn-download) with default installation path
-  - Python [[3.9-3.10]](https://www.python.org/downloads/) (3.11 is currently not supported)
+  - Python [[3.8-3.11]](https://www.python.org/downloads/)
   - Local pyppbox repo: `git clone https://github.com/rathaumons/pyppbox.git`
 
+* Before you install dependencies/requirements:
+  - If you prefer conda + Python [3.8-3.11]: `conda create --name pyppbox_env python=3.10`
+  - If you don't know whether to install only Tensorflow or PyTorch or both -> Check [Supported Modules](https://rathaumons.github.io/pyppbox/pyppbox/modules.html)
+
 * Install dependencies/requirments: 
-  - If you prefer conda + Python [3.9-3.10]: `conda create --name pyppbox_env python=3.10`
   - On Windows, run the `cmd` inside `pyppbox/requirements/`:
-    - For GPU: `install_req_p3_cuda.cmd` 
+    - For GPU: `install_req_p3_cuda.cmd` (Line 28 -> PyTorch + CUDA 11.8, change if you need to)
     - For CPU-only: `install_req_p3_cpu.cmd`
   - On Linux/macOS, under `pyppbox/requirements/`:
-    - For GPU + Linux-Only:
+    - For GPU + Linux-Only (Example for PyTorch CUDA 11.8):
       ```
       pip uninstall -y ultralytics # Remove the official ultralytics
       python -m pip install --upgrade pip
@@ -34,17 +39,22 @@ All requirements are not strictly limited. However, some specific modules might 
       pip install -r pippackages_cpu.txt
       pip install torch torchvision torchaudio
       ```
+  - ⚠️ ***Important***: For Python 3.11, you might need to reinstall `numpy>=1.24.4`
+    ```
+    pip install numpy==1.24.4
+    ```
 
 * (Optional) For GPU-Only -> Verify the installed dependencies:
   - Execute the `test_gup.py`
     - On Windows -> `test_gpu.cmd`
     - On Linux/macOS -> `python test_gup.py`
   - If there is no error, then you are all good and ready to go.
-  - For `pyppbox-opencv` on Windows, if `cv2` encounters `ImportError: DLL load failed ...`, please verify the path of your CUDA & cuDNN. Our pre-built `pyppbox-opencv` uses the default path of CUDA & cuDNN (`C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v1x.x`), and if your CUDA & cuDNN were installed in a different location, simply modify the `YOUR_PYTHON\Lib\site-packages\cv2\config.py` accordingly.
+  - For OpenCV, the official `opencv-contrib-python` (No GPU support) is set in the `pippackages_cuda.txt` file. If you need GPU support, check our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) or build one from source by yourself.
 
-* ⚠️ ***Notes for CPU-Only:***
-  - Torchreid does not work for CPU-Only -> Excluded from `pippackages_cpu.txt`
-  - YOLO Ultralytics uses GPU by default, you must set `cpu` as string for the parameter `device` in its configuration
+* ⚠️ ***Notes:***
+  - For CPU-Only, Torchreid does not work on CPU -> `pyppbox-torchreid` is excluded from `pippackages_cpu.txt`.
+  - For CPU-Only, YOLO Ultralytics uses GPU by default, you must set `cpu` as string for the parameter `device` in its configuration.
+  - For GPU on Windows, Tensorflow 2.11+ no long provides native GPU support. 
 
 
 ## 💽 Setup
@@ -95,11 +105,16 @@ You need to install the main package which is `pyppbox` and the data for the mod
     <details><summary><ins>Show GUI example!</ins></summary><img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_gui.jpg"></details>
 
 
-## 🪧 FYI
+## 📢 FYI
 
-🆕 We added support for Linux and macOS from `pyppbox` `v3.0b2`, and instead of using `pyppbox-opencv`, the official `opencv-contrib-python` is used by default. You still can manually remove it and install our `pyppbox-opencv` if you need to.
+### 1️⃣ Customized OpenCV
 
-OpenCV is widely used in many well-known packages, but the majority of the prebuilt WHLs on the Internet including the official one on PyPi do not include GPU support. Thus, we build our custom one which includes CUDA & cuDNN supports for the DNN modules. In order to well distinguish from the rest, we decided to build and change the package name from `opencv-contrib-python` to [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox). [[repo]](https://github.com/rathaumons/opencv-for-pyppbox) [[WHL]](https://github.com/rathaumons/pyppbox-custpkg/tree/main/pyppbox_opencv)
+OpenCV is widely used in many well-known packages, but the majority of the prebuilt WHLs on the Internet including the official one on PyPI do not include GPU support. Thus, we build our custom one which includes CUDA & cuDNN supports for the DNN modules. In order to well distinguish from the rest, we decided to build and change the package name from `opencv-contrib-python` to [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) -> [[Repo]](https://github.com/rathaumons/opencv-for-pyppbox) [[WHL]](https://github.com/rathaumons/opencv-for-pyppbox/releases)
 
-Similar to [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox), our custom `torchreid` is changed to [`pyppbox-torchreid`](https://github.com/rathaumons/torchreid-for-pyppbox). More than the normal package rename, the module name is also changed from `torchreid` to `pyppbox_torchreid` which means the `import` in the code must be also changed. [[WHL]](https://github.com/rathaumons/torchreid-for-pyppbox)
+### 2️⃣ Customized Torchreid
 
+Similar to [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox), our custom `torchreid` is changed to [`pyppbox-torchreid`](https://github.com/rathaumons/torchreid-for-pyppbox). More than the normal package rename, the module name is also changed from `torchreid` to `pyppbox_torchreid` which means the `import` in the code must be also changed. Find out more why `pyppbox` needs the customized `pyppbox-torchreid` -> [[Repo]](https://github.com/rathaumons/torchreid-for-pyppbox) [[PyPI]](https://pypi.org/project/pyppbox-torchreid/)
+
+### 3️⃣ Customized Ultralytics
+
+Also, similar to `pyppbox_torchreid`, our custom `ultralytics` is changed to [`pyppbox-ultralytics`](https://github.com/rathaumons/ultralytics-for-pyppbox), but this time, the module name is still the same `ultralytics` and it is the main reason why the official `ultralytics` must be removed. Find out more why `pyppbox` needs the customized `pyppbox-ultralytics` -> [[Repo]](https://github.com/rathaumons/torchreid-for-pyppbox) [[PyPI]](https://pypi.org/project/pyppbox-torchreid/)
