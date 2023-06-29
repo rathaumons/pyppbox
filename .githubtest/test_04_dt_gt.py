@@ -30,6 +30,7 @@ input_video = "../examples/data/gta.mp4"
 cap = cv2.VideoCapture(input_video)
 
 frame_index = 0
+stop_after = 9 # Stop the test after 9 frames
 
 while cap.isOpened():
     hasFrame, frame = cap.read()
@@ -60,6 +61,8 @@ while cap.isOpened():
         cv2.imwrite("test_04/frame_" + str(frame_index) + ".jpg", visualized_mat)
         frame_index += 1
 
+        if frame_index == stop_after:
+            break
     else:
         break
 cap.release()

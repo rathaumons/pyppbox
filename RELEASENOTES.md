@@ -3,6 +3,16 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
+* `pyppbox` [v3.0b3](https://github.com/rathaumons/pyppbox/tree/v3.0b3)
+
+  - Fix GUI for GT
+  - Improve supports for Python [3.8-3.11]
+  - Update dependencies/requirements
+  - Update and improve `GETSTARTED.md`
+  - Update test workflows for Python [3.8-3.11]
+  - **Known issue/limitation**: 
+    - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
+
 * `pyppbox` [v3.0b2](https://github.com/rathaumons/pyppbox/tree/v3.0b2)
 
   - Add Linux and macOS supports
