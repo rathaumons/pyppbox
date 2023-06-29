@@ -39,10 +39,6 @@ All requirements are not strictly limited. However, some specific modules might 
       pip install -r pippackages_cpu.txt
       pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
       ```
-  - ⚠️ ***Important***: Reinstall `numpy>=1.24.4` if you use `pyppbox-torchreid`
-    ```
-    pip install numpy==1.24.4
-    ```
 
 * (Optional) For GPU-Only -> Verify the installed dependencies:
   - Execute the `test_gup.py`
