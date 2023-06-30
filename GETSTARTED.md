@@ -15,7 +15,7 @@ All requirements are not strictly limited. However, some specific modules might 
   - Local pyppbox repo: `git clone https://github.com/rathaumons/pyppbox.git`
 
 * Before you install dependencies/requirements:
-  - For Linux/Ubuntu, recommend changing `python3` t `python`: `sudo apt install python-is-python3`
+  - For Linux/Ubuntu, recommend changing `python3` to `python`: `sudo apt install python-is-python3`
   - If you prefer conda + Python [3.8-3.11]: `conda create --name pyppbox_env python=3.10`
   - If you don't know whether to install only Tensorflow or PyTorch or both -> Check [Supported Modules](https://rathaumons.github.io/pyppbox/pyppbox/modules.html)
 
@@ -67,7 +67,8 @@ You need to install the main package which is `pyppbox` and the data for the mod
     ```
   - Or build from source:
     ```
-    cd pyppbox
+    pip install "setuptools>=67.2.0"
+    pip install wheel build PyYAML
     python -m build --wheel --skip-dependency-check
     cd dist
     pip install pyppbox-xxx.whl
@@ -100,7 +101,7 @@ You need to install the main package which is `pyppbox` and the data for the mod
     ```
   - Now you should see the GUI of pyppbox for easy demo.
     <details><summary><ins>Show GUI example!</ins></summary><img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_gui.jpg"></details>
-  - For Linux, if the GUI does not work, you might need to install these:
+  - For Linux or Ubuntu, if the GUI does not work, you might need to install these:
     ```
     sudo apt-get install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
     ```
