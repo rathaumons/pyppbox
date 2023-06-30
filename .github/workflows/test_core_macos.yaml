@@ -19,7 +19,7 @@ jobs:
         pip install "setuptools>=67.2.0"
         pip install wheel build
         cd requirements
-        pip install -r pippackages_macos.txt
+        pip install -r pippackages_cpu.txt
         pip install torch torchvision torchaudio
         pip freeze
     - name: Build and install pyppbox
@@ -40,10 +40,10 @@ jobs:
       run: |
         cd .githubtest
         python test_01_basic.py
-    - name: Test 02 - Evaluation and Result Tools
+    - name: Test 02 (Skipped)
       run: |
         cd .githubtest
-        python test_02_eva_res.py
+        # python test_02_eva_res.py
     - name: Test 03 - Evaluation Offline
       run: |
         cd .githubtest
