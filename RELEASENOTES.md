@@ -1,7 +1,15 @@
 # Release Notes 
 
-
 ## **pyppbox V3 - Make Simpler and Faster**
+
+* `pyppbox` [v3.0b4](https://github.com/rathaumons/pyppbox/tree/v3.0b4)
+
+  - Add hotfix for command `python` in `subprocess` when running on Linux
+  - Update and improve dependencies/requirements for macOS and Linux
+  - Update and improve `GETSTARTED.md` for macOS and Linux
+  - Add core stability test for macOS
+  - **Known issue/limitation**: 
+    - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
 
 * `pyppbox` [v3.0b3](https://github.com/rathaumons/pyppbox/tree/v3.0b3)
 
