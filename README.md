@@ -17,4 +17,4 @@
 * Intergrate GUI for easy configurations and demo.
 * Support YAML/JSON configurations -> File, raw string and ready dictionary.
 * Support [[GTA_V_Dataset]](https://github.com/rathaumons/PoseTReID_DATASET) -> Real-time online and offline evaluation.
-* First paper [[IEEE]](https://ieeexplore.ieee.org/document/9271712) | Last paper [[IEEE]](https://ieeexplore.ieee.org/document/9946587) [[arxiv]](https://doi.org/10.48550/arxiv.2205.10086)
+* Check our papers: 1 [[IEEE]](https://ieeexplore.ieee.org/document/9271712) | 2 [[IEEE]](https://ieeexplore.ieee.org/document/9946587) [[arxiv]](https://doi.org/10.48550/arxiv.2205.10086)
