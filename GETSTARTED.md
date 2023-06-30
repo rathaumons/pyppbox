@@ -19,12 +19,12 @@ All requirements are not strictly limited. However, some specific modules might 
   - If you prefer conda + Python [3.8-3.11]: `conda create --name pyppbox_env python=3.10`
   - If you don't know whether to install only Tensorflow or PyTorch or both -> Check [Supported Modules](https://rathaumons.github.io/pyppbox/pyppbox/modules.html)
 
-* Install dependencies/requirments: 
-  - On Windows, run the `cmd` inside `pyppbox/requirements/`:
+* Install dependencies/requirments under `pyppbox/requirements/`: 
+  - On Windows, run the `cmd`:
     - For GPU: `install_req_p3_cuda.cmd` (Line 28 -> PyTorch + CUDA 11.8, change if you need to)
     - For CPU-only: `install_req_p3_cpu.cmd`
-  - On Linux/macOS, under `pyppbox/requirements/`:
-    - For GPU + Linux-Only (Example for PyTorch CUDA 11.8):
+  - On Linux:
+    - For GPU (Example for PyTorch CUDA 11.8):
       ```
       python -m pip install --upgrade pip
       pip uninstall -y ultralytics # Remove the official ultralytics
@@ -40,11 +40,21 @@ All requirements are not strictly limited. However, some specific modules might 
       pip install -r pippackages_cpu.txt
       pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
       ```
+  - On macOS:
+    - For GPU: No support
+    - For CPU:
+      ```
+      python -m pip install --upgrade pip
+      pip uninstall -y ultralytics # Remove the official ultralytics
+      pip install "setuptools>=67.2.0"
+      pip install -r pippackages_cpu.txt
+      pip install torch torchvision torchaudio
+      ```
 
 * (Optional) For GPU-Only -> Verify the installed dependencies:
   - Execute the `test_gup.py`
     - On Windows -> `test_gpu.cmd`
-    - On Linux/macOS -> `python test_gup.py`
+    - On Linux -> `python test_gup.py`
   - If there is no error, then you are all good and ready to go.
   - For OpenCV, the official `opencv-contrib-python` (No GPU support) is set in the `pippackages_cuda.txt` file. If you need GPU support, check our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) or build one from source by yourself.
 
