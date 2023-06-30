@@ -25,7 +25,7 @@ import cv2
 import skimage.transform
 import numpy as np
 
-from pyppbox.utils.commontools import getFileName
+from pyppbox.utils.commontools import getFileName, silencer
 from pyppbox.utils.logtools import add_info_log, add_warning_log, ignore_this_logger
 
 ignore_this_logger("tensorflow")
@@ -163,6 +163,7 @@ class MyFaceNet(object):
             img = img[:, :, 0:3]
         return img
 
+    @silencer
     def make_facenet_image(self, bboxes, img):
         """
         :meta private:

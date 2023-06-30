@@ -29,7 +29,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 cls
 :: Make sure there is no conflict
 call verify_packages.cmd
-:: Show & save installed pip packages to installed_packages.txt
+:: Show & save installed pip packages to installed_packages_cuda.txt
 pip freeze
 pip freeze > installed_packages_cuda.txt
 pause
