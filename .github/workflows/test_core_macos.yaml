@@ -1,5 +1,5 @@
 name: Test Core Linux
-on: [workflow_dispatch]
+on: [push, workflow_dispatch]
 jobs:
   test_linux:
     runs-on: macos-latest
