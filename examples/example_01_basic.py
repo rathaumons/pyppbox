@@ -4,16 +4,15 @@
 
 import cv2
 
-from pyppbox.standalone import setConfigDir, detectPeople, reidPeople
+from pyppbox.standalone import (setMainDetector, detectPeople, 
+                                setMainReIDer, reidPeople)
 from pyppbox.utils.visualizetools import visualizePeople
 
 
-# Use the internal configurations of pyppbox
-setConfigDir(config_dir=None, load_all=True)
-
 image = "data/gta.jpg"
 
-# Detect people and save as visualized image detection_output.jpg
+# Detect people and save as visualized image detection_output.jpg using Ultralytics
+setMainDetector("YOLO_Ultralytics") # Set by name using internal configs
 detected_people, visual_image = detectPeople(
     img=image, # Give an image to detect people
     visual=True, # Set True to visualize the detected people
@@ -21,7 +20,8 @@ detected_people, visual_image = detectPeople(
     save_file="detection_output.jpg" # Give a path to save the visualized image
 )
 
-# Re-identify people
+# Re-identify the detected people using FaceNet
+setMainReIDer("FaceNet") # Set by name using internal configs
 reidentified_people, reid_count = reidPeople(img=image, people=detected_people)
 
 # Visual people using pyppbox's visualizetools
