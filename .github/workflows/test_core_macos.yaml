@@ -1,7 +1,7 @@
-name: Test Core Linux
+name: Test Core macOS
 on: [push, workflow_dispatch]
 jobs:
-  test_linux:
+  test_macos:
     runs-on: macos-latest
     strategy:
       fail-fast: false
@@ -19,7 +19,7 @@ jobs:
         pip install "setuptools>=67.2.0"
         pip install wheel build
         cd requirements
-        pip install -r pippackages_cpu.txt
+        pip install -r pippackages_macos.txt
         pip install torch torchvision torchaudio
         pip freeze
     - name: Build and install pyppbox
