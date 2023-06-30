@@ -69,7 +69,7 @@ You need to install the main package which is `pyppbox` and the data for the mod
     ```
     pip install "setuptools>=67.2.0"
     pip install wheel build PyYAML
-    python -m build --wheel --skip-dependency-check
+    python -m build --wheel --skip-dependency-check --no-isolation
     cd dist
     pip install pyppbox-xxx.whl
     ```
