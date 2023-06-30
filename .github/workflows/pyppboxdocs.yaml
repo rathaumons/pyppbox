@@ -9,7 +9,7 @@ on:
 permissions:
     contents: write
 jobs:
-  docs:
+  build_docs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
