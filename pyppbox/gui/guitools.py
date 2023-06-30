@@ -20,6 +20,7 @@
 
 
 import os
+import sys
 import subprocess as sp
 
 from pyppbox.utils.logtools import add_warning_log, add_error_log
@@ -93,7 +94,7 @@ def launchGUI():
     """Launch GUI configuration tool of pyppbox.
     """
     writeUITMP(__cfgdir__)
-    p = sp.Popen(['python', os.path.join(current_dir, 'ui_launcher.py')])
+    p = sp.Popen([sys.executable, os.path.join(current_dir, 'ui_launcher.py')])
     stdout, stderr = p.communicate()
 
 def generateConfig(cfg_dir, auto_launch_gui=True):

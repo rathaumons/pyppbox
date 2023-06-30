@@ -358,7 +358,7 @@ class Ui_PYPPBOXLauncher(object):
                         self.input_video_file_lineEdit.text(), 
                         self.input_force_hd_comboBox.currentText())
         launcher.hide()
-        p = sp.Popen(['python', os.path.join(current_dir, 'guidemo.py')])
+        p = sp.Popen([sys.executable, os.path.join(current_dir, 'guidemo.py')])
         stdout, stderr = p.communicate()
         self.mycfg.setMCFG()
         launcher.show()
