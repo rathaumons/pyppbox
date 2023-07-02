@@ -52,9 +52,9 @@ All requirements are not strictly limited. However, some specific modules might 
       ```
 
 * (Optional) For GPU-Only -> Verify the installed dependencies:
-  - Execute the `test_gup.py`
+  - Execute the `test_gpu.py`
     - On Windows -> `test_gpu.cmd`
-    - On Linux -> `python test_gup.py`
+    - On Linux -> `python test_gpu.py`
   - If there is no error, then you are all good and ready to go.
   - For OpenCV, the official `opencv-contrib-python` (No GPU support) is set in the `pippackages_cuda.txt` file. If you need GPU support, check our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) or build one from source by yourself.
 
