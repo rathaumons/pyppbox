@@ -39,20 +39,20 @@ class Ui_FaceNet(object):
 
     def setupUi(self, facenet_ui):
         facenet_ui.setObjectName("facenet_ui")
-        facenet_ui.resize(390, 300)
+        facenet_ui.resize(390, 330)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, 
                                            QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(facenet_ui.sizePolicy().hasHeightForWidth())
         facenet_ui.setSizePolicy(sizePolicy)
-        facenet_ui.setMinimumSize(QtCore.QSize(390, 300))
-        facenet_ui.setMaximumSize(QtCore.QSize(390, 300))
+        facenet_ui.setMinimumSize(QtCore.QSize(390, 330))
+        facenet_ui.setMaximumSize(QtCore.QSize(390, 330))
         self.save_pushButton = QtWidgets.QPushButton(facenet_ui)
-        self.save_pushButton.setGeometry(QtCore.QRect(150, 260, 91, 31))
+        self.save_pushButton.setGeometry(QtCore.QRect(150, 290, 91, 31))
         self.save_pushButton.setObjectName("save_pushButton")
         self.fn_min_confidence_label = QtWidgets.QLabel(facenet_ui)
-        self.fn_min_confidence_label.setGeometry(QtCore.QRect(10, 160, 91, 16))
+        self.fn_min_confidence_label.setGeometry(QtCore.QRect(10, 190, 91, 16))
         self.fn_min_confidence_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
                                                   QtCore.Qt.AlignmentFlag.AlignTrailing|
                                                   QtCore.Qt.AlignmentFlag.AlignVCenter)
@@ -67,8 +67,14 @@ class Ui_FaceNet(object):
                                                   QtCore.Qt.AlignmentFlag.AlignTrailing|
                                                   QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.fn_classifier_pkl_label.setObjectName("fn_classifier_pkl_label")
+        self.fn_train_data_label = QtWidgets.QLabel(facenet_ui)
+        self.fn_train_data_label.setGeometry(QtCore.QRect(10, 130, 91, 16))
+        self.fn_train_data_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
+                                              QtCore.Qt.AlignmentFlag.AlignTrailing|
+                                              QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.fn_train_data_label.setObjectName("dr_train_data_label")
         self.fn_yl_h_calib_label = QtWidgets.QLabel(facenet_ui)
-        self.fn_yl_h_calib_label.setGeometry(QtCore.QRect(10, 190, 91, 16))
+        self.fn_yl_h_calib_label.setGeometry(QtCore.QRect(10, 220, 91, 16))
         self.fn_yl_h_calib_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
                                               QtCore.Qt.AlignmentFlag.AlignTrailing|
                                               QtCore.Qt.AlignmentFlag.AlignVCenter)
@@ -83,7 +89,7 @@ class Ui_FaceNet(object):
         self.fn_model_file_pushButton.setGeometry(QtCore.QRect(360, 70, 21, 24))
         self.fn_model_file_pushButton.setObjectName("fn_model_file_pushButton")
         self.fn_yl_w_calib_label = QtWidgets.QLabel(facenet_ui)
-        self.fn_yl_w_calib_label.setGeometry(QtCore.QRect(10, 220, 91, 16))
+        self.fn_yl_w_calib_label.setGeometry(QtCore.QRect(10, 250, 91, 16))
         self.fn_yl_w_calib_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
                                               QtCore.Qt.AlignmentFlag.AlignTrailing|
                                               QtCore.Qt.AlignmentFlag.AlignVCenter)
@@ -98,14 +104,14 @@ class Ui_FaceNet(object):
                                              QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.fn_model_det_label.setObjectName("fn_model_det_label")
         self.fn_yl_w_calib_lineEdit = QtWidgets.QLineEdit(facenet_ui)
-        self.fn_yl_w_calib_lineEdit.setGeometry(QtCore.QRect(110, 220, 241, 21))
+        self.fn_yl_w_calib_lineEdit.setGeometry(QtCore.QRect(110, 250, 241, 21))
         self.fn_yl_w_calib_lineEdit.setReadOnly(False)
         self.fn_yl_w_calib_lineEdit.setObjectName("fn_yl_w_calib_lineEdit")
         self.fn_batch_size_lineEdit = QtWidgets.QLineEdit(facenet_ui)
-        self.fn_batch_size_lineEdit.setGeometry(QtCore.QRect(110, 130, 241, 21))
+        self.fn_batch_size_lineEdit.setGeometry(QtCore.QRect(110, 160, 241, 21))
         self.fn_batch_size_lineEdit.setObjectName("fn_batch_size_lineEdit")
         self.fn_batch_size_label = QtWidgets.QLabel(facenet_ui)
-        self.fn_batch_size_label.setGeometry(QtCore.QRect(10, 130, 91, 16))
+        self.fn_batch_size_label.setGeometry(QtCore.QRect(10, 160, 91, 16))
         self.fn_batch_size_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
                                               QtCore.Qt.AlignmentFlag.AlignTrailing|
                                               QtCore.Qt.AlignmentFlag.AlignVCenter)
@@ -114,6 +120,10 @@ class Ui_FaceNet(object):
         self.fn_classifier_pkl_lineEdit.setGeometry(QtCore.QRect(110, 100, 241, 21))
         self.fn_classifier_pkl_lineEdit.setReadOnly(True)
         self.fn_classifier_pkl_lineEdit.setObjectName("fn_classifier_pkl_lineEdit")
+        self.fn_train_data_lineEdit = QtWidgets.QLineEdit(facenet_ui)
+        self.fn_train_data_lineEdit.setGeometry(QtCore.QRect(110, 130, 241, 21))
+        self.fn_train_data_lineEdit.setReadOnly(True)
+        self.fn_train_data_lineEdit.setObjectName("dr_train_data_lineEdit")
         self.fn_model_file_label = QtWidgets.QLabel(facenet_ui)
         self.fn_model_file_label.setGeometry(QtCore.QRect(10, 70, 91, 16))
         self.fn_model_file_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
@@ -124,14 +134,17 @@ class Ui_FaceNet(object):
         self.fn_gpu_mem_lineEdit.setGeometry(QtCore.QRect(110, 10, 241, 21))
         self.fn_gpu_mem_lineEdit.setObjectName("fn_gpu_mem_lineEdit")
         self.fn_min_confidence_lineEdit = QtWidgets.QLineEdit(facenet_ui)
-        self.fn_min_confidence_lineEdit.setGeometry(QtCore.QRect(110, 160, 241, 21))
+        self.fn_min_confidence_lineEdit.setGeometry(QtCore.QRect(110, 190, 241, 21))
         self.fn_min_confidence_lineEdit.setReadOnly(False)
         self.fn_min_confidence_lineEdit.setObjectName("fn_min_confidence_lineEdit")
         self.fn_classifier_pkl_pushButton = QtWidgets.QPushButton(facenet_ui)
         self.fn_classifier_pkl_pushButton.setGeometry(QtCore.QRect(360, 100, 21, 24))
         self.fn_classifier_pkl_pushButton.setObjectName("fn_classifier_pkl_pushButton")
+        self.fn_train_data_pushButton = QtWidgets.QPushButton(facenet_ui)
+        self.fn_train_data_pushButton.setGeometry(QtCore.QRect(360, 130, 21, 24))
+        self.fn_train_data_pushButton.setObjectName("dr_train_data_pushButton")
         self.fn_yl_h_calib_lineEdit = QtWidgets.QLineEdit(facenet_ui)
-        self.fn_yl_h_calib_lineEdit.setGeometry(QtCore.QRect(110, 190, 241, 21))
+        self.fn_yl_h_calib_lineEdit.setGeometry(QtCore.QRect(110, 220, 241, 21))
         self.fn_yl_h_calib_lineEdit.setObjectName("fn_yl_h_calib_lineEdit")
         self.fn_model_det_lineEdit = QtWidgets.QLineEdit(facenet_ui)
         self.fn_model_det_lineEdit.setGeometry(QtCore.QRect(110, 40, 241, 21))
@@ -147,6 +160,7 @@ class Ui_FaceNet(object):
         self.fn_model_det_pushButton.clicked.connect(self.browseModelDet)
         self.fn_model_file_pushButton.clicked.connect(self.browseModelFile)
         self.fn_classifier_pkl_pushButton.clicked.connect(self.browseClassifierFile)
+        self.fn_train_data_pushButton.clicked.connect(self.browseTrainData)
         self.save_pushButton.clicked.connect(lambda: self.updateCFG(facenet_ui))
         QtCore.QMetaObject.connectSlotsByName(facenet_ui)
 
@@ -156,6 +170,7 @@ class Ui_FaceNet(object):
         self.save_pushButton.setText(_translate("facenet_ui", "Save"))
         self.fn_min_confidence_label.setText(_translate("facenet_ui", "min_confidence"))
         self.fn_classifier_pkl_label.setText(_translate("facenet_ui", "classifier_pkl"))
+        self.fn_train_data_label.setText(_translate("facenet_ui", "train_data"))
         self.fn_yl_h_calib_label.setText(_translate("facenet_ui", "yl_h_calib"))
         self.fn_gpu_mem_label.setText(_translate("facenet_ui", "gpu_mem"))
         self.fn_model_file_pushButton.setText(_translate("facenet_ui", "..."))
@@ -165,6 +180,7 @@ class Ui_FaceNet(object):
         self.fn_batch_size_label.setText(_translate("facenet_ui", "batch_size"))
         self.fn_model_file_label.setText(_translate("facenet_ui", "model_file"))
         self.fn_classifier_pkl_pushButton.setText(_translate("facenet_ui", "..."))
+        self.fn_train_data_pushButton.setText(_translate("facenet_ui", "..."))
 
     def loadFN(self):
         self.mycfg.setAllRCFG()
@@ -172,6 +188,7 @@ class Ui_FaceNet(object):
         self.fn_gpu_mem_lineEdit.setText(str(self.mycfg.rcfg_facenet.gpu_mem))
         self.fn_min_confidence_lineEdit.setText(str(self.mycfg.rcfg_facenet.min_confidence))
         self.fn_classifier_pkl_lineEdit.setText(getAbsPathFDS(self.mycfg.rcfg_facenet.classifier_pkl))
+        self.fn_train_data_lineEdit.setText(getAbsPathFDS(self.mycfg.rcfg_facenet.train_data))
         self.fn_model_file_lineEdit.setText(getAbsPathFDS(self.mycfg.rcfg_facenet.model_file))
         self.fn_model_det_lineEdit.setText(getAbsPathFDS(self.mycfg.rcfg_facenet.model_det))
         self.fn_yl_h_calib_lineEdit.setText(str(self.mycfg.rcfg_facenet.yl_h_calibration))
@@ -184,6 +201,7 @@ class Ui_FaceNet(object):
             "model_det": normalizePathFDS(root_dir, self.fn_model_det_lineEdit.text()), 
             "model_file": normalizePathFDS(root_dir, self.fn_model_file_lineEdit.text()),
             "classifier_pkl": normalizePathFDS(root_dir, self.fn_classifier_pkl_lineEdit.text()),
+            "train_data": normalizePathFDS(root_dir, self.fn_train_data_lineEdit.text()),
             "batch_size": getInt(self.fn_batch_size_lineEdit.text(), default_val=0.5),
             "min_confidence": getFloat(self.fn_min_confidence_lineEdit.text(), default_val=0.75),
             "yl_h_calibration": get2Dlist(self.fn_yl_h_calib_lineEdit.text()),
@@ -218,3 +236,9 @@ class Ui_FaceNet(object):
                                                                default_path, pkl_filter)
         if source_file:
             self.fn_classifier_pkl_lineEdit.setText(source_file)
+
+    def browseTrainData(self):
+        default_path = getAncestorDir(self.mycfg.rcfg_facenet.train_data)
+        train_data = QtWidgets.QFileDialog.getExistingDirectory(None, "Train data folder", default_path)
+        if train_data:
+            self.fn_train_data_lineEdit.setText(train_data)
