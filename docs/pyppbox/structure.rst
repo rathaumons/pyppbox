@@ -67,7 +67,7 @@ Data: ``pyppbox-data`` and ``pyppbox-data-gta5``
        │       │   │       *.jpg
        │       │   └───Trevor
        │       │           *.jpg
-       │       ├───faces_182x182  ........  Cropped & classified face boxes in 182x182
+       │       ├───face_182x182  .........  Cropped & classified face boxes in 182x182
        │       │   ├───Amanda
        │       │   │       *.png
        │       │   ├───Franklin
