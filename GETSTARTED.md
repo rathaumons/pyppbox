@@ -1,8 +1,8 @@
 # 🚀 Getting Started
 
-Installing `pyppbox` is very easy and straightforward. You can install it from [PyPI](https://pypi.org/project/pyppbox/) directly or use the prebuilt `.whl` files on [GitHub releases](https://github.com/rathaumons/pyppbox/releases) or install from GitHub directly or build it from source on your own machine. However, in order to get it work, you need to install all the necessary dependcies or requirements for the modules you needs.
+Installing `pyppbox` is very easy and straightforward. You can install it from [PyPI](https://pypi.org/project/pyppbox/) directly or use the prebuilt `.whl` files on [GitHub releases](https://github.com/rathaumons/pyppbox/releases) or install from GitHub directly or build it from source on your own machine. However, in order to get it work, you need to install all the necessary dependencies or requirements for the modules you needs.
 
-🆕 `pyppbox` `v3.0b2+` supports all Windows, Linux and macOS.
+🆕 `pyppbox` `v3.0b2+` supports all Windows, Linux and macOS. ***Use the most recent version of `pyppbox` for smoother experience!***
 
 ## ⚙️ Requirements
 
@@ -69,7 +69,7 @@ All requirements are not strictly limited. However, some specific modules might 
 You need to install the main package which is `pyppbox` and the data for the modules you need `pyppbox-data-xxx`. If you want to have some fun for the demo on our [GTA_V_DATASET](https://github.com/rathaumons/PoseTReID_DATASET), you also need to install `pyppbox-data-gta5`.
 
 * Install `pyppbox`
-  - Use the latest `.whl` from [releases](https://github.com/rathaumons/pyppbox/releases) or install from PyPI:
+  - Use the latest `.whl` from [releases](https://github.com/rathaumons/pyppbox/releases) or install from [PyPI](https://pypi.org/project/pyppbox/):
     ```
     pip install pyppbox
     ``` 
