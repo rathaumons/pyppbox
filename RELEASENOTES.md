@@ -2,6 +2,13 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
+* `pyppbox` [v3.0b5](https://github.com/rathaumons/pyppbox/tree/v3.0b5)
+
+  - Fix a critical bug in GUI of FaceNet which can cause missing `train_data` configuration
+  - Fix and improve documentation
+  - **Known issue/limitation**: 
+    - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
+
 * `pyppbox` [v3.0b4](https://github.com/rathaumons/pyppbox/tree/v3.0b4)
 
   - Add hotfix for command `python` in `subprocess` when running on Linux
