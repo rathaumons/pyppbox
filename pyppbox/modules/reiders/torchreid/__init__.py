@@ -45,7 +45,6 @@ class MyTorchreid(object):
         self.unk = cfg.unified_strings.unk_did
         self.err = cfg.unified_strings.err_did
         self.mdir = cfg.base_model_path
-        # self.classes_txt = cfg.classes_txt
         self.classifier_pkl = cfg.classifier_pkl
         self.train_data = cfg.train_data
         self.model_name = cfg.model_name
