@@ -113,9 +113,15 @@ You need to install the main package which is `pyppbox` and the data for the mod
     ```
   - Now you should see the GUI of pyppbox for easy demo.
     <details><summary><ins>Show GUI example!</ins></summary><img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_gui.jpg"></details>
-  - For Linux, if the GUI does not work, you might need to install these:
+  - For ***Linux***, if the GUI does not work, you might need to install these:
     ```
     sudo apt-get install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
+    ```
+  - For ***Ubuntu on WSL 2***, you need to install these:
+    ```
+    sudo apt-get install libgl1-mesa-glx
+    sudo apt-get install xdg-utils
+    sudo apt-get install libegl1
     ```
 
 ## 📢 FYI
