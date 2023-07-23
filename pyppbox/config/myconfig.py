@@ -695,7 +695,7 @@ class RCFGFaceNet(BaseCGF):
     ----------
     unified_strings : MyStrings, auto
         A :class:`MyStrings` object used to store unified strings.
-    tk_name : str
+    ri_name : str
         Configured name of reider FaceNet.
     gpu_mem : float
         Limit GPU memory usage.
@@ -809,7 +809,7 @@ class RCFGTorchreid(BaseCGF):
     ----------
     unified_strings : MyStrings, auto
         A :class:`MyStrings` object used to store unified strings.
-    tk_name : str
+    ri_name : str
         Configured name of reider Torchreid.
     classifier_pkl : str
         Path of classifier PKL file.
@@ -822,6 +822,8 @@ class RCFGTorchreid(BaseCGF):
         Path of a pretrained model file for reider Torchreid.
     min_confidence : float
         Mininum confidence of the prediction.
+    device : str
+        Parameter device for specifying a computing device.
     base_model_path : str
         Path of a base model corresponding to the pretrained model or :attr:`model_name`. 
     model_dict : TorchreidModelDict, auto
@@ -877,6 +879,7 @@ class RCFGTorchreid(BaseCGF):
                 self.model_path = getAdaptiveAbsPathFDS(self.from_dir, 
                                                         self.configs['model_path'])
                 self.min_confidence = self.configs['min_confidence']
+                self.device = self.configs['device']
                 self.configs = self.getDocument()
                 self.base_model_path = getAdaptiveAbsPathFDS(
                     self.from_dir, 
@@ -1034,6 +1037,7 @@ class MyCFGHeaders(object):
                 "# model_name: osnet_ain_x1_0\n"
                 "# model_path: data/modules/torchreid/models/torchreid/osnet_ain_ms_d_c.pth.tar\n"
                 "# min_confidence: 0.35\n"
+                "# device: cuda\n"
                 "###########################################################\n")
         return header
 

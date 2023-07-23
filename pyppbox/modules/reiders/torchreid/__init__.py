@@ -49,9 +49,11 @@ class MyTorchreid(object):
         self.train_data = cfg.train_data
         self.model_name = cfg.model_name
         self.model_path = cfg.model_path
+        self.device = cfg.device
         self.min_confidence = int(100 * cfg.min_confidence)
         # add_info_log("--------RI : Initializing ReID model ...")
-        self.extractor = deepreid_extractor(self.model_name, self.mdir, self.model_path)
+        self.extractor = deepreid_extractor(self.model_name, self.mdir, 
+                                            self.model_path, device=self.device)
         self.auto_load = auto_load
         if self.auto_load:
             self.load_classifier()

@@ -67,7 +67,7 @@ def get_image_paths(datadir):
     return image_paths
 
 @silencer
-def deepreid_extractor(model_name, model_dir, model_path):
+def deepreid_extractor(model_name, model_dir, model_path, device='cuda'):
     ignore_this_logger("torchreid")
     ignore_this_logger("pyppbox_torchreid")
     from pyppbox_torchreid.utils import FeatureExtractor
@@ -77,7 +77,7 @@ def deepreid_extractor(model_name, model_dir, model_path):
             base_model_name = model_name,
             base_model_dir = model_dir,
             model_path = model_path,
-            device = 'cuda'
+            device = device
         )
     except Exception as e:
         msg = "deepreid_extractor() -> " + str(e)

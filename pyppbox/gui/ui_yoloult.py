@@ -20,12 +20,13 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, 
                                        getGlobalRootDir, getAncestorDir, 
                                        getFloat, getInt)
 
-
+unified_strings = UnifiedStrings()
 root_dir = getGlobalRootDir()
 
 class Ui_YOLOULT(object):
@@ -194,14 +195,15 @@ class Ui_YOLOULT(object):
             self.boxes_comboBox.setCurrentIndex(1)
 
     def updateCFG(self, yoloult_ui):
-        decorated_name = str(self.mycfg.dcfg_yolout.dt_name).title().replace("Yolo", "YOLO")
         device = 0
         if 'cpu' in self.device_lineEdit.text().lower():
             device = 'cpu'
+        elif 'cuda' in self.device_lineEdit.text().lower():
+            device = 'cuda'
         else:
             device = getInt(self.device_lineEdit.text())
         yolo_utlt_doc = {
-            "dt_name": decorated_name,
+            "dt_name": unified_strings.getUnifiedFormat("YOLO_Ultralytics"),
             "conf": getFloat(self.conf_lineEdit.text(), default_val=0.5),
             "iou": getFloat(self.iou_lineEdit.text(), default_val=0.7),
             "imgsz": getInt(self.imgsz_lineEdit.text(), default_val=416),
@@ -224,4 +226,3 @@ class Ui_YOLOULT(object):
                                                                default_path, model_filter)
         if source_file:
             self.model_file_lineEdit.setText(source_file)
-

@@ -462,4 +462,3 @@ if __name__ == "__main__":
     ui.setupUi(launcher)
     launcher.show()
     sys.exit(app.exec())
-

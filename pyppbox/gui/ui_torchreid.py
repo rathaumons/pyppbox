@@ -20,13 +20,15 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.modules.reiders.torchreid.model_dict import TorchreidModelDict
 from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, getFileName, 
                                        getGlobalRootDir, getAncestorDir, joinFPathFull,
-                                       getFloat)
+                                       getFloat, getInt)
 
 
+unified_strings = UnifiedStrings()
 root_dir = getGlobalRootDir()
 global_cfg_root = joinFPathFull(root_dir, 'cfg')
 internal_cfg_dir = joinFPathFull(global_cfg_root, 'configurations')
@@ -42,15 +44,15 @@ class Ui_Torchreid(object):
 
     def setupUi(self, torchreid_ui):
         torchreid_ui.setObjectName("torchreid_ui")
-        torchreid_ui.resize(390, 210)
+        torchreid_ui.resize(390, 240)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, 
                                            QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(torchreid_ui.sizePolicy().hasHeightForWidth())
         torchreid_ui.setSizePolicy(sizePolicy)
-        torchreid_ui.setMinimumSize(QtCore.QSize(390, 210))
-        torchreid_ui.setMaximumSize(QtCore.QSize(390, 210))
+        torchreid_ui.setMinimumSize(QtCore.QSize(390, 240))
+        torchreid_ui.setMaximumSize(QtCore.QSize(390, 240))
         self.dr_model_path_label = QtWidgets.QLabel(torchreid_ui)
         self.dr_model_path_label.setGeometry(QtCore.QRect(10, 100, 91, 16))
         self.dr_model_path_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
@@ -62,7 +64,7 @@ class Ui_Torchreid(object):
         self.dr_min_confidence_lineEdit.setReadOnly(False)
         self.dr_min_confidence_lineEdit.setObjectName("dr_min_confidence_lineEdit")
         self.save_pushButton = QtWidgets.QPushButton(torchreid_ui)
-        self.save_pushButton.setGeometry(QtCore.QRect(150, 170, 91, 31))
+        self.save_pushButton.setGeometry(QtCore.QRect(150, 200, 91, 31))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.save_pushButton.setFont(font)
@@ -116,6 +118,15 @@ class Ui_Torchreid(object):
         self.dr_classifier_pkl_lineEdit.setGeometry(QtCore.QRect(110, 10, 241, 21))
         self.dr_classifier_pkl_lineEdit.setReadOnly(True)
         self.dr_classifier_pkl_lineEdit.setObjectName("dr_classifier_pkl_lineEdit")
+        self.dr_devices_label = QtWidgets.QLabel(torchreid_ui)
+        self.dr_devices_label.setGeometry(QtCore.QRect(10, 160, 91, 16))
+        self.dr_devices_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
+                                        QtCore.Qt.AlignmentFlag.AlignTrailing|
+                                        QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.dr_devices_label.setObjectName("dr_devices_label")
+        self.dr_device_lineEdit = QtWidgets.QLineEdit(torchreid_ui)
+        self.dr_device_lineEdit.setGeometry(QtCore.QRect(110, 160, 241, 21))
+        self.dr_device_lineEdit.setObjectName("dr_device_lineEdit")
         self.retranslateUi(torchreid_ui)
         # custom
         self.md = TorchreidModelDict()
@@ -132,6 +143,8 @@ class Ui_Torchreid(object):
         self.dr_model_path_label.setText(_translate("torchreid_ui", "model_path"))
         self.save_pushButton.setText(_translate("torchreid_ui", "Save"))
         self.dr_min_confidence_label.setText(_translate("torchreid_ui", "min_confidence"))
+        self.dr_devices_label.setText(_translate("torchreid_ui", "device"))
+        self.dr_device_lineEdit.setPlaceholderText(_translate("torchreid_ui", "cuda"))
         self.dr_classifier_pkl_label.setText(_translate("torchreid_ui", "classifier_pkl"))
         self.dr_train_data_pushButton.setText(_translate("torchreid_ui", "..."))
         self.dr_model_path_pushButton.setText(_translate("torchreid_ui", "..."))
@@ -146,15 +159,24 @@ class Ui_Torchreid(object):
         self.dr_model_name_lineEdit.setText(str(self.mycfg.rcfg_torchreid.model_name))
         self.dr_model_path_lineEdit.setText(getAbsPathFDS(self.mycfg.rcfg_torchreid.model_path))
         self.dr_min_confidence_lineEdit.setText(str(self.mycfg.rcfg_torchreid.min_confidence))
+        self.dr_device_lineEdit.setText(str(self.mycfg.rcfg_torchreid.device))
 
     def updateCFG(self, torchreid_ui):
+        device = 'cuda'
+        if 'cpu' in self.dr_device_lineEdit.text().lower():
+            device = 'cpu'
+        elif 'cuda' in self.dr_device_lineEdit.text().lower():
+            device = 'cuda'
+        else:
+            device = getInt(self.dr_device_lineEdit.text())
         Torchreid_doc = {
-            "ri_name": "Torchreid",
+            "ri_name": unified_strings.getUnifiedFormat("Torchreid"),
             "classifier_pkl": normalizePathFDS(root_dir, self.dr_classifier_pkl_lineEdit.text()),
             "train_data": normalizePathFDS(root_dir, self.dr_train_data_lineEdit.text()),
             "model_name": self.dr_model_name_lineEdit.text(),
             "model_path": normalizePathFDS(root_dir, self.dr_model_path_lineEdit.text()),
-            "min_confidence": getFloat(self.dr_min_confidence_lineEdit.text(), default_val=0.35)
+            "min_confidence": getFloat(self.dr_min_confidence_lineEdit.text(), default_val=0.35),
+            "device": device
         }
         facenet_doc = self.mycfg.rcfg_facenet.getDocument()
         self.mycfg.dumpAllRCFG([facenet_doc, Torchreid_doc])
