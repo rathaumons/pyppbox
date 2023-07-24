@@ -1,4 +1,4 @@
-Example 7: Use Result Tools
+Example 7: Use result tools
 ===========================
 
 - **Description**: Use :class:`ResIO` to store and generate a result text file.

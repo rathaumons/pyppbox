@@ -42,15 +42,71 @@ from pyppbox.utils.evatools import NothingDetecter, NothingTracker, NothingReide
 from pyppbox.utils.commontools import getAbsPathFDS, isExist, getCVMat, getAncestorDir
 
 
+__none_cfg__ = NoneCFG()
+__none_cfg__.set("Fiat Moneey")
+
 class MT(object):
+
+    """An all-in-one class designed for easy detect, track, and reid people in a single threading 
+    or multithreading application.
+
+    Example:
+    
+    >>> import cv2
+    >>> import threading
+    >>> from pyppbox.utils.visualizetools import visualizePeople
+    >>> from pyppbox.standalone import MT
+    >>> 
+    >>> def ppb_task(input, main_configs, name="Task"):
+    >>>     ppbmt = MT() # Use `MT` for multithreading
+    >>>     ppbmt.setMainModules(main_yaml=main_configs)
+    >>>     cap = cv2.VideoCapture(input)
+    >>>     while cap.isOpened():
+    >>>         hasFrame, frame = cap.read()
+    >>>         if hasFrame:
+    >>>             detected_people, _ = ppbmt.detectPeople(frame, img_is_mat=True, visual=False)
+    >>>             tracked_people = ppbmt.trackPeople(frame, detected_people, img_is_mat=True)
+    >>>             reidentified_people, reid_count = ppbmt.reidPeople(
+    >>>                 frame,
+    >>>                 tracked_people,
+    >>>                 img_is_mat=True
+    >>>             )
+    >>>             visualized_mat = visualizePeople(
+    >>>                 frame,
+    >>>                 reidentified_people,
+    >>>                 show_reid=reid_count
+    >>>             )
+    >>>             cv2.imshow("Multithreading (" + name + ")", visualized_mat)
+    >>>             if cv2.waitKey(1) & 0xFF == ord('q'):
+    >>>                 break
+    >>>         else:
+    >>>             break
+    >>>     cap.release()
+    >>> 
+    >>> if __name__ == '__main__':
+    >>>     input_one = "data/gta.mp4"
+    >>>     input_two = "data/gta.mp4"
+    >>>     main_configs_one = {'detector': 'YOLO_Classic',
+    >>>                         'tracker': 'SORT',
+    >>>                         'reider': 'Torchreid'}
+    >>>     main_configs_two = {'detector': 'YOLO_Classic',
+    >>>                         'tracker': 'Centroid',
+    >>>                         'reider': 'FaceNet'}
+    >>>     thread_one = threading.Thread(target=ppb_task, args=(input_one, main_configs_one, "Task 1"))
+    >>>     thread_two = threading.Thread(target=ppb_task, args=(input_two, main_configs_two, "Task 2"))
+    >>>     thread_one.start()
+    >>>     thread_two.start()
+    >>>     thread_one.join()
+    >>>     thread_two.join()
+    >>> 
+
+    """
 
     def __init__(self):
         # config
         self.__cfg__ = MyConfigurator()
         self.__unistrings__ = self.__cfg__.unified_strings
         self.__cfg_is_set__ = False
-        self.__none_cfg__ = NoneCFG()
-        self.__none_cfg__.set("Fiat Moneey")
         # detector
         self.__dt_is_set__ = False
         self.__dt_cfg__ = []
@@ -244,7 +300,7 @@ class MT(object):
                 self.__dt__.setGT(self.__dt_cfg__.gt_file)
                 self.__dt_is_set__ = True
             elif self.__cfg__.mcfg.detector.lower() == self.__unistrings__.none:
-                self.__dt_cfg__ = self.__none_cfg__
+                self.__dt_cfg__ = __none_cfg__
                 self.__dt__ = NothingDetecter()
                 self.__dt_is_set__ = True
             else: 
@@ -275,7 +331,7 @@ class MT(object):
                 self.__dt_is_set__ = True
                 add_info_log("---PYPPBOX : Set detector='" + self.__dt_cfg__.dt_name + "'")
             elif detector_dict['dt_name'].lower() == self.__unistrings__.none:
-                self.__dt_cfg__ = self.__none_cfg__
+                self.__dt_cfg__ = __none_cfg__
                 self.__dt__ = NothingDetecter()
                 self.__dt_is_set__ = True
                 add_info_log("---PYPPBOX : Set detector='" + self.__dt_cfg__.dt_name + "'")
@@ -305,7 +361,7 @@ class MT(object):
             'boxes': True, 'device': 0, 'max_det': 100, 'line_width': 500, 
             'model_file': 'data/modules/yolo_ultralytics/yolov8l-pose.pt', 
             'repspoint_calibration': 0.25}]"`.
-            (4) Set :code:`detector="a_suported_detector.yaml"` or :code:`detector="a_suported_detector.json"` 
+            (4) Set :code:`detector="a_supported_detector.yaml"` or :code:`detector="a_supported_detector.json"` 
             to set the main detector and its configuration from a YAML file. 
         """
         self.__dt_is_set__ = False
@@ -347,7 +403,7 @@ class MT(object):
             elif detector.lower() == self.__unistrings__.none:
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__cfg__.setAllDCFG()
-                self.__dt_cfg__ = self.__none_cfg__
+                self.__dt_cfg__ = __none_cfg__
                 self.__dt__ = NothingDetecter()
                 self.__dt_is_set__ = True
                 add_info_log("---PYPPBOX : Set detector='" + str(detector) + "'")
@@ -427,7 +483,7 @@ class MT(object):
                 self.__tk_is_set__ = True
                 self.__setGTDTOnly__()
             elif self.__cfg__.mcfg.tracker.lower() == self.__unistrings__.none:
-                self.__tk_cfg__ = self.__none_cfg__
+                self.__tk_cfg__ = __none_cfg__
                 self.__tk__ = NothingTracker()
                 self.__tk_is_set__ = True
             else: 
@@ -461,7 +517,7 @@ class MT(object):
                 self.__setGTDTOnly__()
                 add_info_log("---PYPPBOX : Set tracker='" + self.__tk_cfg__.tk_name + "'")
             elif tracker_dict['tk_name'].lower() == self.__unistrings__.none:
-                self.__tk_cfg__ = self.__none_cfg__
+                self.__tk_cfg__ = __none_cfg__
                 self.__tk__ = NothingTracker()
                 self.__tk_is_set__ = True
                 add_info_log("---PYPPBOX : Set tracker='" + self.__tk_cfg__.tk_name + "'")
@@ -488,7 +544,7 @@ class MT(object):
             configurations from trackers.yaml.
             (3) Set a raw JSON string or a ready JSON dictionary is also possible; for example, 
             :code:`tracker="[{'tk_name': 'SORT', 'max_age': 1, 'min_hits': 3, 'iou_threshold': 0.3}]"`.
-            (4) Set :code:`tracker="a_suported_tracker.yaml"` or :code:`tracker="a_suported_tracker.json"` 
+            (4) Set :code:`tracker="a_supported_tracker.yaml"` or :code:`tracker="a_supported_tracker.json"` 
             to set the main tracker and its configuration from a YAML file. 
         """
         self.__tk_is_set__ = False
@@ -533,7 +589,7 @@ class MT(object):
             elif tracker.lower() == self.__unistrings__.none:
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__cfg__.setAllTCFG()
-                self.__tk_cfg__ = self.__none_cfg__
+                self.__tk_cfg__ = __none_cfg__
                 self.__tk__ = NothingTracker()
                 self.__tk_is_set__ = True
                 add_info_log("---PYPPBOX : Set tracker='" + str(tracker) + "'")
@@ -596,7 +652,7 @@ class MT(object):
                     self.__ri__ = TKOReider(static=True)
                 else:
                     self.__ri__ = NothingReider()
-                self.__ri_cfg__ = self.__none_cfg__
+                self.__ri_cfg__ = __none_cfg__
                 self.__ri_is_set__ = True
                 self.__revokeGTDTOnly__()
             else:
@@ -627,7 +683,7 @@ class MT(object):
                     self.__ri__ = TKOReider(static=True)
                 else:
                     self.__ri__ = NothingReider()
-                self.__ri_cfg__ = self.__none_cfg__
+                self.__ri_cfg__ = __none_cfg__
                 self.__ri_is_set__ = True
                 add_info_log("---PYPPBOX : Set reider='" + self.__ri_cfg__.ri_name + "'")
                 self.__revokeGTDTOnly__()
@@ -658,7 +714,7 @@ class MT(object):
             'train_data': 'data/datasets/GTA_V_DATASET/body_128x256', 'model_name': 'osnet_ain_x1_0', 
             'model_path': 'data/modules/torchreid/models/torchreid/osnet_ain_ms_d_c.pth.tar', 
             'min_confidence': 0.35}]"`.
-            (4) Set :code:`reider="a_suported_reider.yaml"` or :code:`reider="a_suported_reider.json"` 
+            (4) Set :code:`reider="a_supported_reider.yaml"` or :code:`reider="a_supported_reider.json"` 
             to set a the main reider and its configurations from a YAML file. 
         auto_load : bool, default=True
             All supported reiders are Pytorch or Tensorflow based module, thus they need to 
@@ -706,7 +762,7 @@ class MT(object):
                     self.__ri__ = TKOReider(static=True)
                 else:
                     self.__ri__ = NothingReider()
-                self.__ri_cfg__ = self.__none_cfg__
+                self.__ri_cfg__ = __none_cfg__
                 self.__ri_is_set__ = True
                 add_info_log("---PYPPBOX : Set reider='" + str(reider) + "'")
                 self.__revokeGTDTOnly__()

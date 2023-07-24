@@ -1,4 +1,4 @@
-Example 12: Use a Supported Module Directly
+Example 12: Use a supported module directly
 ===========================================
 
 - **Description**: Use a supported detector/tracker/reider directly in your code.

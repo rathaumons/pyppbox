@@ -1,4 +1,4 @@
-Example 9: Compare a Generated Result to a Reference or Ground-truth
+Example 9: Compare a generated result to a reference or ground-truth
 ====================================================================
 
 - **Description**: Use :func:`compareRes2Ref()` to evaluate a result text file by comparing to a reference or ground-truth file.

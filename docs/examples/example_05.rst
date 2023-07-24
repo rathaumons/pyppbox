@@ -1,4 +1,4 @@
-Example 5: Set the Main Modules by a YAML/JSON Dictionary or String
+Example 5: Set the main modules by a YAML/JSON dictionary or string
 ===================================================================
 
 - **Description**: Use a YAML/JSON dictionary or string to set the main detector/tracker/reider. By doing so, you can set or adjust the parameters of each main module directly in codes.

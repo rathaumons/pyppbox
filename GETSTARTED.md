@@ -18,27 +18,28 @@ All requirements are not strictly limited. However, some specific modules might 
   - For Linux, recommend changing `python3` to `python`: `sudo apt install python-is-python3`
   - If you prefer conda + Python [3.8-3.11]: `conda create --name pyppbox_env python=3.10`
   - If you don't know whether to install only Tensorflow or PyTorch or both -> Check [Supported Modules](https://rathaumons.github.io/pyppbox/pyppbox/modules.html)
+  - For Tensorflow with GPU support -> [See here](https://www.tensorflow.org/install/pip)
 
 * Install dependencies/requirments under `pyppbox/requirements/`: 
-  - On Windows, run the `cmd`:
-    - For GPU: `install_req_p3_cuda.cmd` (Line 28 -> PyTorch + CUDA 11.8, change if you need to)
-    - For CPU-only: `install_req_p3_cpu.cmd`
-  - On Linux:
+  - On Windows, recommend using the `cmd` installer:
+    - For GPU: `install_req_py3_cuda.cmd` (Line 27 -> PyTorch + CUDA 11.8, change if you need to)
+    - For CPU-only: `install_req_py3_cpu.cmd`
+  - On Linux (Or Windows):
     - For GPU (Example for PyTorch CUDA 11.8):
       ```
       python -m pip install --upgrade pip
       pip uninstall -y ultralytics # Remove the official ultralytics
       pip install "setuptools>=67.2.0"
-      pip install -r pippackages_cuda.txt
       pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+      pip install -r requirements.txt
       ```
     - For CPU-only:
       ```
       python -m pip install --upgrade pip
       pip uninstall -y ultralytics # Remove the official ultralytics
       pip install "setuptools>=67.2.0"
-      pip install -r pippackages_cpu.txt
       pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+      pip install -r requirements.txt
       ```
   - On macOS:
     - For GPU: No support
@@ -47,8 +48,7 @@ All requirements are not strictly limited. However, some specific modules might 
       python -m pip install --upgrade pip
       pip uninstall -y ultralytics # Remove the official ultralytics
       pip install "setuptools>=67.2.0"
-      pip install -r pippackages_cpu.txt
-      pip install torch torchvision torchaudio
+      pip install -r requirements.txt
       ```
 
 * (Optional) For GPU-Only -> Verify the installed dependencies:
@@ -56,10 +56,9 @@ All requirements are not strictly limited. However, some specific modules might 
     - On Windows -> `test_gpu.cmd`
     - On Linux -> `python test_gpu.py`
   - If there is no error, then you are all good and ready to go.
-  - For OpenCV, the official `opencv-contrib-python` (No GPU support) is set in the `pippackages_cuda.txt` file. If you need GPU support, check our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) or build one from source by yourself.
+  - For OpenCV, the official `opencv-contrib-python` (No GPU support) is set in the `requirements.txt` file. If you need GPU support, check our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) or build one from source by yourself.
 
 * ⚠️ ***Notes:***
-  - For CPU-Only, Torchreid does not work on CPU -> `pyppbox-torchreid` is excluded from `pippackages_cpu.txt`.
   - For CPU-Only, YOLO Ultralytics uses GPU by default, you must set `cpu` as string for the parameter `device` in its configuration.
   - For GPU on Windows, [Tensorflow 2.11+ no long provides native GPU support](https://www.tensorflow.org/install/pip#windows-native). 
 

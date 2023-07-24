@@ -1,4 +1,4 @@
-Example 8: Use Real-time Evaluation Tools
+Example 8: Use real-time evaluation tools
 =========================================
 
 - **Description**: Use :class:`MyEVA` to evaluate result in real-time.
