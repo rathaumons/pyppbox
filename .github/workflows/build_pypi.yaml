@@ -23,9 +23,9 @@ jobs:
       run: |
         python -m build --sdist --skip-dependency-check
     - name: Archive wheels
-        uses: actions/upload-artifact@v3
-        with:
-          path: dist/*.whl
+      uses: actions/upload-artifact@v3
+      with:
+        path: dist/*.whl
 
   build_source:
     runs-on: ubuntu-latest
@@ -43,9 +43,9 @@ jobs:
       run: |
         python -m build --wheel --skip-dependency-check
     - name: Archive wheels
-        uses: actions/upload-artifact@v3
-        with:
-          path: dist/*.tar.gz
+      uses: actions/upload-artifact@v3
+      with:
+        path: dist/*.tar.gz
 
   publish_pypi:
     name: Publish 📦 to PyPI
@@ -55,12 +55,12 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - name: Collect and extract artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: artifact
-          path: dist
-      - name: Publish
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
+    - name: Collect and extract artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: artifact
+        path: dist
+    - name: Publish
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.PYPI_API_TOKEN }}
