@@ -67,7 +67,7 @@ jobs:
         pip show pyppbox
     - name: Uninstall pyppbox
       run: |
-        pip uninstall pyppbox
+        pip uninstall -y pyppbox
     - name: Test .tar.gz
       run: |
         cd dist
