@@ -8,6 +8,7 @@ on:
 jobs:
 
   build_wheel:
+    name: Build wheel
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -28,6 +29,7 @@ jobs:
         path: dist/*.whl
 
   build_source:
+    name: Build source
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
