@@ -22,8 +22,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install "setuptools>=67.2.0"
         pip install wheel build
-        pip install -r pippackages_cpu.txt
         pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+        pip install -r requirements.txt
         pip install sphinx myst-parser pydata-sphinx-theme readthedocs-sphinx-search
         pip install --upgrade sphinx
         pip freeze

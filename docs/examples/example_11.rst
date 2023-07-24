@@ -1,4 +1,4 @@
-Example 11: Train a Classifier Using a Supported ReIDer
+Example 11: Train a classifier using a supported reider
 =======================================================
 
 - **Description**: Use the standalone :func:`trainReIDClassifier()` to train and save a classifier .PKL file with a supported reider.

@@ -20,12 +20,14 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, 
                                        getGlobalRootDir, getAncestorDir, 
                                        getFloat, getInt)
 
 
+unified_strings = UnifiedStrings()
 root_dir = getGlobalRootDir()
 
 class Ui_YOLOCLS(object):
@@ -165,9 +167,8 @@ class Ui_YOLOCLS(object):
         self.yl_repspint_calib_lineEdit.setText(str(self.mycfg.dcfg_yolocs.repspoint_calibration))
 
     def updateCFG(self, yolocls_ui):
-        decorated_name = str(self.mycfg.dcfg_yolocs.dt_name).title().replace("Yolo", "YOLO")
         yolocs_doc = {
-            "dt_name": decorated_name,
+            "dt_name": unified_strings.getUnifiedFormat("YOLO_Classic"),
             "nms": getFloat(self.yl_nms_lineEdit.text(), default_val=0.45),
             "conf": getFloat(self.yl_conf_lineEdit.text(), default_val=0.5),
             "class_file": normalizePathFDS(root_dir, self.yl_class_file_lineEdit.text()),
@@ -204,4 +205,3 @@ class Ui_YOLOCLS(object):
                                                                default_path, weight_filter)
         if source_file:
             self.yl_model_weights_lineEdit.setText(source_file)
-

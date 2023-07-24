@@ -18,15 +18,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install "setuptools>=67.2.0"
         pip install wheel build
-        cd requirements
-        pip install -r pippackages_cpu.txt
         pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+        cd requirements
+        pip install -r requirements.txt
         pip freeze
-    - name: Build and install pyppbox
+    - name: Install pyppbox from GitHub
       run: |
-        python -m build --wheel --skip-dependency-check
-        cd dist
-        pip install pyppbox-3.0b5-py3-none-any.whl
+        pip install git+https://github.com/rathaumons/pyppbox.git
     - name: Install modules' data
       run: |
         pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.0/pyppbox_data_yolocls-1.0-py3-none-any.whl

@@ -1,4 +1,4 @@
-Example 10: Use GT (Ground-truth) as a Detector
+Example 10: Use GT (Ground-truth) as a detector
 =================================================
 
 - **Description**: Use a supported GT (Ground-truth) text file as a detector.

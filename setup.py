@@ -21,7 +21,32 @@
 
 from setuptools import find_packages, setup
 
-def main():
+
+def read_requirements():
+    with open("requirements/requirements.txt") as req_txt:
+        return [line for line in req_txt.read().splitlines()]
+
+def get_version_string():
+    version_py = "pyppbox/__init__.py"
+    with open(version_py) as version_file:
+        for line in version_file.read().splitlines():
+            if line.startswith('__version__'):
+                delim = '"' if '"' in line else "'"
+                return line.split(delim)[1]
+
+def get_packages():
+    import yaml
+    from yaml.loader import SafeLoader
+    packages = find_packages()
+    package_data = {}
+    with open("setup_extra.yaml") as setup_extra:
+        extra_dict = yaml.load(setup_extra, Loader=SafeLoader)
+        packages = packages + extra_dict['extra_data']
+        packages = list(set(packages))
+        for p in packages: package_data.update({p: ["*"]})
+    return packages, package_data
+
+def main_setup():
     long_description = open("README.md", encoding="utf-8").read()
     packages, package_data = get_packages()
     setup(
@@ -37,7 +62,7 @@ def main():
         include_package_data=True,
         author="Ratha SIV",
         maintainer="rathaROG",
-        install_requires=["PyYAML", "setuptools>=67.2.0"],
+        install_requires=read_requirements(),
         keywords=['Toolbox', 'People Detecting', 'People Tracking', 'People Re-Identification'],
         python_requires=">=3.8",
         classifiers=[
@@ -65,25 +90,5 @@ def main():
         ],
     )
 
-def get_packages():
-    import yaml
-    from yaml.loader import SafeLoader
-    packages = find_packages()
-    package_data = {}
-    with open("setup_extra.yaml") as setup_extra:
-        extra_dict = yaml.load(setup_extra, Loader=SafeLoader)
-        packages = packages + extra_dict['extra_data']
-        packages = list(set(packages))
-        for p in packages: package_data.update({p: ["*"]})
-    return packages, package_data
-
-def get_version_string():
-    version_py = "pyppbox/__init__.py"
-    with open(version_py) as version_file:
-        for line in version_file.read().splitlines():
-            if line.startswith('__version__'):
-                delim = '"' if '"' in line else "'"
-                return line.split(delim)[1]
-
 if __name__ == "__main__":
-    main()
+    main_setup()

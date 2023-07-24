@@ -1,4 +1,4 @@
-Example 4: Set the Main Detector/Tracker/Reider by a YAML or JSON File
+Example 4: Set the main detector/tracker/reider by a YAML or JSON file
 ======================================================================
 
 - **Description**: Use a custom YAML or JSON file to set the main detector/tracker/reider. By doing so, you can set or adjust the parameters of each main module easily without changing your code.

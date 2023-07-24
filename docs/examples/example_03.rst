@@ -1,4 +1,4 @@
-Example 3: Set a Custom Config Directory
+Example 3: Set a custom config directory
 ========================================
 
 - **Description:** Use a custom config directory to set the configurations for the supported modules.

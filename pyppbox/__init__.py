@@ -47,7 +47,7 @@ from pyppbox.gui.guitools import (
 )
 
 
-__version__ = '3.0b5'
+__version__ = '3.1b1'
 __author__ = 'Ratha SIV'
 __description__ = 'Toolbox for people detecting, tracking, and re-identifying.'
 __homepage__ = 'https://rathaumons.github.io/pyppbox'

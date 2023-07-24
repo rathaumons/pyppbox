@@ -20,12 +20,14 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, 
                                        getGlobalRootDir, getAncestorDir, 
                                        getFloat, getInt)
 
 
+unified_strings = UnifiedStrings()
 root_dir = getGlobalRootDir()
 
 class Ui_DeepSORT(object):
@@ -121,7 +123,7 @@ class Ui_DeepSORT(object):
 
     def updateCFG(self, YOLOForm):
         deepsort_doc = {
-            "tk_name": "DeepSORT",
+            "tk_name": unified_strings.getUnifiedFormat("DeepSORT"),
             "nn_budget": getInt(self.ds_nn_budget_lineEdit.text(), default_val=100),
             "nms_max_overlap": getFloat(self.ds_max_overlap_lineEdit.text(), default_val=0.5),
             "max_cosine_distance": getFloat(self.ds_cosine_distance_lineEdit.text(), default_val=0.1),

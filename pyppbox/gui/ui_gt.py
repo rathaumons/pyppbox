@@ -20,11 +20,13 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.utils.commontools import (normalizePathFDS, getAbsPathFDS, 
                                        getGlobalRootDir, getAncestorDir)
 
 
+unified_strings = UnifiedStrings()
 root_dir = getGlobalRootDir()
 
 class Ui_GT(object):
@@ -117,7 +119,7 @@ class Ui_GT(object):
             self.gt_map_lineEdit.setText(source_file)
 
     def updateCFG(self, gi_ui):
-        gt_doc = {"dt_name": "GT",
+        gt_doc = {"dt_name": unified_strings.getUnifiedFormat("GT"),
                   "gt_file": normalizePathFDS(root_dir, self.gt_file_lineEdit.text()),
                   "gt_map_file": normalizePathFDS(root_dir, self.gt_map_lineEdit.text())}
         yolo_doc = self.mycfg.dcfg_yolocs.getDocument()

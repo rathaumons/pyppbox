@@ -38,7 +38,7 @@ The table below shows all the current supported modules which are integrated in 
    |            +--------------+------------------+-------------------------------------------------+
    |            | Torchreid    | Trochreid        | | * Integrated by linking `pyppbox-torchreid`_  |
    |            |              |                  | | * Model: OSNet-AIN, OSNet, MLFN               |
-   |            |              |                  | | * Run on: GPU-Only (PyTorch)                  |
+   |            |              |                  | | * Run on: CPU or GPU (PyTorch)                |
    +------------+--------------+------------------+-------------------------------------------------+
 
 .. _read more here: https://github.com/rathaumons/PoseTReID_DATASET#-posetreid

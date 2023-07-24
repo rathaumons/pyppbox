@@ -2,6 +2,17 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
+* `pyppbox` [v3.1b1](https://github.com/rathaumons/pyppbox/tree/v3.1b1)
+
+  - Add multithreading support for standalone -> `ppbox.standalone.mt.MT`
+  - Add multithreading example -> See example 13
+  - Add CPU support for `Torchreid`
+  - Implement install requirements/dependencies -> See setup.py
+  - Simplify and improve requirements
+  - Update default config files
+  - Update and improve documentations
+  - Update and improve GUI
+
 * `pyppbox` [v3.0b5](https://github.com/rathaumons/pyppbox/tree/v3.0b5)
 
   - Fix a critical bug in GUI of FaceNet which can cause missing `train_data` configuration

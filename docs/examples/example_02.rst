@@ -1,4 +1,4 @@
-Example 2: Use pyppbox's Internal Config Directory
+Example 2: Use pyppbox's internal config directory
 ==================================================
 
 - **Description:** Use the internal config directory of pyppbox to set the configurations for the supported modules.

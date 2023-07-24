@@ -1,4 +1,4 @@
-Example 1: Use Some Basic Standalone Functions
+Example 1: Use some basic standalone functions
 ==============================================
 
 - **Description:** Use some standalone functions to detect people in an image, to save the detected people as an output image, to re-identify those people, and to visualize the people with the internal configurations of pyppbox.

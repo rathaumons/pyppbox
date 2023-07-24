@@ -20,9 +20,12 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.utils.commontools import getInt
 
+
+unified_strings = UnifiedStrings()
 
 class Ui_Centroid(object):
 
@@ -78,7 +81,7 @@ class Ui_Centroid(object):
 
     def updateCFG(self, centroid_ui):
         centroid_doc = {
-            "tk_name": "Centroid",
+            "tk_name": unified_strings.getUnifiedFormat("Centroid"),
             "max_spread": getInt(self.ct_max_distance_lineEdit.text(), default_val=50)
         }
         sort_doc = self.mycfg.tcfg_sort.getDocument()

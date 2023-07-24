@@ -20,9 +20,12 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.utils.commontools import getFloat, getInt
 
+
+unified_strings = UnifiedStrings()
 
 class Ui_SORT(object):
 
@@ -100,7 +103,7 @@ class Ui_SORT(object):
 
     def updateCFG(self, sort_ui):
         sort_doc = {
-            "tk_name": "SORT",
+            "tk_name": unified_strings.getUnifiedFormat("SORT"),
             "max_age": getInt(self.st_max_age_lineEdit.text(), default_val=1),
             "min_hits": getInt(self.st_min_hits_lineEdit.text(), default_val=3),
             "iou_threshold": getFloat(self.st_iou_threshold_lineEdit.text(), default_val=0.3)

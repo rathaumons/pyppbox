@@ -1,4 +1,4 @@
-Example 6: Set the Main Modules by Names
+Example 6: Set the main modules by names
 ========================================
 
 - **Description**: Use a name of the supported modules to set the main detector/tracker/reider.

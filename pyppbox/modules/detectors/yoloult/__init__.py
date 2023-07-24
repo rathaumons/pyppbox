@@ -159,7 +159,8 @@ class MyYOLOULT(object):
             boxes=self.cfg.boxes,
             device=self.cfg.device,
             max_det=int(self.cfg.max_det),
-            line_width=self.cfg.line_width
+            line_width=self.cfg.line_width,
+            verbose=False
         )
         if self.cpu_only:
             numpy_dets = dets[0].numpy()
@@ -232,7 +233,8 @@ class MyYOLOULT(object):
             boxes=self.cfg.boxes,
             device=self.cfg.device,
             max_det=int(self.cfg.max_det),
-            line_width=self.cfg.line_width
+            line_width=self.cfg.line_width,
+            verbose=False
         )
         if self.cpu_only:
             numpy_dets = dets[0].numpy()

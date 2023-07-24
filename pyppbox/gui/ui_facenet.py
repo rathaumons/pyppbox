@@ -20,12 +20,14 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, 
                                        getGlobalRootDir, getAncestorDir, 
                                        get2Dlist, getFloat, getInt)
 
 
+unified_strings = UnifiedStrings()
 root_dir = getGlobalRootDir()
 
 class Ui_FaceNet(object):
@@ -196,7 +198,7 @@ class Ui_FaceNet(object):
 
     def updateCFG(self, facenet_ui):
         facenet_doc = {
-            "ri_name": "FaceNet",
+            "ri_name": unified_strings.getUnifiedFormat("FaceNet"),
             "gpu_mem": getFloat(self.fn_gpu_mem_lineEdit.text(), default_val=0.585),
             "model_det": normalizePathFDS(root_dir, self.fn_model_det_lineEdit.text()), 
             "model_file": normalizePathFDS(root_dir, self.fn_model_file_lineEdit.text()),

@@ -1,7 +1,11 @@
-### Common
+### Base
 Cython>=0.29.33
 numpy
+### OpenCV
+# For GUI support, check:
+# https://github.com/rathaumons/opencv-for-pyppbox
 opencv-contrib-python
+### Common
 scikit-image>=0.20.0
 scikit-learn>=1.2.2
 scipy>=1.10.0
@@ -16,19 +20,28 @@ h5py
 matplotlib
 PyYAML
 future
-pyunpack
-tensorflow
 protobuf
+### Tensorflow
+# Please follow the installation on:
+# https://www.tensorflow.org/install/pip
+tensorflow
+### PyTorch
+# Please follow the installation on:
+# https://pytorch.org/get-started/
+torch
+torchvision
+torchaudio
 ### Tracker: SORT
 filterpy
 lapx
 ### Compression
+pyunpack
 patool
 ### GUI
 PyQt6
-### Unused
-# shapely
 ### Customized pyppbox-torchreid
 pyppbox-torchreid
 ### Customized pyppbox-ultralytics
 pyppbox-ultralytics
+### Unused
+# shapely
