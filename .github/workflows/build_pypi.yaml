@@ -20,9 +20,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install "setuptools>=67.2.0"
         pip install wheel build PyYAML
-    - name: Build .tar.gz
+    - name: Build .whl
       run: |
-        python -m build --sdist --skip-dependency-check
+        python -m build --wheel --skip-dependency-check
     - name: Archive wheels
       uses: actions/upload-artifact@v3
       with:
@@ -41,9 +41,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install "setuptools>=67.2.0"
         pip install wheel build PyYAML
-    - name: Build .whl
+    - name: Build .tar.gz
       run: |
-        python -m build --wheel --skip-dependency-check
+        python -m build --sdist --skip-dependency-check
     - name: Archive wheels
       uses: actions/upload-artifact@v3
       with:
