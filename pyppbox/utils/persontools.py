@@ -19,6 +19,7 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
+import numpy as np
 from pyppbox.config.unifiedstrings import UnifiedStrings
 
 
@@ -69,7 +70,7 @@ class Person(object):
             det_conf=0.5,
             faceid=__ustrings__.unk_fid, 
             deepid=__ustrings__.unk_did, 
-            fraceid_conf=100.0, 
+            faceid_conf=100.0, 
             deepid_conf=100.0
         ):
 
@@ -83,10 +84,10 @@ class Person(object):
         cid : int
             Current ID.
         box_xywh : ndarray, optional
-            Bounding box :code:`[x y width height]`, :code:`shape=(4,)`, 
+            Bounding box :code:`[x, y, width, height]`, :code:`shape=(4,)`, 
             :code:`dtype=int`, :code:`ndim=1`.
         box_xyxy : ndarray, optional
-            Bounding box :code:`[x1 y1 x2 y2]`, :code:`shape=(4,)`, 
+            Bounding box :code:`[x1, y1, x2, y2]`, :code:`shape=(4,)`, 
             :code:`dtype=int`, :code:`ndim=1`.
         keypoints : list[], optional
             Keypoints of the body.
@@ -114,7 +115,7 @@ class Person(object):
         self.det_conf = det_conf
         self.faceid = faceid
         self.deepid = deepid
-        self.faceid_conf = fraceid_conf
+        self.faceid_conf = faceid_conf
         self.deepid_conf = deepid_conf
         self.ontracked = 0
 
@@ -160,19 +161,43 @@ class Person(object):
         self.faceid_conf = new_faceid_conf
         self.deepid_conf = new_deepid_conf
 
+    def getDet(self):
+        """Get a numpy array of detection bounding box with confidence in shape (5,).
+
+        Returns
+        -------
+        ndarray
+            Numpy array of x1, y1, x2, y2, and confidence.
+        """
+        return np.concatenate((np.asarray(self.box_xyxy), [self.det_conf]))
+    
+    def getDetRS(self):
+        """Get a numpy array of detection bounding box with confidence in shape (1, 5).
+
+        Returns
+        -------
+        ndarray
+            Numpy array of x1, y1, x2, y2, and confidence.
+        """
+        return np.concatenate((np.asarray(self.box_xyxy), [self.det_conf])).reshape(1, 5)
+
+    def __print_self__(self):
+        print("Person: " + "\t" + str(self.box_xyxy) + "\t" + str(self.cid) + 
+              "\t" + str(self.facid) + "\t" + str(self.deepid))
+
 
 #####################################################################################
 
 
 def findRepspoint(box_xyxy, calibrate_weight):
     """Find respesented point :code:`(x, y)` of a :class:`Person` object by its bounding 
-    :code:`box_xyxy` of :code:`[x1 y1 x2 y2]`. The :obj:`calibrate_weight` indicates, 
+    :code:`box_xyxy` of :code:`[x1, y1, x2, y2]`. The :obj:`calibrate_weight` indicates, 
     in between :code:`min(y1, y2)` and :code:`max(y1, y2)`, where the :code:`y` is.
 
     Parameters
     ----------
     box_xyxy : ndarray, optional
-        Bounding box :code:`[x1 y1 x2 y2]`, :code:`shape=(4,)`, :code:`dtype=int`, 
+        Bounding box :code:`[x1, y1, x2, y2]`, :code:`shape=(4,)`, :code:`dtype=int`, 
         :code:`ndim=1`.
     calibrate_weight : float
         Calibration weight.
@@ -190,13 +215,13 @@ def findRepspoint(box_xyxy, calibrate_weight):
 
 def findRepspointList(box_xyxy, calibrate_weight):
     """Find respesented point :code:`(x, y)` of a :class:`Person` object by its bounding 
-    :code:`box_xyxy` of :code:`[x1 y1 x2 y2]`. The :obj:`calibrate_weight` indicates, 
+    :code:`box_xyxy` of :code:`[x1, y1, x2, y2]`. The :obj:`calibrate_weight` indicates, 
     in between :code:`min(y1, y2)` and :code:`max(y1, y2)`, where the :code:`y` is.
 
     Parameters
     ----------
     box_xyxy : ndarray, optional
-        Bounding box :code:`[x1 y1 x2 y2]`, :code:`shape=(4,)`, :code:`dtype=int`, 
+        Bounding box :code:`[x1, y1, x2, y2]`, :code:`shape=(4,)`, :code:`dtype=int`, 
         :code:`ndim=1`.
     calibrate_weight : float
         Calibration weight.

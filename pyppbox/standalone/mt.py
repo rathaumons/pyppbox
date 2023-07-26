@@ -27,7 +27,7 @@ import cv2
 from collections import Counter
 
 # Configurations
-from pyppbox.config.configtools import isRawYAMLString, getCFGDict
+from pyppbox.config.configtools import isDictString, getCFGDict
 from pyppbox.config.myconfig import (
     MyConfigurator, NoneCFG,
     DCFGYOLOCLS, DCFGYOLOULT, DCFGGT, 
@@ -198,10 +198,10 @@ class MT(object):
         Parameters
         ----------
         main_yaml : str or dict, default=None
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary of the 
-            main configurations or main.yaml. This :obj:`main_yaml` helps overwrite the original one 
-            configured earlier. Leave it as default :obj:`main_yaml=None`, to load and set according 
-            to the configurations in the config directory.
+            A YAML/JSON file path, or a raw/ready dictionary of the main configurations or main.yaml. 
+            This :obj:`main_yaml` helps overwrite the original one configured earlier. 
+            Leave it as default :obj:`main_yaml=None`, to load and set according to the configurations 
+            in the config directory.
         load_all : bool, default=True
             Set :code:`load_all=True` to set and load the selected detector/tracker/reider according 
             to the main configurations, which it is meant for using this :func:`setMainModules()` method.
@@ -341,13 +341,12 @@ class MT(object):
                                 "' is not recognized.")
 
     def setMainDetector(self, detector=""):
-        """Set the main detector by a supported name, a raw YAML/JSON string, a ready YAML/JSON 
-        dictionary, or a YAML/JSON file. Calling :func:`setConfigDir()` before :func:`setMainTracker()` 
-        is optional. Different from the rest, setting the main detector by its name results 
-        in loading the configurations from the config directory set by the last :func:`setConfigDir()`. 
-        If :func:`setConfigDir()` has not been called before, setting the main detector by a supported 
-        name results in referencing the internal config directory in order to load the 
-        corresponding configurations. 
+        """Set the main detector by a supported name, a raw/ready dictionary, or a YAML/JSON file. 
+        Calling :func:`setConfigDir()` before :func:`setMainTracker()` is optional. Different from 
+        the rest, setting the main detector by its name results in loading the configurations from 
+        the config directory set by the last :func:`setConfigDir()`. If :func:`setConfigDir()` has 
+        not been called before, setting the main detector by a supported name results in referencing 
+        the internal config directory in order to load the corresponding configurations. 
 
         Parameters
         ----------
@@ -356,7 +355,7 @@ class MT(object):
             or main.yaml and load its configurations from the detectors.yaml. 
             (2) Set :code:`detector="YOLO_Classic"`.etc, to set YOLO Classic as the main detector and 
             load its configurations from detectors.yaml.
-            (3) Set a raw JSON string or a ready JSON dictionary is also possible; for example, 
+            (3) Set a raw string or ready dictionary is also possible; for example, 
             :code:`detector="[{'dt_name': 'YOLO_Ultralytics', 'conf': 0.5, 'iou': 0.7, 'imgsz': 416, 
             'boxes': True, 'device': 0, 'max_det': 100, 'line_width': 500, 
             'model_file': 'data/modules/yolo_ultralytics/yolov8l-pose.pt', 
@@ -369,7 +368,7 @@ class MT(object):
         if isinstance(detector, dict):
             self.__setCustomDetector__(detector)
         elif isinstance(detector, str):
-            if (isRawYAMLString(detector) or "yaml" in detector.lower() or 
+            if (isDictString(detector) or "yaml" in detector.lower() or 
                 "json" in detector.lower()):
                 self.__setCustomDetector__(getCFGDict(detector))
             elif detector.lower() == "":
@@ -527,13 +526,12 @@ class MT(object):
                                 "' is not recognized")
 
     def setMainTracker(self, tracker=""):
-        """Set the main tracker by a supported name, a raw YAML/JSON string, a ready YAML/JSON 
-        dictionary, or a YAML/JSON file. Calling :func:`setConfigDir()` before :func:`setMainTracker()` 
-        is optional. Different from the rest, setting the main tracker by its name results 
-        in loading the configurations from the config directory set by the last :func:`setConfigDir()`. 
-        If :func:`setConfigDir()` has not been called before, setting the main tracker by a supported 
-        name results in referencing the internal config directory in order to load the 
-        corresponding configurations. 
+        """Set the main tracker by a supported name, a raw/ready dictionary, or a YAML/JSON file. 
+        Calling :func:`setConfigDir()` before :func:`setMainTracker()` is optional. Different from 
+        the rest, setting the main tracker by its name results in loading the configurations from 
+        the config directory set by the last :func:`setConfigDir()`. If :func:`setConfigDir()` has 
+        not been called before, setting the main tracker by a supported name results in referencing 
+        the internal config directory in order to load the corresponding configurations. 
 
         Parameters
         ----------
@@ -542,7 +540,7 @@ class MT(object):
             main.yaml and load its configurations from the trackers.yaml. 
             (2) Set :code:`tracker="Centroid"`.etc, to set Centroid as the main tracker and load its 
             configurations from trackers.yaml.
-            (3) Set a raw JSON string or a ready JSON dictionary is also possible; for example, 
+            (3) Set a raw string or ready dictionary is also possible; for example, 
             :code:`tracker="[{'tk_name': 'SORT', 'max_age': 1, 'min_hits': 3, 'iou_threshold': 0.3}]"`.
             (4) Set :code:`tracker="a_supported_tracker.yaml"` or :code:`tracker="a_supported_tracker.json"` 
             to set the main tracker and its configuration from a YAML file. 
@@ -552,7 +550,7 @@ class MT(object):
         if isinstance(tracker, dict):
             self.__setCustomTracker__(tracker)
         elif isinstance(tracker, str):
-            if (isRawYAMLString(tracker) or "yaml" in tracker.lower() or 
+            if (isDictString(tracker) or "yaml" in tracker.lower() or 
                 "json" in tracker.lower()):
                 self.__setCustomTracker__(getCFGDict(tracker))
             elif tracker.lower() == "default":
@@ -693,13 +691,12 @@ class MT(object):
                                 "' is not recognized")
 
     def setMainReIDer(self, reider="", auto_load=True):
-        """Set the main reider by a supported name, a raw YAML/JSON string, a ready YAML/JSON 
-        dictionary, or a YAML/JSON file. Calling :func:`setConfigDir()` before :func:`setMainTracker()` 
-        is optional. Different from the rest, setting the main reider by its name results in 
-        loading the configurations from the config directory set by the last :func:`setConfigDir()`. 
-        If :func:`setConfigDir()` has not been called before, setting the main reider by a supported 
-        name results in referencing the internal config directory in order to load the 
-        corresponding configurations. 
+        """Set the main reider by a supported name, a raw/ready dictionary, or a YAML/JSON file. 
+        Calling :func:`setConfigDir()` before :func:`setMainTracker()` is optional. Different from 
+        the rest, setting the main reider by its name results in loading the configurations from the 
+        config directory set by the last :func:`setConfigDir()`. If :func:`setConfigDir()` has not 
+        been called before, setting the main reider by a supported name results in referencing the 
+        internal config directory in order to load the corresponding configurations. 
 
         Parameters
         ----------
@@ -708,12 +705,12 @@ class MT(object):
             or main.yaml and load its configurations from the reiders.yaml. 
             (2) Set :code:`reider="FaceNet"`.etc, to set FaceNet as a reider and load its 
             configurations from reiders.yaml.
-            (3) Set a raw JSON string or a ready JSON dictionary is also possible; for example, 
+            (3) Set a raw string or ready dictionary is also possible; for example, 
             :code:`reider="[{'ri_name': 'Torchreid', 
             'classifier_pkl': 'data/modules/torchreid/classifier/gta5_osnet_ain_ms_d_c.pkl', 
             'train_data': 'data/datasets/GTA_V_DATASET/body_128x256', 'model_name': 'osnet_ain_x1_0', 
             'model_path': 'data/modules/torchreid/models/torchreid/osnet_ain_ms_d_c.pth.tar', 
-            'min_confidence': 0.35}]"`.
+            'min_confidence': 0.35, 'device': 'cuda'}]"`.
             (4) Set :code:`reider="a_supported_reider.yaml"` or :code:`reider="a_supported_reider.json"` 
             to set a the main reider and its configurations from a YAML file. 
         auto_load : bool, default=True
@@ -729,7 +726,7 @@ class MT(object):
         if isinstance(reider, dict):
             self.__setCustomReIDer__(reider, auto_load)
         elif isinstance(reider, str):
-            if (isRawYAMLString(reider) or "yaml" in reider.lower() or 
+            if (isDictString(reider) or "yaml" in reider.lower() or 
                 "json" in reider.lower()):
                 self.__setCustomReIDer__(getCFGDict(reider), auto_load)
             elif reider.lower() == "default":
@@ -947,8 +944,8 @@ class MT(object):
         Parameters
         ----------
         reider : str or dict, default="Default" 
-            A supported name, a raw YAML/JSON string, a ready YAML/JSON dictionary, or a 
-            YAML/JSON file which is passed to :func:`setMainReIDer(reider=reider, auto_load=False)`.
+            A supported name, a raw/ready dictionary, or a YAML/JSON file which is passed to 
+            :func:`setMainReIDer(reider=reider, auto_load=False)`.
         train_data : str, default=""
             A path of data to train, where consists of 2 or more sub-folders which classify 
             2 or more people. Set :code:`train_data=""` or keep default to use the configured 

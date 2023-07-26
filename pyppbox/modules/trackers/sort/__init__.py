@@ -19,9 +19,6 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
-import numpy as np
-
-from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.utils.persontools import Person
 from pyppbox.utils.logtools import add_error_log, ignore_this_logger
 
@@ -30,10 +27,10 @@ ignore_this_logger("sort")
 from .origin.sort import Sort
 
 
-__ustrings__ = UnifiedStrings()
-
 class MySORT(object):
 
+    """Class used as a custom layer or interface for interacting with SORT tracker.
+    """
 
     def __init__(self, cfg):
         """Initialize according to the given :obj:`cfg` and :obj:`auto_load`.
@@ -48,7 +45,7 @@ class MySORT(object):
         self.current_list = []
 
 
-    def __getIndexFromSORTTracks__(self, box_xyxy, sort_tracks, max_spread=50):
+    def __getIndexFromSORTTracks__(self, box_xyxy, sort_tracks, max_spread=128):
         track_index = -1
         updated_cid = -1
         box_list = box_xyxy.tolist()
@@ -82,7 +79,7 @@ class MySORT(object):
         return pindex
 
 
-    def update(self, person_list, img=None, max_spread=5):
+    def update(self, person_list, img=None):
         """Update the tracker and return the updated list of :class:`Person`.
 
         Parameters
@@ -91,10 +88,6 @@ class MySORT(object):
             A list of :class:`Person` object which stores the detected people in the given :obj:`img`.
         img : any, default=None
             Being consistent with other trackers, will be ignored.
-        max_spread : int, default=5
-            Max spread or max margin used to decide whether 2 bounding boxes are the same by comparing 
-            the differences between the elements in the bounding box given by the embedded SORT and the 
-            coressponding elements of a person's bounding box in the :obj:`person_list`.
 
         Returns
         -------
@@ -106,28 +99,15 @@ class MySORT(object):
 
         if len(person_list) > 0:
             if isinstance(person_list[0], Person):
-                self.current_list = person_list
-
-                dets = np.empty((0, 5))
-                for i in range(0, len(person_list)):
-                    row = np.append(person_list[i].box_xyxy, 0).reshape(1, 5)
-                    dets = np.append(dets, row, axis=0)
-
-                sort_tracks = self.st.update(dets)
+                self.current_list = self.st.update_pyppbox(person_list)
                 for i in range (0, len(self.current_list)):
-                    track_index, updated_cid = self.__getIndexFromSORTTracks__(
-                        self.current_list[i].box_xyxy, sort_tracks, 
-                        max_spread=max_spread
-                    )
-                    if track_index >= 0:
-                        self.current_list[i].cid = updated_cid
-                        if len(self.previous_list) > 0:
-                            pindex = self.__getIndexFromPreviousList__(updated_cid)
-                            if pindex >= 0:
-                                self.current_list[i].faceid = self.previous_list[pindex].faceid
-                                self.current_list[i].deepid = self.previous_list[pindex].deepid
-                                self.current_list[i].faceid_conf = self.previous_list[pindex].faceid_conf
-                                self.current_list[i].deepid_conf = self.previous_list[pindex].deepid_conf
+                    if len(self.previous_list) > 0:
+                        pindex = self.__getIndexFromPreviousList__(self.current_list[i].cid)
+                        if pindex >= 0:
+                            self.current_list[i].faceid = self.previous_list[pindex].faceid
+                            self.current_list[i].deepid = self.previous_list[pindex].deepid
+                            self.current_list[i].faceid_conf = self.previous_list[pindex].faceid_conf
+                            self.current_list[i].deepid_conf = self.previous_list[pindex].deepid_conf
             else:
                 msg = ("MySORT : update() -> The element of input 'person_list' list " + 
                        "has unsupported type.")

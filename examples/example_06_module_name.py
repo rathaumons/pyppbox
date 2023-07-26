@@ -11,10 +11,10 @@ from pyppbox.utils.visualizetools import visualizePeople
 
 # As in example 04 & 05, `setMainDetector()`, `setMainTracker()`, and aslo 
 # `setMainReIDer()` allow you to easily set a detector, a tracker and a reider 
-# by a raw YAML/JSON string, a ready YAML/JSON dictionary, or a YAML/JSON file 
-# without having to call the `setConfigDir()` in advance. 
+# by a raw string, a ready dictionary, or a YAML/JSON file without having to
+# call the `setConfigDir()` in advance. 
 # 
-# Different from setting a JSON string and a YAML file, setting a supported 
+# Different from setting a dictionary and a YAML/JSON file, setting a supported 
 # module by its name still relies on the config directory. These methods load
 # the configurations from the config directory set by last `setConfigDir()`, and 
 # if `setConfigDir()` has not been called before, they will reference the internal 

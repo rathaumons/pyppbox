@@ -11,7 +11,7 @@ yolo_utlt_doc={
     'conf': 0.5, 
     'iou': 0.7, 
     'imgsz': 416, 
-    'boxes': True, 
+    'boxes': False, 
     'device': 'cpu', # <- Switch to CPU
     'max_det': 100, 
     'line_width': 500, 

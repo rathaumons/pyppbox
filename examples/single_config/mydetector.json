@@ -3,7 +3,7 @@
   "conf": 0.5,
   "iou": 0.7,
   "imgsz": 416,
-  "boxes": true,
+  "boxes": false,
   "device": 0,
   "max_det": 100,
   "line_width": 500,

@@ -49,7 +49,7 @@ class BaseCGF(object):
     unified_strings : MyStrings, auto
         A :class:`MyStrings` object used to store unified strings.
     configs : dict or list[dict], default={}
-        A YAML/JSON dictionary of a single document or a list of multiple documents 
+        A configuration dictionary of a single document or a list of multiple documents 
         of the configurations.
     """
 
@@ -63,7 +63,7 @@ class BaseCGF(object):
         Parameters
         ----------
         input : str or dict
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary.
+            A YAML/JSON file path, or a raw/ready dictionary.
         """
         self.configs = getCFGDict(input)
     
@@ -73,7 +73,7 @@ class BaseCGF(object):
         Parameters
         ----------
         input : str or dict
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary.
+            A YAML/JSON file path, or a raw/ready dictionary.
         """
         self.configs = getListCFGDoc(input)
     
@@ -163,7 +163,7 @@ class MainCFG(BaseCGF):
         Parameters
         ----------
         input : str or dict
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary.
+            A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
         if self.configs:
@@ -180,13 +180,13 @@ class MainCFG(BaseCGF):
             add_warning_log("MainCFG : set() -> The configuration is empty.")
 
     def getDocument(self):
-        """Return a YAML/JSON dictionary of a single document of the parameters of the 
+        """Return a configuration dictionary of a single document of the parameters of the 
         main configurations.
 
         Returns
         -------
         dict
-            A YAML/JSON dictionary of a single document of the configurations.
+            A configuration dictionary of a single document of the configurations.
         """
         main_doc = {
             "detector": self.detector,
@@ -255,7 +255,7 @@ class DCFGYOLOCLS(BaseCGF):
         Parameters
         ----------
         input : str or dict
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary.
+            A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
         if self.configs:
@@ -281,13 +281,13 @@ class DCFGYOLOCLS(BaseCGF):
             add_warning_log("DCFGYOLOCLS : set() -> The configuration is empty.")
 
     def getDocument(self):
-        """Return a YAML/JSON dictionary of a single document of the attributes which 
+        """Return a configuration dictionary of a single document of the attributes which 
         are the parameters of detector YOLO Classic.
 
         Returns
         -------
         dict
-            A YAML/JSON dictionary of a single document of the configurations.
+            A configuration dictionary of a single document of the configurations.
         """
         yolocs_doc = {
             "dt_name": self.dt_name,
@@ -362,7 +362,7 @@ class DCFGYOLOULT(BaseCGF):
         Parameters
         ----------
         input : str or dict
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary.
+            A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
         if self.configs:
@@ -387,13 +387,13 @@ class DCFGYOLOULT(BaseCGF):
             add_warning_log("DCFGYOLOULT : set() -> The configuration is empty.")
 
     def getDocument(self):
-        """Return yolout_doc, a YAML/JSON dictionary of a single document of the attributes which 
+        """Return yolout_doc, a configuration dictionary of a single document of the attributes which 
         are the parameters of detector YOLO_Ultralytics.
 
         Returns
         -------
         dict
-            A YAML/JSON dictionary of a single document of the configurations.
+            A configuration dictionary of a single document of the configurations.
         """
         yolout_doc = {
             "dt_name": self.dt_name,
@@ -456,7 +456,7 @@ class DCFGGT(BaseCGF):
         Parameters
         ----------
         input : str or dict
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary.
+            A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
         if self.configs:
@@ -473,13 +473,13 @@ class DCFGGT(BaseCGF):
             add_warning_log("DCFGGT : set() -> The configuration is empty.")
 
     def getDocument(self):
-        """Return a YAML/JSON dictionary of a single document of the attributes which 
+        """Return a configuration dictionary of a single document of the attributes which 
         are the parameters of detector GT (Ground-truth).
 
         Returns
         -------
         dict
-            A YAML/JSON dictionary of a single document of the configurations.
+            A configuration dictionary of a single document of the configurations.
         """
         gt_doc = {
             "dt_name": self.dt_name,
@@ -509,7 +509,7 @@ class TCFGCentroid(BaseCGF):
         Parameters
         ----------
         input : str or dict
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary.
+            A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
         if self.configs:
@@ -525,13 +525,13 @@ class TCFGCentroid(BaseCGF):
             add_warning_log("TCFGCentroid : set() -> The configuration is empty.")
 
     def getDocument(self):
-        """Return a YAML/JSON dictionary of a single document of the attributes which 
+        """Return a configuration dictionary of a single document of the attributes which 
         are the parameters of tracker Centroid.
 
         Returns
         -------
         dict
-            A YAML/JSON dictionary of a single document of the configurations.
+            A configuration dictionary of a single document of the configurations.
         """
         centroid_doc = {
             "tk_name": self.tk_name,
@@ -564,7 +564,7 @@ class TCFGSORT(BaseCGF):
         Parameters
         ----------
         input : str or dict
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary.
+            A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
         if self.configs:
@@ -583,13 +583,13 @@ class TCFGSORT(BaseCGF):
 
     def getDocument(self):
         """
-        Return a YAML/JSON dictionary of a single document of the attributes which 
+        Return a configuration dictionary of a single document of the attributes which 
         are the parameters of tracker SORT.
 
         Returns
         -------
         dict
-            A YAML/JSON dictionary of a single document of the configurations.
+            A configuration dictionary of a single document of the configurations.
         """
         sort_doc = {
             "tk_name": self.tk_name,
@@ -649,7 +649,7 @@ class TCFGDeepSORT(BaseCGF):
         Parameters
         ----------
         input : str or dict
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary.
+            A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
         if self.configs:
@@ -668,13 +668,13 @@ class TCFGDeepSORT(BaseCGF):
             add_warning_log("TCFGDeepSORT : set() -> The configuration is empty.")
 
     def getDocument(self):
-        """Return a YAML/JSON dictionary of a single document of the attributes which 
+        """Return a configuration dictionary of a single document of the attributes which 
         are the parameters of tracker DeepSORT.
 
         Returns
         -------
         dict
-            A YAML/JSON dictionary of a single document of the configurations.
+            A configuration dictionary of a single document of the configurations.
         """
         deepsort_doc = {
             "tk_name": self.tk_name,
@@ -753,7 +753,7 @@ class RCFGFaceNet(BaseCGF):
         Parameters
         ----------
         input : str or dict
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary.
+            A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
         if self.configs:
@@ -777,13 +777,13 @@ class RCFGFaceNet(BaseCGF):
             add_warning_log("RCFGFaceNet : set() -> The configuration is empty.")
 
     def getDocument(self):
-        """Return a YAML/JSON dictionary of a single document of the attributes which 
+        """Return a configuration dictionary of a single document of the attributes which 
         are the parameters of reider FaceNet.
 
         Returns
         -------
         dict
-            A YAML/JSON dictionary of a single document of the configurations.
+            A configuration dictionary of a single document of the configurations.
         """
         facenet_doc = {
             "ri_name": self.ri_name,
@@ -864,7 +864,7 @@ class RCFGTorchreid(BaseCGF):
         Parameters
         ----------
         input : str or dict
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary.
+            A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
         if self.configs:
@@ -895,13 +895,13 @@ class RCFGTorchreid(BaseCGF):
             add_warning_log("RCFGTorchreid : set() -> The configuration is empty.")
 
     def getDocument(self):
-        """Return a YAML/JSON dictionary of a single document of the attributes which 
+        """Return a configuration dictionary of a single document of the attributes which 
         are the parameters of reider Torchreid.
 
         Returns
         -------
         dict
-            A YAML/JSON dictionary of a single document of the configurations.
+            A configuration dictionary of a single document of the configurations.
         """
         torchreid_doc = {
             "ri_name": self.ri_name,
@@ -990,7 +990,7 @@ class MyCFGHeaders(object):
                 "###########################################################\n"
                 "# --- # Centroid\n"
                 "# tk_name: Centroid\n"
-                "# max_spread: 50\n"
+                "# max_spread: 64\n"
                 "###########################################################\n"
                 "# --- # SORT\n"
                 "# tk_name: SORT\n"
@@ -1148,9 +1148,9 @@ class MyConfigurator(PYPPBOXStructure):
         Parameters
         ----------
         main_yaml : str or dict, default=None
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary 
-            of the main configurations or main.yaml. This :obj:`main_yaml` helps overwrite 
-            the original one configured during the :meth:`__init__()`.
+            A YAML/JSON file path, or a raw/ready dictionary of the main configurations 
+            or main.yaml. This :obj:`main_yaml` helps overwrite the original one configured 
+            during the :meth:`__init__()`.
             Leave it as default :code:`main_yaml=None`, to load and set according to the 
             configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
         """
@@ -1166,9 +1166,9 @@ class MyConfigurator(PYPPBOXStructure):
         Parameters
         ----------
         main_yaml : str or dict, default=None
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary 
-            of the main configurations or main.yaml. This :obj:`main_yaml` helps overwrite 
-            the original one configured during the :meth:`__init__()`.
+            A YAML/JSON file path, or a raw/ready dictionary of the main configurations 
+            or main.yaml. This :obj:`main_yaml` helps overwrite the original one configured 
+            during the :meth:`__init__()`.
             Leave it as default :code:`main_yaml=None`, to load and set according to the 
             configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
         """
@@ -1198,11 +1198,11 @@ class MyConfigurator(PYPPBOXStructure):
         Parameters
         ----------
         detectors_yaml : str or dict, default=None
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary of 
-            the detectors' configurations or detectors.yaml. This :obj:`detectors_yaml` helps 
-            overwrite the original one configured during the :meth:`__init__()`. Leave it as 
-            default :code:`detectors_yaml=None`, to load and set according to the configurations 
-            inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
+            A YAML/JSON file path, or a raw/ready dictionary of the detectors' configurations 
+            or detectors.yaml. This :obj:`detectors_yaml` helps overwrite the original one 
+            configured during the :meth:`__init__()`. 
+            Leave it as default :code:`detectors_yaml=None`, to load and set according to the 
+            configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
         relative_to_pyppbox_root : bool, default=None
             An indication of whether the paths inside your configuration file are relative 
             to :code:`{pyppbox root}` or not. This indication or behavior was automatically 
@@ -1239,11 +1239,11 @@ class MyConfigurator(PYPPBOXStructure):
         Parameters
         ----------
         detectors_yaml : str or dict, default=None
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary of 
-            the detectors' configurations or detectors.yaml. This :obj:`detectors_yaml` helps 
-            overwrite the original one configured during the :meth:`__init__()`. Leave it as 
-            default :code:`detectors_yaml=None`, to load and set according to the configurations 
-            inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
+            A YAML/JSON file path, or a raw/ready dictionary of the detectors' configurations 
+            or detectors.yaml. This :obj:`detectors_yaml` helps overwrite the original one 
+            configured during the :meth:`__init__()`. 
+            Leave it as default :code:`detectors_yaml=None`, to load and set according to the 
+            configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
         relative_to_pyppbox_root : bool, default=None
             An indication of whether the paths inside your configuration file are relative 
             to :code:`{pyppbox root}` or not. This indication or behavior was automatically 
@@ -1296,11 +1296,11 @@ class MyConfigurator(PYPPBOXStructure):
         Parameters
         ----------
         trackers_yaml : str or dict, default=None
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary of 
-            the trackers' configurations or trackers.yaml. This :obj:`trackers_yaml` helps 
-            overwrite the original one configured during the :meth:`__init__()`. Leave it as 
-            default :code:`trackers_yaml=None`, to load and set according to the configurations 
-            inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
+            A YAML/JSON file path, or a raw/ready dictionary of the trackers' configurations 
+            or trackers.yaml. This :obj:`trackers_yaml` helps overwrite the original one 
+            configured during the :meth:`__init__()`. 
+            Leave it as default :code:`trackers_yaml=None`, to load and set according to the 
+            configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
         relative_to_pyppbox_root : bool, default=None
             An indication of whether the paths inside your configuration file are relative 
             to :code:`{pyppbox root}` or not. This indication or behavior was automatically 
@@ -1352,11 +1352,11 @@ class MyConfigurator(PYPPBOXStructure):
         Parameters
         ----------
         reiders_yaml : str or dict, default=None
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary of 
-            the reiders' configurations or reiders.yaml. This :obj:`reiders_yaml` helps 
-            overwrite the original one configured during the :meth:`__init__()`. Leave it as 
-            default :code:`reiders_yaml=None`, to load and set according to the configurations 
-            inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
+            A YAML/JSON file path, or a raw/ready dictionary of the reiders' configurations or 
+            reiders.yaml. This :obj:`reiders_yaml` helps overwrite the original one configured 
+            during the :meth:`__init__()`. 
+            Leave it as default :code:`reiders_yaml=None`, to load and set according to the 
+            configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
         relative_to_pyppbox_root : bool, default=None
             An indication of whether the paths inside your configuration file are relative 
             to :code:`{pyppbox root}` or not. This indication or behavior was automatically 
@@ -1403,8 +1403,8 @@ class MyConfigurator(PYPPBOXStructure):
         Parameters
         ----------
         input_cfg: str or dict
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary 
-            of the configurations of a supported module.
+            A YAML/JSON file path, or a raw/ready dictionary of the configurations 
+            of a supported module.
         relative_to_pyppbox_root : bool, defualt=False
             An indication of whether the paths inside the given :obj:`input_cfg` are 
             relative to :code:`{pyppbox root}` or not. 
@@ -1473,8 +1473,7 @@ class MyConfigurator(PYPPBOXStructure):
         Parameters
         ----------
         input_cfg : str or dict
-            A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary 
-            of the configurations of a module.
+            A YAML/JSON file path, or a raw/ready dictionary of the configurations of a module.
         """
         tmpCFG = BaseCGF()
         tmpCFG.loadDoc(input_cfg)
@@ -1486,7 +1485,7 @@ class MyConfigurator(PYPPBOXStructure):
         Parameters
         ----------
         document : dict
-            A YAML/JSON dictionary of a single document of the configurations.
+            A configuration dictionary of a single document of the configurations.
         """
         dumpDocDict(self.main_yaml, document, self.cfg_headers.mainHeader())
 

@@ -137,13 +137,13 @@ class PYPPBOXStructure(object):
 #########################################################################################
 
 
-def isRawYAMLString(input_string):
-    """Check whether the :obj:`input_string` is a valid YAML/JSON dictionary.
+def isDictString(input_string):
+    """Check whether the :obj:`input_string` is a valid raw dictionary.
 
     Parameters
     ----------
     input_string : str
-        An input of YAML/JSON string.
+        An input of raw string.
 
     Returns
     -------
@@ -168,17 +168,17 @@ def isRawYAMLString(input_string):
     return res
 
 def getCFGDict(input):
-    """Get a YAML/JSON dictionary of a single document from the given :obj:`input`.
+    """Get a configuration dictionary of a single document from the given :obj:`input`.
 
     Parameters
     ----------
     input : str or dict
-        A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary.
+        A YAML/JSON file path, or a raw/ready dictionary.
 
     Returns
     -------
     dict
-        A YAML/JSON dictionary of a single document.
+        A configuration dictionary of a single document.
     """
     doc = {}
     if isinstance(input, str):
@@ -191,17 +191,17 @@ def getCFGDict(input):
     return doc
 
 def getListCFGDoc(input):
-    """Get a list of YAML/JSON dictionary of document from the given :obj:`input`.
+    """Get a list of configuration dictionary of document from the given :obj:`input`.
 
     Parameters
     ----------
     input : str or dict
-        A YAML/JSON file path, a raw YAML/JSON string, or ready YAML/JSON dictionary.
+        A YAML/JSON file path, or a raw/ready dictionary.
 
     Returns
     -------
-    list[dict{}, ...]
-        A list of YAML/JSON dictionary.
+    list[dict, ...]
+        A list of configuration dictionary.
     """
     doc_list = []
     if isinstance(input, str):
@@ -215,7 +215,7 @@ def getListCFGDoc(input):
     return doc_list
 
 def loadDocument(yaml_json):
-    """Return a YAML/JSON dictionary of a single document from the given file 
+    """Return a configuration dictionary of a single document from the given file 
     :obj:`yaml_json`.
 
     Parameters
@@ -226,7 +226,7 @@ def loadDocument(yaml_json):
     Returns
     -------
     dict
-        A YAML/JSON dictionary of a single document.
+        A configuration dictionary of a single document.
     """
     document = {}
     if isExist(yaml_json):
@@ -247,7 +247,7 @@ def loadDocument(yaml_json):
     return document
 
 def loadListDocument(yaml_json):
-    """Return a list of YAML/JSON dictionary from the given file :obj:`yaml_json`.
+    """Return a list of configuration dictionary from the given file :obj:`yaml_json`.
 
     Parameters
     ----------
@@ -256,8 +256,8 @@ def loadListDocument(yaml_json):
     
     Returns
     -------
-    list[dict{}, ...]
-        A list of YAML/JSON dictionary.
+    list[dict, ...]
+        A list of configuration dictionary.
     """
     document_list = []
     if isExist(yaml_json):
@@ -280,7 +280,7 @@ def loadListDocument(yaml_json):
     return document_list
 
 def loadRawYAMLString(raw_string):
-    """Return a YAML/JSON dictionary of a single document from the given string 
+    """Return a configuration dictionary of a single document from the given string 
     :obj:`raw_string`.
 
     Parameters
@@ -292,7 +292,7 @@ def loadRawYAMLString(raw_string):
     Returns
     -------
     dict
-        A YAML/JSON dictionary of a single document.
+        A configuration dictionary of a single document.
     """
     document = {}
     try:
@@ -315,8 +315,8 @@ def loadRawYAMLStringMT(raw_string):
     
     Returns
     -------
-    list[dict{}, ...]
-        A list of YAML/JSON dictionary.
+    list[dict, ...]
+        A list of configuration dictionary.
     """
     document_list = []
     try:
@@ -330,7 +330,7 @@ def loadRawYAMLStringMT(raw_string):
     return document_list
 
 def dumpDocDict(output_file, doc, header):
-    """Dump a YAML/JSON dictionary of a single document into a YAML file 
+    """Dump a configuration dictionary of a single document into a YAML file 
     with simple format.
 
     Parameters
@@ -338,7 +338,7 @@ def dumpDocDict(output_file, doc, header):
     output_file : str
         A path file to dump.
     doc : dict
-        A YAML/JSON dictionary of a single document.
+        A configuration dictionary of a single document.
     header : str
         A file header descriptoin.
     """
@@ -359,8 +359,8 @@ def dumpListDocDict(output_file, doc_list, header):
     ----------
     output_file : str
         A path file to dump.
-    doc_list : list[dict{}, ...]
-        A list of YAML/JSON dictionary.
+    doc_list : list[dict, ...]
+        A list of configuration dictionary.
     header : str
         A file header descriptoin.
     """

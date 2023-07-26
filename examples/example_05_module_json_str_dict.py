@@ -1,5 +1,5 @@
 #################################################################################
-# Example of using a module by setting string/dict of YAML/JSON
+# Example of using a module by setting raw string or ready dictionary
 #################################################################################
 
 import cv2
@@ -9,10 +9,10 @@ from pyppbox.standalone import (setMainDetector, setMainTracker, setMainReIDer,
 from pyppbox.utils.visualizetools import visualizePeople
 
 
-# Similar to example 04, using a custom YAML/JSON raw string or ready dictionary 
+# Similar to example 04, using a custom raw string or ready dictionary 
 # allows you to set or adjust the parameters of a specific module directly in codes.
 
-# Use a raw YAML/JSON string
+# Use a raw dictionary string
 """
 mydetector="[{'dt_name': 'YOLO_Ultralytics', 'conf': 0.5, 'iou': 0.7, \
     'imgsz': 416, 'boxes': True, 'device': 0, \
@@ -26,16 +26,16 @@ myreider="[{'ri_name': 'Torchreid', 'classifier_pkl': \
     'train_data': 'C:/pyppbox_v3/data/datasets/GTA_V_DATASET/body_128x256', \
     'model_name': 'osnet_ain_x1_0', \
     'model_path': 'C:/pyppbox_v3/data/modules/torchreid/models/torchreid/\
-    osnet_ain_ms_d_c.pth.tar', 'min_confidence': 0.35}]"
+    osnet_ain_ms_d_c.pth.tar', 'min_confidence': 0.35}, 'device': 'cuda']"
 """
 
-# Use a ready YAML/JSON dictionary of a detector
+# Use a ready dictionary of a detector
 mydetector={
     'dt_name': 'YOLO_Ultralytics', 
     'conf': 0.5, 
     'iou': 0.7, 
     'imgsz': 416, 
-    'boxes': True, 
+    'boxes': False, 
     'device': 0, 
     'max_det': 100, 
     'line_width': 500, 
@@ -43,7 +43,7 @@ mydetector={
     'repspoint_calibration': 0.25
 }
 
-# Use a ready YAML/JSON dictionary of a tracker
+# Use a ready dictionary of a tracker
 mytracker={
     'tk_name': 'SORT', 
     'max_age': 1, 
@@ -51,14 +51,15 @@ mytracker={
     'iou_threshold': 0.3
 }
 
-# Use a ready YAML/JSON dictionary of a reider
+# Use a ready dictionary of a reider
 myreider={
     'ri_name': 'Torchreid', 
     'classifier_pkl': 'C:/pyppbox_v3/data/modules/torchreid/classifier/gta5_osnet_ain_ms_d_c.pkl', 
     'train_data': 'C:/pyppbox_v3/data/datasets/GTA_V_DATASET/body_128x256', 
     'model_name': 'osnet_ain_x1_0', 
     'model_path': 'C:/pyppbox_v3/data/modules/torchreid/models/torchreid/osnet_ain_ms_d_c.pth.tar', 
-    'min_confidence': 0.35
+    'min_confidence': 0.35,
+    'device': 'cuda'
 }
 
 setMainDetector(detector=mydetector)

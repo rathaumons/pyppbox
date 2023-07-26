@@ -12,7 +12,8 @@ myreider={
     'train_data': 'C:/pyppbox_v3/data/datasets/GTA_V_DATASET/body_128x256', 
     'model_name': 'osnet_ain_x1_0', 
     'model_path': 'C:/pyppbox_v3/data/modules/torchreid/models/torchreid/osnet_ain_ms_d_c.pth.tar', 
-    'min_confidence': 0.35
+    'min_confidence': 0.35,
+    'device': 'cuda'
 }
 
 trainReIDClassifier(

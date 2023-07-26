@@ -30,6 +30,12 @@ from pyppbox.utils.logtools import add_info_log, add_warning_log, ignore_this_lo
 
 ignore_this_logger("tensorflow")
 ignore_this_logger("facenet")
+ignore_this_logger("skimage")
+ignore_this_logger("scipy")
+
+import warnings
+warnings.filterwarnings("ignore", module="skimage", category=RuntimeWarning) 
+warnings.filterwarnings("ignore", module="scipy", category=RuntimeWarning) 
 
 import tensorflow as tf
 tf.autograph.set_verbosity(1)

@@ -10,7 +10,7 @@ from pyppbox.modules.detectors.yoloult import MyYOLOULT
 # Import the corresponding configurator
 from pyppbox.config.myconfig import DCFGYOLOULT
 
-# Use a YAML/JSON dictionary
+# Use a ready dictionary
 mydetector={
     'dt_name': 'YOLO_Ultralytics', 
     'conf': 0.5, 
@@ -25,7 +25,7 @@ mydetector={
 }
 
 yoloult_cfg = DCFGYOLOULT()
-yoloult_cfg.set(mydetector) # Supports all YAML/JSON raw string, ready dictionary, and file.
+yoloult_cfg.set(mydetector) # Supports all raw/ready dictionary, and YAML/JSON file.
 
 detector = MyYOLOULT(yoloult_cfg)
 

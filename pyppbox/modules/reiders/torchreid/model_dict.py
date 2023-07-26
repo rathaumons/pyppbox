@@ -55,7 +55,7 @@ class TorchreidModel(object):
         Parameters
         ----------
         mcfg : dict
-            A YAML/JSON dictionary of a single document of the configurations.
+            A configuration dictionary of a single document of the configurations.
         """
         self.name = mcfg['name']
         self.arch = mcfg['arch']
@@ -72,7 +72,7 @@ class TorchreidModelDict(object):
     Attributes
     ----------
     raw_model : dict, auto
-        A YAML/JSON dictionary of a single document of the Torchreid model configurations.
+        A configuration dictionary of a single document of the Torchreid model configurations.
     model_list : list[TorchreidModel, ...], auto
         A list of all :class:`TorchreidModel` objects.
     """

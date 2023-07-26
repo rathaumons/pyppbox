@@ -134,13 +134,13 @@ class MyYOLOULT(object):
         -------
         Mat
             A cv :obj:`Mat` image.
-        list[ndarray[int int int int], ...]
-            A list of bounding box :code:`ndarray[x y width height]`.
-        list[ndarray[int int int int], ...]
-            A list of bounding box :code:`ndarray[x1 y1 x2 y2]`.
+        list[ndarray[int, int, int, int], ...]
+            A list of bounding box :code:`ndarray[x, y, width, height]`.
+        list[ndarray[int, int, int, int], ...]
+            A list of bounding box :code:`ndarray[x1, y1, x2, y2]`.
         list[tuple(int, int)]
             A lsit of represented 2D point :code:`(x, y)` of every detected object.
-        list[ndarray[int]]
+        list[ndarray[int, ...], ...]
             A list of :obj:`ndarray` of body keypoints. 
         float
             A list of the detection confidence of every detected object.

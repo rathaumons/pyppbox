@@ -20,14 +20,14 @@
 
 
 from math import hypot
-from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.utils.persontools import Person
 from pyppbox.utils.logtools import add_error_log
 
 
-__ustrings__ = UnifiedStrings()
-
 class MyCentroid(object):
+
+    """Class reprensented a Centroid tracker.
+    """
 
     def __init__(self, cfg):
         """Initialize according to the given :obj:`cfg` and :obj:`auto_load`.
@@ -41,32 +41,26 @@ class MyCentroid(object):
         self.previous_list = []
         self.current_list = []
 
-    def __getDist__(self, p1, p2):
-        dist = 0.0
-        (x1, y1) = p1
-        (x2, y2) = p2
-        dist = hypot(x2 - x1, y2 - y1)
-        return dist
-    
-    def __getIndexFromPreviousList__(self, point):
-        pindex = -1
-        dist_list = []
-        if len(self.previous_list) > 0:
-            for p in self.previous_list:
-                dist_list.append(self.__getDist__(point, p.repspoint))
-            min_dist = min(dist_list)
-            if min_dist <= self.max_spread:
-                pindex = dist_list.index(min_dist)
-        return pindex
-
-    def __getAnAvailableID__(self, usedIDs): 
-        if len(usedIDs) == 0: usedIDs.append(-1)
-        aID = max(usedIDs) + 1
-        pIDs = [p.cid for p in self.previous_list]
-        aIDs = list(set(usedIDs) ^ set(pIDs))
-        aIDs = list(set(aIDs) - set(usedIDs))
-        if len(aIDs) > 0: aID = sorted(aIDs)[0]
+    def __generateID__(self):
+        self.used_cids = list(set(self.used_cids))
+        if len(self.used_cids) == 0: aID = 0
+        else: aID = max(self.used_cids) + 1
+        self.used_cids.append(aID)
         return aID
+    
+    def __findPID__(self, point):
+        pindex = -1
+        min_dist = 8192
+        i = 0
+        for p in self.previous_list:
+            dist = hypot(p.repspoint[0] - point[0], 
+                         p.repspoint[1] - point[1])
+            if dist < min_dist:
+                min_dist = dist
+                pindex = i
+            i += 1
+        if min_dist > self.max_spread: pindex = -1
+        return pindex
 
     def update(self, person_list, img=None):
         """Update the tracker and return the updated list of :class:`Person`.
@@ -85,20 +79,19 @@ class MyCentroid(object):
         """
         self.previous_list = self.current_list
         self.current_list = []
+        self.used_cids = []
 
         if len(person_list) > 0:
             if isinstance(person_list[0], Person):
                 self.current_list = person_list
                 hang_indexes_in_clist = []
-                used_cids = []
                 len_clist = len(self.current_list)
-
                 if len_clist > 0:
                     for i in range(0, len_clist):
-                        pindex = self.__getIndexFromPreviousList__(self.current_list[i].repspoint)
+                        pindex = self.__findPID__(self.current_list[i].repspoint)
                         if pindex >= 0:
                             prev_cid = self.previous_list[pindex].cid
-                            if prev_cid in used_cids:
+                            if prev_cid in self.used_cids:
                                 hang_indexes_in_clist.append(i)
                             else:
                                 self.current_list[i].updateIDs(
@@ -108,14 +101,14 @@ class MyCentroid(object):
                                     self.previous_list[pindex].faceid_conf,
                                     self.previous_list[pindex].deepid_conf
                                 )
-                                used_cids.append(prev_cid)
+                                self.used_cids.append(prev_cid)
+                                # self.previous_list.pop(pindex)
                         else:
                             hang_indexes_in_clist.append(i)
-                    
                     len_hlist = len(hang_indexes_in_clist)
                     if len_hlist > 0:
                         for index in hang_indexes_in_clist:
-                            self.current_list[index].cid = self.__getAnAvailableID__(used_cids)
+                            self.current_list[index].cid = self.__generateID__()
             else:
                 msg = ("MyCentroid : update() -> The element of input 'person_list' " + 
                        "list has unsupported type.")

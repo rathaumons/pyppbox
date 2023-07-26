@@ -19,6 +19,8 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
+import timeit
+
 from .gttools import GTInterpreter, convertStringToNPL
 from .commontools import joinFPathFull, getAbsPathFDS, isExist, getAncestorDir
 from .logtools import add_info_log, add_warning_log, add_error_log
@@ -177,7 +179,7 @@ class MyEVA(object):
             missed_detect = tmp
             for i in range(0, len(people_dt)):
                 person_index_to_compare = findPersonIndexGTFrame(gt_frame, people_dt[i].box_xyxy, 
-                                                                 max_spread_limit=15)
+                                                                 max_spread_limit=16)
                 if person_index_to_compare >= 0:
                     tmp_deepid = people_dt[i].deepid
                     if '%' in tmp_deepid: tmp_deepid = tmp_deepid[:-4]
@@ -192,7 +194,7 @@ class MyEVA(object):
             fault_detect = abs(tmp)
             for i in range(0, len(gt_frame)):
                 person_index_to_compare = findPersonIndexGTFrame(gt_frame, people_dt[i].box_xyxy, 
-                                                                 max_spread_limit=15)
+                                                                 max_spread_limit=16)
                 if person_index_to_compare >= 0:
                     tmp_deepid = people_dt[i].deepid
                     if '%' in tmp_deepid: tmp_deepid = tmp_deepid[:-4]
@@ -215,7 +217,7 @@ class MyEVA(object):
             missed_detect = tmp
             for i in range(0, len(people_dt)):
                 person_index_to_compare = findPersonIndexGTFrame(gt_frame, people_dt[i].box_xyxy, 
-                                                                 max_spread_limit=5)
+                                                                 max_spread_limit=16)
                 if person_index_to_compare >= 0:
                     tmp_faceid = people_dt[i].faceid
                     if '%' in tmp_faceid: tmp_faceid = tmp_faceid[:-4]
@@ -230,7 +232,7 @@ class MyEVA(object):
             fault_detect = abs(tmp)
             for i in range(0, len(gt_frame)):
                 person_index_to_compare = findPersonIndexGTFrame(gt_frame, people_dt[i].box_xyxy, 
-                                                                 max_spread_limit=5)
+                                                                 max_spread_limit=16)
                 if person_index_to_compare >= 0:
                     tmp_faceid = people_dt[i].faceid
                     if '%' in tmp_faceid: tmp_faceid = tmp_faceid[:-4]
@@ -410,54 +412,22 @@ class TKOReider(object):
 ###############################################################################################
 
 
-def findPersonIndexPeopleList(people, box_xyxy, max_spread_limit=5):
+def findPersonIndexGTFrame(gt_frame, box_xyxy, box_xyxy_index=4, max_spread_limit=16):
     """
     :meta private:
     """
-    index = -1
-    spread_list = []
     box_list = box_xyxy.tolist()
-
-    if len(people) > 0 and len(box_list) == 4:
-        for person in people:
-            max_spread = -1
-            pbox_list = person.box_xyxy.tolist()
-            for i in range(0, 4):
-                sub_spread = abs(box_list[i] - pbox_list[i])
-                if sub_spread > max_spread:
-                    max_spread = sub_spread
-            spread_list.append(max_spread)
-
-        if len(spread_list) > 0:
-            sm_spread = min(spread_list)
-            if sm_spread <= max_spread_limit:
-                index = spread_list.index(sm_spread)
-
-    return index
-
-def findPersonIndexGTFrame(gt_frame, box_xyxy, box_xyxy_index=4, max_spread_limit=5):
-    """
-    :meta private:
-    """
+    min_box_spread = 8192
     index = -1
-    spread_list = []
-    box_list = box_xyxy.tolist()
-
-    if len(gt_frame) > 0 and len(box_list) == 4:
-        for person in gt_frame:
-            max_spread = -1
-            pbox_list = convertStringToNPL(person[box_xyxy_index]).tolist()
-            for i in range(0, 4):
-                sub_spread = abs(box_list[i] - pbox_list[i])
-                if sub_spread > max_spread:
-                    max_spread = sub_spread
-            spread_list.append(max_spread)
-
-        if len(spread_list) > 0:
-            sm_spread = min(spread_list)
-            if sm_spread <= max_spread_limit:
-                index = spread_list.index(sm_spread)
-
+    i = 0
+    for p in gt_frame:
+        pbbox_list = convertStringToNPL(p[box_xyxy_index]).tolist()
+        max_ss = max([abs(box_list[j] - pbbox_list[j]) for j in range(0, 4)])
+        if max_ss < min_box_spread:
+            min_box_spread = max_ss
+            index = i
+        i += 1
+    if min_box_spread > max_spread_limit: index = -1
     return index
 
 def compareRes2Ref(res_txt, ref_txt, res_box_xyxy_index=5, ref_box_xyxy_index=4, 
@@ -473,9 +443,9 @@ def compareRes2Ref(res_txt, ref_txt, res_box_xyxy_index=5, ref_box_xyxy_index=4,
     ref_txt : str
         A path of the reference text file.
     res_box_xyxy_index : int, default=5
-        Index of bounding box :code:`[X1 Y1 X2 Y2]` in the result text file.
+        Index of bounding box :code:`[X1, Y1, X2, Y2]` in the result text file.
     ref_box_xyxy_index : int, default=4
-        Index of bounding box :code:`[X1 Y1 X2 Y2]` in the reference text file.
+        Index of bounding box :code:`[X1, Y1, X2, Y2]` in the reference text file.
     res_compare_index : int, default=2
         Index of what to compare in the result text file.
     ref_compare_index : int, default=2

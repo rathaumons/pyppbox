@@ -21,7 +21,6 @@
 
 import numpy as np
 
-from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.utils.persontools import Person
 from pyppbox.utils.logtools import add_error_log, ignore_this_logger
 
@@ -39,10 +38,10 @@ from .origin.detection import Detection as DSDetection
 from .origin.tracker import Tracker as DSTracker
 
 
-__ustrings__ = UnifiedStrings()
-
 class MyDeepSORT(object):
 
+    """Class used as a custom layer or interface for interacting with DeepSORT tracker.
+    """
 
     def __init__(self, cfg):
         """Initialize according to the given :obj:`cfg` and :obj:`auto_load`.
@@ -56,31 +55,25 @@ class MyDeepSORT(object):
         self.current_list = []
         self.current_frame = 0
         self.nms_max_overlap = cfg.nms_max_overlap
-        self.encoder = gdet.create_box_encoder(cfg.model_file, batch_size=1)
+        self.encoder = gdet.create_box_encoder(cfg.model_file, batch_size=16)
         self.metric = nn_matching.NearestNeighborDistanceMetric("cosine", cfg.max_cosine_distance, 
                                                                 cfg.nn_budget)
         self.tracker = DSTracker(self.metric)
 
 
-    def __getCurrentIndexByBoxXYXY__(self, box, max_spread=50):
+    def __getCurrentIndexByBoxXYXY__(self, box, max_spread=128):
         index = -1
         box_list = box.tolist()
-        spread_list = []
-
+        min_box_spread = 32**32
+        i = 0
         for p in self.current_list:
-            max_spread = -1
             pbbox_list = p.box_xyxy.tolist()
-            for i in range(0, 4):
-                sub_spread = abs(box_list[i] - pbbox_list[i])
-                if sub_spread > max_spread:
-                    max_spread = sub_spread
-            spread_list.append(max_spread)
-        
-        if len(spread_list) > 0:
-            sm_spread = min(spread_list)
-            if sm_spread <= max_spread:
-                index = spread_list.index(sm_spread)
-        
+            max_ss = max([abs(box_list[j] - pbbox_list[j]) for j in range(0, 4)])
+            if max_ss < min_box_spread:
+                min_box_spread = max_ss
+                index = i
+            i += 1
+        if min_box_spread > max_spread: index = -1
         return index
 
 
@@ -93,7 +86,7 @@ class MyDeepSORT(object):
         return pindex
 
 
-    def update(self, person_list, img=None, max_spread=5):
+    def update(self, person_list, img=None, max_spread=128):
         """Update the tracker and return the updated list of :class:`Person`.
 
         Parameters

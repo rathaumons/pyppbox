@@ -1,7 +1,7 @@
-Example 5: Set the main modules by a YAML/JSON dictionary or string
-===================================================================
+Example 5: Set the main modules by a raw/ready dictionary
+=========================================================
 
-- **Description**: Use a YAML/JSON dictionary or string to set the main detector/tracker/reider. By doing so, you can set or adjust the parameters of each main module directly in codes.
+- **Description**: Use a raw/ready dictionary to set the main detector/tracker/reider. By doing so, you can set or adjust the parameters of each main module directly in codes.
 - **Featuring**: 
    - :py:meth:`pyppbox.standalone.setMainDetector`
    - :py:meth:`pyppbox.standalone.setMainTracker`

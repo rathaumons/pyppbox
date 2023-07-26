@@ -1,5 +1,5 @@
 tk_name: Centroid
-max_spread: 50
+max_spread: 64
 ---
 tk_name: SORT
 max_age: 1

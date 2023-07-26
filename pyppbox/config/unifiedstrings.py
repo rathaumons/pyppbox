@@ -94,7 +94,7 @@ class UnifiedStrings(object):
         self.load(strings_yaml=strings_yaml)
 
     def load(self, strings_yaml): 
-        """Load a YAML/JSON dictionary of a single document as a dictionary from 
+        """Load a configuration dictionary of a single document as a dictionary from 
         a :obj:`strings_yaml` file and automatically pass to :meth:`set()`.
 
         Parameters
@@ -107,12 +107,12 @@ class UnifiedStrings(object):
         self.set(self.data)
 
     def set(self, data):
-        """Set a YAML/JSON dictionary of a single document to all attributes.
+        """Set a configuration dictionary of a single document to all attributes.
 
         Parameters
         ----------
         data : dict
-            A YAML/JSON dictionary of a single document of the unified strings.
+            A configuration dictionary of a single document of the unified strings.
         """
         # module
         self.none = data['none']

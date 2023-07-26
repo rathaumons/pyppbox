@@ -30,7 +30,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from scipy import misc
 import imageio
 import skimage.transform
 import sys
@@ -129,7 +128,6 @@ def main(args):
                                 bb[2] = np.minimum(det[2]+args.margin/2, img_size[1])
                                 bb[3] = np.minimum(det[3]+args.margin/2, img_size[0])
                                 cropped = img[bb[1]:bb[3],bb[0]:bb[2],:]
-                                #scaled = misc.imresize(cropped, (args.image_size, args.image_size), interp='bilinear')
                                 scaled = skimage.transform.resize(cropped, (args.image_size, args.image_size), anti_aliasing=True)
                                 nrof_successfully_aligned += 1
                                 filename_base, file_extension = os.path.splitext(output_filename)
@@ -145,7 +143,6 @@ def main(args):
                             
     print('Total number of images: %d' % nrof_images_total)
     print('Number of successfully aligned images: %d' % nrof_successfully_aligned)
-            
 
 def parse_arguments(argv):
     parser = argparse.ArgumentParser()
