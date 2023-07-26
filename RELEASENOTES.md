@@ -6,7 +6,7 @@
 
   - Improve all supported trackers
   - Improve evatools
-  - Change some defualt configurations
+  - Change some default configurations
   - Update and improve examples
   - Improve documentations
   - **Known issue/limitation**: 
