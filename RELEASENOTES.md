@@ -4,6 +4,16 @@
 
 * `pyppbox` [v3.1b1](https://github.com/rathaumons/pyppbox/tree/v3.1b1)
 
+  - Improve all supported trackers
+  - Improve evatools
+  - Change some defualt configurations
+  - Update and improve examples
+  - Improve documentations
+  - **Known issue/limitation**: 
+    - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
+
+* `pyppbox` [v3.1b1](https://github.com/rathaumons/pyppbox/tree/v3.1b1)
+
   - Add multithreading support for standalone -> `ppbox.standalone.mt.MT`
   - Add multithreading example -> See example 13
   - Add CPU support for `Torchreid`
