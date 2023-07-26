@@ -64,7 +64,7 @@ class MyDeepSORT(object):
     def __getCurrentIndexByBoxXYXY__(self, box, max_spread=128):
         index = -1
         box_list = box.tolist()
-        min_box_spread = 32**32
+        min_box_spread = 8192
         i = 0
         for p in self.current_list:
             pbbox_list = p.box_xyxy.tolist()
