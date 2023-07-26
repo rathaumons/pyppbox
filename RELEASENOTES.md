@@ -2,7 +2,7 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.1b1](https://github.com/rathaumons/pyppbox/tree/v3.1b1)
+* `pyppbox` [v3.1b2](https://github.com/rathaumons/pyppbox/tree/v3.1b2)
 
   - Improve all supported trackers
   - Improve evatools
