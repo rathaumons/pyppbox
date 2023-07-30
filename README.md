@@ -12,9 +12,17 @@
 
 </div>
 
+***pyppbox*** is an all-in-one Python toolbox which can be used for detecting, tracking, and re-identifying people with only a few lines of codes. It is originally made for [***PoseTReID framework***](https://github.com/rathaumons/PoseTReID_DATASET) which can effectively track specific/certain people across multiple cameras or video scenes in distributed contexts of people interaction spaces such as malls or amusement parks, etc.
+
 * ` pyppbox = Python + People + Toolbox `
 * Design for both short and long term people detecting, tracking, and re-identifying.
 * Integrate GUI for easy configurations and demo.
 * Support dictionary and YAML/JSON configurations.
 * Support [[GTA_V_Dataset]](https://github.com/rathaumons/PoseTReID_DATASET) -> Real-time online and offline evaluation.
 * Check our papers: 1 [[IEEE]](https://ieeexplore.ieee.org/document/9271712) | 2 [[IEEE]](https://ieeexplore.ieee.org/document/9946587) [[arxiv]](https://doi.org/10.48550/arxiv.2205.10086)
+
+## ▶️ Application Demo: Project Pikachu [[YT]](https://youtu.be/sj1NzObzYQA)
+
+***Project Pikachu*** is a showcase of using ***pyppbox*** in real-life. The system can track and re-identify specific/certain people through normal 2D cameras without having to spend much effort on the calibration, etc.
+
+https://github.com/rathaumons/pyppbox-demo/assets/60795657/794dc91c-25ef-4382-96e5-2115a708d69f
