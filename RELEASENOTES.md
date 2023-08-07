@@ -2,6 +2,14 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
+* `pyppbox` [v3.1b3](https://github.com/rathaumons/pyppbox/tree/v3.1b2)
+
+  - Update and improve visualizetools for new pyppbox-ultralytics
+  - Update requirements
+  - Improve documentations
+  - **Known issue/limitation**:
+    - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
+
 * `pyppbox` [v3.1b2](https://github.com/rathaumons/pyppbox/tree/v3.1b2)
 
   - Improve all supported trackers
@@ -9,7 +17,7 @@
   - Change some default configurations
   - Update and improve examples
   - Improve documentations
-  - **Known issue/limitation**: 
+  - **Known issue/limitation**:
     - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
 
 * `pyppbox` [v3.1b1](https://github.com/rathaumons/pyppbox/tree/v3.1b1)
@@ -22,14 +30,14 @@
   - Update default config files
   - Update and improve documentations
   - Update and improve GUI
-  - **Known issue/limitation**: 
+  - **Known issue/limitation**:
     - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
 
 * `pyppbox` [v3.0b5](https://github.com/rathaumons/pyppbox/tree/v3.0b5)
 
   - Fix a critical bug in GUI of FaceNet which can cause missing `train_data` configuration
   - Fix and improve documentation
-  - **Known issue/limitation**: 
+  - **Known issue/limitation**:
     - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
 
 * `pyppbox` [v3.0b4](https://github.com/rathaumons/pyppbox/tree/v3.0b4)
@@ -38,7 +46,7 @@
   - Update and improve dependencies/requirements for macOS and Linux
   - Update and improve `GETSTARTED.md` for macOS and Linux
   - Add core stability test for macOS
-  - **Known issue/limitation**: 
+  - **Known issue/limitation**:
     - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
 
 * `pyppbox` [v3.0b3](https://github.com/rathaumons/pyppbox/tree/v3.0b3)
@@ -48,7 +56,7 @@
   - Update and improve dependencies/requirements
   - Update and improve `GETSTARTED.md`
   - Update test workflows for Python [3.8-3.11]
-  - **Known issue/limitation**: 
+  - **Known issue/limitation**:
     - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
 
 * `pyppbox` [v3.0b2](https://github.com/rathaumons/pyppbox/tree/v3.0b2)
@@ -62,7 +70,7 @@
   - Improve GUI stability
   - Update and normalize dependencies/requirements
   - Update and improve documentations
-  - **Known issue/limitation**: 
+  - **Known issue/limitation**:
     - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
 
 * `pyppbox` [v3.0b1](https://github.com/rathaumons/pyppbox/tree/v3.0b1)
@@ -88,7 +96,7 @@
   - Update and improve all supported modules
   - Update and improve GUI
   - Update ***requirements***
-  - **Known issue/limitation**: 
+  - **Known issue/limitation**:
     - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
 
 
@@ -100,7 +108,7 @@
   - Add support for the new keypoint data format of YOLO Ultralytics's pose estimation model
   - Remove unnecessary imports
   - Update requirements
-  - **Known issue/limitation**: 
+  - **Known issue/limitation**:
     - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
 
 * `pyppbox` [v2.0b1](https://github.com/rathaumons/pyppbox/tree/v2.0b1)
@@ -117,7 +125,7 @@
   - Update the `FacNet` & `Torchreid` pretrained classifier ***PKLs*** for ***GTA5 dataset***
   - Update examples
   - Change to `pypa/build` for `setup.py`
-  - **Known issue/limitation**: 
+  - **Known issue/limitation**:
     - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
 
 
@@ -160,7 +168,7 @@
 
 ## **pyppbox V1**
 
-* This repo was reinitiated from version 1.0b9 where the complete history is available here [33da563](https://github.com/rathaumons/pyppbox/tree/33da56302d27204931337b44d9a6a5adc1eb5257)
+* The GitHub repo was reinitiated from version 1.0b9 where the complete history is available here [33da563](https://github.com/rathaumons/pyppbox/tree/33da56302d27204931337b44d9a6a5adc1eb5257)
 
 * [`OpenPose`](https://github.com/CMU-Perceptual-Computing-Lab/openpose) submodule was removed due to [its complicated license](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE) -> Check this repo [`pyppbox-paper`](https://github.com/rathaumons/pyppbox-paper) if you need `OpenPose` or need to reproduce the results in the paper
 
