@@ -22,12 +22,22 @@
 import cv2
 import numpy as np
 
-from ultralytics.yolo.utils.plotting import Colors
-
 from .persontools import Person
 from .commontools import getCVMat
-from .logtools import add_error_log
+from .logtools import add_error_log, add_warning_log
 
+# For ultralytics's skeleton
+has_ultralytics = True
+try:
+    from ultralytics.utils.plotting import Colors
+    colors = Colors()
+    skeleton = [[16, 14], [14, 12], [17, 15], [15, 13], [12, 13], [6, 12], [7, 13], [6, 7], [6, 8], 
+                [7, 9], [8, 10], [9, 11], [2, 3], [1, 2], [1, 3], [2, 4], [3, 5], [4, 6], [5, 7]]
+    limb_color = colors.pose_palette[[9, 9, 9, 9, 7, 7, 7, 0, 0, 0, 0, 0, 16, 16, 16, 16, 16, 16, 16]]
+    kpt_color = colors.pose_palette[[16, 16, 16, 16, 16, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9]]
+except ImportError as e:
+    has_ultralytics = False
+    add_warning_log("visualizetools: ultralytics or pyppbox-ultralytics is not installed.")
 
 # For cid
 cid_col = (0, 0, 255)
@@ -57,12 +67,6 @@ reid_col = (0, 255, 255)
 reid_dup_col = (0, 0, 255)
 reid_status_font = cv2.FONT_HERSHEY_COMPLEX_SMALL
 
-# For skeleton
-colors = Colors()
-skeleton = [[16, 14], [14, 12], [17, 15], [15, 13], [12, 13], [6, 12], [7, 13], [6, 7], [6, 8], 
-            [7, 9], [8, 10], [9, 11], [2, 3], [1, 2], [1, 3], [2, 4], [3, 5], [4, 6], [5, 7]]
-limb_color = colors.pose_palette[[9, 9, 9, 9, 7, 7, 7, 0, 0, 0, 0, 0, 16, 16, 16, 16, 16, 16, 16]]
-kpt_color = colors.pose_palette[[16, 16, 16, 16, 16, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9]]
 
 def __addSKL__(img, kpts, radius=5, kpt_line=True):
     # Ultralytics YOLO
@@ -153,7 +157,7 @@ def visualizePeople(img, people, show_box=True, show_skl=(True,True,5), show_ids
                     if show_repspoint:
                         cv2.circle(img, (p.repspoint[0], p.repspoint[1]), radius=5, 
                                    color=(0, 0, 255), thickness=-1)
-                    if (isinstance(show_skl, tuple) and np.asarray(show_skl).shape == (3,) 
+                    if (has_ultralytics and isinstance(show_skl, tuple) and np.asarray(show_skl).shape == (3,) 
                         and len(p.keypoints) >= 15):
                         (s, l, r) = show_skl
                         if s: img = __addSKL__(img, p.keypoints, radius=r, kpt_line=l)
