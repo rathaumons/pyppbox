@@ -67,7 +67,7 @@ class MyYOLOULT(object):
         else:
             from ultralytics import YOLO
             self.model = YOLO(self.cfg.model_file)
-        from ultralytics.yolo.utils.plotting import Colors
+        from ultralytics.utils.plotting import Colors
         self.colors = Colors()
         self.skeleton = [[16, 14], [14, 12], [17, 15], [15, 13], 
                          [12, 13], [6, 12], [7, 13], [6, 7], [6, 8],
