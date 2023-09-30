@@ -2,9 +2,16 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.1b3](https://github.com/rathaumons/pyppbox/tree/v3.1b2)
+* `pyppbox` [v3.1b4](https://github.com/rathaumons/pyppbox/tree/v3.1b4)
 
-  - Update and improve visualizetools for new pyppbox-ultralytics
+  - Improve support for new `pyppbox-ultralytics`
+  - Improve documentations
+  - **Known issue/limitation**:
+    - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
+
+* `pyppbox` [v3.1b3](https://github.com/rathaumons/pyppbox/tree/v3.1b3)
+
+  - Update and improve visualizetools for new `pyppbox-ultralytics`
   - Update requirements
   - Improve documentations
   - **Known issue/limitation**:
