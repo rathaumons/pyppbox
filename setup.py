@@ -64,7 +64,7 @@ def main_setup():
         maintainer="rathaROG",
         install_requires=read_requirements(),
         keywords=['Toolbox', 'People Detecting', 'People Tracking', 'People Re-Identification'],
-        python_requires=">=3.8",
+        python_requires=">=3.9",
         classifiers=[
             "Development Status :: 4 - Beta",
             "Environment :: Console",
@@ -76,7 +76,6 @@ def main_setup():
             "Programming Language :: Python",
             "Programming Language :: Python :: 3",
             "Programming Language :: Python :: 3 :: Only",
-            "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
