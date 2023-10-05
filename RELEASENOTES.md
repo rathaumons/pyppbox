@@ -2,6 +2,15 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
+* `pyppbox` [v3.1b5](https://github.com/rathaumons/pyppbox/tree/v3.1b5)
+
+  - Fix minor visaul bug
+  - Add `install_req_py3_cuda121.cmd` for CUDA 12.1
+  - Improve documentations
+  - Drop support for Python 3.8
+  - **Known issue/limitation**:
+    - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
+
 * `pyppbox` [v3.1b4](https://github.com/rathaumons/pyppbox/tree/v3.1b4)
 
   - Improve support for new `pyppbox-ultralytics`
