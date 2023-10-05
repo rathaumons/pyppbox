@@ -47,13 +47,13 @@ cid_font = cv2.FONT_HERSHEY_COMPLEX_SMALL
 # For faceid
 faceid_col = (0, 255, 255)
 faceid_font_thickness = 2
-faceid_footnote_text = "Yellow : faceid"
+faceid_footnote_text = "faceid"
 faceid_font = cv2.FONT_HERSHEY_COMPLEX_SMALL
 
 # For deepid
 deepid_col = (255, 0, 255)
 deepid_font_thickness = 2
-deepid_footnote_text = "Fuchsia : deepid"
+deepid_footnote_text = "deepid"
 deepid_font = cv2.FONT_HERSHEY_COMPLEX_SMALL
 
 # For foot note
@@ -142,8 +142,8 @@ def visualizePeople(img, people, show_box=True, show_skl=(True,True,5), show_ids
         if len(people) > 0:
             if isinstance(people[0], Person):
                 (h, w, c) = img.shape
-                deepid_footnote_pos = (int(w - 190), h - 35)
-                faceid_footnote_pos = (int(w - 190), h - 10)
+                deepid_footnote_pos = (int(w - 90), h - 35)
+                faceid_footnote_pos = (int(w - 90), h - 10)
                 reid_pos = (int(w - 360), 30)
                 cv2.putText(img, deepid_footnote_text, deepid_footnote_pos, footnote_font, 
                             footnote_font_scale, deepid_col, footnote_font_thickness)
