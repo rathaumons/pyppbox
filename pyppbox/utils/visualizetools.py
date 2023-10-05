@@ -53,7 +53,7 @@ faceid_font = cv2.FONT_HERSHEY_COMPLEX_SMALL
 # For deepid
 deepid_col = (255, 0, 255)
 deepid_font_thickness = 2
-deepid_footnote_text = "Green : deepid"
+deepid_footnote_text = "Fuchsia : deepid"
 deepid_font = cv2.FONT_HERSHEY_COMPLEX_SMALL
 
 # For foot note
