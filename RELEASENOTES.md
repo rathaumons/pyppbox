@@ -2,6 +2,17 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
+* `pyppbox` [v3.2b1](https://github.com/rathaumons/pyppbox/tree/v3.2b1)
+
+  - Update some default configurations
+  - Update configurations/GUI/examples for `pyppbox-ultralytics>=8.0.218`
+  - Update GitHub tests
+  - Update GitHub workflows
+  - Update requirements
+  - Update and improve `GETSTARTED.md`
+  - **Known issue/limitation**:
+    - You tell me :)
+
 * `pyppbox` [v3.1b5](https://github.com/rathaumons/pyppbox/tree/v3.1b5)
 
   - Fix minor visaul bug
