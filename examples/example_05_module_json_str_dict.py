@@ -15,7 +15,7 @@ from pyppbox.utils.visualizetools import visualizePeople
 # Use a raw dictionary string
 """
 mydetector="[{'dt_name': 'YOLO_Ultralytics', 'conf': 0.5, 'iou': 0.7, \
-    'imgsz': 416, 'boxes': True, 'device': 0, \
+    'imgsz': 416, 'show_boxes': True, 'device': 0, \
     'max_det': 100, 'line_width': 500, 'model_file': \
     'C:/pyppbox_v3/data/modules/yolo_ultralytics/yolov8l-pose.pt', \
     'repspoint_calibration': 0.25}]"
@@ -35,7 +35,7 @@ mydetector={
     'conf': 0.5, 
     'iou': 0.7, 
     'imgsz': 416, 
-    'boxes': False, 
+    'show_boxes': False, 
     'device': 0, 
     'max_det': 100, 
     'line_width': 500, 

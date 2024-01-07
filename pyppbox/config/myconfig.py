@@ -317,8 +317,8 @@ class DCFGYOLOULT(BaseCGF):
         Parameter iou of YOLO_Ultralytics.
     imgsz : int
         Parameter imgsz of YOLO_Ultralytics.
-    boxes : bool
-        Parameter boxes of YOLO_Ultralytics.
+    show_boxes : bool
+        Parameter show_boxes of YOLO_Ultralytics.
     device : int
         Parameter device of YOLO_Ultralytics.
     max_det : int
@@ -371,7 +371,7 @@ class DCFGYOLOULT(BaseCGF):
                 self.conf = self.configs['conf']
                 self.iou = self.configs['iou']
                 self.imgsz = self.configs['imgsz']
-                self.boxes = self.configs['boxes']
+                self.show_boxes = self.configs['show_boxes']
                 self.device = self.configs['device']
                 self.max_det = self.configs['max_det']
                 self.line_width = self.configs['line_width']
@@ -400,7 +400,7 @@ class DCFGYOLOULT(BaseCGF):
             "conf": self.conf,
             "iou": self.iou,
             "imgsz": self.imgsz,
-            "boxes": self.boxes,
+            "show_boxes": self.show_boxes,
             "device": self.device,
             "max_det": self.max_det,
             "line_width": self.line_width,
@@ -963,7 +963,7 @@ class MyCFGHeaders(object):
                 "# conf: 0.5\n"
                 "# iou: 0.7\n"
                 "# imgsz: 416\n"
-                "# boxes: True\n"
+                "# show_boxes: True\n"
                 "# device: 0\n"
                 "# max_det: 50\n"
                 "# line_width: 500\n"

@@ -42,6 +42,6 @@ PyQt6
 ### Customized pyppbox-torchreid
 pyppbox-torchreid
 ### Customized pyppbox-ultralytics
-pyppbox-ultralytics>=8.0.142
+pyppbox-ultralytics>=8.0.218
 ### Unused
 # shapely

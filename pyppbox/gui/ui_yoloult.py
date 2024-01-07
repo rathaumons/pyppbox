@@ -165,7 +165,7 @@ class Ui_YOLOULT(object):
         self.iou_label.setText(_translate("yoloult_ui", "iou"))
         self.imgsz_label.setText(_translate("yoloult_ui", "imgsz"))
         self.max_det_label.setText(_translate("yoloult_ui", "max_det"))
-        self.boxes_label.setText(_translate("yoloult_ui", "boxes"))
+        self.boxes_label.setText(_translate("yoloult_ui", "show_boxes"))
         self.device_lineEdit.setPlaceholderText(_translate("yoloult_ui", "0"))
         self.save_pushButton.setText(_translate("yoloult_ui", "Save"))
         self.model_file_label.setText(_translate("yoloult_ui", "model_file"))
@@ -189,7 +189,7 @@ class Ui_YOLOULT(object):
         self.loadComboBoxes()
 
     def loadComboBoxes(self):
-        if self.mycfg.dcfg_yolout.boxes is True:
+        if self.mycfg.dcfg_yolout.show_boxes is True:
             self.boxes_comboBox.setCurrentIndex(0)
         else:
             self.boxes_comboBox.setCurrentIndex(1)
@@ -207,7 +207,7 @@ class Ui_YOLOULT(object):
             "conf": getFloat(self.conf_lineEdit.text(), default_val=0.5),
             "iou": getFloat(self.iou_lineEdit.text(), default_val=0.7),
             "imgsz": getInt(self.imgsz_lineEdit.text(), default_val=416),
-            "boxes": self.boxes_comboBox.currentText(),
+            "show_boxes": self.boxes_comboBox.currentText(),
             "device": device,
             "max_det": getInt(self.max_det_lineEdit.text(), default_val=100),
             "line_width": getInt(self.line_width_lineEdit.text(), default_val=500),

@@ -16,7 +16,7 @@ mydetector={
     'conf': 0.5, 
     'iou': 0.7, 
     'imgsz': 416, 
-    'boxes': True, 
+    'show_boxes': True, 
     'device': 0, 
     'max_det': 100, 
     'line_width': 500, 

@@ -24,13 +24,13 @@ All requirements are not strictly limited. However, some specific modules might 
   - On Windows, recommend using the `cmd` installer:
     - For GPU: `install_req_py3_cuda121.cmd` (Or `install_req_py3_cuda.cmd` for CUDA 11.8)
     - For CPU-only: `install_req_py3_cpu.cmd`
-  - On Linux (Or Windows):
-    - For GPU (Example for PyTorch CUDA 12.1):
+  - On Linux:
+    - For GPU:
       ```
       python -m pip install --upgrade pip
       pip uninstall -y ultralytics # Remove the official ultralytics
       pip install "setuptools>=67.2.0"
-      pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+      pip install torch torchvision torchaudio
       pip install -r requirements.txt
       ```
     - For CPU-only:
@@ -42,12 +42,13 @@ All requirements are not strictly limited. However, some specific modules might 
       pip install -r requirements.txt
       ```
   - On macOS:
-    - For GPU: No support
+    - For GPU: Not available
     - For CPU:
       ```
       python -m pip install --upgrade pip
       pip uninstall -y ultralytics # Remove the official ultralytics
       pip install "setuptools>=67.2.0"
+      pip install torch torchvision torchaudio
       pip install -r requirements.txt
       ```
 
