@@ -36,7 +36,7 @@ The table below shows all the current supported modules which are integrated in 
    |            |              |                  | | * `FaceNet repo`_                             |
    |            |              |                  | | * Run on: CPU or GPU (Tensorflow)             |
    |            +--------------+------------------+-------------------------------------------------+
-   |            | Torchreid    | Trochreid        | | * Integrated by linking `pyppbox-torchreid`_  |
+   |            | Torchreid    | Torchreid        | | * Integrated by linking `pyppbox-torchreid`_  |
    |            |              |                  | | * Model: OSNet-AIN, OSNet, MLFN               |
    |            |              |                  | | * Run on: CPU or GPU (PyTorch)                |
    +------------+--------------+------------------+-------------------------------------------------+
