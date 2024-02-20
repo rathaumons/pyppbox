@@ -909,7 +909,8 @@ class RCFGTorchreid(BaseCGF):
             "train_data": normalizePathFDS(internal_root_dir, self.train_data),
             "model_name": self.model_name,
             "model_path": normalizePathFDS(internal_root_dir, self.model_path),
-            "min_confidence": self.min_confidence
+            "min_confidence": self.min_confidence,
+            "device": self.device
         }
         return torchreid_doc
 
