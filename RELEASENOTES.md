@@ -2,6 +2,13 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
+* `pyppbox` [v3.2b2](https://github.com/rathaumons/pyppbox/tree/v3.2b2)
+
+  - Add a hotfix for issue [#21](https://github.com/rathaumons/pyppbox/issues/21)
+  - Improve documentations
+  - **Known issue/limitation**:
+    - You tell me :)
+
 * `pyppbox` [v3.2b1](https://github.com/rathaumons/pyppbox/tree/v3.2b1)
 
   - Update some default configurations
