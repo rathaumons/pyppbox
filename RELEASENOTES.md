@@ -2,6 +2,14 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
+* `pyppbox` [v3.3b1](https://github.com/rathaumons/pyppbox/tree/v3.3b1)
+
+  - Remove `ontracked` and its related methods from `pyppbox.utils.persontools.Person`
+  - Add `misc` to `pyppbox.utils.persontools.Person`
+  - Improve documentations
+  - **Known issue/limitation**:
+    - You tell me :)
+
 * `pyppbox` [v3.2b2](https://github.com/rathaumons/pyppbox/tree/v3.2b2)
 
   - Add a hotfix for issue [#21](https://github.com/rathaumons/pyppbox/issues/21)
