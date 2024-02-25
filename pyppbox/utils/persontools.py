@@ -54,9 +54,8 @@ class Person(object):
         Confidence of :attr:`faceid`.
     deepid_conf : float, default=0.0
         Confidence of :attr:`deepid`.
-    ontracked : int
-        Age of being tracked.
-
+    misc : list[], optional
+        Miscellaneous items.
     """
 
     def __init__(
@@ -103,8 +102,8 @@ class Person(object):
             Confidence of :attr:`faceid`.
         deepid_conf : float, default=0.0
             Confidence of :attr:`deepid`.
-        ontracked : int, default=0
-            Age of being tracked.
+        misc : list[], optional
+            Miscellaneous items.
         """
         self.init_id = init_id
         self.cid = cid
@@ -117,24 +116,7 @@ class Person(object):
         self.deepid = deepid
         self.faceid_conf = faceid_conf
         self.deepid_conf = deepid_conf
-        self.ontracked = 0
-
-    def incrementOnTracked(self):
-        """
-        Increment ontracked by 1.
-        """
-        self.ontracked += 1
-
-    def updateOnTracked(self, nframe):
-        """
-        Update :attr:`ontracked` by the summation of :attr:`ontracked` with :obj:`nframe`.
-
-        Parameters
-        ----------
-        nframe : int
-            Amount of age to be added.
-        """
-        self.ontracked = self.ontracked + nframe
+        self.misc = []
 
     def updateIDs(self, new_cid, new_faceid, new_deepid, 
                   new_faceid_conf=0.0, new_deepid_conf=0.0):

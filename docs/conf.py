@@ -43,7 +43,6 @@ extensions = [
 ]
 
 autodoc_preserve_defaults = True
-
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', 'README.md', '.gitignore']
 
@@ -54,9 +53,7 @@ source_suffix = {
 }
 
 pygments_style = 'sphinx'
-
 source_parsers = {'.md': 'recommonmark.parser.CommonMarkParser'}
-
 master_doc = 'index'
 
 man_pages = [
@@ -67,16 +64,33 @@ man_pages = [
 
 htmlhelp_basename = 'pyppboxdocs'
 html_theme = "pydata_sphinx_theme"
-html_static_path = ['_static']
-
-html_show_sphinx = False
-# html_show_sourcelink = False
-
 html_theme_options = {
     "logo": {
         "text": "🐍📦 pyppbox",
     },
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/rathaumons/pyppbox",
+            "icon": "fa-brands fa-square-github",
+            "type": "fontawesome",
+        },
+    ],
     "secondary_sidebar_items": ["page-toc", "edit-this-page"],
     "show_toc_level": 3,
+    "navigation_with_keys": 'False',
 }
 
+# remove some primary sidebar
+html_sidebars = {
+    'getstarted': [], 
+    'pyppbox/standalone': [], 
+    'pyppbox/structure': [], 
+    'pyppbox/config': [], 
+    'pyppbox/utils': [], 
+    'releasenotes': []
+}
+
+html_static_path = ['_static']
+html_show_sphinx = False
+# html_show_sourcelink = False
