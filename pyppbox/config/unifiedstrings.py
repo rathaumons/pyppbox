@@ -46,9 +46,9 @@ class UnifiedStrings(object):
     gt : str, auto
         Unified string of words 'Ground-truth'.
     yolo_cls : str, auto
-        Unified string of wordS 'Yolo Classic'.
+        Unified string of words 'Yolo Classic'.
     yolo_ult : str, auto
-        Unified string of wordS 'Yolo Ultralytics'.
+        Unified string of words 'Yolo Ultralytics'.
     sort : str, auto
         Unified string of word 'SORT'.
     deepsort : str, auto
@@ -60,9 +60,9 @@ class UnifiedStrings(object):
     torchreid : str, auto
         Unified string of word 'Torchreid'.
     dtname_yl : str, auto
-        Unified string of wordS 'Detector YOLO'.
+        Unified string of words 'Detector YOLO'.
     dtname_gt : str, auto
-        Unified string of wordS 'Detector GT'.
+        Unified string of words 'Detector GT'.
     tkname_ct : str, auto
         Unified string of words 'Tracker Centroid'.
     tkname_st : str, auto
