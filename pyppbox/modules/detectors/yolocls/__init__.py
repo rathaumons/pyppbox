@@ -21,7 +21,7 @@
 
 import cv2
 
-from pyppbox.utils.persontools import Person, findRepspoint
+from pyppbox.utils.persontools import Person, findRepspoint, findRepspointBB
 from pyppbox.utils.commontools import to_xyxy
 
 
@@ -108,7 +108,7 @@ class MyYOLOCLS(object):
                                       (box_xyxy[2], box_xyxy[3]), (255, 255, 0), 2)
         return img, pboxes_xywh, pboxes_xyxy, repspoints, confs
 
-    def detectPeople(self, img, visual=True, min_width_filter=35):
+    def detectPeople(self, img, visual=True, min_width_filter=35, alt_repspoint=False, alt_repspoint_top=True):
         """Detect person(s) in a given cv :obj:`Mat` image.
 
         Parameters
@@ -119,6 +119,10 @@ class MyYOLOCLS(object):
             An indication of whether to visualize the detected objects.
         min_width_filter : int, default=35
             Mininum width filter of a detected object.
+        alt_repspoint : bool, default=False
+            An indication of whether to use the alternative :meth:`findRepspointBB`.
+        alt_repspoint_top : bool, default=True
+            A parameter passed to :obj:`prefer_top` of :meth:`findRepspointBB`.
 
         Returns
         -------
@@ -139,7 +143,8 @@ class MyYOLOCLS(object):
                 if class_id == 0 and box_xywh[2] >= min_width_filter:
                     box_xywh = box_xywh.astype(int)
                     box_xyxy = to_xyxy(box_xywh)
-                    repspoint = findRepspoint(box_xyxy, self.cfg.repspoint_calibration)
+                    if alt_repspoint: repspoint = findRepspointBB(box_xyxy, prefer_top=alt_repspoint_top)
+                    else: repspoint = findRepspoint(box_xyxy, self.cfg.repspoint_calibration)
                     people.append(Person(i, i, box_xywh=box_xywh, box_xyxy=box_xyxy, 
                                          repspoint=repspoint, det_conf=float(conf)))
                     i += 1
