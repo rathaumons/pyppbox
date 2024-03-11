@@ -9,7 +9,7 @@
   - Add float support for the private `convertStringToNPL()` of `pyppbox.utils.gttools`
   - Add `min_width_filter` support for `detectPeople()` of `ppbox.standalone`
   - Add alternative repspoint support for `detectPeople()` of `ppbox.standalone` and all detectors
-  - Add [MOT Challenge ground-truth](https://motchallenge.net/instructions/) converter -> `pyppbox.utils.persontools.mot2pyppbox`
+  - Add [MOT Challenge ground-truth](https://motchallenge.net/instructions/) converter -> `pyppbox.utils.mot2pyppbox`
   - Improve documentations
   - **Known issue/limitation**:
     - You tell me :)
