@@ -27,6 +27,14 @@ pyppbox.utils.logtools
    :undoc-members:
    :show-inheritance:
 
+pyppbox.utils.mot2pyppbox
+----------------------
+
+.. automodule:: pyppbox.utils.mot2pyppbox
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pyppbox.utils.persontools
 -------------------------
 
