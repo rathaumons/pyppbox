@@ -95,7 +95,7 @@ def convert(input_file="det.txt",
     ----------
     input_file : str, default="det.txt"
         Input MOT Challenge text file.
-    input_file : str, default="det_pyppbox.txt"
+    output_file : str, default="det_pyppbox.txt"
         Output pyppbox text file.
     splitter : str, default=','
         Column or data splitter.
