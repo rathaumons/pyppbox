@@ -326,7 +326,7 @@ def convertStringToNPL(input):
     input = input.replace("[", "")
     input = input.replace("]", "")
     input = " ".join(input.split())
-    input_list = list(map(int, input.split()))
+    input_list = list(map(float, input.split()))
     return np.array(input_list).astype(int)
 
 def formatLineInGTMap(line, splitter=':'):
