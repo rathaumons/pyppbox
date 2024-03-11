@@ -409,7 +409,15 @@ class MT(object):
         else:
             add_warning_log("---PYPPBOX : detector='" + str(detector) + "' is not recognized.")
 
-    def detectPeople(self, img, img_is_mat=False, visual=False, save=False, save_file=""): 
+    def detectPeople(self, 
+                     img, 
+                     img_is_mat=False, 
+                     visual=False, 
+                     save=False, 
+                     save_file="", 
+                     min_width_filter=35,
+                     alt_repspoint=False, 
+                     alt_repspoint_top=True): 
         """Detect people by giving an image. :func:`setConfigDir()` or :func:`setMainDetector()` must 
         be called in advance.
 
@@ -426,6 +434,12 @@ class MT(object):
             Decide whether to save the return :obj:`img` to a JPG file.
         save_file : str, default=""
             Indicate a path of where to save the processed image.
+        min_width_filter : int, default=35
+            Mininum width filter of a detected person.
+        alt_repspoint : bool, default=False
+            An indication of whether to use the alternative :meth:`findRepspointBB`.
+        alt_repspoint_top : bool, default=True
+            A parameter passed to :obj:`prefer_top` of :meth:`findRepspointBB`.
         
         Returns
         -------
@@ -440,7 +454,11 @@ class MT(object):
                 if not img_is_mat: img = getCVMat(img)
                 if (self.__dt_cfg__.dt_name.lower() == self.__unistrings__.yolo_cls or 
                     self.__dt_cfg__.dt_name.lower() == self.__unistrings__.yolo_ult):
-                    people, img = self.__dt__.detectPeople(img, visual=visual)
+                    people, img = self.__dt__.detectPeople(img, 
+                                                           visual=visual, 
+                                                           min_width_filter=min_width_filter, 
+                                                           alt_repspoint=alt_repspoint, 
+                                                           alt_repspoint_top=alt_repspoint_top)
                 elif self.__dt_cfg__.dt_name.lower() == self.__unistrings__.gt:
                     people, img = self.__dt__.getPeople(img, visual=visual)
                 if save:

@@ -212,9 +212,9 @@ class MyYOLOULT(object):
         img : Mat
             A cv :obj:`Mat` image.
         visual : bool, default=True
-            An indication of whether to visualize the detected objects.
+            An indication of whether to visualize the detected people.
         min_width_filter : int, default=35
-            Mininum width filter of a detected object.
+            Mininum width filter of a detected person.
         alt_repspoint : bool, default=False
             An indication of whether to use the alternative :meth:`findRepspointBB`.
         alt_repspoint_top : bool, default=True

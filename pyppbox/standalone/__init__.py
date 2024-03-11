@@ -91,9 +91,23 @@ def setMainDetector(detector=""):
     """See :func:`pyppbox.standalone.mt.MT.setMainDetector`"""
     __stdmt__.setMainDetector(detector=detector)
 
-def detectPeople(img, img_is_mat=False, visual=False, save=False, save_file=""):
+def detectPeople(img, 
+                 img_is_mat=False, 
+                 visual=False, 
+                 save=False, 
+                 save_file="", 
+                 min_width_filter=35, 
+                 alt_repspoint=False, 
+                 alt_repspoint_top=True):
     """See :func:`pyppbox.standalone.mt.MT.detectPeople`"""
-    return __stdmt__.detectPeople(img, img_is_mat=img_is_mat, visual=visual, save=save, save_file=save_file)
+    return __stdmt__.detectPeople(img, 
+                                  img_is_mat=img_is_mat, 
+                                  visual=visual, 
+                                  save=save, 
+                                  save_file=save_file, 
+                                  min_width_filter=min_width_filter, 
+                                  alt_repspoint=alt_repspoint, 
+                                  alt_repspoint_top=alt_repspoint_top)
 
 def setMainTracker(tracker=""):
     """See :func:`pyppbox.standalone.mt.MT.setMainTracker`"""
