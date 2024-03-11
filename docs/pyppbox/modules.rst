@@ -17,7 +17,7 @@ The table below shows all the current supported modules which are integrated in 
    |            |              |                  | | * Model: .weights `V2, V3`_, V4_              |
    |            |              |                  | | * Run on: CPU or GPU (OpenCV DNN)             |
    |            |              +------------------+-------------------------------------------------+
-   |            |              | YOLO_Ultralytics | | * Integrated by linking `ultralytics`         |
+   |            |              | YOLO_Ultralytics | | * Integrated by linking `ultralytics`_        |
    |            |              |                  | | * Model: .pt `V3, V5, V8`_                    |
    |            |              |                  | | * Run on: CPU or GPU (PyTorch)                |
    +------------+--------------+------------------+-------------------------------------------------+
@@ -44,6 +44,7 @@ The table below shows all the current supported modules which are integrated in 
 .. _read more here: https://github.com/rathaumons/PoseTReID_DATASET#-posetreid
 .. _V2, V3: https://pjreddie.com/darknet/yolo/
 .. _V4: https://github.com/AlexeyAB/darknet
+.. _ultralytics: https://github.com/rathaumons/ultralytics-for-pyppbox
 .. _V3, V5, V8: https://github.com/ultralytics/assets/releases
 .. _SORT repo: https://github.com/abewley/sort
 .. _DeepSORT repo: https://github.com/deshwalmahesh/yolov7-deepsort-tracking
