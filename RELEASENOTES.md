@@ -2,6 +2,18 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
+* `pyppbox` [v3.4b1](https://github.com/rathaumons/pyppbox/tree/v3.4b1)
+
+  - Remove `findRepspointList()` from `pyppbox.utils.persontools`
+  - Add `findRepspointBB()` and `findRepspointUP()` to `pyppbox.utils.persontools`
+  - Add float support for the private `convertStringToNPL()` of `pyppbox.utils.gttools`
+  - Add `min_width_filter` support for `detectPeople()` of `ppbox.standalone`
+  - Add alternative repspoint support for `detectPeople()` of `ppbox.standalone` and all detectors
+  - Add [MOT Challenge ground-truth](https://motchallenge.net/instructions/) converter -> `pyppbox.utils.persontools.mot2pyppbox`
+  - Improve documentations
+  - **Known issue/limitation**:
+    - You tell me :)
+
 * `pyppbox` [v3.3b1](https://github.com/rathaumons/pyppbox/tree/v3.3b1)
 
   - Remove `ontracked` and its related methods from `pyppbox.utils.persontools.Person`
