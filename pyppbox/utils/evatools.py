@@ -65,6 +65,7 @@ class MyEVA(object):
         self.current_frame = 0
         self.frame_to_check = 0
         self.id_mode = "deepid"
+        self.no_gt = False
 
     def setGTByGTMap(self, gt_map_txt, input_video, id_mode="deepid"):
         """Set a GT (Ground-truth) text file by give the GT mapping file :obj:`gt_map_txt` and 
@@ -96,8 +97,10 @@ class MyEVA(object):
         else:
             msg = ("MyEVA : setGTByGTMap() -> There is no GT file for the input '" + 
                    str(input_video) + "'")
-            add_error_log(msg)
-            raise ValueError(msg)
+            # add_error_log(msg)
+            # raise ValueError(msg)
+            add_warning_log(msg)
+            self.no_gt = True
 
     
     def setGTByKnownGTFile(self, gt_file, id_mode="deepid"):
@@ -125,8 +128,10 @@ class MyEVA(object):
         else:
             msg = ("MyEVA : setGTByKnownGTFile() -> The input gt_file='" + 
                    str(gt_file) + "' does not exist")
-            add_error_log(msg)
-            raise ValueError(msg)
+            # add_error_log(msg)
+            # raise ValueError(msg)
+            add_warning_log(msg)
+            self.no_gt = True
 
     def __checkInReID__(self):
         self.reid_count += 1
@@ -298,8 +303,11 @@ class MyEVA(object):
         score : float
             Score of the evaluation, between 0 and 1 -> (Total ID - Wrong ID - Missed Detection) / Total ID.
         """
-        self.score = float((self.gt_interpreter.total_detections - self.diff_count - 
-                            self.missed_detect) / self.gt_interpreter.total_detections)
+        if self.no_gt:
+            self.score = 0.0
+        else:
+            self.score = float((self.gt_interpreter.total_detections - self.diff_count - 
+                                self.missed_detect) / self.gt_interpreter.total_detections)
         if print_summary:
             msg = ("\n#####################################################################\n\n" +
                    "  Summary: \n\n" +
