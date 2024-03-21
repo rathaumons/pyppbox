@@ -2,6 +2,13 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
+* `pyppbox` [v3.4b2](https://github.com/rathaumons/pyppbox/tree/v3.4b2)
+
+  - Add freedom of input video without GT (Ground-truth) in GUI demo
+  - Improve documentations
+  - **Known issue/limitation**:
+    - You tell me :)
+
 * `pyppbox` [v3.4b1](https://github.com/rathaumons/pyppbox/tree/v3.4b1)
 
   - Remove `findRepspointList()` from `pyppbox.utils.persontools`
