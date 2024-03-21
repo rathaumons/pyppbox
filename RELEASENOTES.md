@@ -5,7 +5,8 @@
 * `pyppbox` [v3.4b2](https://github.com/rathaumons/pyppbox/tree/v3.4b2)
 
   - Add freedom of input video without GT (Ground-truth) in GUI demo
-  - Improve documentations
+  - Update GitHub workflows
+  - Update and improve documentations
   - **Known issue/limitation**:
     - You tell me :)
 
