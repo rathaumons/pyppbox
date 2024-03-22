@@ -62,11 +62,10 @@ eva.setGTByGTMap(gt_map_txt=gt_map_txt, input_video=input_source, id_mode=id_mod
 resIO = ResIO()
 
 # Title
-title = "DEMO:"
+title = "(PYPPBOX v" + getVersionString() + ") DEMO:"
 title = title + " DT=" + cfg.mcfg.detector
 title = title + ", TK=" + cfg.mcfg.tracker
 title = title + ", RI=" + cfg.mcfg.reider
-title = title + "   (PYPPBOX v" + getVersionString() + ")"
 
 # Count ReID
 total_reid = 0

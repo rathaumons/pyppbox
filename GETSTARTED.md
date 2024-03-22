@@ -11,12 +11,12 @@ All requirements are not strictly limited. However, some specific modules might 
 * Prerequisite: 
   - (Optional) For NVIDIA GPU: [CUDA Toolkit 11.x/12.x](https://developer.nvidia.com/cuda-downloads) with default installation path
   - (Optional) For NVIDIA GPU: [cuDNN 8.x.x](https://developer.nvidia.com/rdp/cudnn-download) with default installation path
-  - Python [[3.9-3.11]](https://www.python.org/downloads/)
+  - Python [[3.9-3.12]](https://www.python.org/downloads/)
   - Local pyppbox repo: `git clone https://github.com/rathaumons/pyppbox.git`
 
 * Before you install dependencies/requirements:
   - For Linux, recommend changing `python3` to `python`: `sudo apt install python-is-python3`
-  - If you prefer conda + Python [3.9-3.11]: `conda create --name pyppbox_env python=3.11`
+  - If you prefer conda + Python [3.9-3.12]: `conda create --name pyppbox_env python=3.11`
   - If you don't know whether to install only Tensorflow or PyTorch or both -> Check [Supported Modules](https://rathaumons.github.io/pyppbox/pyppbox/modules.html)
   - For Tensorflow with GPU support -> [See here](https://www.tensorflow.org/install/pip)
 
