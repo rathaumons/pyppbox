@@ -2,6 +2,14 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
+* `pyppbox` [v3.5b2](https://github.com/rathaumons/pyppbox/tree/v3.5b2)
+
+  - Increase default random ID range in evatools
+  - Add exception to `generateStaticID()` in `pyppbox.utils.evatools.TKOReider`
+  - Update documentations
+  - **Known issue/limitation**:
+    - You tell me :)
+
 * `pyppbox` [v3.5b1](https://github.com/rathaumons/pyppbox/tree/v3.5b1)
 
   - Add Python 3.12 support
