@@ -388,11 +388,15 @@ class TKOReider(object):
         return res
 
     def generateStaticID(self):
-        res = self.static_ids[self.static_index]
+        try:
+            res = self.static_ids[self.static_index]
+        except IndexError:
+            add_warning_log("-TKOReider : Random ID is out of range")
+            res = "EoR" + str(self.static_index)
         self.static_index += 1
         return res
 
-    def setStaticIDs(self, static_ids, plus_random=1000):
+    def setStaticIDs(self, static_ids, plus_random=65536):
         self.static_ids = static_ids
         self.static_ids_len = len(self.static_ids)
         if self.is_static and self.static_ids_len > 0:
