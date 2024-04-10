@@ -23,7 +23,7 @@ import os
 import sys
 import subprocess as sp
 
-from pyppbox.utils.logtools import add_warning_log, add_error_log
+from pyppbox.utils.logtools import add_info_log, add_warning_log, add_error_log
 from pyppbox.config.configtools import PYPPBOXStructure, loadDocument, loadListDocument
 from pyppbox.utils.commontools import getAbsPathFDS, joinFPathFull, isExist
 from pyppbox.gui.guihub import writeUITMP
@@ -85,9 +85,10 @@ def resetInternalConfig():
     """
     global pyppbox_struct
     pyppbox_struct = PYPPBOXStructure()
-    from pyunpack import Archive
-    Archive(os.path.join(pyppbox_struct.cfg_dir, 'cfg.7z')).extractall(pyppbox_struct.cfg_dir)
-    print("Reset successfully!")
+    cfg_zip = os.path.join(pyppbox_struct.cfg_dir, 'cfg.zip')
+    import shutil
+    shutil.unpack_archive(cfg_zip, pyppbox_struct.cfg_dir)
+    add_info_log("Reset successfully!")
     add_warning_log("FYI: This basic method only serves GUI submodule `pyppbox.gui`.")
 
 def launchGUI():
@@ -113,14 +114,11 @@ def generateConfig(cfg_dir, auto_launch_gui=True):
     """
     if isExist(cfg_dir):
         abspath = getAbsPathFDS(cfg_dir)
+        cfg_zip = os.path.join(pyppbox_struct.cfg_dir, 'cfg.zip')
         global pyppbox_struct
         try:
-            from pyunpack import Archive
-            Archive(os.path.join(pyppbox_struct.cfg_dir, 'cfg.7z')).extractall(abspath)
-            try:
-                os.remove(joinFPathFull(abspath, 'strings.yaml'))
-            except Exception:
-                pass
+            import shutil
+            shutil.unpack_archive(cfg_zip, abspath)
             if auto_launch_gui:
                 useThisConfigDir(abspath)
                 launchGUI()

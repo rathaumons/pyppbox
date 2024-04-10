@@ -34,9 +34,6 @@ torchaudio
 ### Tracker: SORT
 filterpy
 lapx
-### Compression
-pyunpack
-patool
 ### GUI
 PyQt6
 ### Customized pyppbox-torchreid
