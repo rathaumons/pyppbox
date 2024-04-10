@@ -2,7 +2,7 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.6b1](https://github.com/rathaumons/pyppbox/tree/v3.5b2)
+* `pyppbox` [v3.6b1](https://github.com/rathaumons/pyppbox/tree/v3.6b1)
 
   - Replace `pyunpack` & `patool` with `shutil`
   - Improve Example 9 - example_09_eva_offline.py
