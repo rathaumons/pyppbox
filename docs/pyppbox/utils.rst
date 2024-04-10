@@ -28,7 +28,7 @@ pyppbox.utils.logtools
    :show-inheritance:
 
 pyppbox.utils.mot2pyppbox
-----------------------
+-------------------------
 
 .. automodule:: pyppbox.utils.mot2pyppbox
    :members:
