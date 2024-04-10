@@ -14,7 +14,7 @@ All requirements are not strictly limited. However, some specific modules might 
 * Before you install dependencies/requirements:
   - For Linux, recommend changing `python3` to `python`: `sudo apt install python-is-python3`
   - If you prefer conda + Python [3.9-3.12]: `conda create --name pyppbox_env python=3.11`
-  - Upgrade `pip` and `setuptools`
+  - Upgrade `pip` and `setuptools`:
     ```
     python -m pip install --upgrade pip
     pip install "setuptools>=67.2.0"
@@ -103,7 +103,7 @@ You need to install the main package which is `pyppbox` and the data for the mod
     ```
     Now you should see the GUI demo like this screenshot:
     <img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_gui.jpg">
-  - For related GUI functions and other configurations, check the [Configuration page](https://rathaumons.github.io/pyppbox/pyppbox/config.html).
+  - For related GUI functions and other configurations, check the [Configurations page](https://rathaumons.github.io/pyppbox/pyppbox/config.html).
   - For ***Linux***, if the GUI does not work, you might need to install these:
     ```
     sudo apt-get install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
