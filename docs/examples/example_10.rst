@@ -3,13 +3,13 @@ Example 10: Use GT (Ground-truth) as a detector
 
 - **Description**: Use a supported GT (Ground-truth) text file as a detector.
 - **Featuring**: 
-   - :py:meth:`pyppbox.standalone.setMainDetector`
-   - :py:meth:`pyppbox.standalone.setMainTracker`
-   - :py:meth:`pyppbox.standalone.setMainReIDer`
-   - :py:func:`pyppbox.standalone.detectPeople`
-   - :py:func:`pyppbox.standalone.trackPeople`
-   - :py:func:`pyppbox.standalone.reidPeople`
-   - :py:func:`pyppbox.utils.visualizetools.visualizePeople`
+   - :py:meth:`setMainDetector` | :py:meth:`pyppbox.standalone.setMainDetector`
+   - :py:meth:`setMainTracker` | :py:meth:`pyppbox.standalone.setMainTracker`
+   - :py:meth:`setMainReIDer` | :py:meth:`pyppbox.standalone.setMainReIDer`
+   - :py:func:`detectPeople` | :py:func:`pyppbox.standalone.detectPeople`
+   - :py:func:`trackPeople` | :py:func:`pyppbox.standalone.trackPeople`
+   - :py:func:`reidPeople` | :py:func:`pyppbox.standalone.reidPeople`
+   - :py:func:`visualizePeople` | :py:func:`pyppbox.utils.visualizetools.visualizePeople`
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 

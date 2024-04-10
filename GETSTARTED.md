@@ -1,24 +1,28 @@
 # 🚀 Getting Started
 
-Installing `pyppbox` is very easy and straightforward. You can install it from [PyPI](https://pypi.org/project/pyppbox/) directly or use the prebuilt `.whl` files on [GitHub releases](https://github.com/rathaumons/pyppbox/releases) or install from GitHub directly or build it from source on your own machine. However, in order to get it work, you need to install all the necessary dependencies or requirements for the modules you needs.
+Installing `pyppbox` is very easy and straightforward. You can install it from [PyPI](https://pypi.org/project/pyppbox/) directly or use the prebuilt `.whl` files on [GitHub releases](https://github.com/rathaumons/pyppbox/releases) or install from GitHub directly or build it from source on your own machine. However, in order to get it work, you need to install all the necessary dependencies or requirements for the modules you need.
 
-🆕 `pyppbox` `v3.0b2+` supports all Windows, Linux and macOS. ***Use the most recent version of `pyppbox` for smoother experience!***
 
 ## ⚙️ Requirements
 
 All requirements are not strictly limited. However, some specific modules might need some special dependencies. For example, `YOLO_Classic` (With `.weights` model) relies on [OpenCV DNN](https://docs.opencv.org/4.x/d2/d58/tutorial_table_of_content_dnn.html) in order to make use of GPU power. In this case, you might need to build OpenCV from source by yourself or use our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) instead of the official `opencv-contrib-python` which does not include GPU support.
 
 * Prerequisite: 
-  - (Optional) For NVIDIA GPU: [CUDA Toolkit 11.x/12.x](https://developer.nvidia.com/cuda-downloads) with default installation path
-  - (Optional) For NVIDIA GPU: [cuDNN 8.x.x](https://developer.nvidia.com/rdp/cudnn-download) with default installation path
   - Python [[3.9-3.12]](https://www.python.org/downloads/)
   - Local pyppbox repo: `git clone https://github.com/rathaumons/pyppbox.git`
 
 * Before you install dependencies/requirements:
   - For Linux, recommend changing `python3` to `python`: `sudo apt install python-is-python3`
   - If you prefer conda + Python [3.9-3.12]: `conda create --name pyppbox_env python=3.11`
-  - If you don't know whether to install only Tensorflow or PyTorch or both -> Check [Supported Modules](https://rathaumons.github.io/pyppbox/pyppbox/modules.html)
-  - For Tensorflow with GPU support -> [See here](https://www.tensorflow.org/install/pip)
+  - Upgrade `pip` and `setuptools`
+    ```
+    python -m pip install --upgrade pip
+    pip install "setuptools>=67.2.0"
+    ```
+  - Recommend removing the official `ultralytics`:
+    ```
+    pip uninstall -y ultralytics
+    ```
 
 * Install dependencies/requirments under `pyppbox/requirements/`: 
   - On Windows, recommend using the `cmd` installer:
@@ -27,17 +31,11 @@ All requirements are not strictly limited. However, some specific modules might 
   - On Linux:
     - For GPU:
       ```
-      python -m pip install --upgrade pip
-      pip uninstall -y ultralytics # Remove the official ultralytics
-      pip install "setuptools>=67.2.0"
       pip install torch torchvision torchaudio
       pip install -r requirements.txt
       ```
     - For CPU-only:
       ```
-      python -m pip install --upgrade pip
-      pip uninstall -y ultralytics # Remove the official ultralytics
-      pip install "setuptools>=67.2.0"
       pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
       pip install -r requirements.txt
       ```
@@ -45,9 +43,6 @@ All requirements are not strictly limited. However, some specific modules might 
     - For GPU: Not available
     - For CPU:
       ```
-      python -m pip install --upgrade pip
-      pip uninstall -y ultralytics # Remove the official ultralytics
-      pip install "setuptools>=67.2.0"
       pip install torch torchvision torchaudio
       pip install -r requirements.txt
       ```
@@ -59,9 +54,8 @@ All requirements are not strictly limited. However, some specific modules might 
   - If there is no error, then you are all good and ready to go.
   - For OpenCV, the official `opencv-contrib-python` (No GPU support) is set in the `requirements.txt` file. If you need GPU support, check our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) or build one from source by yourself.
 
-* ⚠️ ***Notes:***
-  - For CPU-Only, YOLO Ultralytics uses GPU by default, you must set `cpu` as string for the parameter `device` in its configuration.
-  - For GPU on Windows, [Tensorflow 2.11+ no long provides native GPU support](https://www.tensorflow.org/install/pip#windows-native). 
+* ***ATTENTION*** ⚠️⚠️⚠️
+  - If you use YOLO Ultralytics without GPU, you need to set `cpu` as string for the parameter `device` in its configuration.
 
 
 ## 💽 Setup
@@ -79,11 +73,8 @@ You need to install the main package which is `pyppbox` and the data for the mod
     ```
   - Or build from source:
     ```
-    pip install "setuptools>=67.2.0"
     pip install wheel build PyYAML
     python -m build --wheel --skip-dependency-check --no-isolation
-    cd dist
-    pip install pyppbox-xxx.whl
     ```
 
 * Install [`pyppbox-data-xxx`](https://github.com/rathaumons/pyppbox-data/)
@@ -104,15 +95,15 @@ You need to install the main package which is `pyppbox` and the data for the mod
     pip install https://github.com/rathaumons/PoseTReID_DATASET/releases/download/v2.0/pyppbox_data_gta5-2.0-py3-none-any.whl
     ```
 
-* (Optional) Quick Test
-  - On your terminal or CMD:
+* Quick Test
+  - In your Python terminal:
     ```
-    python
     import pyppbox
     pyppbox.launchGUI()
     ```
-  - Now you should see the GUI of pyppbox for easy demo.
-    <details><summary><ins>Show GUI example!</ins></summary><img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_gui.jpg"></details>
+    Now you should see the GUI demo like this screenshot:
+    <img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_gui.jpg">
+  - For related GUI functions and other configurations, check the [Configuration page](https://rathaumons.github.io/pyppbox/pyppbox/config.html).
   - For ***Linux***, if the GUI does not work, you might need to install these:
     ```
     sudo apt-get install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev

@@ -3,8 +3,6 @@ Supported Trackers
 
 Config Name | ``Class Name``
 
-|
-
 ----
 
 Centroid | ``MyCentroid``
@@ -15,8 +13,6 @@ Centroid | ``MyCentroid``
    :undoc-members:
    :show-inheritance:
    :special-members: __init__
-
-|
 
 ----
 
@@ -29,8 +25,6 @@ SORT | ``MySORT``
    :show-inheritance:
    :special-members: __init__
 
-|
-
 ----
 
 DeepSORT | ``MyDeepSORT``
@@ -41,5 +35,3 @@ DeepSORT | ``MyDeepSORT``
    :undoc-members:
    :show-inheritance:
    :special-members: __init__
-
-|

@@ -1,7 +1,7 @@
 💡 Examples
 ===========
 
-The examples below will help you make the most use of **pyppbox**. Before you are able to run these examples, make sure you already installed **pyppbox V3+** or check :ref:`getstarted-page` if you haven't already.
+The examples below will help you make the most use of **pyppbox**. Before you try these examples, make sure you already installed **pyppbox V3+** or check :ref:`getstarted-page` if you haven't already.
 
 ℹ️ Source code and **required input files** are available here: `{pyppbox repo}/examples`_.
 

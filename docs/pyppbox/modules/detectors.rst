@@ -3,8 +3,6 @@ Supported Detectors
 
 Config Name | ``Class Name``
 
-|
-
 ----
 
 YOLO_Classic | ``MyYOLOCLS``
@@ -16,8 +14,6 @@ YOLO_Classic | ``MyYOLOCLS``
    :show-inheritance:
    :special-members: __init__
 
-|
-
 ----
 
 YOLO_Ultralytics | ``MyYOLOULT``
@@ -28,5 +24,3 @@ YOLO_Ultralytics | ``MyYOLOULT``
    :undoc-members:
    :show-inheritance:
    :special-members: __init__
-
-|

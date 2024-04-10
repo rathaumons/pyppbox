@@ -3,8 +3,8 @@ Example 12: Use a supported module directly
 
 - **Description**: Use a supported detector/tracker/reider directly in your code.
 - **Featuring**: 
-   - :py:class:`pyppbox.modules.detectors.yoloult.MyYOLOULT`
-   - :py:class:`pyppbox.config.myconfig.DCFGYOLOULT`
+   - :py:class:`MyYOLOULT` | :py:class:`pyppbox.modules.detectors.yoloult.MyYOLOULT`
+   - :py:class:`DCFGYOLOULT` | :py:class:`pyppbox.config.myconfig.DCFGYOLOULT`
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 

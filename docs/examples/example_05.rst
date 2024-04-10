@@ -3,13 +3,13 @@ Example 5: Set the main modules by a raw/ready dictionary
 
 - **Description**: Use a raw/ready dictionary to set the main detector/tracker/reider. By doing so, you can set or adjust the parameters of each main module directly in codes.
 - **Featuring**: 
-   - :py:meth:`pyppbox.standalone.setMainDetector`
-   - :py:meth:`pyppbox.standalone.setMainTracker`
-   - :py:meth:`pyppbox.standalone.setMainReIDer`
-   - :py:func:`pyppbox.standalone.detectPeople`
-   - :py:func:`pyppbox.standalone.trackPeople`
-   - :py:func:`pyppbox.standalone.reidPeople`
-   - :py:func:`pyppbox.utils.visualizetools.visualizePeople`
+   - :py:meth:`setMainDetector` | :py:meth:`pyppbox.standalone.setMainDetector`
+   - :py:meth:`setMainTracker` | :py:meth:`pyppbox.standalone.setMainTracker`
+   - :py:meth:`setMainReIDer` | :py:meth:`pyppbox.standalone.setMainReIDer`
+   - :py:func:`detectPeople` | :py:func:`pyppbox.standalone.detectPeople`
+   - :py:func:`trackPeople` | :py:func:`pyppbox.standalone.trackPeople`
+   - :py:func:`reidPeople` | :py:func:`pyppbox.standalone.reidPeople`
+   - :py:func:`visualizePeople` | :py:func:`pyppbox.utils.visualizetools.visualizePeople`
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 

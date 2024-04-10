@@ -3,6 +3,14 @@
 Configurations
 ==============
 
+pyppbox.gui.guitools
+--------------------
+
+.. automodule:: pyppbox.gui.guitools
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pyppbox.config.configtools
 --------------------------
 

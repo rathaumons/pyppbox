@@ -20,31 +20,18 @@ Base Structure of ``pyppbox``
    ├───data  .............................  Internal data directory, pyppbox-data module
    ├───gui
    ├───modules  ..........................  All supported detector/trackers/reiders
-   │   │   __init__.py
    │   ├───detectors  ....................  All supported detectors
-   │   │   │   __init__.py
    │   │   ├───yolocls  ..................  Detector YOLO_Classic
-   │   │   │       __init__.py
    │   │   └───yoloult  ..................  Detector YOLO_Ultralytics
-   │   │           __init__.py
    │   ├───trackers  .....................  All supported trackers
-   │   │   │   __init__.py
    │   │   ├───centroid  .................  Tracker Centroid
-   │   │   │       __init__.py
    │   │   ├───sort  .....................  Tracker SORT
-   │   │   │       __init__.py
    │   │   └───deepsort  .................  Tracker DeepSORT
-   │   │           __init__.py
    │   └───reiders  ......................  All supported reiders
-   │       │   __init__.py
    │       ├───facenet  ..................  Reider FaceNet
-   │       │       __init__.py
    │       └───torchreid  ................  Reider Torchreid
-   │               __init__.py
-   ├───standalone  .......................  Standalone functions
-   │       __init__.py
+   ├───standalone  .......................  Standalone module
    └───utils  ............................  Utilities including visualization, evaulation, etc.
-           __init__.py
 
 
 Data: ``pyppbox-data`` and ``pyppbox-data-gta5``

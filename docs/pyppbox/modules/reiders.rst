@@ -3,8 +3,6 @@ Supported ReIDers
 
 Config Name | ``Class Name``
 
-|
-
 ----
 
 FaceNet | ``MyFaceNet``
@@ -16,8 +14,6 @@ FaceNet | ``MyFaceNet``
    :show-inheritance:
    :special-members: __init__
 
-|
-
 ----
 
 Torchreid | ``MyTorchreid``
@@ -28,5 +24,3 @@ Torchreid | ``MyTorchreid``
    :undoc-members:
    :show-inheritance:
    :special-members: __init__
-
-|

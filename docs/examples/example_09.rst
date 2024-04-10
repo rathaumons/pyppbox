@@ -3,7 +3,7 @@ Example 9: Compare a generated result to a reference or ground-truth
 
 - **Description**: Use :func:`compareRes2Ref()` to evaluate a result text file by comparing to a reference or ground-truth file.
 - **Featuring**: 
-   - :py:func:`pyppbox.utils.evatools.compareRes2Ref`
+   - :py:func:`compareRes2Ref` | :py:func:`pyppbox.utils.evatools.compareRes2Ref`
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 

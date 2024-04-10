@@ -1,7 +1,7 @@
 .. _standalone-page:
 
-Standalone
-==========
+Standalone Module
+=================
 
 pyppbox.standalone
 ------------------
@@ -15,10 +15,10 @@ pyppbox.standalone
 
 |
 
-pyppbox.standalone.mt
+pyppbox.standalone.MT
 ---------------------
 
-:py:class:`pyppbox.standalone.mt.MT` | :py:class:`pyppbox.standalone.MT`
+:py:class:`MT` | :py:class:`pyppbox.standalone.mt.MT`
 
 .. automodule:: pyppbox.standalone.mt
    :members:

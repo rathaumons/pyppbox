@@ -3,8 +3,8 @@ Example 13: Use pyppbox in multithreading application
 
 - **Description**: Use a pyppbox in multithreading application.
 - **Featuring**: 
-   - :py:class:`pyppbox.standalone.mt.MT`
-   - :py:func:`pyppbox.utils.visualizetools.visualizePeople`
+   - :py:class:`MT` | :py:class:`pyppbox.standalone.mt.MT`
+   - :py:func:`visualizePeople` | :py:func:`pyppbox.utils.visualizetools.visualizePeople`
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 
