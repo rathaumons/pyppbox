@@ -52,8 +52,9 @@ def useThisConfigDir(cfg_dir):
 def useInternalConfigDir():
     """Use the internal config directory, :code:`{pyppbox root}/confog/cfg` inside pyppbox package.
     """
-    global pyppbox_struct
+    global pyppbox_struct, __cfgdir__
     pyppbox_struct = PYPPBOXStructure()
+    __cfgdir__ =  pyppbox_struct.cfg_dir
     add_warning_log("FYI: This basic method only serves GUI submodule `pyppbox.gui`.")
 
 def showMainConfig():
