@@ -2,6 +2,16 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
+* `pyppbox` [v3.6b1](https://github.com/rathaumons/pyppbox/tree/v3.5b2)
+
+  - Replace `pyunpack` & `patool` with `shutil`
+  - Improve Example 9 - example_09_eva_offline.py
+  - Add `pyppbox.gui.guitools` to the documentations
+  - Fix and improve documentations
+  - Fix sphinx-build warning for utils.rst
+  - **Known issue/limitation**:
+    - You tell me :)
+
 * `pyppbox` [v3.5b2](https://github.com/rathaumons/pyppbox/tree/v3.5b2)
 
   - Increase default random ID range in evatools
