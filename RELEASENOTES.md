@@ -7,8 +7,9 @@
   - Replace `pyunpack` & `patool` with `shutil`
   - Improve Example 9 - example_09_eva_offline.py
   - Add `pyppbox.gui.guitools` to the documentations
-  - Fix and improve documentations
+  - Fix `useInternalConfigDir()` in `pyppbox.gui.guitools`
   - Fix sphinx-build warning for utils.rst
+  - Fix and improve documentations
   - **Known issue/limitation**:
     - You tell me :)
 
