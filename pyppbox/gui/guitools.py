@@ -113,9 +113,9 @@ def generateConfig(cfg_dir, auto_launch_gui=True):
         An indication of whether to load and launch GUI from the :obj:`config_dir`.
     """
     if isExist(cfg_dir):
+        global pyppbox_struct
         abspath = getAbsPathFDS(cfg_dir)
         cfg_zip = os.path.join(pyppbox_struct.cfg_dir, 'cfg.zip')
-        global pyppbox_struct
         try:
             import shutil
             shutil.unpack_archive(cfg_zip, abspath)
