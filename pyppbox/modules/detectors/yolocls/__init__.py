@@ -67,7 +67,7 @@ class MyYOLOCLS(object):
         visual : bool, default=True
             An indication of whether to visualize the detected objects.
         class_filter : list[int, ...], defualt=0
-            Object's class filter, [0] = Person only
+            Object's class filter, [0] = Person only.
         min_width_filter : int, default=35
             Mininum width filter of a detected object.
 
