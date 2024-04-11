@@ -56,25 +56,25 @@ class MyYOLOCLS(object):
         self.model = cv2.dnn_DetectionModel(net)
         self.model.setInputParams(size=cfg.model_resolution, scale=1/255.0)
 
-    def detect(self, img, visual=True, class_filter=0, min_width_filter=35):
+    def detect(self, img, visual=True, class_filter=[0], min_width_filter=35):
         """Detect general object with object's class filter :obj:`class_filter` in a 
-        given cv :obj:`Mat` image.
+        given :obj:`Mat` like image.
 
         Parameters
         ----------
         img : Mat
-            A cv :obj:`Mat` image.
+            A :obj:`Mat` like image.
         visual : bool, default=True
             An indication of whether to visualize the detected objects.
-        class_filter : int, defualt=0
-            Object's class filter, 0 means person only
+        class_filter : list[int, ...], defualt=0
+            Object's class filter, [0] = Person only
         min_width_filter : int, default=35
             Mininum width filter of a detected object.
 
         Returns
         -------
         Mat
-            A cv :obj:`Mat` image.
+            A :obj:`Mat` like image.
         list[ndarray[int, int, int, int], ...]
             A list of bounding box :code:`ndarray[x, y, width, height]`.
         list[ndarray[int, int, int, int], ...]
@@ -93,7 +93,7 @@ class MyYOLOCLS(object):
                                                         nmsThreshold=float(self.cfg.nms))
         if len(classes) > 0:
             for class_id, conf, box_xywh in zip(classes.flatten(), confidences, boxes):
-                if class_id == class_filter and box_xywh[2] >= min_width_filter:
+                if class_id in class_filter and box_xywh[2] >= min_width_filter:
                     box_xywh = box_xywh.astype(int)
                     pboxes_xywh.append(box_xywh)
                     box_xyxy = to_xyxy(box_xywh)
@@ -109,12 +109,12 @@ class MyYOLOCLS(object):
         return img, pboxes_xywh, pboxes_xyxy, repspoints, confs
 
     def detectPeople(self, img, visual=True, min_width_filter=35, alt_repspoint=False, alt_repspoint_top=True):
-        """Detect person(s) in a given cv :obj:`Mat` image.
+        """Detect person(s) in a given :obj:`Mat` like image.
 
         Parameters
         ----------
         img : Mat
-            A cv :obj:`Mat` image.
+            A :obj:`Mat` like image.
         visual : bool, default=True
             An indication of whether to visualize the detected people.
         min_width_filter : int, default=35
@@ -129,7 +129,7 @@ class MyYOLOCLS(object):
         list[Person, ...]
             A list of detected :class:`Person` object.
         Mat
-            A cv :obj:`Mat` image.
+            A :obj:`Mat` like image.
         """
         people = []
         classes, confidences, boxes = self.model.detect(

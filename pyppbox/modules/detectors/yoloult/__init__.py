@@ -117,12 +117,12 @@ class MyYOLOULT(object):
 
     def detect(self, img, visual=True, classes=0, min_width_filter=35):
         """Detect general object with object's class filter :obj:`class_filter` 
-        in a given cv :obj:`Mat` image.
+        in a given :obj:`Mat` like image.
 
         Parameters
         ----------
         img : Mat
-            A cv :obj:`Mat` image.
+            A :obj:`Mat` like image.
         visual : bool, default=True
             An indication of whether to visualize the detected objects.
         classes : int, defualt=0
@@ -133,7 +133,7 @@ class MyYOLOULT(object):
         Returns
         -------
         Mat
-            A cv :obj:`Mat` image.
+            A :obj:`Mat` like image.
         list[ndarray[int, int, int, int], ...]
             A list of bounding box :code:`ndarray[x, y, width, height]`.
         list[ndarray[int, int, int, int], ...]
@@ -205,12 +205,12 @@ class MyYOLOULT(object):
         return img, pboxes_xywh, pboxes_xyxy, repspoints, keypoints, confs
 
     def detectPeople(self, img, visual=True, min_width_filter=35, alt_repspoint=False, alt_repspoint_top=True):
-        """Detect person(s) in a given cv :obj:`Mat` image.
+        """Detect person(s) in a given :obj:`Mat` like image.
 
         Parameters
         ----------
         img : Mat
-            A cv :obj:`Mat` image.
+            A :obj:`Mat` like image.
         visual : bool, default=True
             An indication of whether to visualize the detected people.
         min_width_filter : int, default=35
@@ -225,7 +225,7 @@ class MyYOLOULT(object):
         list[Person, ...]
             A list of detected :class:`Person` object.
         Mat
-            A cv :obj:`Mat` image.
+            A :obj:`Mat` like image.
         """
         numpy_dets = []
         people = []

@@ -107,7 +107,7 @@ def visualizePeople(img, people, show_box=True, show_skl=(True,True,5), show_ids
     Parameters
     ----------
     img : str or Mat
-        An image file or a cv :obj:`Mat`.
+        An image file or a :obj:`Mat` like image.
     people : list[Person, ...]
         Set a list of :class:`Person` object found in the input :obj:`img`.
     show_box : bool, default=True
@@ -128,12 +128,12 @@ def visualizePeople(img, people, show_box=True, show_skl=(True,True,5), show_ids
     show_repspoint : bool, default=True
         Indicate whether to show the :obj:`repspoint` of :class:`Person` object.
     img_is_mat : bool, default=True
-        Speed up the function by telling whether the :obj:`img` is cv :obj:`Mat`.
+        Speed up the function by telling whether the :obj:`img` is :obj:`Mat` like image.
     
     Returns
     -------
     Mat
-        A visualized cv :obj:`Mat`.
+        A visualized :obj:`Mat` like image.
     """
     # Overwrite `img_is_mat` to False when `img` is a file.
     if img_is_mat and isinstance(img, str): img_is_mat = False

@@ -94,7 +94,7 @@ class MyDeepSORT(object):
         person_list : list[Person, ...]
             A list of :class:`Person` object which stores the detected people in the given :obj:`img`.
         img : any, default=None
-            A cv :obj:`Mat` image.
+            A :obj:`Mat` like image.
         max_spread : int, default=5
             Max spread or max margin used to decide whether 2 bounding boxes are the same by comparing 
             the differences between the elements in the bounding box given by the embedded SORT and the 

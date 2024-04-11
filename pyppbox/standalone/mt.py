@@ -424,9 +424,9 @@ class MT(object):
         Parameters
         ----------
         img : str or Mat
-            Set an image file or a cv :obj:`Mat`.
+            Set an image file or a :obj:`Mat` like image.
         img_is_mat : bool, default=False
-            Speed up the function by telling whether the :obj:`img` is cv :obj:`Mat`.
+            Speed up the function by telling whether the :obj:`img` is :obj:`Mat` like image.
         visual : bool, default=False
             Decide whether to visualize like drawing bounding boxes and keypoints to the 
             return :obj:`img`.
@@ -446,7 +446,7 @@ class MT(object):
         list[Person, ...]
             A  list of :class:`Person` object.
         Mat
-            A cv :obj:`Mat` image.
+            A :obj:`Mat` like image.
         """ 
         people = []
         if self.__dt_is_set__: 
@@ -619,11 +619,11 @@ class MT(object):
         Parameters
         ----------
         img : str or Mat
-            Set an image file or a cv :obj:`Mat`.
+            Set an image file or a :obj:`Mat` like image.
         people : list[Person, ...]
             Set a list of :class:`Person` object which stores the detected people in the input :obj:`img`.
         img_is_mat : bool, default=False
-            Speed up the function by telling whether the :obj:`img` is cv :obj:`Mat`.
+            Speed up the function by telling whether the :obj:`img` is :obj:`Mat` like image.
         
         Returns
         -------
@@ -791,14 +791,14 @@ class MT(object):
         Parameters
         ----------
         img : str or Mat
-            Set an image file or a cv :obj:`Mat`.
+            Set an image file or a :obj:`Mat` like image.
         people : list[Person, ...]
             Set a list of :class:`Person` object which stores the detected or tracked people in 
             the input :obj:`img`.
         deduplicate : bool, default=True
             Indicate whether to re-reid people who have the same face ids or deep ids.
         img_is_mat : bool, default=False
-            Speed up the function by telling whether the :obj:`img` is cv :obj:`Mat`.
+            Speed up the function by telling whether the :obj:`img` is :obj:`Mat` like image.
         
         Returns
         -------

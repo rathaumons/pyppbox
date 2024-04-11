@@ -85,7 +85,7 @@ class MyTorchreid(object):
         Parameters
         ----------
         img : Mat
-            A cv :obj:`Mat` image.
+            A :obj:`Mat` like image.
         is_bgr : bool, default=True
             An indication of whether the color channel of given :obj:`img` is BGR.
 

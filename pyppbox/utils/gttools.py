@@ -273,7 +273,7 @@ class GTInterpreter(object):
         Parameters
         ----------
         img : Mat
-            A cv :obj:`Mat` image.
+            A :obj:`Mat` like image.
         visual : 
             An indication of whether to draw bounding boxes on the return :obj:`img`.
 
@@ -282,7 +282,7 @@ class GTInterpreter(object):
         list[Person, ...]
             A list of :class:`Person` object.
         Mat
-            A cv :obj:`Mat` image.
+            A :obj:`Mat` like image.
         """
         people = []
         tmp_id = 0
