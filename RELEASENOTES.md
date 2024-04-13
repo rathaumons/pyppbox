@@ -14,7 +14,7 @@
 
 * `pyppbox` [v3.6b2](https://github.com/rathaumons/pyppbox/tree/v3.6b1)
 
-  - Add a warning the changes in the coming major version 4
+  - Add a warning for the changes in the coming major version 4
   - Update documentations
   - **Known issue/limitation**:
     - You tell me :)
