@@ -1,6 +1,23 @@
 # Release Notes 
 
+## **pyppbox V4 - Even Smaller**
+
+* `pyppbox` v4.0b1 (COMING SOON 🚀)
+
+  - `pyppbox` will leverage [`vsensebox`](https://github.com/rathaumons/vsensebox) for detection and tracking
+  - `pyppbox.utils.persontools` will change to adapt [`vsensebox`](https://github.com/rathaumons/vsensebox)
+  - `pyppbox.ppb` will replace `pyppbox.standalone`
+  - All configuration files will also change
+  - More changes will be added here! Stay tuned!
+
 ## **pyppbox V3 - Make Simpler and Faster**
+
+* `pyppbox` [v3.6b2](https://github.com/rathaumons/pyppbox/tree/v3.6b1)
+
+  - Add a warning the changes in the coming major version 4
+  - Update documentations
+  - **Known issue/limitation**:
+    - You tell me :)
 
 * `pyppbox` [v3.6b1](https://github.com/rathaumons/pyppbox/tree/v3.6b1)
 
