@@ -29,7 +29,7 @@ msg = ("\n! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! 
        "!   * 'pyppbox.utils.persontools' will change to adapt 'vesensebox'     !\n"
        "!   * 'pyppbox.ppb' will replace 'pyppbox.standalone'                   !\n"
        "!   * All configuration files will also change                          !\n"
-       "!   * All changes will added to release notes                           !\n"
+       "!   * More changes will be added to release notes                       !\n"
        "!                                                                       !\n"
        "! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !\n")
 
