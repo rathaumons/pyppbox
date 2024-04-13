@@ -23,7 +23,7 @@
 Standalone is designed for easy detect, track, and reid people in a single thread 
 enviroment or in command line. 
 
-For multithreading application, see :py:class:`pyppbox.standalone.mt.MT`.
+For multithreading application, see :py:class:`pyppbox.ppb.mt.MT`.
 
 Example:
 
@@ -72,23 +72,23 @@ from .mt import MT
 _mt = MT()
 
 def setConfigDir(config_dir=None, load_all=False):
-    """See :func:`pyppbox.standalone.mt.MT.setConfigDir`"""
+    """See :func:`pyppbox.ppb.mt.MT.setConfigDir`"""
     _mt.setConfigDir(config_dir=config_dir, load_all=load_all)
 
 def setMainModules(main_yaml=None, load_all=True):
-    """See :func:`pyppbox.standalone.mt.MT.setMainModules`"""
+    """See :func:`pyppbox.ppb.mt.MT.setMainModules`"""
     _mt.setMainModules(main_yaml=main_yaml, load_all=load_all)
 
 def getConfig():
-    """See :func:`pyppbox.standalone.mt.MT.getConfig`"""
+    """See :func:`pyppbox.ppb.mt.MT.getConfig`"""
     return _mt.getConfig()
 
 def forceFullGTMode():
-    """See :func:`pyppbox.standalone.mt.MT.forceFullGTMode`"""
+    """See :func:`pyppbox.ppb.mt.MT.forceFullGTMode`"""
     _mt.forceFullGTMode()
 
 def setMainDetector(detector=""):
-    """See :func:`pyppbox.standalone.mt.MT.setMainDetector`"""
+    """See :func:`pyppbox.ppb.mt.MT.setMainDetector`"""
     _mt.setMainDetector(detector=detector)
 
 def detectPeople(img, 
@@ -99,7 +99,7 @@ def detectPeople(img,
                  min_width_filter=35, 
                  alt_repspoint=False, 
                  alt_repspoint_top=True):
-    """See :func:`pyppbox.standalone.mt.MT.detectPeople`"""
+    """See :func:`pyppbox.ppb.mt.MT.detectPeople`"""
     return _mt.detectPeople(img, 
                                   img_is_mat=img_is_mat, 
                                   visual=visual, 
@@ -110,23 +110,23 @@ def detectPeople(img,
                                   alt_repspoint_top=alt_repspoint_top)
 
 def setMainTracker(tracker=""):
-    """See :func:`pyppbox.standalone.mt.MT.setMainTracker`"""
+    """See :func:`pyppbox.ppb.mt.MT.setMainTracker`"""
     _mt.setMainTracker(tracker=tracker)
 
 def trackPeople(img, people, img_is_mat=False):
-    """See :func:`pyppbox.standalone.mt.MT.trackPeople`"""
+    """See :func:`pyppbox.ppb.mt.MT.trackPeople`"""
     return _mt.trackPeople(img, people, img_is_mat=img_is_mat)
 
 def setMainReIDer(reider="", auto_load=True):
-    """See :func:`pyppbox.standalone.mt.MT.setMainReIDer`"""
+    """See :func:`pyppbox.ppb.mt.MT.setMainReIDer`"""
     _mt.setMainReIDer(reider=reider, auto_load=auto_load)
 
 def reidPeople(img, people, deduplicate=True, img_is_mat=False):
-    """See :func:`pyppbox.standalone.mt.MT.reidPeople`"""
+    """See :func:`pyppbox.ppb.mt.MT.reidPeople`"""
     return _mt.reidPeople(img, people, deduplicate=deduplicate, img_is_mat=img_is_mat)
 
 def trainReIDClassifier(reider="Default", train_data="", classifier_pkl=""):
-    """See :func:`pyppbox.standalone.mt.MT.trainReIDClassifier`"""
+    """See :func:`pyppbox.ppb.mt.MT.trainReIDClassifier`"""
     _mt.trainReIDClassifier(reider=reider, train_data=train_data, classifier_pkl=classifier_pkl)
 
 __all__ = ['setConfigDir', 'setMainModules', 'getConfig', 'forceFullGTMode', 

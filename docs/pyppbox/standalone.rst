@@ -18,9 +18,9 @@ pyppbox.standalone
 pyppbox.standalone.MT
 ---------------------
 
-:py:class:`MT` | :py:class:`pyppbox.standalone.mt.MT`
+:py:class:`MT` | :py:class:`pyppbox.ppb.mt.MT`
 
-.. automodule:: pyppbox.standalone.mt
+.. automodule:: pyppbox.ppb.mt
    :members:
    :undoc-members:
    :show-inheritance:
