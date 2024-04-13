@@ -12,7 +12,7 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.6b2](https://github.com/rathaumons/pyppbox/tree/v3.6b1)
+* `pyppbox` [v3.6b2](https://github.com/rathaumons/pyppbox/tree/v3.6b2)
 
   - Add a warning for the changes in the coming major version 4
   - Update documentations
