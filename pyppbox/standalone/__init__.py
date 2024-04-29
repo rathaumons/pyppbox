@@ -26,7 +26,7 @@ msg = ("\n! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! 
        "!                                                                       !\n"
        "!  For the coming major version 4:                                      !\n"
        "!   * 'pyppbox' will leverage 'vsensebox' for detection and tracking    !\n"
-       "!   * 'pyppbox.utils.persontools' will change to adapt 'vesensebox'     !\n"
+       "!   * 'pyppbox.utils.persontools' will change to adapt 'vsensebox'      !\n"
        "!   * 'pyppbox.ppb' will replace 'pyppbox.standalone'                   !\n"
        "!   * All configuration files will also change                          !\n"
        "!   * More changes will be added to release notes                       !\n"
