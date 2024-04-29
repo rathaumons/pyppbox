@@ -51,7 +51,7 @@ jobs:
   test_pkg_dist:
     name: Test distribution
     needs: [build_wheel, build_source]
-    runs-on: macos-latest
+    runs-on: macos-13
     steps:
     - uses: actions/setup-python@v5
       with:
