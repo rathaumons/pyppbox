@@ -20,7 +20,6 @@
 
 
 import cv2
-import imutils.video
 
 from timeit import time
 from pyppbox.gui.guihub import loadUITMP, loadInputTMP
@@ -75,7 +74,6 @@ cap_width  = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
 cap_height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
 fps = 0.0
-fps_imutils = imutils.video.FPS().start()
 
 # Need frame_index for display
 frame_index = 0
@@ -111,7 +109,6 @@ while cap.isOpened():
             img_is_mat=True
         )
         # Add framerate & info
-        fps_imutils.update()
         fps = (fps + (1./((1.000000000001*time.time())-t1))) / 2
         cv2.putText(visual_frame, str(int(fps)) + " | " + str(frame_index), (15, 30), 
                     cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (255, 255, 255), 1, cv2.LINE_AA)
