@@ -35,6 +35,7 @@ filterpy
 lapx
 ### GUI
 PyQt6
+sfps
 ### Customized pyppbox-torchreid
 pyppbox-torchreid
 ### Customized pyppbox-ultralytics
