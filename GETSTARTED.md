@@ -92,7 +92,7 @@ You need to install the main package which is `pyppbox` and the data for the mod
   - Download the latest from [releases](https://github.com/rathaumons/PoseTReID_DATASET/releases)
   - Or install directly:
     ```
-    pip install https://github.com/rathaumons/PoseTReID_DATASET/releases/download/v2.0/pyppbox_data_gta5-2.0-py3-none-any.whl
+    pip install https://github.com/numediart/PoseTReID_DATASET/releases/download/v2.0/pyppbox_data_gta5-2.0-py3-none-any.whl
     ```
 
 * Quick Test
