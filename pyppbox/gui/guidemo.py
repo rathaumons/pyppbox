@@ -20,9 +20,8 @@
 
 
 import cv2
-import imutils.video
 
-from timeit import time
+from sfps import SFPS
 from pyppbox.gui.guihub import loadUITMP, loadInputTMP
 from pyppbox.utils.evatools import MyEVA
 from pyppbox.utils.restools import ResIO
@@ -74,14 +73,13 @@ cap = cv2.VideoCapture(joinFPathFull(getGlobalRootDir(), input_source))
 cap_width  = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
 cap_height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
-fps = 0.0
-fps_imutils = imutils.video.FPS().start()
+# Frame rate
+sfps = SFPS(nframes=7, interval=1)
 
 # Need frame_index for display
 frame_index = 0
 
 while cap.isOpened():
-    t1 = time.time()
     hasFrame, frame = cap.read()
     if hasFrame:
         # Resize frame if force HD
@@ -111,9 +109,7 @@ while cap.isOpened():
             img_is_mat=True
         )
         # Add framerate & info
-        fps_imutils.update()
-        fps = (fps + (1./((1.000000000001*time.time())-t1))) / 2
-        cv2.putText(visual_frame, str(int(fps)) + " | " + str(frame_index), (15, 30), 
+        cv2.putText(visual_frame, sfps.fps(format_spec='.0f') + " | " + str(frame_index), (15, 30), 
                     cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (255, 255, 255), 1, cv2.LINE_AA)
         
         # Show

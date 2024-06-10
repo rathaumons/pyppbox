@@ -10,7 +10,6 @@ scikit-image>=0.20.0
 scikit-learn>=1.2.2
 scipy>=1.10.0
 imageio
-imutils
 pandas
 Pillow
 psutil
@@ -36,6 +35,7 @@ filterpy
 lapx
 ### GUI
 PyQt6
+sfps
 ### Customized pyppbox-torchreid
 pyppbox-torchreid
 ### Customized pyppbox-ultralytics
