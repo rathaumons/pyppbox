@@ -12,7 +12,14 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.6b3](https://github.com/rathaumons/pyppbox/tree/v3.6b3) - The Last V3
+* `pyppbox` [v3.6b4](https://github.com/rathaumons/pyppbox/tree/v3.6b4) - The Last V3
+
+  - Integrate [SFPS](https://github.com/rathaROG/smooth-fps) for better FPS calculation
+  - Update workflow
+  - **Known issue/limitation**:
+    - You tell me :)
+
+* `pyppbox` [v3.6b3](https://github.com/rathaumons/pyppbox/tree/v3.6b3) - ~~The Last V3~~
 
   - Fix typo and update workflow
   - **Known issue/limitation**:
