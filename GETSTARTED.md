@@ -31,11 +31,13 @@ All requirements are not strictly limited. However, some specific modules might 
   - On Linux:
     - For GPU:
       ```
+      python -m pip install tensorflow[and-cuda] # TensorFlow GPU
       pip install torch torchvision torchaudio
       pip install -r requirements.txt
       ```
     - For CPU-only:
       ```
+      python -m pip install tensorflow # TensorFlow CPU
       pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
       pip install -r requirements.txt
       ```
@@ -73,7 +75,7 @@ You need to install the main package which is `pyppbox` and the data for the mod
     ```
   - Or build from source:
     ```
-    pip install wheel build PyYAML
+    pip install setuptools wheel build PyYAML
     python -m build --wheel --skip-dependency-check --no-isolation
     ```
 
@@ -110,9 +112,7 @@ You need to install the main package which is `pyppbox` and the data for the mod
     ```
   - For ***Ubuntu on WSL 2***, you need to install these:
     ```
-    sudo apt-get install libgl1-mesa-glx
-    sudo apt-get install xdg-utils
-    sudo apt-get install libegl1
+    sudo apt-get install libgl1-mesa-glx xdg-utils libegl1
     ```
 
 ## 📢 FYI
