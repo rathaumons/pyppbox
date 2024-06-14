@@ -1,8 +1,8 @@
 ### Base
-Cython>=0.29.33
+Cython>=0.29.37
 numpy
 ### OpenCV
-# For GUI support, check:
+# For GPU support, check:
 # https://github.com/rathaumons/opencv-for-pyppbox
 opencv-contrib-python
 ### Common
