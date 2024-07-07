@@ -190,7 +190,7 @@ class Ui_Torchreid(object):
 
     def browseModelPath(self):
         default_path = getAncestorDir(self.mycfg.rcfg_torchreid.model_path)
-        model_filter = "PyTorch model (*.pth;*.pyth;*.tar)"
+        model_filter = "PyTorch model (*.pth *.pyth *.tar *.*)"
         source_file, _ = QtWidgets.QFileDialog.getOpenFileName(None, "Model file", 
                                                                default_path, model_filter)
         if source_file:
