@@ -25,8 +25,9 @@ echo #   Make sure there is no conflict for 'pyppbox-ultralytics'   #
 echo ################################################################
 echo.
 pip uninstall -y pyppbox-ultralytics
+pip uninstall -y vsensebox-ultralytics
 pip uninstall -y ultralytics
-pip install --upgrade --no-deps --force-reinstall pyppbox-ultralytics
+pip install --upgrade --no-deps --force-reinstall vsensebox-ultralytics
 echo.
 echo ################################################################
 echo #                            Done!                             #
