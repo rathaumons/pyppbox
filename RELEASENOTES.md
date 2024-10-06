@@ -12,7 +12,14 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.6b5](https://github.com/rathaumons/pyppbox/tree/v3.6b5) - The Last V3
+* `pyppbox` [v3.6b6](https://github.com/rathaumons/pyppbox/tree/v3.6b6)
+
+  - Add proper supports for YOLOv9, YOLOv10, and YOLOv11
+  - Update requirments and documentations
+  - **Known issue/limitation**:
+    - You tell me :)
+
+* `pyppbox` [v3.6b5](https://github.com/rathaumons/pyppbox/tree/v3.6b5)- ~~The Last V3~~
 
   - Fix file filter in Torchreid GUI
   - Switch from [`pyppbox-ultralytics`](https://github.com/rathaumons/ultralytics-for-pyppbox) to [`vsensebox-ultralytics`](https://github.com/numediart/ultralytics-for-vsensebox)
