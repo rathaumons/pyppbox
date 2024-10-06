@@ -83,11 +83,11 @@ You need to install the main package which is `pyppbox` and the data for the mod
   - Download the latest from [releases](https://github.com/rathaumons/pyppbox-data/releases)
   - Or install the ones you need directly:
     ```
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.1.1/pyppbox_data_yolocls-1.1.1-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.1.1/pyppbox_data_yoloult-1.1.1-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.1.1/pyppbox_data_deepsort-1.1.1-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.1.1/pyppbox_data_facenet-1.1.1-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.1.1/pyppbox_data_torchreid-1.1.1-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.2.0/pyppbox_data_yolocls-1.2.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.2.0/pyppbox_data_yoloult-1.2.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.2.0/pyppbox_data_deepsort-1.2.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.2.0/pyppbox_data_facenet-1.2.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.2.0/pyppbox_data_torchreid-1.2.0-py3-none-any.whl
     ```
 
 * Install [`pyppbox-data-gta5`](https://github.com/rathaumons/PoseTReID_DATASET#-introducing-pyppbox-data-gta5)
@@ -106,6 +106,9 @@ You need to install the main package which is `pyppbox` and the data for the mod
     Now you should see the GUI demo like this screenshot:
     <img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_gui.jpg">
   - For related GUI functions and other configurations, check the [Configurations page](https://rathaumons.github.io/pyppbox/pyppbox/config.html).
+  - Check the [Examples page](https://rathaumons.github.io/pyppbox/examples.html) for some real coding!
+
+* Troubleshooting
   - For ***Linux***, if the GUI does not work, you might need to install these:
     ```
     sudo apt-get install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev

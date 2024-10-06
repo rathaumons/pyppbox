@@ -39,6 +39,6 @@ sfps
 ### Customized pyppbox-torchreid
 pyppbox-torchreid
 ### Customized vsensebox-ultralytics (pyppbox-ultralytics is discontinued)
-vsensebox-ultralytics>=8.1.48
+vsensebox-ultralytics>=8.3.5
 ### Unused
 # shapely
