@@ -45,7 +45,7 @@ class Person(object):
     repspoint : tuple(int, int), default=(0, 0)
         Respesented 2D point (x, y).
     det_conf : float, default=0.5
-        Confience of detection.
+        Confidence of detection.
     faceid : str, default="Unknown"
         Face ID.
     deepid : str, default="Unknown"
@@ -93,7 +93,7 @@ class Person(object):
         repspoint : tuple(int, int), default=(0, 0)
             Respesented 2D point (x, y).
         det_conf : float, default=0.5
-            Confience of detection.
+            Confidence of detection.
         faceid : str, default="Unknown"
             Face ID.
         deepid : str, default="Unknown"
