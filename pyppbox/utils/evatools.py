@@ -260,7 +260,7 @@ class MyEVA(object):
         Parameters
         ----------
         people : list[Person, ...]
-            A list of :class:`Person` object.
+            A list of :class:`pyppbox.utils.persontools.Person` object.
         frame_id : int, default=-1, optional
             An indication of which frame index is used for the validation.
         """

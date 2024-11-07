@@ -87,12 +87,14 @@ class MyDeepSORT(object):
 
 
     def update(self, person_list, img=None, max_spread=128):
-        """Update the tracker and return the updated list of :class:`Person`.
+        """Update the tracker and return the updated list of 
+        :class:`pyppbox.utils.persontools.Person`.
 
         Parameters
         ----------
         person_list : list[Person, ...]
-            A list of :class:`Person` object which stores the detected people in the given :obj:`img`.
+            A list of :class:`pyppbox.utils.persontools.Person` object which stores 
+            the detected people in the given :obj:`img`.
         img : any, default=None
             A :obj:`Mat` like image.
         max_spread : int, default=5
@@ -103,7 +105,7 @@ class MyDeepSORT(object):
         Returns
         -------
         list[Person, ...]
-            The updated list of :class:`Person` object.
+            The updated list of :class:`pyppbox.utils.persontools.Person` object.
         """
         self.previous_list = self.current_list
         self.current_list = []

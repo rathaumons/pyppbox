@@ -22,3 +22,9 @@ trainReIDClassifier(
     classifier_pkl="data/new_gta_osnet_ain_ms_d_c.pkl" # Set classifier_pkl="" to use the default in line 11
 )
 
+# The simplest way with internal config supposing everything is set the way you want, 
+# then you can simply import the `trainReIDClassifier` and call it directly; for example:
+#
+# >>> from pyppbox.standalone import trainReIDClassifier
+# >>> trainReIDClassifier()
+

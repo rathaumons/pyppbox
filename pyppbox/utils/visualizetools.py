@@ -109,7 +109,7 @@ def visualizePeople(img, people, show_box=True, show_skl=(True,True,5), show_ids
     img : str or Mat
         An image file or a :obj:`Mat` like image.
     people : list[Person, ...]
-        Set a list of :class:`Person` object found in the input :obj:`img`.
+        Set a list of :class:`pyppbox.utils.persontools.Person` object found in the input :obj:`img`.
     show_box : bool, default=True
         Indicate whether to visualize bounding boxes.
     show_skl : tuple(bool, bool, int), default=(True,True,5)
@@ -126,7 +126,7 @@ def visualizePeople(img, people, show_box=True, show_skl=(True,True,5), show_ids
         :obj:`show_reid` is corresponding to :obj:`reid_count` in :func:`reidPeople()`
         Tuple of (ReID count, ReID deduplicate count)
     show_repspoint : bool, default=True
-        Indicate whether to show the :obj:`repspoint` of :class:`Person` object.
+        Indicate whether to show the :obj:`repspoint` of :class:`pyppbox.utils.persontools.Person` object.
     img_is_mat : bool, default=True
         Speed up the function by telling whether the :obj:`img` is :obj:`Mat` like image.
     

@@ -5,10 +5,10 @@ Installing `pyppbox` is very easy and straightforward. You can install it from [
 
 ## ⚙️ Requirements
 
-All requirements are not strictly limited. However, some specific modules might need some special dependencies. For example, `YOLO_Classic` (With `.weights` model) relies on [OpenCV DNN](https://docs.opencv.org/4.x/d2/d58/tutorial_table_of_content_dnn.html) in order to make use of GPU power. In this case, you might need to build OpenCV from source by yourself or use our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) instead of the official `opencv-contrib-python` which does not include GPU support.
+All requirements are not strictly limited. However, some specific modules might need some special dependencies. For example, `YOLO_Classic` (With `.weights` model) relies on [OpenCV DNN](https://docs.opencv.org/4.x/d2/d58/tutorial_table_of_content_dnn.html) in order to make use of GPU (CUDA) power. In this case, you might need to build OpenCV from source by yourself or use our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) instead of the official `opencv-contrib-python` which does not include GPU (CUDA) support.
 
 * Prerequisite: 
-  - Python [[3.9-3.12]](https://www.python.org/downloads/)
+  - Python [[3.9-3.12]](https://www.python.org/downloads/) (For ***macOS*** -> Use Python 3.11 for bug-free GUI)
   - Local pyppbox repo: `git clone https://github.com/rathaumons/pyppbox.git`
 
 * Before you install dependencies/requirements:
@@ -25,44 +25,41 @@ All requirements are not strictly limited. However, some specific modules might 
     ```
 
 * Install dependencies/requirments under `pyppbox/requirements/`: 
-  - On Windows, recommend using the `cmd` installer:
-    - For GPU: `install_req_py3_cuda121.cmd` (Or `install_req_py3_cuda.cmd` for CUDA 11.8)
-    - For CPU-only: `install_req_py3_cpu.cmd`
-  - On Linux:
-    - For GPU:
+  - On ***Windows***, recommend using the `cmd` installer:
+    - For GPU (CUDA): `install_req_py3_cuda121.cmd` (Or `install_req_py3_cuda.cmd` for CUDA 11.8)
+    - For CPU-only: `install_req_py3_cpu.cmd` (Or skip this and go straight to Setup section below)
+  - On ***Linux***:
+    - For GPU (CUDA):
       ```
       python -m pip install tensorflow[and-cuda] # TensorFlow GPU
       pip install torch torchvision torchaudio
       pip install -r requirements.txt
       ```
-    - For CPU-only:
+    - For CPU-only (Or skip this and go straight to Setup section below):
       ```
       python -m pip install tensorflow # TensorFlow CPU
       pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
       pip install -r requirements.txt
       ```
-  - On macOS:
-    - For GPU: Not available
-    - For CPU:
+  - On ***macOS***:
+    - For GPU (CUDA): Not available
+    - For CPU (Or skip this and go straight to Setup section below):
       ```
       pip install torch torchvision torchaudio
       pip install -r requirements.txt
       ```
 
-* (Optional) For GPU-Only -> Verify the installed dependencies:
+* (Optional) For GPU-Only (CUDA) -> Verify the installed dependencies:
   - Execute the `test_gpu.py`
     - On Windows -> `test_gpu.cmd`
     - On Linux -> `python test_gpu.py`
   - If there is no error, then you are all good and ready to go.
   - For OpenCV, the official `opencv-contrib-python` (No GPU support) is set in the `requirements.txt` file. If you need GPU support, check our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) or build one from source by yourself.
 
-* ***ATTENTION*** ⚠️⚠️⚠️
-  - If you use YOLO Ultralytics without GPU, you need to set `cpu` as string for the parameter `device` in its configuration.
-
 
 ## 💽 Setup
 
-You need to install the main package which is `pyppbox` and the data for the modules you need `pyppbox-data-xxx`. If you want to have some fun for the demo on our [GTA_V_DATASET](https://github.com/rathaumons/PoseTReID_DATASET), you also need to install `pyppbox-data-gta5`.
+You need to install the main package which is `pyppbox` and the data for the modules you need `pyppbox-data-xxx`. If you want to have some fun with the demo on our [GTA_V_DATASET](https://github.com/rathaumons/PoseTReID_DATASET), you also need to install `pyppbox-data-gta5`.
 
 * Install `pyppbox`
   - Use the latest `.whl` from [releases](https://github.com/rathaumons/pyppbox/releases) or install from [PyPI](https://pypi.org/project/pyppbox/):
@@ -80,8 +77,7 @@ You need to install the main package which is `pyppbox` and the data for the mod
     ```
 
 * Install [`pyppbox-data-xxx`](https://github.com/rathaumons/pyppbox-data/)
-  - Download the latest from [releases](https://github.com/rathaumons/pyppbox-data/releases)
-  - Or install the ones you need directly:
+  - Download the latest from [releases](https://github.com/rathaumons/pyppbox-data/releases) or install the ones you need directly:
     ```
     pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.2.0/pyppbox_data_yolocls-1.2.0-py3-none-any.whl
     pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.2.0/pyppbox_data_yoloult-1.2.0-py3-none-any.whl
@@ -91,8 +87,7 @@ You need to install the main package which is `pyppbox` and the data for the mod
     ```
 
 * Install [`pyppbox-data-gta5`](https://github.com/rathaumons/PoseTReID_DATASET#-introducing-pyppbox-data-gta5)
-  - Download the latest from [releases](https://github.com/rathaumons/PoseTReID_DATASET/releases)
-  - Or install directly:
+  - Download the latest from [releases](https://github.com/rathaumons/PoseTReID_DATASET/releases) or install directly:
     ```
     pip install https://github.com/numediart/PoseTReID_DATASET/releases/download/v2.0/pyppbox_data_gta5-2.0-py3-none-any.whl
     ```
@@ -107,8 +102,12 @@ You need to install the main package which is `pyppbox` and the data for the mod
     <img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_gui.jpg">
   - For related GUI functions and other configurations, check the [Configurations page](https://rathaumons.github.io/pyppbox/pyppbox/config.html).
   - Check the [Examples page](https://rathaumons.github.io/pyppbox/examples.html) for some real coding!
+  - ⚠️ ***ATTENTION*** ⚠️
+    * If you use ***YOLO Ultralytics*** without GPU/CUDA, you must set `cpu` as string for the parameter `device` in its configuration.
+    * The same for ***Torchreid*** without GPU/CUDA, you must set `cpu` as string for the parameter `device` in its configuration.
 
 * Troubleshooting
+  - For ***macOS***, if the GUI does not work, you may try Python 3.11 as suggested in Prerequisite section above.
   - For ***Linux***, if the GUI does not work, you might need to install these:
     ```
     sudo apt-get install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev

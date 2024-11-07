@@ -172,9 +172,9 @@ class Person(object):
 
 
 def findRepspoint(box_xyxy, calibrate_weight):
-    """Find respesented point :code:`(x, y)` of a :class:`Person` object by its bounding 
-    :code:`box_xyxy` of :code:`[x1, y1, x2, y2]`. The :obj:`calibrate_weight` indicates, 
-    in between :code:`min(y1, y2)` and :code:`max(y1, y2)`, where the :code:`y` is.
+    """Find respesented point :code:`(x, y)` of a :class:`pyppbox.utils.persontools.Person` 
+    object by its bounding :code:`box_xyxy` of :code:`[x1, y1, x2, y2]`. The :obj:`calibrate_weight` 
+    indicates, in between :code:`min(y1, y2)` and :code:`max(y1, y2)`, where the :code:`y` is.
 
     Parameters
     ----------
@@ -197,9 +197,9 @@ def findRepspoint(box_xyxy, calibrate_weight):
 
 
 def findRepspointBB(box_xyxy, prefer_top=True):
-    """Find respesented point :code:`(x, y)` of a :class:`Person` object by its bounding 
-    :code:`box_xyxy` of :code:`[x1, y1, x2, y2]`. :code:`x` is the middle of :code:`x1` 
-    and :code:`x2` while :code:`y` is the min or max of :code:`(y1, y2)`.
+    """Find respesented point :code:`(x, y)` of a :class:`pyppbox.utils.persontools.Person` 
+    object by its bounding :code:`box_xyxy` of :code:`[x1, y1, x2, y2]`. :code:`x` is the middle 
+    of :code:`x1` and :code:`x2` while :code:`y` is the min or max of :code:`(y1, y2)`.
 
     Parameters
     ----------
@@ -226,8 +226,8 @@ def findRepspointBB(box_xyxy, prefer_top=True):
 
 
 def findRepspointUP(keypoint, box_xyxy, calibrate_weight, prefer_box=True):
-    """Find respesented point :code:`(x, y)` of a :class:`Person` object by its
-    YOLOv8 pose :code:`keypoint` (17 keypoints) or by the bounding :code:`box_xyxy` 
+    """Find respesented point :code:`(x, y)` of a :class:`pyppbox.utils.persontools.Person` 
+    object by its YOLOv8 pose :code:`keypoint` (17 keypoints) or by the bounding :code:`box_xyxy` 
     of :code:`[x1, y1, x2, y2]`. The :obj:`calibrate_weight` indicates, in between 
     :code:`min(y1, y2)` and :code:`max(y1, y2)`, where the :code:`y` is.
 

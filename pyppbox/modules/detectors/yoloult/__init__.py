@@ -223,7 +223,7 @@ class MyYOLOULT(object):
         Returns
         -------
         list[Person, ...]
-            A list of detected :class:`Person` object.
+            A list of detected :class:`pyppbox.utils.persontools.Person` object.
         Mat
             A :obj:`Mat` like image.
         """

@@ -181,9 +181,9 @@ class GTInterpreter(object):
     gtIO : GTIO
         GT (Ground-truth) IO, :class:`GTIO` object.
     unknownFID : str
-        A string for setting unknown :obj:`faceid` of a :class:`Person` object.
+        A string for setting unknown :obj:`faceid` of a :class:`pyppbox.utils.persontools.Person` object.
     unknownDID : str
-        A string for setting unknown :obj:`deepid` of a :class:`Person` object.
+        A string for setting unknown :obj:`deepid` of a :class:`pyppbox.utils.persontools.Person` object.
     gt_frames : list[list[list[int, tuple(int, int), str, [int, int, int, int], [int, int, int, int]], ...], ...]
         A list of GT frames, each frame is a list of GT-format person, and 
         each GT-format person is a list carrying info of a person in a frame like 
@@ -280,7 +280,7 @@ class GTInterpreter(object):
         Returns
         -------
         list[Person, ...]
-            A list of :class:`Person` object.
+            A list of :class:`pyppbox.utils.persontools.Person` object.
         Mat
             A :obj:`Mat` like image.
         """

@@ -444,7 +444,7 @@ class MT(object):
         Returns
         -------
         list[Person, ...]
-            A  list of :class:`Person` object.
+            A  list of :class:`pyppbox.utils.persontools.Person` object.
         Mat
             A :obj:`Mat` like image.
         """ 
@@ -621,14 +621,16 @@ class MT(object):
         img : str or Mat
             Set an image file or a :obj:`Mat` like image.
         people : list[Person, ...]
-            Set a list of :class:`Person` object which stores the detected people in the input :obj:`img`.
+            Set a list of :class:`pyppbox.utils.persontools.Person` object which stores the detected 
+            people in the input :obj:`img`.
         img_is_mat : bool, default=False
             Speed up the function by telling whether the :obj:`img` is :obj:`Mat` like image.
         
         Returns
         -------
         list[Person, ...]
-            A list of :class:`Person` object which stores people with updated IDs.
+            A list of :class:`pyppbox.utils.persontools.Person` object which stores people with 
+            updated IDs.
         """
         res = []
         if self.__tk_is_set__: 
@@ -793,8 +795,8 @@ class MT(object):
         img : str or Mat
             Set an image file or a :obj:`Mat` like image.
         people : list[Person, ...]
-            Set a list of :class:`Person` object which stores the detected or tracked people in 
-            the input :obj:`img`.
+            Set a list of :class:`pyppbox.utils.persontools.Person` object which stores 
+            the detected or tracked people in the input :obj:`img`.
         deduplicate : bool, default=True
             Indicate whether to re-reid people who have the same face ids or deep ids.
         img_is_mat : bool, default=False
@@ -803,7 +805,8 @@ class MT(object):
         Returns
         -------
         list[Person, ...]
-            A list of :class:`Person` object which stores people with the updated IDs.
+            A list of :class:`pyppbox.utils.persontools.Person` object which stores people 
+            with the updated IDs.
         tuple(int, int)
             A tuple of (ReID count, ReID deduplicate count).
         """

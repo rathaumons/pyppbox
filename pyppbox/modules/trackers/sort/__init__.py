@@ -80,19 +80,21 @@ class MySORT(object):
 
 
     def update(self, person_list, img=None):
-        """Update the tracker and return the updated list of :class:`Person`.
+        """Update the tracker and return the updated list of 
+        :class:`pyppbox.utils.persontools.Person`.
 
         Parameters
         ----------
         person_list : list[Person, ...]
-            A list of :class:`Person` object which stores the detected people in the given :obj:`img`.
+            A list of :class:`pyppbox.utils.persontools.Person` object which stores 
+            the detected people in the given :obj:`img`.
         img : any, default=None
             Being consistent with other trackers, will be ignored.
 
         Returns
         -------
         list[Person, ...]
-            The updated list of :class:`Person` object.
+            The updated list of :class:`pyppbox.utils.persontools.Person` object.
         """
         self.previous_list = self.current_list
         self.current_list = []

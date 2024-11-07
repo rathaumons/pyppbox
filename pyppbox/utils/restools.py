@@ -41,7 +41,7 @@ class ResIO(object):
     frames : list[str, ...]
         a list of frame indexes.
     people : list[Person, ...]
-        A list of object :class:`Person`.
+        A list of object :class:`pyppbox.utils.persontools.Person`.
     sorted_people : list[Person, ...]
         A list used to store the sorted list of :attr:`people`.
     """
@@ -51,15 +51,15 @@ class ResIO(object):
         self.people = []
 
     def addPerson(self, frame, person):
-        """Add a :obj:`frame` index and a :class:`Person` object in that 
-        :attr:`frame` index into :attr:`frames` and :attr:`people`.
+        """Add a :obj:`frame` index and a :class:`pyppbox.utils.persontools.Person` 
+        object in that :attr:`frame` index into :attr:`frames` and :attr:`people`.
         
         Parameters
         ----------
         frame : int
             A frame index.
         person : Person
-            An object of :class:`Person` class.
+            An object of :class:`pyppbox.utils.persontools.Person` class.
         """
         if isinstance(person, Person):
             self.frames.append(str(frame))
@@ -68,15 +68,15 @@ class ResIO(object):
             raise ValueError("RESIO : addPerson() -> Input 'person' is not valid.")
     
     def addPeople(self, frame, people):
-        """Add a frame index and a list of :class:`Person` object in that :obj:`frame` 
-        index into :attr:`frames` and :attr:`people`.
+        """Add a frame index and a list of :class:`pyppbox.utils.persontools.Person` 
+        object in that :obj:`frame` index into :attr:`frames` and :attr:`people`.
         
         Parameters
         ----------
         frame : int
             A frame index.
         people : list[Person, ...]
-            A list of object :class:`Person`.
+            A list of object :class:`pyppbox.utils.persontools.Person`.
         """
         if isinstance(people, list):
             if len(people) > 0:

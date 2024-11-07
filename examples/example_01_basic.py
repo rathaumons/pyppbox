@@ -24,6 +24,10 @@ detected_people, visual_image = detectPeople(
 setMainReIDer("FaceNet") # Set by name using internal configs
 reidentified_people, reid_count = reidPeople(img=image, people=detected_people)
 
+# Note: `detected_people` and  `reidentified_people` are the lists of pyppbox's Person object. 
+# Read more about pyppbox's Person object here:
+# https://rathaumons.github.io/pyppbox/pyppbox/utils.html#pyppbox.utils.persontools.Person
+
 # Visual people using pyppbox's visualizetools
 visualized_mat = visualizePeople(
     img=image, # Give an image to visualize

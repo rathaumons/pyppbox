@@ -221,8 +221,9 @@ class DCFGYOLOCLS(BaseCGF):
     model_resolution : tuple(int, int)
         Input image resolution of YOLO Classic.
     repspoint_calibration : float
-        Internal parameter, weight for calibatrating the repspoint of a :class:`Person` object. 
-        Check :func:`findRepspoint()` in :py:mod:`pyppbox.persontools` for more details.
+        Internal parameter, weight for calibatrating the repspoint of a 
+        :class:`pyppbox.utils.persontools.Person` object. Check :func:`findRepspoint()` in 
+        :py:mod:`pyppbox.persontools` for more details.
     from_dir : str
         Path of the root directory, relative to path of :attr:`model_weights`.
     """
@@ -328,8 +329,8 @@ class DCFGYOLOULT(BaseCGF):
     model_file : str
         Path of :attr:`model_file` for YOLO_Ultralytics.
     repspoint_calibration : float
-        Weight for calibatrating the repspoint of a :class:`Person` object. 
-        Check :func:`findRepspoint()` in :py:mod:`pyppbox.persontools` for more details.
+        Weight for calibatrating the repspoint of a :class:`pyppbox.utils.persontools.Person` 
+        object. Check :func:`findRepspoint()` in :py:mod:`pyppbox.persontools` for more details.
     from_dir : str
         Path of the root directory, relative to path of :attr:`model_file`.
     """
@@ -499,7 +500,8 @@ class TCFGCentroid(BaseCGF):
     tk_name : str
         Configured name of tracker Centroid.
     max_spread : int
-        Maximum distance of the being tracked :class:`Person` object of previous and current state.
+        Maximum distance of the being tracked :class:`pyppbox.utils.persontools.Person` 
+        object of previous and current state.
     """
 
     def set(self, input):
@@ -713,13 +715,13 @@ class RCFGFaceNet(BaseCGF):
     min_confidence : float
         Mininum confidence of the prediction.
     yl_h_calibration : list[int, int], default=[-125, 75]
-        When YOLO is used as the detector, this list of :code:`[val_1, val_2]` and a :class:`Person`'s 
-        respoint :code:`(X, Y)` are used to find the from-to :code:`Y` for cropping the face: 
-        :code:`[Y + val_1 : Y + val_2, ...]`.
+        When YOLO is used as the detector, this list of :code:`[val_1, val_2]` and a 
+        :class:`pyppbox.utils.persontools.Person`'s respoint :code:`(X, Y)` are used to find 
+        the from-to :code:`Y` for cropping the face: :code:`[Y + val_1 : Y + val_2, ...]`.
     yl_w_calibration : list[int, int], default=[-55, 55]
-        When YOLO is used as the detector, this list of :code:`[val_1, val_2]` and a :class:`Person`'s 
-        respoint :code:`(X, Y)` are used to find the from-to :code:`X` for cropping the face: 
-        :code:`[..., X + val_1 : X + val_2]`.
+        When YOLO is used as the detector, this list of :code:`[val_1, val_2]` and a 
+        :class:`pyppbox.utils.persontools.Person`'s respoint :code:`(X, Y)` are used to find 
+        the from-to :code:`X` for cropping the face: :code:`[..., X + val_1 : X + val_2]`.
     from_dir : str
         Path of the root directory, relative to path of :attr:`model_file`.
     """
