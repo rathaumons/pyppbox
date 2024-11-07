@@ -12,10 +12,10 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.6b6](https://github.com/rathaumons/pyppbox/tree/v3.6b6)
+* `pyppbox` [v3.6b6](https://github.com/rathaumons/pyppbox/tree/v3.6b6) - The Last V3
 
   - Add proper supports for YOLOv9, YOLOv10, and YOLOv11
-  - Update requirments and documentations
+  - Update requirements and documentations
   - **Known issue/limitation**:
     - You tell me :)
 
