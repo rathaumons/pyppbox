@@ -19,6 +19,6 @@ myreider={
 trainReIDClassifier(
     reider=myreider, 
     train_data="", # Set train_data="" means using the default 'train_data' in line 12
-    classifier_pkl="data/new_gta_osnet_ain_ms_d_c.pkl" # Set classifier_pkl="" to use the default in line 14
+    classifier_pkl="data/new_gta_osnet_ain_ms_d_c.pkl" # Set classifier_pkl="" to use the default in line 11
 )
 
