@@ -29,7 +29,6 @@ tensorflow
 # https://pytorch.org/get-started/
 torch
 torchvision
-torchaudio
 ### Tracker: SORT
 filterpy
 lapx
