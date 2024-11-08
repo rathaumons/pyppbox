@@ -32,20 +32,20 @@ All requirements are not strictly limited. However, some specific modules might 
     - For GPU (CUDA):
       ```
       python -m pip install tensorflow[and-cuda] # TensorFlow GPU
-      pip install torch torchvision torchaudio
+      pip install torch torchvision
       pip install -r requirements.txt
       ```
     - For CPU-only (Or skip this and go straight to Setup section below):
       ```
       python -m pip install tensorflow # TensorFlow CPU
-      pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+      pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
       pip install -r requirements.txt
       ```
   - On ***macOS***:
     - For GPU (CUDA): Not available
     - For CPU (Or skip this and go straight to Setup section below):
       ```
-      pip install torch torchvision torchaudio
+      pip install torch torchvision
       pip install -r requirements.txt
       ```
 
