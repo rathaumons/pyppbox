@@ -968,13 +968,13 @@ class MT(object):
             A supported name, a raw/ready dictionary, or a YAML/JSON file which is passed to 
             :func:`setMainReIDer()`, where `reider=reider`, and `auto_load=False`.
         train_data : str, default=""
-            A path of data to train, where consists of 2 or more sub-folders which classify 
+            A path of data used for training, where consists of 2 or more sub-folders which classify 
             2 or more people. Set :code:`train_data=""` or keep default to use the configured 
-            :obj:`train_data` according to the input :code:`reider`. All images in this the sub-folders 
+            :obj:`train_data` as set in the given :code:`reider`. All images in this sub-folders 
             must be 128x256 for Torchreid and 182x182 for FaceNet.
         classifier_pkl : str, default=""
-            A file path for the classifier PKL file. Set :code:`classifier_pkl=""` or keep default 
-            to use the configured :obj:`classifier_pkl` in the input :obj:`reider`.
+            A file path for the output classifier PKL file. Set :code:`classifier_pkl=""` or keep the 
+            default to use the configured :obj:`classifier_pkl` as set in the given :obj:`reider`.
         """
         self.setMainReIDer(reider=reider, auto_load=False)
         if self.__ri_is_set__:
