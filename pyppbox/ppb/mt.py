@@ -966,7 +966,7 @@ class MT(object):
         ----------
         reider : str or dict, default="Default" 
             A supported name, a raw/ready dictionary, or a YAML/JSON file which is passed to 
-            :func:`setMainReIDer(reider=reider, auto_load=False)`.
+            :func:`setMainReIDer()`, where `reider=reider`, and `auto_load=False`.
         train_data : str, default=""
             A path of data to train, where consists of 2 or more sub-folders which classify 
             2 or more people. Set :code:`train_data=""` or keep default to use the configured 
