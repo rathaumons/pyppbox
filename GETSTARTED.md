@@ -24,7 +24,7 @@ All requirements are not strictly limited. However, some specific modules might 
     pip uninstall -y ultralytics
     ```
 
-* Install dependencies/requirments under `pyppbox/requirements/`: 
+* Install dependencies/requirements under `pyppbox/requirements/`: 
   - On ***Windows***, recommend using the `cmd` installer:
     - For GPU (CUDA): `install_req_py3_cuda121.cmd` (Or `install_req_py3_cuda.cmd` for CUDA 11.8)
     - For CPU-only: `install_req_py3_cpu.cmd` (Or skip this and go straight to Setup section below)
