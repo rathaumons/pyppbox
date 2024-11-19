@@ -12,7 +12,14 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.6b7](https://github.com/rathaumons/pyppbox/tree/v3.6b7) - The Last V3
+* `pyppbox` [v3.6b8](https://github.com/rathaumons/pyppbox/tree/v3.6b8) - The Last V3
+
+  - Fix FaceNet alignment issue in data preparation for training
+  - Update and improve documentations
+  - **Known issue/limitation**:
+    - You tell me :)
+
+* `pyppbox` [v3.6b7](https://github.com/rathaumons/pyppbox/tree/v3.6b7) - ~~The Last V3~~
 
   - Improve examples
   - Improve requirements
