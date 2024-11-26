@@ -120,8 +120,8 @@ def visualizePeople(img, people, show_box=True, show_skl=(True,True,5), show_ids
     show_ids : tuple(bool, bool, bool), default=(True,True,True)
         Set whether to visualize the IDs.
         Set the first element to :code:`True` to visualize the cid.
-        Set the second element to :code:`True` to visualize the faceid.
-        Set the third element to :code:`True` to visualize the deepid.
+        Set the second element to :code:`True` to visualize the deepid.
+        Set the third element to :code:`True` to visualize the faceid.
     show_reid : tuple(int, int), default=(0,0)
         :obj:`show_reid` is corresponding to :obj:`reid_count` in :func:`reidPeople()`
         Tuple of (ReID count, ReID deduplicate count)
