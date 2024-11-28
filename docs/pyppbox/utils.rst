@@ -1,7 +1,7 @@
 .. _utils-page:
 
-Ultilities
-==========
+Utilities
+=========
 
 pyppbox.utils.evatools
 ----------------------
