@@ -12,10 +12,19 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.6b8](https://github.com/rathaumons/pyppbox/tree/v3.6b8) - The Last V3
+* `pyppbox` [v3.6b9](https://github.com/rathaumons/pyppbox/tree/v3.6b9) - The Last V3
+
+  - Fix `setMainTracker()` and `setMainReIDer()` for default input
+  - Correct `show_ids` documentation in `visualizePeople()`
+  - Correct an error message in `visualizePeople()`
+  - Update and improve documentation
+  - **Known issue/limitation**:
+    - You tell me :)
+
+* `pyppbox` [v3.6b8](https://github.com/rathaumons/pyppbox/tree/v3.6b8) - ~~The Last V3~~
 
   - Fix FaceNet alignment issue in data preparation for training
-  - Update and improve documentations
+  - Update and improve documentation
   - **Known issue/limitation**:
     - You tell me :)
 
@@ -24,14 +33,14 @@
   - Improve examples
   - Improve requirements
   - Update and improve `GETSTARTED.md`
-  - Update and improve documentations
+  - Update and improve documentation
   - **Known issue/limitation**:
     - You tell me :)
 
 * `pyppbox` [v3.6b6](https://github.com/rathaumons/pyppbox/tree/v3.6b6) - ~~The Last V3~~
 
   - Add proper supports for YOLOv9, YOLOv10, and YOLOv11
-  - Update requirements and documentations
+  - Update requirements and documentation
   - **Known issue/limitation**:
     - You tell me :)
 
@@ -58,7 +67,7 @@
 * `pyppbox` [v3.6b2](https://github.com/rathaumons/pyppbox/tree/v3.6b2)
 
   - Add a warning for the changes in the coming major version 4
-  - Update documentations
+  - Update documentation
   - **Known issue/limitation**:
     - You tell me :)
 
@@ -66,10 +75,10 @@
 
   - Replace `pyunpack` & `patool` with `shutil`
   - Improve Example 9 - example_09_eva_offline.py
-  - Add `pyppbox.gui.guitools` to the documentations
+  - Add `pyppbox.gui.guitools` to the documentation
   - Fix `useInternalConfigDir()` in `pyppbox.gui.guitools`
   - Fix sphinx-build warning for utils.rst
-  - Fix and improve documentations
+  - Fix and improve documentation
   - **Known issue/limitation**:
     - You tell me :)
 
@@ -77,7 +86,7 @@
 
   - Increase default random ID range in evatools
   - Add exception to `generateStaticID()` in `pyppbox.utils.evatools.TKOReider`
-  - Update documentations
+  - Update documentation
   - **Known issue/limitation**:
     - You tell me :)
 
@@ -85,7 +94,7 @@
 
   - Add Python 3.12 support
   - Change GUI Demo title
-  - Update documentations
+  - Update documentation
   - Update and improve GitHub workflows
   - **Known issue/limitation**:
     - You tell me :)
@@ -94,7 +103,7 @@
 
   - Add freedom of input video without GT (Ground-truth) in GUI demo
   - Update GitHub workflows
-  - Update and improve documentations
+  - Update and improve documentation
   - **Known issue/limitation**:
     - You tell me :)
 
@@ -106,7 +115,7 @@
   - Add `min_width_filter` support for `detectPeople()` of `ppbox.standalone`
   - Add alternative repspoint support for `detectPeople()` of `ppbox.standalone` and all detectors
   - Add [MOT Challenge ground-truth](https://motchallenge.net/instructions/) converter -> `pyppbox.utils.mot2pyppbox`
-  - Improve documentations
+  - Improve documentation
   - **Known issue/limitation**:
     - You tell me :)
 
@@ -114,14 +123,14 @@
 
   - Remove `ontracked` and its related methods from `pyppbox.utils.persontools.Person`
   - Add `misc` to `pyppbox.utils.persontools.Person`
-  - Improve documentations
+  - Improve documentation
   - **Known issue/limitation**:
     - You tell me :)
 
 * `pyppbox` [v3.2b2](https://github.com/rathaumons/pyppbox/tree/v3.2b2)
 
   - Add a hotfix for issue [#21](https://github.com/rathaumons/pyppbox/issues/21)
-  - Improve documentations
+  - Improve documentation
   - **Known issue/limitation**:
     - You tell me :)
 
@@ -140,7 +149,7 @@
 
   - Fix minor visaul bug
   - Add `install_req_py3_cuda121.cmd` for CUDA 12.1
-  - Improve documentations
+  - Improve documentation
   - Drop support for Python 3.8
   - **Known issue/limitation**:
     - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
@@ -148,7 +157,7 @@
 * `pyppbox` [v3.1b4](https://github.com/rathaumons/pyppbox/tree/v3.1b4)
 
   - Improve support for new `pyppbox-ultralytics`
-  - Improve documentations
+  - Improve documentation
   - **Known issue/limitation**:
     - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
 
@@ -156,7 +165,7 @@
 
   - Update and improve visualizetools for new `pyppbox-ultralytics`
   - Update requirements
-  - Improve documentations
+  - Improve documentation
   - **Known issue/limitation**:
     - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
 
@@ -166,7 +175,7 @@
   - Improve evatools
   - Change some default configurations
   - Update and improve examples
-  - Improve documentations
+  - Improve documentation
   - **Known issue/limitation**:
     - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
 
@@ -178,7 +187,7 @@
   - Implement install requirements/dependencies -> See setup.py
   - Simplify and improve requirements
   - Update default config files
-  - Update and improve documentations
+  - Update and improve documentation
   - Update and improve GUI
   - **Known issue/limitation**:
     - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
@@ -219,7 +228,7 @@
   - Improve setup quality
   - Improve GUI stability
   - Update and normalize dependencies/requirements
-  - Update and improve documentations
+  - Update and improve documentation
   - **Known issue/limitation**:
     - [Issue] YOLO Ultralytics: May throw `CUDA error: an illegal memory access was encountered` in multithread application
 
