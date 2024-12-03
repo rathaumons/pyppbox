@@ -183,7 +183,7 @@ def visualizePeople(img, people, show_box=True, show_skl=(True,True,5), show_ids
                             cv2.putText(img, "DEDUPLICATING <-", reid_pos, reid_status_font, 
                                         1, reid_dup_col, 1, cv2.LINE_AA)
                     else:
-                        msg = "visualizePeople() -> show_ids='" + str(show_ids) + "' is not valid."
+                        msg = "visualizePeople() -> show_reid=" + str(show_reid) + " is not valid."
                         add_error_log(msg)
                         raise ValueError(msg)
             else:
