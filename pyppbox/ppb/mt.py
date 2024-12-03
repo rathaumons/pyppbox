@@ -571,7 +571,7 @@ class MT(object):
             if (isDictString(tracker) or "yaml" in tracker.lower() or 
                 "json" in tracker.lower()):
                 self.__setCustomTracker__(getCFGDict(tracker))
-            elif tracker.lower() == "default":
+            elif tracker.lower() == "":
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__loadDefaultTracker__()
                 add_info_log("---PYPPBOX : Use tracker according to the \"main.yaml\"")
@@ -749,7 +749,7 @@ class MT(object):
             if (isDictString(reider) or "yaml" in reider.lower() or 
                 "json" in reider.lower()):
                 self.__setCustomReIDer__(getCFGDict(reider), auto_load)
-            elif reider.lower() == "default":
+            elif reider.lower() == "":
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__loadDefaultReIDer__(auto_load=auto_load)
                 add_info_log("---PYPPBOX : Use reider according to the \"main.yaml\"")
