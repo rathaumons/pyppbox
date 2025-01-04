@@ -47,12 +47,16 @@ def remove_from_splitter(input_line, splitter=',', from_spl=6, with_newline=Fals
     if with_newline: res = res + "\n"
     return res
 
-# step 2: replace 2nd colum with repspoint and readID
-def replace_column_with(input_line, splitter=',', column_index=2, with_str="(0, 0)	XXX", with_newline=False):
+# step 2: replace 2nd colum with repspoint and realID
+def replace_column_with(input_line, splitter=',', column_index=2, with_str="(0, 0)	XXX", use_numid=True, with_newline=False):
     """
     :meta private:
     """
     spl_indexs = [i for i, char in enumerate(input_line) if char == splitter]
+    if use_numid:
+        num_id = input_line[spl_indexs[0] + 1:spl_indexs[1]]
+        with_str = with_str.replace("XXX", str(num_id))
+        # print(f"with_str = {with_str}")
     res = input_line[0:spl_indexs[column_index - 2] + 1] + with_str + input_line[spl_indexs[column_index - 1]:]
     if with_newline: res = res + "\n"
     return res
@@ -81,11 +85,12 @@ def finalize(input_line, splitter=',', find_repspoint=True, alt_repspoint=False,
     return res
 
 # AIO
-def convert(input_file="det.txt", 
-            output_file="det_pyppbox.txt", 
-            splitter=',', 
-            min_conf=0.25, 
-            max_conf=1.00, 
+def convert(input_file="gt.txt", 
+            output_file="gt_pyppbox.txt", 
+            splitter=',',
+            use_numid=True,  
+            min_conf=0.0, 
+            max_conf=1.0, 
             find_repspoint=True, 
             alt_repspoint=False, 
             alt_repspoint_top=True):
@@ -93,15 +98,17 @@ def convert(input_file="det.txt",
 
     Parameters
     ----------
-    input_file : str, default="det.txt"
+    input_file : str, default="gt.txt"
         Input MOT Challenge text file.
-    output_file : str, default="det_pyppbox.txt"
+    output_file : str, default="gt_pyppbox.txt"
         Output pyppbox text file.
     splitter : str, default=','
         Column or data splitter.
-    min_conf : float, default=0.25
+    use_numid : bool, default=False
+        Whether to use number id as real id.
+    min_conf : float, default=0.0
         Filter for minimum conf.
-    max_conf : float, default=1.00
+    max_conf : float, default=1.0
         Filter for maximum conf.
     find_repspoint : bool, default=True
         Whether to calculate repspoint.
@@ -119,7 +126,7 @@ def convert(input_file="det.txt",
                     line = line.replace("\r", "")
                     line = line.replace("\n", "")
                     line = remove_from_splitter(line, splitter=splitter)
-                    line = replace_column_with(line, splitter=splitter)
+                    line = replace_column_with(line, splitter=splitter, use_numid=use_numid)
                     line = finalize(line, 
                                     splitter=splitter, 
                                     find_repspoint=find_repspoint, 
@@ -136,19 +143,21 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Convert ground-truth of MOT Challenge text file to pyppbox format.")
 
-    parser.add_argument("--input-file", type=str, default="det.txt", help="Input MOT Challenge text file")
-    parser.add_argument("--output-file", type=str, default="det_pyppbox.txt", help="Output pyppbox text file")
+    parser.add_argument("input_file", type=str, default="gt.txt", help="Input MOT Challenge text file")
+    parser.add_argument("output_file", type=str, default="gt_pyppbox.txt", help="Output pyppbox text file")
     parser.add_argument("--splitter", type=str, default=',', help="Column or data splitter")
-    parser.add_argument("--min-conf", type=float, default='0.25', help="Filter for minimum conf")
-    parser.add_argument("--max-conf", type=float, default='1.00', help="Filter for maximum conf")
-    parser.add_argument("--find-repspoint", type=bool, default=True, help="Whether to calculate repspoint")
-    parser.add_argument("--alt-repspoint", type=bool, default=False, help="Whether to use alternative repspoint")
-    parser.add_argument("--alt-repspoint-top", type=bool, default=True, help="Whether y is the top for alternative repspoint")
+    parser.add_argument("--use-numid", type=lambda s: s.lower() in ['true', 't', 'yes', '1'], default=1, help="Whether to use number id as real id")
+    parser.add_argument("--min-conf", type=float, default='0.0', help="Filter for minimum conf")
+    parser.add_argument("--max-conf", type=float, default='1.0', help="Filter for maximum conf")
+    parser.add_argument("--find-repspoint", type=lambda s: s.lower() in ['true', 't', 'yes', '1'], default=1, help="Whether to calculate repspoint")
+    parser.add_argument("--alt-repspoint", type=lambda s: s.lower() in ['true', 't', 'yes', '1'], default=0, help="Whether to use alternative repspoint")
+    parser.add_argument("--alt-repspoint-top", type=lambda s: s.lower() in ['true', 't', 'yes', '1'], default=1, help="Whether y is the top for alternative repspoint")
 
     args = parser.parse_args()
     convert(input_file=args.input_file, 
             output_file=args.output_file, 
             splitter=args.splitter, 
+            use_numid=args.use_numid, 
             min_conf=args.min_conf, 
             max_conf=args.max_conf, 
             find_repspoint=args.find_repspoint, 
