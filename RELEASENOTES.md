@@ -12,7 +12,14 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.6b9](https://github.com/rathaumons/pyppbox/tree/v3.6b9) - The Last V3
+* `pyppbox` [v3.7b1](https://github.com/rathaumons/pyppbox/tree/v3.7b1) - The Last V3
+
+  - Sync `pyppbox.utils.persontools.Person`'s misc across frames in all trackers
+  - Improve and add `--use-numid` for using number id in MOT as the real id in `pyppbox` format
+  - **Known issue/limitation**:
+    - You tell me :)
+
+* `pyppbox` [v3.6b9](https://github.com/rathaumons/pyppbox/tree/v3.6b9) - ~~The Last V3~~
 
   - Fix `setMainTracker()` and `setMainReIDer()` for default input
   - Correct `show_ids` documentation in `visualizePeople()`
