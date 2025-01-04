@@ -341,9 +341,25 @@ class NothingTracker(object):
     A class acted as a tracker which does not perform any tracking. 
     """
     def __init__(self):
-        pass
+        self.previous_list = []
+        self.current_list = []
+    def _getIndex(self, deepid):
+        pindex = -1
+        for i in range(0, len(self.previous_list)):
+            if deepid == self.previous_list[i].deepid:
+                pindex = i
+                break
+        return pindex
     def update(self, pp, img=None):
-        return pp
+        self.previous_list = self.current_list
+        self.current_list = pp
+        for i in range (0, len(self.current_list)):
+            if len(self.previous_list) > 0:
+                pindex = self._getIndex(self.current_list[i].deepid)
+                if pindex >= 0:
+                    self.current_list[i].misc = self.previous_list[pindex].misc
+
+        return self.current_list
 
 
 class NothingReider(object):
