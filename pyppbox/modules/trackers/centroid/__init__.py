@@ -103,6 +103,7 @@ class MyCentroid(object):
                                     self.previous_list[pindex].faceid_conf,
                                     self.previous_list[pindex].deepid_conf
                                 )
+                                self.current_list[i].misc = self.previous_list[pindex].misc
                                 self.used_cids.append(prev_cid)
                                 # self.previous_list.pop(pindex)
                         else:
