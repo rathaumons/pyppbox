@@ -78,8 +78,7 @@ class MyFaceNet(object):
     def load_classifier(self):
         with tf.Graph().as_default():
             gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=float(self.gpu_mem))
-            self.sess = tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_options, 
-                                                                             allow_soft_placement=True))
+            self.sess = tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_options, allow_soft_placement=True))
             with self.sess.as_default():
                 self.pnet, self.rnet, self.onet = df.create_mtcnn(self.sess, self.model_det)
                 self.labels_names_file = os.path.splitext(self.classifier_file)[0] + ".txt"
@@ -96,7 +95,7 @@ class MyFaceNet(object):
                 self.classifier_file_exp = os.path.expanduser(self.classifier_file)
                 with open(self.classifier_file_exp, 'rb') as infile:
                     (self.model, class_names) = pickle.load(infile)
-                add_info_log("--------RI : Classifier loaded! <- " + getFileName(self.classifier_file))
+                add_info_log(f"--------RI : Classifier loaded! <- {getFileName(self.classifier_file)}")
 
     def predict(self, scaled_reshape_img):
         """
@@ -181,10 +180,8 @@ class MyFaceNet(object):
         bb[0][2] = det[0][2]
         bb[0][3] = det[0][3]
         cropped_img = img[bb[0][1]:bb[0][3], bb[0][0]:bb[0][2], :]
-        scaled_img = skimage.transform.resize(cropped_img, (self.image_size, self.image_size), 
-                                              anti_aliasing=True)
-        scaled_img = cv2.resize(scaled_img, (self.input_image_size, self.input_image_size), 
-                                interpolation=cv2.INTER_CUBIC)
+        scaled_img = skimage.transform.resize(cropped_img, (self.image_size, self.image_size), anti_aliasing=True)
+        scaled_img = cv2.resize(scaled_img, (self.input_image_size, self.input_image_size), interpolation=cv2.INTER_CUBIC)
         scaled_img = fn.prewhiten(scaled_img)
         scaled_reshape_img = scaled_img.reshape(-1, self.input_image_size, self.input_image_size, 3)
         return scaled_reshape_img
@@ -258,4 +255,4 @@ class MyFaceNet(object):
                 classes_txt = classifier_filename_exp[:-3] + "txt"
                 with open(classes_txt, 'w') as classes_file:
                     classes_file.writelines([str(c) + "\n" for c in class_names])
-                add_info_log("--------RI : Classes file saved! -> " + str(classes_txt))
+                add_info_log(f"--------RI : Classes file saved! -> {classes_txt}")
