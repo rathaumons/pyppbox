@@ -69,10 +69,13 @@ class MyYOLOULT(object):
         else:
             from ultralytics import YOLO
             self.model = YOLO(self.cfg.model_file)
-        from ultralytics.utils.plotting import Colors
-        self.colors = Colors()
-        self.skeleton = [[16, 14], [14, 12], [17, 15], [15, 13], [12, 13], [6, 12], [7, 13], [6, 7], [6, 8],
-                         [7, 9], [8, 10], [9, 11], [2, 3], [1, 2], [1, 3], [2, 4], [3, 5], [4, 6], [5, 7]]
+            if "pose" in self.cfg.model_file.lower():
+                from ultralytics.utils.plotting import Colors
+                self.colors = Colors()
+                self.kpt_color = Colors().pose_palette[[16, 16, 16, 16, 16, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9]]
+                self.limb_color = Colors().pose_palette[[9, 9, 9, 9, 7, 7, 7, 0, 0, 0, 0, 0, 16, 16, 16, 16, 16, 16, 16]]
+                self.skeleton = [[16, 14], [14, 12], [17, 15], [15, 13], [12, 13], [6, 12], [7, 13], [6, 7], [6, 8],
+                                [7, 9], [8, 10], [9, 11], [2, 3], [1, 2], [1, 3], [2, 4], [3, 5], [4, 6], [5, 7]]
 
     def __kpts__(self, img, kpts, radius=5, kpt_line=True):
         # Internal function
@@ -81,21 +84,17 @@ class MyYOLOULT(object):
         nkpt, ndim = kpts.shape
         is_pose = nkpt == 17 and ndim == 3
         kpt_line &= is_pose
-        kpt_color = self.colors.pose_palette[[16, 16, 16, 16, 16, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9]]
         for i, k in enumerate(kpts):
-            color_k = [int(x) for x in kpt_color[i]
-                       ] if is_pose else self.colors(i)
+            color_k = [int(x) for x in self.kpt_color[i]] if is_pose else self.colors(i)
             x_coord, y_coord = k[0], k[1]
             if x_coord % shape[1] != 0 and y_coord % shape[0] != 0:
                 if len(k) == 3:
                     conf = k[2]
                     if conf < 0.5:
                         continue
-                cv2.circle(img, (int(x_coord), int(y_coord)),
-                           radius, color_k, -1, lineType=cv2.LINE_AA)
+                cv2.circle(img, (int(x_coord), int(y_coord)),radius, color_k, -1, lineType=cv2.LINE_AA)
         if kpt_line:
             ndim = kpts.shape[-1]
-            limb_color = self.colors.pose_palette[[9, 9, 9, 9, 7, 7, 7, 0, 0, 0, 0, 0, 16, 16, 16, 16, 16, 16, 16]]
             for i, sk in enumerate(self.skeleton):
                 pos1 = (int(kpts[(sk[0] - 1), 0]), int(kpts[(sk[0] - 1), 1]))
                 pos2 = (int(kpts[(sk[1] - 1), 0]), int(kpts[(sk[1] - 1), 1]))
@@ -108,8 +107,8 @@ class MyYOLOULT(object):
                     continue
                 if (pos2[0] % shape[1] == 0 or pos2[1] % shape[0] == 0 or pos2[0] < 0 or pos2[1] < 0):
                     continue
-                cv2.line(img, pos1, pos2, [int(x) for x in limb_color[i]], 
-                         thickness=2, lineType=cv2.LINE_AA)
+                cv2.line(img, pos1, pos2, [int(x) for x in self.limb_color[i]], thickness=2, lineType=cv2.LINE_AA)
+
 
     def detect(self, img, visual=True, classes=0, min_width_filter=35):
         """Detect general object with object's class filter :obj:`class_filter` 
