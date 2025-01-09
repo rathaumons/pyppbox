@@ -22,16 +22,15 @@
 from pyppbox.ppb import *
 from pyppbox.utils.logtools import add_warning_log
 
-msg = ("\n! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !\n"
-       "!                                                                       !\n"
-       "!  For the coming major version 4:                                      !\n"
-       "!   * 'pyppbox' will leverage 'vsensebox' for detection and tracking    !\n"
-       "!   * 'pyppbox.utils.persontools' will change to adapt 'vsensebox'      !\n"
-       "!   * 'pyppbox.ppb' will replace 'pyppbox.standalone'                   !\n"
-       "!   * All configuration files will also change                          !\n"
-       "!   * More changes will be added to release notes                       !\n"
-       "!                                                                       !\n"
-       "! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !\n")
+msg = (f"\n! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !\n"
+       f"!                                                                       !\n"
+       f"!  For the coming major version 4:                                      !\n"
+       f"!   * 'pyppbox' will leverage 'vsensebox' for detection and tracking    !\n"
+       f"!   * 'pyppbox.utils.persontools' will change to adapt 'vsensebox'      !\n"
+       f"!   * 'pyppbox.ppb' will replace 'pyppbox.standalone'                   !\n"
+       f"!   * All configuration files will also change                          !\n"
+       f"!   * More changes will be added to release notes                       !\n"
+       f"!                                                                       !\n"
+       f"! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !\n")
 
 add_warning_log(msg)
-
