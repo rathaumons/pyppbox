@@ -31,10 +31,10 @@ has_ultralytics = True
 try:
     from ultralytics.utils.plotting import Colors
     colors = Colors()
+    kpt_color = colors.pose_palette[[16, 16, 16, 16, 16, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9]]
+    limb_color = colors.pose_palette[[9, 9, 9, 9, 7, 7, 7, 0, 0, 0, 0, 0, 16, 16, 16, 16, 16, 16, 16]]
     skeleton = [[16, 14], [14, 12], [17, 15], [15, 13], [12, 13], [6, 12], [7, 13], [6, 7], [6, 8], 
                 [7, 9], [8, 10], [9, 11], [2, 3], [1, 2], [1, 3], [2, 4], [3, 5], [4, 6], [5, 7]]
-    limb_color = colors.pose_palette[[9, 9, 9, 9, 7, 7, 7, 0, 0, 0, 0, 0, 16, 16, 16, 16, 16, 16, 16]]
-    kpt_color = colors.pose_palette[[16, 16, 16, 16, 16, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9]]
 except ImportError as e:
     has_ultralytics = False
     add_warning_log("visualizetools: ultralytics or pyppbox-ultralytics is not installed.")
@@ -92,12 +92,9 @@ def __addSKL__(img, kpts, radius=5, kpt_line=True):
                 conf1 = kpts[(sk[0] - 1), 2]
                 conf2 = kpts[(sk[1] - 1), 2]
                 if conf1 < 0.5 or conf2 < 0.5: continue
-            if (pos1[0] % shape[1] == 0 or pos1[1] % shape[0] == 0 or 
-                pos1[0] < 0 or pos1[1] < 0): continue
-            if (pos2[0] % shape[1] == 0 or pos2[1] % shape[0] == 0 or 
-                pos2[0] < 0 or pos2[1] < 0): continue
-            cv2.line(img, pos1, pos2, [int(x) for x in limb_color[i]], 
-                     thickness=2, lineType=cv2.LINE_AA)
+            if (pos1[0] % shape[1] == 0 or pos1[1] % shape[0] == 0 or pos1[0] < 0 or pos1[1] < 0): continue
+            if (pos2[0] % shape[1] == 0 or pos2[1] % shape[0] == 0 or pos2[0] < 0 or pos2[1] < 0): continue
+            cv2.line(img, pos1, pos2, [int(x) for x in limb_color[i]], thickness=2, lineType=cv2.LINE_AA)
     return img
 
 def visualizePeople(img, people, show_box=True, show_skl=(True,True,5), show_ids=(True,True,True), 
@@ -176,13 +173,10 @@ def visualizePeople(img, people, show_box=True, show_skl=(True,True,5), show_ids
                     if (isinstance(show_reid, tuple) and 
                         np.asarray(show_reid).shape == (2,)):
                         if show_reid[0] > 0:
-                            cv2.putText(img, "                     REIDING", reid_pos, 
-                                        reid_status_font, 1, reid_col, 1, cv2.LINE_AA)
+                            cv2.putText(img, "                     REIDING", reid_pos, reid_status_font, 1, reid_col, 1, cv2.LINE_AA)
                         if show_reid[1] > 0:
-                            cv2.putText(img, "                     REIDING", reid_pos, 
-                                        reid_status_font, 1, reid_col, 1, cv2.LINE_AA)
-                            cv2.putText(img, "DEDUPLICATING <-", reid_pos, reid_status_font, 
-                                        1, reid_dup_col, 1, cv2.LINE_AA)
+                            cv2.putText(img, "                     REIDING", reid_pos, reid_status_font, 1, reid_col, 1, cv2.LINE_AA)
+                            cv2.putText(img, "DEDUPLICATING <-", reid_pos, reid_status_font, 1, reid_dup_col, 1, cv2.LINE_AA)
                     else:
                         msg = f"visualizePeople() -> show_reid={show_reid} is not valid."
                         add_error_log(msg)
