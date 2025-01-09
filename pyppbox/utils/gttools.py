@@ -60,8 +60,7 @@ class GTIO(object):
             A string with length of :code:`1` used as a splitter of the mapping.
         """
         if len(str(splitter)) > 1:
-            msg = ("GTIO : loadInputGTMap() -> splitter='" + str(splitter) + 
-                   "' is not acceptable")
+            msg = f"GTIO : loadInputGTMap() -> splitter='{splitter}' is not acceptable"
             add_error_log(msg)
             raise ValueError(msg)
         try:
@@ -72,9 +71,10 @@ class GTIO(object):
                     line = line.split(splitter)
                     self.map_list.append(line)
         except Exception as e:
-            msg = "GTIO : loadInputGTMap() -> " + str(e)
+            msg = f"GTIO : loadInputGTMap() -> {e}"
             add_error_log(msg)
             raise ValueError(msg)
+
 
     def getGTFileName(self, input_video):
         """Return the video file name corresponding to the :obj:`input_video`.
@@ -151,10 +151,8 @@ class GTIO(object):
                     loop_id += 1
                 gt_frames.append(gt_frame)
                 gt_frames_dict.append(same_frame)
-            add_info_log("------GTIO : Loaded <- " + getFileName(gt_file_txt))
-            add_info_log("------GTIO : Found " + str(len(gt_frames)) + 
-                         " nonempty frame(s) and the initial frame is " + 
-                         str(init_frame) + ".")
+            add_info_log(f"------GTIO : Loaded <- {getFileName(gt_file_txt)}")
+            add_info_log(f"------GTIO : Found {len(gt_frames)} nonempty frame(s) and the initial frame is {init_frame}.")
         except Exception as e:
             msg = "GTIO : loadGT() -> " + str(e)
             add_error_log(msg)
