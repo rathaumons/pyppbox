@@ -63,7 +63,7 @@ class MyTorchreid(object):
         """
         with open(self.classifier_pkl, 'rb') as classifier_file:
             (self.model, self.class_names) = pickle.load(classifier_file)
-        add_info_log("--------RI : Classifier loaded! <- " + getFileName(self.classifier_pkl))
+        add_info_log(f"--------RI : Classifier loaded! <- {getFileName(self.classifier_pkl)}")
 
     def predict(self, img):
         """
@@ -103,13 +103,13 @@ class MyTorchreid(object):
         if best_class != -1 and best_proba != -1:
             if best_proba < self.min_confidence:
                 result = self.unk
-                # add_info_log("--------RI : Result is below required confidence! -> Return " + str(self.unk))
+                # add_info_log(f"--------RI : Result is below required confidence! -> Return {self.unk}")
             else:
                 result = self.class_names[best_class]
                 conf = best_proba
                 # add_info_log('-----RI : Result = "%s"' % result)
         else:
-            # add_warning_log("--------RI : The input can't be processed -> Return " + str(self.err))
+            # add_warning_log(f"--------RI : The input can't be processed -> Return {self.err}")
             result = self.err
         return result, conf
 
@@ -149,17 +149,17 @@ class MyTorchreid(object):
         paths, labels = get_image_paths_and_labels(dataset)
         add_info_log("--------RI : Extracting features ...")
         emb_array = self.extractor(paths).cpu().numpy()
-        add_info_log("--------RI : (total_images, features) = " + str(emb_array.shape))
+        add_info_log(f"--------RI : (total_images, features) = {emb_array.shape}")
         add_info_log("--------RI : Training classifier ... ")
         _model = SVC(C=C, kernel=kernel, probability=probability, 
                      decision_function_shape=decision_function_shape)
         _model.fit(emb_array, labels)
         _class_names = [cls.name.replace('_', ' ') for cls in dataset]
-        add_info_log("--------RI : class_name = " + str(_class_names))
+        add_info_log(f"--------RI : class_name = {_class_names}")
         with open(self.classifier_pkl, 'wb') as classifier_file:
             pickle.dump((_model, _class_names), classifier_file)
-        add_info_log("--------RI : Classifier file saved! -> " + str(self.classifier_pkl))
+        add_info_log(f"--------RI : Classifier file saved! -> {self.classifier_pkl}")
         classes_txt = self.classifier_pkl[:-3] + "txt"
         with open(classes_txt, 'w') as classes_file:
             classes_file.writelines([str(c) + "\n" for c in _class_names])
-        add_info_log("--------RI : Classes file saved! -> " + str(classes_txt))
+        add_info_log(f"--------RI : Classes file saved! -> {classes_txt}")

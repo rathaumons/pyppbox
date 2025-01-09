@@ -27,14 +27,11 @@ from pyppbox.utils.logtools import ignore_this_logger, add_error_log
 
 
 class ImageClass():
-
     def __init__(self, name, image_paths):
         self.name = name
         self.image_paths = image_paths
-
     def __str__(self):
-        return self.name + ', ' + str(len(self.image_paths)) + ' images'
-
+        return f"{self.name}, {len(self.image_paths)} images"
     def __len__(self):
         return len(self.image_paths)
 
@@ -80,7 +77,7 @@ def deepreid_extractor(model_name, model_dir, model_path, device='cuda'):
             device = device
         )
     except Exception as e:
-        msg = "deepreid_extractor() -> " + str(e)
+        msg = f"deepreid_extractor() -> {e}"
         add_error_log(msg)
         raise ValueError(msg)
     return extractor
