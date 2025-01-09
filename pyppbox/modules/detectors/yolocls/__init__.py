@@ -102,10 +102,8 @@ class MyYOLOCLS(object):
                     repspoints.append(repspoint)
                     confs.append(float(conf))
                     if visual:
-                        cv2.circle(img, (repspoint[0], repspoint[1]), radius=5, 
-                                   color=(0, 0, 255), thickness=-1)
-                        cv2.rectangle(img, (box_xyxy[0], box_xyxy[1]), 
-                                      (box_xyxy[2], box_xyxy[3]), (255, 255, 0), 2)
+                        cv2.circle(img, (repspoint[0], repspoint[1]), 5, (0, 0, 255), -1)
+                        cv2.rectangle(img, (box_xyxy[0], box_xyxy[1]), (box_xyxy[2], box_xyxy[3]), (255, 255, 0), 2)
         return img, pboxes_xywh, pboxes_xyxy, repspoints, confs
 
     def detectPeople(self, img, visual=True, min_width_filter=35, alt_repspoint=False, alt_repspoint_top=True):
@@ -149,8 +147,6 @@ class MyYOLOCLS(object):
                                          repspoint=repspoint, det_conf=float(conf)))
                     i += 1
                     if visual:
-                        cv2.circle(img, (repspoint[0], repspoint[1]), radius=5, 
-                                   color=(0, 0, 255), thickness=-1)
-                        cv2.rectangle(img, (box_xyxy[0], box_xyxy[1]), 
-                                      (box_xyxy[2], box_xyxy[3]), (255, 255, 0), 2)
+                        cv2.circle(img, (repspoint[0], repspoint[1]), 5, (0, 0, 255), -1)
+                        cv2.rectangle(img, (box_xyxy[0], box_xyxy[1]), (box_xyxy[2], box_xyxy[3]), (255, 255, 0), 2)
         return people, img
