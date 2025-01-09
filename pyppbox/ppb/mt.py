@@ -131,10 +131,9 @@ class MT(object):
         self.__cfg__.__init__()
         self.__cfg__.setMainModules()
         if load_all:
-            add_info_log("---PYPPBOX : DT='" + 
-                        self.__cfg__.mcfg.detector + "', TK='" + 
-                        self.__cfg__.mcfg.tracker + "', RI='" + 
-                        self.__cfg__.mcfg.reider + "'")
+            add_info_log(f"---PYPPBOX : DT='{self.__cfg__.mcfg.detector}', "
+                         f"TK='{self.__cfg__.mcfg.tracker}', "
+                         f"RI='{self.__cfg__.mcfg.reider}'")
             self.__loadDefaultDetector__()
             self.__loadDefaultTracker__()
             self.__loadDefaultReIDer__()
@@ -167,26 +166,24 @@ class MT(object):
             self.__setInternalCFGDir__(load_all=load_all)
         elif isinstance(config_dir, str):
             if isExist(config_dir):
-                add_info_log("---PYPPBOX : Now use custom config dir, config_dir='" 
-                             + str(config_dir) + "'")
+                add_info_log(f"---PYPPBOX : Now use custom config dir, config_dir='{config_dir}'")
                 self.__cfg__.setCustomCFG(cfg_dir=config_dir)
                 self.__cfg__.setMainModules()
                 self.__cfg_is_set__ = True
                 if load_all:
-                    add_info_log("---PYPPBOX : DT='" + 
-                                 self.__cfg__.mcfg.detector + "', TK='" + 
-                                 self.__cfg__.mcfg.tracker + "', RI='" + 
-                                 self.__cfg__.mcfg.reider + "'")
+                    add_info_log(f"---PYPPBOX : DT='{self.__cfg__.mcfg.detector}', "
+                                f"TK='{self.__cfg__.mcfg.tracker}', "
+                                f"RI='{self.__cfg__.mcfg.reider}'")
                     self.__loadDefaultDetector__()
                     self.__loadDefaultTracker__()
                     self.__loadDefaultReIDer__()
             else:
-                add_warning_log("---PYPPBOX : config_dir='" + str(config_dir) + "' does not exist")
+                add_warning_log(f"---PYPPBOX : config_dir='{config_dir}' does not exist")
                 add_warning_log("---PYPPBOX : Switched to internal config directory")
                 self.__cfg_is_set__ = True
                 self.__setInternalCFGDir__(load_all=load_all)
         else:
-            msg = "PYPPBOX : setConfigDir() -> config_dir='" + str(config_dir) + "' is not valid."
+            msg = f"PYPPBOX : setConfigDir() -> config_dir='{config_dir}' is not valid."
             add_error_log(msg)
             raise ValueError(msg)
 
@@ -199,7 +196,7 @@ class MT(object):
         ----------
         main_yaml : str or dict, default=None
             A YAML/JSON file path, or a raw/ready dictionary of the main configurations or main.yaml. 
-            This :obj:`main_yaml` helps overwrite the original one configured earlier. 
+            This :obj:`main_yaml` helps override the original one configured earlier. 
             Leave it as default :obj:`main_yaml=None`, to load and set according to the configurations 
             in the config directory.
         load_all : bool, default=True
@@ -210,10 +207,9 @@ class MT(object):
         if not self.__cfg_is_set__: self.setConfigDir()
         self.__cfg__.setMainModules(main_yaml=main_yaml)
         if load_all: 
-            add_info_log("---PYPPBOX : DT='" + 
-                         self.__cfg__.mcfg.detector + "', TK='" + 
-                         self.__cfg__.mcfg.tracker + "', RI='" + 
-                         self.__cfg__.mcfg.reider + "'")
+            add_info_log(f"---PYPPBOX : DT='{self.__cfg__.mcfg.detector}', "
+                         f"TK='{self.__cfg__.mcfg.tracker}', "
+                         f"RI='{self.__cfg__.mcfg.reider}'")
             self.__loadDefaultDetector__()
             self.__loadDefaultTracker__()
             self.__loadDefaultReIDer__()
@@ -240,9 +236,9 @@ class MT(object):
                 if self.__tk_is_set__ or self.__ri_is_set__:
                     self.__dt__.setDetectOnly(self.__unistrings__.unk_fid, self.__unistrings__.unk_did)
                     msg = ("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
-                        "---PYPPBOX : For DT='GT', if (TK!='None' or RI!='None')\n"
-                        "---PYPPBOX : -> Set detect_only=True for GT, DETECT ONLY mode.\n"
-                        "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
+                           "---PYPPBOX : For DT='GT', if (TK!='None' or RI!='None')\n"
+                           "---PYPPBOX : -> Set detect_only=True for GT, DETECT ONLY mode.\n"
+                           "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
                     add_info_log(msg, add_new_line=True)
 
     def __revokeGTDTOnly__(self):
@@ -254,15 +250,15 @@ class MT(object):
                         self.__dt__.setDetectOnly(self.__unistrings__.unk_fid, self.__unistrings__.unk_did, 
                                                   detect_only=False)
                         msg = ("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
-                            "---PYPPBOX : TK='None' & RI='None'\n"
-                            "---PYPPBOX : -> Overwrite detect_only=False for GT, FULL GT mode."
-                            "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
+                               "---PYPPBOX : TK='None' & RI='None'\n"
+                               "---PYPPBOX : -> Override detect_only=False for GT, FULL GT mode."
+                               "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
                         add_info_log(msg, add_new_line=True)
 
     def forceFullGTMode(self):
         """Normally when :code:`DT='GT'`, pyppbox can automatically decide the GT mode based on the 
         name of the tracker and/or the name of reider; however, if the decision is not satisfied 
-        (Should not happen), calling this :func:`forceFUllGTMode()` will overwrite :code:`detect_only=False`.
+        (Should not happen), calling this :func:`forceFUllGTMode()` will override :code:`detect_only=False`.
         """
         success = False
         if self.__dt_is_set__:
@@ -271,14 +267,14 @@ class MT(object):
                                           detect_only=False)
                 success = True
                 msg = ("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
-                    "---PYPPBOX : Overwrite detect_only=False for GT, FULL GT mode."
-                    "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
+                       "---PYPPBOX : Override detect_only=False for GT, FULL GT mode."
+                       "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
                 add_info_log(msg, add_new_line=True)
 
         if not success:
             msg = ("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
-                "---PYPPBOX : DT!='GT' -> Failed to overwrite detect_only=False"
-                "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
+                   "---PYPPBOX : DT!='GT' -> Failed to override detect_only=False"
+                   "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
             add_warning_log(msg, add_new_line=True)
             
 
@@ -315,30 +311,29 @@ class MT(object):
                 self.__dt_cfg__.set(detector_dict)
                 self.__dt__ = MyYOLOCLS(self.__dt_cfg__)
                 self.__dt_is_set__ = True
-                add_info_log("---PYPPBOX : Set detector='" + self.__dt_cfg__.dt_name + "'")
+                add_info_log(f"---PYPPBOX : Set detector='{self.__dt_cfg__.dt_name}'")
             elif detector_dict['dt_name'].lower() == self.__unistrings__.yolo_ult:
                 from pyppbox.modules.detectors.yoloult import MyYOLOULT
                 self.__dt_cfg__ = DCFGYOLOULT()
                 self.__dt_cfg__.set(detector_dict)
                 self.__dt__ = MyYOLOULT(self.__dt_cfg__)
                 self.__dt_is_set__ = True
-                add_info_log("---PYPPBOX : Set detector='" + self.__dt_cfg__.dt_name + "'")
+                add_info_log(f"---PYPPBOX : Set detector='{self.__dt_cfg__.dt_name}'")
             elif detector_dict['dt_name'].lower() == self.__unistrings__.gt:
                 self.__dt_cfg__ = DCFGGT()
                 self.__dt_cfg__.set(detector_dict)
                 self.__dt__ = GTInterpreter()
                 self.__dt__.setGT(self.__dt_cfg__.gt_file)
                 self.__dt_is_set__ = True
-                add_info_log("---PYPPBOX : Set detector='" + self.__dt_cfg__.dt_name + "'")
+                add_info_log(f"---PYPPBOX : Set detector='{self.__dt_cfg__.dt_name}'")
             elif detector_dict['dt_name'].lower() == self.__unistrings__.none:
                 self.__dt_cfg__ = __none_cfg__
                 self.__dt__ = NothingDetecter()
                 self.__dt_is_set__ = True
-                add_info_log("---PYPPBOX : Set detector='" + self.__dt_cfg__.dt_name + "'")
+                add_info_log(f"---PYPPBOX : Set detector='{self.__dt_cfg__.dt_name}'")
             else: 
                 self.__dt_is_set__ = False
-                add_warning_log("---PYPPBOX : detector='" + detector_dict['dt_name'] + 
-                                "' is not recognized.")
+                add_warning_log(f"---PYPPBOX : detector='{detector_dict['dt_name']}' is not recognized.")
 
     def setMainDetector(self, detector=""):
         """Set the main detector by a supported name, a raw/ready dictionary, or a YAML/JSON file. 
@@ -374,7 +369,7 @@ class MT(object):
             elif detector.lower() == "":
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__loadDefaultDetector__()
-                add_info_log("---PYPPBOX : Use detector according to the \"main.yaml\"")
+                add_info_log('---PYPPBOX : Use detector according to the "main.yaml"')
             elif detector.lower() == self.__unistrings__.yolo_cls:
                 from pyppbox.modules.detectors.yolocls import MyYOLOCLS
                 if not self.__cfg_is_set__: self.setConfigDir()
@@ -382,7 +377,7 @@ class MT(object):
                 self.__dt_cfg__ = self.__cfg__.dcfg_yolocs
                 self.__dt__ = MyYOLOCLS(self.__dt_cfg__)
                 self.__dt_is_set__ = True
-                add_info_log("---PYPPBOX : Set detector='" + str(detector) + "'")
+                add_info_log(f"---PYPPBOX : Set detector='{detector}'")
             elif detector.lower() == self.__unistrings__.yolo_ult:
                 from pyppbox.modules.detectors.yoloult import MyYOLOULT
                 if not self.__cfg_is_set__: self.setConfigDir()
@@ -390,7 +385,7 @@ class MT(object):
                 self.__dt_cfg__ = self.__cfg__.dcfg_yolout
                 self.__dt__ = MyYOLOULT(self.__dt_cfg__)
                 self.__dt_is_set__ = True
-                add_info_log("---PYPPBOX : Set detector='" + str(detector) + "'")
+                add_info_log(f"---PYPPBOX : Set detector='{detector}'")
             elif detector.lower() == self.__unistrings__.gt:
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__cfg__.setAllDCFG()
@@ -398,16 +393,16 @@ class MT(object):
                 self.__dt__ = GTInterpreter()
                 self.__dt__.setGT(self.__dt_cfg__.gt_file)
                 self.__dt_is_set__ = True
-                add_info_log("---PYPPBOX : Set detector='" + str(detector) + "'")
+                add_info_log(f"---PYPPBOX : Set detector='{detector}'")
             elif detector.lower() == self.__unistrings__.none:
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__cfg__.setAllDCFG()
                 self.__dt_cfg__ = __none_cfg__
                 self.__dt__ = NothingDetecter()
                 self.__dt_is_set__ = True
-                add_info_log("---PYPPBOX : Set detector='" + str(detector) + "'")
+                add_info_log(f"---PYPPBOX : Set detector='{detector}'")
         else:
-            add_warning_log("---PYPPBOX : detector='" + str(detector) + "' is not recognized.")
+            add_warning_log(f"---PYPPBOX : detector='{detector}' is not recognized.")
 
     def detectPeople(self, 
                      img, 
@@ -466,8 +461,7 @@ class MT(object):
                         filename = getAbsPathFDS(str(save_file))
                         cv2.imwrite(filename=filename, img=img)
                     else:
-                        msg = ("PYPPBOX : detectPeople() -> save_file='" + 
-                               str(save_file) + "' is not valid.")
+                        msg = (f"PYPPBOX : detectPeople() -> save_file='{save_file}' is not valid.")
                         add_error_log(msg)
                         raise ValueError(msg)
         else:
@@ -516,7 +510,7 @@ class MT(object):
                 self.__tk__ = MyCentroid(self.__tk_cfg__)
                 self.__tk_is_set__ = True
                 self.__setGTDTOnly__()
-                add_info_log("---PYPPBOX : Set tracker='" + self.__tk_cfg__.tk_name + "'")
+                add_info_log(f"---PYPPBOX : Set tracker='{self.__tk_cfg__.tk_name}'")
             elif tracker_dict['tk_name'].lower() == self.__unistrings__.sort:
                 from pyppbox.modules.trackers.sort import MySORT
                 self.__tk_cfg__ = TCFGSORT()
@@ -524,7 +518,7 @@ class MT(object):
                 self.__tk__ = MySORT(self.__tk_cfg__)
                 self.__tk_is_set__ = True
                 self.__setGTDTOnly__()
-                add_info_log("---PYPPBOX : Set tracker='" + self.__tk_cfg__.tk_name + "'")
+                add_info_log(f"---PYPPBOX : Set tracker='{self.__tk_cfg__.tk_name}'")
             elif tracker_dict['tk_name'].lower() == self.__unistrings__.deepsort:
                 from pyppbox.modules.trackers.deepsort import MyDeepSORT
                 self.__tk_cfg__ = TCFGDeepSORT()
@@ -532,16 +526,15 @@ class MT(object):
                 self.__tk__ = MyDeepSORT(self.__tk_cfg__)
                 self.__tk_is_set__ = True
                 self.__setGTDTOnly__()
-                add_info_log("---PYPPBOX : Set tracker='" + self.__tk_cfg__.tk_name + "'")
+                add_info_log(f"---PYPPBOX : Set tracker='{self.__tk_cfg__.tk_name}'")
             elif tracker_dict['tk_name'].lower() == self.__unistrings__.none:
                 self.__tk_cfg__ = __none_cfg__
                 self.__tk__ = NothingTracker()
                 self.__tk_is_set__ = True
-                add_info_log("---PYPPBOX : Set tracker='" + self.__tk_cfg__.tk_name + "'")
+                add_info_log(f"---PYPPBOX : Set tracker='{self.__tk_cfg__.tk_name}'")
             else:
                 self.__tk_is_set__ = False
-                add_warning_log("---PYPPBOX : tracker='" + tracker_dict['tk_name'] + 
-                                "' is not recognized")
+                add_warning_log(f"---PYPPBOX : tracker='{tracker_dict['tk_name']}' is not recognized.")
 
     def setMainTracker(self, tracker=""):
         """Set the main tracker by a supported name, a raw/ready dictionary, or a YAML/JSON file. 
@@ -574,7 +567,7 @@ class MT(object):
             elif tracker.lower() == "":
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__loadDefaultTracker__()
-                add_info_log("---PYPPBOX : Use tracker according to the \"main.yaml\"")
+                add_info_log('---PYPPBOX : Use tracker according to the "main.yaml"')
             elif tracker.lower() == self.__unistrings__.centroid:
                 from pyppbox.modules.trackers.centroid import MyCentroid
                 if not self.__cfg_is_set__: self.setConfigDir()
@@ -583,7 +576,7 @@ class MT(object):
                 self.__tk__ = MyCentroid(self.__tk_cfg__)
                 self.__tk_is_set__ = True
                 self.__setGTDTOnly__()
-                add_info_log("---PYPPBOX : Set tracker='" + str(tracker) + "'")
+                add_info_log(f"---PYPPBOX : Set tracker='{tracker}'")
             elif tracker.lower() == self.__unistrings__.sort:
                 from pyppbox.modules.trackers.sort import MySORT
                 if not self.__cfg_is_set__: self.setConfigDir()
@@ -592,7 +585,7 @@ class MT(object):
                 self.__tk__ = MySORT(self.__tk_cfg__)
                 self.__tk_is_set__ = True
                 self.__setGTDTOnly__()
-                add_info_log("---PYPPBOX : Set tracker='" + str(tracker) + "'")
+                add_info_log(f"---PYPPBOX : Set tracker='{tracker}'")
             elif tracker.lower() == self.__unistrings__.deepsort:
                 from pyppbox.modules.trackers.deepsort import MyDeepSORT
                 if not self.__cfg_is_set__: self.setConfigDir()
@@ -601,16 +594,16 @@ class MT(object):
                 self.__tk__ = MyDeepSORT(self.__tk_cfg__)
                 self.__tk_is_set__ = True
                 self.__setGTDTOnly__()
-                add_info_log("---PYPPBOX : Set tracker='" + str(tracker) + "'")
+                add_info_log(f"---PYPPBOX : Set tracker='{tracker}'")
             elif tracker.lower() == self.__unistrings__.none:
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__cfg__.setAllTCFG()
                 self.__tk_cfg__ = __none_cfg__
                 self.__tk__ = NothingTracker()
                 self.__tk_is_set__ = True
-                add_info_log("---PYPPBOX : Set tracker='" + str(tracker) + "'")
+                add_info_log(f"---PYPPBOX : Set tracker='{tracker}'")
         else:
-            add_warning_log("---PYPPBOX : tracker='" + str(tracker) + "' is not valid")
+            add_warning_log(f"---PYPPBOX : tracker='{tracker}' is not recognized.")
 
     def trackPeople(self, img, people, img_is_mat=False):
         """Track people by giving an image and a list of detected people. :func:`setConfigDir()` 
@@ -685,7 +678,7 @@ class MT(object):
                 self.__ri_cfg__.set(reider_dict)
                 self.__ri__ = MyFaceNet(self.__ri_cfg__, auto_load=auto_load)
                 self.__ri_is_set__ = True
-                add_info_log("---PYPPBOX : Set reider='" + self.__ri_cfg__.ri_name + "'")
+                add_info_log(f"---PYPPBOX : Set reider='{self.__ri_cfg__.ri_name}'")
                 self.__setGTDTOnly__()
             elif reider_dict['ri_name'].lower() == self.__unistrings__.torchreid:
                 from pyppbox.modules.reiders.torchreid import MyTorchreid
@@ -693,7 +686,7 @@ class MT(object):
                 self.__ri_cfg__.set(reider_dict)
                 self.__ri__ = MyTorchreid(self.__ri_cfg__, auto_load=auto_load)
                 self.__ri_is_set__ = True
-                add_info_log("---PYPPBOX : Set reider='" + self.__ri_cfg__.ri_name + "'")
+                add_info_log(f"---PYPPBOX : Set reider='{self.__ri_cfg__.ri_name}'")
                 self.__setGTDTOnly__()
             elif reider_dict['ri_name'].lower() == self.__unistrings__.none:
                 if (self.__dt_cfg__.dt_name.lower() != self.__unistrings__.none and 
@@ -703,12 +696,11 @@ class MT(object):
                     self.__ri__ = NothingReider()
                 self.__ri_cfg__ = __none_cfg__
                 self.__ri_is_set__ = True
-                add_info_log("---PYPPBOX : Set reider='" + self.__ri_cfg__.ri_name + "'")
+                add_info_log(f"---PYPPBOX : Set reider='{self.__ri_cfg__.ri_name}'")
                 self.__revokeGTDTOnly__()
             else :
                 self.__ri_is_set__ = False
-                add_warning_log("---PYPPBOX : reider='" + reider_dict['ri_name'] + 
-                                "' is not recognized")
+                add_warning_log(f"---PYPPBOX : reider='{reider_dict['ri_name']}' is not recognized.")
 
     def setMainReIDer(self, reider="", auto_load=True):
         """Set the main reider by a supported name, a raw/ready dictionary, or a YAML/JSON file. 
@@ -752,7 +744,7 @@ class MT(object):
             elif reider.lower() == "":
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__loadDefaultReIDer__(auto_load=auto_load)
-                add_info_log("---PYPPBOX : Use reider according to the \"main.yaml\"")
+                add_info_log('---PYPPBOX : Use reider according to the "main.yaml"')
             elif reider.lower() == self.__unistrings__.facenet:
                 from pyppbox.modules.reiders.facenet import MyFaceNet
                 if not self.__cfg_is_set__: self.setConfigDir()
@@ -760,7 +752,7 @@ class MT(object):
                 self.__ri_cfg__ = self.__cfg__.rcfg_facenet
                 self.__ri__ = MyFaceNet(self.__ri_cfg__, auto_load=auto_load)
                 self.__ri_is_set__ = True
-                add_info_log("---PYPPBOX : Set reider='" + str(reider) + "'")
+                add_info_log(f"---PYPPBOX : Set reider='{reider}'")
                 self.__setGTDTOnly__()
             elif reider.lower() == self.__unistrings__.torchreid:
                 from pyppbox.modules.reiders.torchreid import MyTorchreid
@@ -769,7 +761,7 @@ class MT(object):
                 self.__ri_cfg__ = self.__cfg__.rcfg_torchreid
                 self.__ri__ = MyTorchreid(self.__ri_cfg__, auto_load=auto_load)
                 self.__ri_is_set__ = True
-                add_info_log("---PYPPBOX : Set reider='" + str(reider) + "'")
+                add_info_log(f"---PYPPBOX : Set reider='{reider}'")
                 self.__setGTDTOnly__()
             elif reider.lower() == self.__unistrings__.none:
                 if not self.__cfg_is_set__: self.setConfigDir()
@@ -781,10 +773,10 @@ class MT(object):
                     self.__ri__ = NothingReider()
                 self.__ri_cfg__ = __none_cfg__
                 self.__ri_is_set__ = True
-                add_info_log("---PYPPBOX : Set reider='" + str(reider) + "'")
+                add_info_log(f"---PYPPBOX : Set reider='{reider}'")
                 self.__revokeGTDTOnly__()
         else:
-            add_warning_log("---PYPPBOX : reider='" + str(reider) + "' is not valid")
+            add_warning_log(f"---PYPPBOX : reider='{reider}' is not recognized.")
 
     def reidPeople(self, img, people, deduplicate=True, img_is_mat=False):
         """Re-identify people by giving an image and a list of detected or tracked people. 
@@ -877,7 +869,7 @@ class MT(object):
                     )
                     reid_count += 1
                 except Exception as e:
-                    add_warning_log("---PYPPBOX : __reidDeepNormal__() -> " + str(e))
+                    add_warning_log(f"---PYPPBOX : __reidDeepNormal__() -> {e}")
             self.__deepidlistTMP__.append(deepid)
             index += 1
         return people, reid_count
@@ -900,7 +892,7 @@ class MT(object):
                             )
                             reid_count += 1
                     except Exception as e:
-                        add_warning_log("---PYPPBOX : __reidDupDeepkiller__() -> " + str(e))
+                        add_warning_log(f"---PYPPBOX : __reidDupDeepkiller__() -> {e}")
                     index += 1
         return people, reid_count
 
@@ -926,7 +918,7 @@ class MT(object):
                     )
                     reid_count += 1
                 except Exception as e:
-                    add_warning_log("---PYPPBOX : __reidFaceNormal__() -> " + str(e))
+                    add_warning_log(f"---PYPPBOX : __reidFaceNormal__() -> {e}")
             self.__faceidlistTMP__.append(faceid)
             index += 1
         return people, reid_count
@@ -954,7 +946,7 @@ class MT(object):
                             )
                             reid_count += 1
                     except Exception as e:
-                        add_warning_log("---PYPPBOX : __reidDupFacekiller__() -> " + str(e))
+                        add_warning_log(f"---PYPPBOX : __reidDupFacekiller__() -> {e}")
                     index += 1
         return people, reid_count
 
@@ -985,13 +977,11 @@ class MT(object):
                     self.__ri_cfg__.train_data = getAbsPathFDS(train_data)
                 else: 
                     valid_train_data = False
-                    add_error_log("---PYPPBOX : train_data='" + str(train_data) + 
-                                  "' does not exist.")
+                    add_error_log(f"---PYPPBOX : train_data='{train_data}' does not exist.")
             if classifier_pkl != "":
                 if not isExist(getAncestorDir(classifier_pkl)):
                     valid_pkl = False
-                    add_error_log("---PYPPBOX : classifier_pkl='" + str(classifier_pkl) + 
-                                  "' is not valid.")
+                    add_error_log(f"---PYPPBOX : classifier_pkl='{classifier_pkl}' is not valid.")
                 if valid_pkl: self.__ri_cfg__.classifier_pkl = getAbsPathFDS(classifier_pkl)
             if valid_train_data and valid_pkl:
                 from pyppbox.modules.reiders.facenet import MyFaceNet
