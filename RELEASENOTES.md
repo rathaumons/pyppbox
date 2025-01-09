@@ -12,7 +12,15 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.7b1](https://github.com/rathaumons/pyppbox/tree/v3.7b1) - The Last V3
+* `pyppbox` [v3.8b1](https://github.com/rathaumons/pyppbox/tree/v3.8b1) - The Last V3
+
+  - Add `show_footnote` option to `visualizePeople()`
+  - Optimize and enhance general performance
+  - Correct typos and improve documentation
+  - **Known issue/limitation**:
+    - You tell me :)
+
+* `pyppbox` [v3.7b1](https://github.com/rathaumons/pyppbox/tree/v3.7b1) - ~~The Last V3~~
 
   - Sync `pyppbox.utils.persontools.Person`'s misc across frames in all trackers
   - Improve and add `--use-numid` for using number id in MOT as the real id in `pyppbox` format
