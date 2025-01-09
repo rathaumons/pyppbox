@@ -1,8 +1,8 @@
 #################################################################################
-# Prepare for CPU-Only -> Overwrite some parameters of internal config
+# Prepare for CPU-Only -> Override some parameters of internal config
 #################################################################################
 
-# Hard overwrite internal config for YOLO Ultralytics -> CPU mode
+# Hard override internal config for YOLO Ultralytics -> CPU mode
 from pyppbox.config.myconfig import MyConfigurator
 internal_configs = MyConfigurator()
 internal_configs.setAllDCFG()
