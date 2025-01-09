@@ -164,8 +164,7 @@ class Person(object):
         return np.concatenate((np.asarray(self.box_xyxy), [self.det_conf])).reshape(1, 5)
 
     def __print_self__(self):
-        print("Person: " + "\t" + str(self.box_xyxy) + "\t" + str(self.cid) + 
-              "\t" + str(self.facid) + "\t" + str(self.deepid))
+        print(f"Person: \t{self.cid}\t{self.box_xyxy}\t{self.cid}\t{self.faceid}\t{self.deepid}")
 
 
 #####################################################################################
