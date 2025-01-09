@@ -113,8 +113,7 @@ class MyCentroid(object):
                         for index in hang_indexes_in_clist:
                             self.current_list[index].cid = self.__generateID__()
             else:
-                msg = ("MyCentroid : update() -> The element of input 'person_list' " + 
-                       "list has unsupported type.")
+                msg = ("MyCentroid : update() -> The element of input 'person_list' list has unsupported type.")
                 add_error_log(msg)
                 raise ValueError(msg)
 

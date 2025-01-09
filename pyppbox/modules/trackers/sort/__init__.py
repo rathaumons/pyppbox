@@ -112,8 +112,7 @@ class MySORT(object):
                             self.current_list[i].deepid_conf = self.previous_list[pindex].deepid_conf
                             self.current_list[i].misc = self.previous_list[pindex].misc
             else:
-                msg = ("MySORT : update() -> The element of input 'person_list' list " + 
-                       "has unsupported type.")
+                msg = ("MySORT : update() -> The element of input 'person_list' list has unsupported type.")
                 add_error_log(msg)
                 raise ValueError(msg)
 

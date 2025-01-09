@@ -151,8 +151,7 @@ class MyDeepSORT(object):
                             self.current_list[cindex].deepid_conf = self.previous_list[pindex].deepid_conf
                             self.current_list[cindex].misc = self.previous_list[pindex].misc
             else:
-                msg = ("MyDeepSORT : update() -> The element of input 'person_list' " + 
-                       "list has unsupported type.")
+                msg = ("MyDeepSORT : update() -> The element of input 'person_list' list has unsupported type.")
                 add_error_log(msg)
                 raise ValueError(msg)
 
