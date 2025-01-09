@@ -19,8 +19,6 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
-import timeit
-
 from .gttools import GTInterpreter, convertStringToNPL
 from .commontools import joinFPathFull, getAbsPathFDS, isExist, getAncestorDir
 from .logtools import add_info_log, add_warning_log, add_error_log
@@ -83,10 +81,10 @@ class MyEVA(object):
         if id_mode != "deepid":
             if str(id_mode).lower() in " deepid faceid ":
                 self.id_mode = str(id_mode).lower()
-                add_info_log("-------EVA : Set id_mode='" + str(self.id_mode) + "'")
+                add_info_log(f"-------EVA : Set id_mode='{self.id_mode}'")
             else :
-                add_warning_log("-------EVA : id_mode='" + str(id_mode) + "' is not recognized.")
-                add_warning_log("-------EVA : Overwite id_mode='" + str(self.id_mode) + "'.")
+                add_warning_log(f"-------EVA : id_mode='{id_mode}' is not recognized.")
+                add_warning_log(f"-------EVA : Override id_mode='{self.id_mode}'.")
         self.gt_interpreter = GTInterpreter()
         self.gt_interpreter.gtIO.loadInputGTMap(gt_map_txt)
         self.gt_file_name = self.gt_interpreter.gtIO.getGTFileName(input_video)
@@ -95,8 +93,7 @@ class MyEVA(object):
             self.gt_file = joinFPathFull(getAncestorDir(gt_map_txt), self.gt_file_name)
             self.gt_interpreter.setGT(self.gt_file)
         else:
-            msg = ("MyEVA : setGTByGTMap() -> There is no GT file for the input '" + 
-                   str(input_video) + "'")
+            msg = f"MyEVA : setGTByGTMap() -> There is no GT file for the input '{input_video}'"
             # add_error_log(msg)
             # raise ValueError(msg)
             add_warning_log(msg)
@@ -116,18 +113,17 @@ class MyEVA(object):
         if id_mode != "deepid":
             if str(id_mode).lower() in " deepid faceid ":
                 self.id_mode = str(id_mode).lower()
-                add_info_log("-------EVA : Set id_mode='" + str(self.id_mode) + "'")
+                add_info_log(f"-------EVA : Set id_mode='{self.id_mode}'")
             else :
-                add_warning_log("-------EVA : id_mode='" + str(id_mode) + "' is not recognized")
-                add_warning_log("-------EVA : Overwite id_mode='" + str(self.id_mode) + "'")
+                add_warning_log(f"-------EVA : id_mode='{id_mode}' is not recognized.")
+                add_warning_log(f"-------EVA : Override id_mode='{self.id_mode}'.")
         self.gt_interpreter = GTInterpreter()
         self.gt_file = gt_file
         if isExist(gt_file):
             self.gt_interpreter.setGT(getAbsPathFDS(self.gt_file))
-            add_info_log("-------EVA : Custom gt_file='" + str(gt_file) + "'")
+            add_info_log(f"-------EVA : Custom gt_file='{gt_file}'")
         else:
-            msg = ("MyEVA : setGTByKnownGTFile() -> The input gt_file='" + 
-                   str(gt_file) + "' does not exist")
+            msg = f"MyEVA : setGTByKnownGTFile() -> The input gt_file='{gt_file}' does not exist"
             # add_error_log(msg)
             # raise ValueError(msg)
             add_warning_log(msg)
@@ -157,9 +153,8 @@ class MyEVA(object):
             for i in range(0, len(id_list_dt)):
                 if '%' in id_list_dt[i]: id_list_dt[i] = id_list_dt[i][:-4]
                 if id_list_gt[i] != id_list_dt[i]:
-                    msg = ("-------EVA : ------------------------------>   " + 
-                           str(id_list_gt[i]) + "\t  --vs--    " + str(id_list_dt[i]) + 
-                           "\t@" + str(self.current_frame))
+                    msg = (f"-------EVA : ------------------------------>   "
+                           f"{id_list_gt[i]}\t  --vs--    {id_list_dt[i]}\t@{self.current_frame}")
                     add_info_log(msg)
                     diff_count += 1
         else:
@@ -167,9 +162,8 @@ class MyEVA(object):
             for i in range(0, len(id_list_gt)):
                 if '%' in id_list_dt[i]: id_list_dt[i] = id_list_dt[i][:-4]
                 if id_list_gt[i] != id_list_dt[i]:
-                    msg = ("-------EVA : ------------------------------>   " + 
-                           str(id_list_gt[i]) + "\t  --vs--    " + str(id_list_dt[i]) + 
-                           "\t@" + str(self.current_frame))
+                    msg = (f"-------EVA : ------------------------------>   "
+                           f"{id_list_gt[i]}\t  --vs--    {id_list_dt[i]}\t@{self.current_frame}")
                     add_info_log(msg)
                     diff_count += 1
         return diff_count, missed_detect, fault_detect
@@ -189,9 +183,8 @@ class MyEVA(object):
                     tmp_deepid = people_dt[i].deepid
                     if '%' in tmp_deepid: tmp_deepid = tmp_deepid[:-4]
                     if gt_frame[person_index_to_compare][2].lower() != tmp_deepid.lower():
-                        msg = ("-------EVA : Frame \t@" + str(self.current_frame) + 
-                               "\t   ---------->   (GT) " + str(gt_frame[person_index_to_compare][2]) + 
-                               "\t -v.s- \t " + str(tmp_deepid))
+                        msg = (f"-------EVA : Frame \t@{self.current_frame}\t   ---------->   (GT) "
+                               f"{gt_frame[person_index_to_compare][2]}\t -v.s- \t {tmp_deepid}")
                         add_info_log(msg)
                         diff_count += 1
                 else: fault_detect += 1
@@ -204,9 +197,8 @@ class MyEVA(object):
                     tmp_deepid = people_dt[i].deepid
                     if '%' in tmp_deepid: tmp_deepid = tmp_deepid[:-4]
                     if gt_frame[person_index_to_compare][2].lower() != tmp_deepid.lower():
-                        msg = ("-------EVA : Frame \t@" + str(self.current_frame) + 
-                               "\t   ---------->   (GT) " + str(gt_frame[person_index_to_compare][2]) + 
-                               "\t -v.s- \t " + str(tmp_deepid))
+                        msg = (f"-------EVA : Frame \t@{self.current_frame}\t   ---------->   (GT) "
+                               f"{gt_frame[person_index_to_compare][2]}\t -v.s- \t {tmp_deepid}")
                         add_info_log(msg)
                         diff_count += 1
                 else: fault_detect += 1
@@ -227,9 +219,8 @@ class MyEVA(object):
                     tmp_faceid = people_dt[i].faceid
                     if '%' in tmp_faceid: tmp_faceid = tmp_faceid[:-4]
                     if gt_frame[person_index_to_compare][2].lower() != tmp_faceid.lower():
-                        msg = ("-------EVA : Frame \t@" + str(self.current_frame) + 
-                               "\t   ---------->   (GT) " + str(gt_frame[person_index_to_compare][2]) + 
-                               "\t -v.s- \t " + str(tmp_faceid))
+                        msg = (f"-------EVA : Frame \t@{self.current_frame}\t   ---------->   (GT) "
+                               f"{gt_frame[person_index_to_compare][2]}\t -v.s- \t {tmp_faceid}")
                         add_info_log(msg)
                         diff_count += 1
                 else: fault_detect += 1
@@ -242,9 +233,8 @@ class MyEVA(object):
                     tmp_faceid = people_dt[i].faceid
                     if '%' in tmp_faceid: tmp_faceid = tmp_faceid[:-4]
                     if gt_frame[person_index_to_compare][2].lower() != tmp_faceid.lower():
-                        msg = ("-------EVA : Frame \t@" + str(self.current_frame) + 
-                               "\t   ---------->   (GT) " + str(gt_frame[person_index_to_compare][2]) + 
-                               "\t -v.s- \t " + str(tmp_faceid))
+                        msg = (f"-------EVA : Frame \t@{self.current_frame}\t   ---------->   (GT) "
+                               f"{gt_frame[person_index_to_compare][2]}\t -v.s- \t {tmp_faceid}")
                         add_info_log(msg)
                         diff_count += 1
                 else: fault_detect += 1
@@ -309,18 +299,17 @@ class MyEVA(object):
             self.score = float((self.gt_interpreter.total_detections - self.diff_count - 
                                 self.missed_detect) / self.gt_interpreter.total_detections)
         if print_summary:
-            msg = ("\n#####################################################################\n\n" +
-                   "  Summary: \n\n" +
-                   "  -----------------------------------------------------------------  \n" +
-                   "                  ReID count  =  " + str(self.reid_count) + "\n" +
-                   "      Missed detection count  =  " + str(self.missed_detect) + "\n" +
-                   "       Fault detection count  =  " + str(self.fault_detect) + "\n" +
-                   "              Wrong ID count  =  " + (str(self.diff_count) + " / " + 
-                                                        str(self.gt_interpreter.total_detections) + "\n") +
-                   "  -----------------------------------------------------------------  \n\n" +
-                   "               * Final score  =  " + str(self.score) + "\n\n" +
-                   "     [(Total ID) - (Wrong ID) - (Missed Detection)] / (Total ID)     \n\n" +
-                   "#####################################################################\n")
+            msg = (f"\n#####################################################################\n\n"
+                   f"  Summary: \n\n"
+                   f"  -----------------------------------------------------------------  \n"
+                   f"                  ReID count  =  {self.reid_count}\n"
+                   f"      Missed detection count  =  {self.missed_detect}\n"
+                   f"       Fault detection count  =  {self.fault_detect}\n"
+                   f"              Wrong ID count  =  {self.diff_count} / {self.gt_interpreter.total_detections}\n"
+                   f"  -----------------------------------------------------------------  \n\n"
+                   f"               * Final score  =  {self.score}\n\n"
+                   f"     [(Total ID) - (Wrong ID) - (Missed Detection)] / (Total ID)     \n\n"
+                   f"#####################################################################\n")
             add_info_log(msg, add_new_line=True)
         return (self.diff_count, self.missed_detect, self.fault_detect, self.reid_count, 
                 self.gt_interpreter.total_detections, self.score)
@@ -415,26 +404,16 @@ class TKOReider(object):
     def setStaticIDs(self, static_ids, plus_random=65536):
         self.static_ids = static_ids
         self.static_ids_len = len(self.static_ids)
-        if self.is_static and self.static_ids_len > 0:
-            self.static_ids = static_ids
-        elif self.is_static and self.static_ids_len <= 0:
-            self.static_ids.append("Lester")
-            self.static_ids.append("Michael")
-            self.static_ids.append("Franklin")
-            self.static_ids.append("Trevor")
-            self.static_ids.append("Amanda")
-            self.static_ids.append("MCU-Vision")
-            self.static_ids.append("MCU-Thor")
-            self.static_ids.append("MCU-Hulk")
-            self.static_ids.append("MCU-Loki")
-            self.static_ids.append("MCU-Thanos")
-            self.static_ids.append("DC-Batman")
-            self.static_ids.append("DC-Superman")
-            self.static_ids.append("DC-Aquaman")
-            self.static_ids.append("DC-Shazam")
-            self.static_ids.append("DC-Cyborg")
-            for _ in range(0, plus_random):
-                self.static_ids.append(self.generateID(self.string_length))
+        if self.is_static:
+            if self.static_ids_len <= 0:
+                default_ids = ["Lester", "Michael", "Franklin", "Trevor", "Amanda", "MCU-Vision", "MCU-Thor",
+                               "MCU-Hulk", "MCU-Loki", "MCU-Thanos", "DC-Batman", "DC-Superman", "DC-Aquaman",
+                               "DC-Shazam", "DC-Cyborg"]
+                self.static_ids.extend(default_ids)
+                for _ in range(plus_random):
+                    self.static_ids.append(self.generateID(self.string_length))
+
+
 
 
 ###############################################################################################
@@ -531,10 +510,9 @@ def compareRes2Ref(res_txt, ref_txt, res_box_xyxy_index=5, ref_box_xyxy_index=4,
                             if (ref_frame[person_index_to_compare][ref_compare_index].lower() != 
                                 res_frame[i][res_compare_index].lower()):
                                 add_info_log(
-                                    "compareRes2Ref() -> Frame \t@" + 
-                                    str(frame) + "\t   ---------->   (Ref) " + 
-                                    str(ref_frame[person_index_to_compare][ref_compare_index]) + 
-                                    "\t -v.s- \t(Res) " + str(res_frame[i][res_compare_index].lower())
+                                    f"compareRes2Ref() -> Frame \t@{frame}\t   ---------->   (Ref) "
+                                    f"{ref_frame[person_index_to_compare][ref_compare_index]}\t -v.s- \t(Res) "
+                                    f"{res_frame[i][res_compare_index].lower()}"
                                 )
                                 diff_count += 1
                         else: fault_detect += 1
@@ -551,10 +529,9 @@ def compareRes2Ref(res_txt, ref_txt, res_box_xyxy_index=5, ref_box_xyxy_index=4,
                             if (ref_frame[person_index_to_compare][ref_compare_index].lower() != 
                                 res_frame[i][res_compare_index].lower()):
                                 add_info_log(
-                                    "compareRes2Ref() -> Frame \t@" +
-                                    str(frame) + "\t   ---------->   (Ref) " + 
-                                    str(ref_frame[person_index_to_compare][ref_compare_index]) + 
-                                    "\t -v.s- \t(Res) " + str(res_frame[i][res_compare_index].lower())
+                                    f"compareRes2Ref() -> Frame \t@{frame}\t   ---------->   (Ref) "
+                                    f"{ref_frame[person_index_to_compare][ref_compare_index]}\t -v.s- \t(Res) "
+                                    f"{res_frame[i][res_compare_index].lower()}"
                                 )
                                 diff_count += 1
                         else: fault_detect += 1
@@ -562,17 +539,17 @@ def compareRes2Ref(res_txt, ref_txt, res_box_xyxy_index=5, ref_box_xyxy_index=4,
             total_detections = ref_interpreter.total_detections
             score = float((total_detections - diff_count - missed_detect)/total_detections)
 
-            msg = ("\n#####################################################################\n\n" +
-                   "  Summary: \n\n" +
-                   "  -----------------------------------------------------------------  \n" +
-                   "      Missed detection count  =  " + str(missed_detect) + "\n" +
-                   "       Fault detection count  =  " + str(fault_detect) + "\n" +
-                   "              Wrong ID count  =  " + (str(diff_count) + " / " + 
-                                                          str(total_detections) + "\n") +
-                   "  -----------------------------------------------------------------  \n\n" +
-                   "               * Final score  =  " + str(score) + "\n\n" +
-                   "     [(Total ID) - (Wrong ID) - (Missed Detection)] / (Total ID)     \n\n" +
-                   "#####################################################################\n")
+            msg = (f"\n#####################################################################\n\n"
+                   f"  Summary: \n\n"
+                   f"  -----------------------------------------------------------------  \n"
+                   f"      Missed detection count  =  {missed_detect}\n"
+                   f"       Fault detection count  =  {fault_detect}\n"
+                   f"              Wrong ID count  =  {diff_count} / {total_detections}\n"
+                   f"  -----------------------------------------------------------------  \n\n"
+                   f"               * Final score  =  {score}\n\n"
+                   f"     [(Total ID) - (Wrong ID) - (Missed Detection)] / (Total ID)     \n\n"
+                   f"#####################################################################\n")
+
             add_info_log(msg, add_new_line=True)
 
         else:
