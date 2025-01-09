@@ -137,7 +137,7 @@ def visualizePeople(img, people, show_box=True, show_skl=(True,True,5), show_ids
     Mat
         A visualized :obj:`Mat` like image.
     """
-    # Overwrite `img_is_mat` to False when `img` is a file.
+    # Override `img_is_mat` to False when `img` is a file.
     if img_is_mat and isinstance(img, str): img_is_mat = False
     if not img_is_mat: img = getCVMat(img)
     if isinstance(people, list):
