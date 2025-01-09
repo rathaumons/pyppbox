@@ -101,7 +101,7 @@ def __addSKL__(img, kpts, radius=5, kpt_line=True):
     return img
 
 def visualizePeople(img, people, show_box=True, show_skl=(True,True,5), show_ids=(True,True,True), 
-                    show_reid=(0,0), show_repspoint=True, img_is_mat=True):
+                    show_reid=(0,0), show_repspoint=True, show_footnote=True, img_is_mat=True):
     """Visualize people in the image by the given people. 
 
     Parameters
@@ -127,8 +127,10 @@ def visualizePeople(img, people, show_box=True, show_skl=(True,True,5), show_ids
         Tuple of (ReID count, ReID deduplicate count)
     show_repspoint : bool, default=True
         Indicate whether to show the :obj:`repspoint` of :class:`pyppbox.utils.persontools.Person` object.
+    show_footnote : bool, default=True
+        Indicate whether to show the foot note.
     img_is_mat : bool, default=True
-        Speed up the function by telling whether the :obj:`img` is :obj:`Mat` like image.
+        Speed up the function by specifying whether the :obj:`img` is :obj:`Mat` like image.
     
     Returns
     -------
@@ -141,37 +143,36 @@ def visualizePeople(img, people, show_box=True, show_skl=(True,True,5), show_ids
     if isinstance(people, list):
         if len(people) > 0:
             if isinstance(people[0], Person):
-                (h, w, c) = img.shape
-                deepid_footnote_pos = (int(w - 90), h - 35)
-                faceid_footnote_pos = (int(w - 90), h - 10)
-                reid_pos = (int(w - 360), 30)
-                cv2.putText(img, deepid_footnote_text, deepid_footnote_pos, footnote_font, 
-                            footnote_font_scale, deepid_col, footnote_font_thickness)
-                cv2.putText(img, faceid_footnote_text, faceid_footnote_pos, footnote_font, 
-                            footnote_font_scale, faceid_col, footnote_font_thickness)
+                h, w, c = img.shape
+                h = int(h)
+                w = int(w)
+                if show_footnote:
+                    deepid_footnote_pos = (w - 90, h - 35)
+                    faceid_footnote_pos = (w - 90, h - 10)
+                    cv2.putText(img, deepid_footnote_text, deepid_footnote_pos, footnote_font, 
+                                footnote_font_scale, deepid_col, footnote_font_thickness)
+                    cv2.putText(img, faceid_footnote_text, faceid_footnote_pos, footnote_font, 
+                                footnote_font_scale, faceid_col, footnote_font_thickness)
+                reid_pos = (w - 360, 30)
                 for p in people:
-                    (x, y) = p.repspoint
+                    x, y = p.repspoint
                     if show_box:
-                        cv2.rectangle(img, (p.box_xyxy[0], p.box_xyxy[1]), 
-                                      (p.box_xyxy[2], p.box_xyxy[3]), (255, 255, 0), 2)
+                        cv2.rectangle(img, (p.box_xyxy[0], p.box_xyxy[1]), (p.box_xyxy[2], p.box_xyxy[3]), (255, 255, 0), 2)
                     if show_repspoint:
-                        cv2.circle(img, (p.repspoint[0], p.repspoint[1]), radius=5, 
-                                   color=(0, 0, 255), thickness=-1)
-                    if (has_ultralytics and isinstance(show_skl, tuple) and np.asarray(show_skl).shape == (3,) 
-                        and len(p.keypoints) >= 15):
-                        (s, l, r) = show_skl
-                        if s: img = __addSKL__(img, p.keypoints, radius=r, kpt_line=l)
-                    if (isinstance(show_ids, tuple) and 
-                        np.asarray(show_ids).shape == (3,)):
+                        cv2.circle(img, (x, y), 5, (0, 0, 255), -1)
+                    if has_ultralytics and isinstance(show_skl, tuple):
+                        if np.asarray(show_skl).shape == (3,) and len(p.keypoints) >= 15:
+                            s, l, r = show_skl
+                            if s: img = __addSKL__(img, p.keypoints, r, l)
+                    if isinstance(show_ids, tuple) and np.asarray(show_ids).shape == (3,):
                         if show_ids[0]:
-                            cv2.putText(img, str(p.cid), (x - 10, y - 65), cid_font, 
-                                        1, cid_col, cid_font_thickness)
+                            cv2.putText(img, str(p.cid), (x - 10, y - 65), cid_font, 1, cid_col, cid_font_thickness)
                         if show_ids[1]:
-                            cv2.putText(img, str(p.deepid + " : " + str(int(p.deepid_conf)) + "%"), 
-                                        (x - 90, y - 115), deepid_font, 1, deepid_col, deepid_font_thickness)
+                            cv2.putText(img, f"{p.deepid} : {int(p.deepid_conf)}%", (x - 90, y - 115), deepid_font, 
+                                        1, deepid_col, deepid_font_thickness)
                         if show_ids[2]:
-                            cv2.putText(img, str(p.faceid + " : " + str(int(p.faceid_conf)) + "%"), 
-                                        (x - 90, y - 90), faceid_font, 1, faceid_col, faceid_font_thickness)
+                            cv2.putText(img, f"{p.faceid} : {int(p.faceid_conf)}%", (x - 90, y - 90), faceid_font, 
+                                        1, faceid_col, faceid_font_thickness)
                     if (isinstance(show_reid, tuple) and 
                         np.asarray(show_reid).shape == (2,)):
                         if show_reid[0] > 0:
@@ -183,7 +184,7 @@ def visualizePeople(img, people, show_box=True, show_skl=(True,True,5), show_ids
                             cv2.putText(img, "DEDUPLICATING <-", reid_pos, reid_status_font, 
                                         1, reid_dup_col, 1, cv2.LINE_AA)
                     else:
-                        msg = "visualizePeople() -> show_reid=" + str(show_reid) + " is not valid."
+                        msg = f"visualizePeople() -> show_reid={show_reid} is not valid."
                         add_error_log(msg)
                         raise ValueError(msg)
             else:
