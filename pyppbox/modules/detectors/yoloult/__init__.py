@@ -60,6 +60,8 @@ class MyYOLOULT(object):
             if self.cfg.device.lower() == 'cpu':
                 self.cpu_only = True
         ignore_this_logger("ultralytics")
+        ignore_this_logger("pyppbox-ultralytics")
+        ignore_this_logger("vsensebox-ultralytics")
         if "nas" in self.cfg.model_file:
             # YOLO NAS isn't stable yet :/
             from ultralytics import NAS
@@ -69,10 +71,8 @@ class MyYOLOULT(object):
             self.model = YOLO(self.cfg.model_file)
         from ultralytics.utils.plotting import Colors
         self.colors = Colors()
-        self.skeleton = [[16, 14], [14, 12], [17, 15], [15, 13], 
-                         [12, 13], [6, 12], [7, 13], [6, 7], [6, 8],
-                         [7, 9], [8, 10], [9, 11], [2, 3], [1, 2], 
-                         [1, 3], [2, 4], [3, 5], [4, 6], [5, 7]]
+        self.skeleton = [[16, 14], [14, 12], [17, 15], [15, 13], [12, 13], [6, 12], [7, 13], [6, 7], [6, 8],
+                         [7, 9], [8, 10], [9, 11], [2, 3], [1, 2], [1, 3], [2, 4], [3, 5], [4, 6], [5, 7]]
 
     def __kpts__(self, img, kpts, radius=5, kpt_line=True):
         # Internal function
@@ -81,8 +81,7 @@ class MyYOLOULT(object):
         nkpt, ndim = kpts.shape
         is_pose = nkpt == 17 and ndim == 3
         kpt_line &= is_pose
-        kpt_color = self.colors.pose_palette[[16, 16, 16, 16, 16, 0, 0, 
-                                              0, 0, 0, 0, 9, 9, 9, 9, 9, 9]]
+        kpt_color = self.colors.pose_palette[[16, 16, 16, 16, 16, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9]]
         for i, k in enumerate(kpts):
             color_k = [int(x) for x in kpt_color[i]
                        ] if is_pose else self.colors(i)
@@ -96,8 +95,7 @@ class MyYOLOULT(object):
                            radius, color_k, -1, lineType=cv2.LINE_AA)
         if kpt_line:
             ndim = kpts.shape[-1]
-            limb_color = self.colors.pose_palette[[9, 9, 9, 9, 7, 7, 7, 0, 0, 0, 
-                                                   0, 0, 16, 16, 16, 16, 16, 16, 16]]
+            limb_color = self.colors.pose_palette[[9, 9, 9, 9, 7, 7, 7, 0, 0, 0, 0, 0, 16, 16, 16, 16, 16, 16, 16]]
             for i, sk in enumerate(self.skeleton):
                 pos1 = (int(kpts[(sk[0] - 1), 0]), int(kpts[(sk[0] - 1), 1]))
                 pos2 = (int(kpts[(sk[1] - 1), 0]), int(kpts[(sk[1] - 1), 1]))
@@ -106,11 +104,9 @@ class MyYOLOULT(object):
                     conf2 = kpts[(sk[1] - 1), 2]
                     if conf1 < 0.5 or conf2 < 0.5:
                         continue
-                if (pos1[0] % shape[1] == 0 or pos1[1] % shape[0] == 0 or 
-                    pos1[0] < 0 or pos1[1] < 0):
+                if (pos1[0] % shape[1] == 0 or pos1[1] % shape[0] == 0 or pos1[0] < 0 or pos1[1] < 0):
                     continue
-                if (pos2[0] % shape[1] == 0 or pos2[1] % shape[0] == 0 or 
-                    pos2[0] < 0 or pos2[1] < 0):
+                if (pos2[0] % shape[1] == 0 or pos2[1] % shape[0] == 0 or pos2[0] < 0 or pos2[1] < 0):
                     continue
                 cv2.line(img, pos1, pos2, [int(x) for x in limb_color[i]], 
                          thickness=2, lineType=cv2.LINE_AA)
@@ -170,7 +166,8 @@ class MyYOLOULT(object):
         dt_confidences = numpy_dets.boxes.conf
         dt_keypoints = dets[0].keypoints
         if dt_keypoints is not None:
-            for box_xyxy, conf, kp in zip(dt_boxes_xyxy, dt_confidences, reversed(dt_keypoints)):
+            rev_dt_kps = reversed(dt_keypoints)
+            for box_xyxy, conf, kp in zip(dt_boxes_xyxy, dt_confidences, rev_dt_kps):
                 box_xyxy = box_xyxy.astype(int)
                 box_xywh = to_xywh(box_xyxy)
                 if box_xywh[2] >= min_width_filter:
@@ -182,10 +179,8 @@ class MyYOLOULT(object):
                     keypoints.append(keypoint)
                     confs.append(float(conf))
                     if visual:
-                        cv2.circle(img, (repspoint[0], repspoint[1]), 
-                                   radius=5, color=(0, 0, 255), thickness=-1)
-                        cv2.rectangle(img, (box_xyxy[0], box_xyxy[1]), 
-                                      (box_xyxy[2], box_xyxy[3]), (255, 255, 0), 2)
+                        cv2.circle(img, (repspoint[0], repspoint[1]), 5, (0, 0, 255), -1)
+                        cv2.rectangle(img, (box_xyxy[0], box_xyxy[1]), (box_xyxy[2], box_xyxy[3]), (255, 255, 0), 2)
                         self.__kpts__(img, keypoint, kpt_line=True)
         elif len(dt_boxes_xyxy) > 0:
             for box_xyxy, conf in zip(dt_boxes_xyxy, dt_confidences):
@@ -198,10 +193,8 @@ class MyYOLOULT(object):
                     repspoints.append(repspoint)
                     confs.append(float(conf))
                     if visual:
-                        cv2.circle(img, (repspoint[0], repspoint[1]), 
-                                   radius=5, color=(0, 0, 255), thickness=-1)
-                        cv2.rectangle(img, (box_xyxy[0], box_xyxy[1]), 
-                                      (box_xyxy[2], box_xyxy[3]), (255, 255, 0), 2)
+                        cv2.circle(img, (repspoint[0], repspoint[1]), 5, (0, 0, 255), -1)
+                        cv2.rectangle(img, (box_xyxy[0], box_xyxy[1]), (box_xyxy[2], box_xyxy[3]), (255, 255, 0), 2)
         return img, pboxes_xywh, pboxes_xyxy, repspoints, keypoints, confs
 
     def detectPeople(self, img, visual=True, min_width_filter=35, alt_repspoint=False, alt_repspoint_top=True):
@@ -249,7 +242,8 @@ class MyYOLOULT(object):
         dt_keypoints = dets[0].keypoints
         if dt_keypoints is not None:
             i = 0
-            for box_xyxy, conf, kp in zip(dt_boxes_xyxy, dt_confidences, reversed(dt_keypoints)):
+            rev_dt_kps = reversed(dt_keypoints)
+            for box_xyxy, conf, kp in zip(dt_boxes_xyxy, dt_confidences, rev_dt_kps):
                 box_xyxy = box_xyxy.astype(int)
                 box_xywh = to_xywh(box_xyxy)
                 if box_xywh[2] >= min_width_filter:
@@ -260,10 +254,8 @@ class MyYOLOULT(object):
                                   keypoints=keypoint, repspoint=repspoint, det_conf=float(conf)))
                     i += 1
                     if visual:
-                        cv2.circle(img, (repspoint[0], repspoint[1]), 
-                                   radius=5, color=(0, 0, 255), thickness=-1)
-                        cv2.rectangle(img, (box_xyxy[0], box_xyxy[1]), 
-                                      (box_xyxy[2], box_xyxy[3]), (255, 255, 0), 2)
+                        cv2.circle(img, (repspoint[0], repspoint[1]), 5, (0, 0, 255), -1)
+                        cv2.rectangle(img, (box_xyxy[0], box_xyxy[1]), (box_xyxy[2], box_xyxy[3]), (255, 255, 0), 2)
                         self.__kpts__(img, keypoint, kpt_line=True)
         elif len(dt_boxes_xyxy) > 0:
             i = 0
@@ -277,8 +269,6 @@ class MyYOLOULT(object):
                                   repspoint=repspoint, det_conf=float(conf)))
                     i += 1
                     if visual:
-                        cv2.circle(img, (repspoint[0], repspoint[1]), 
-                                   radius=5, color=(0, 0, 255), thickness=-1)
-                        cv2.rectangle(img, (box_xyxy[0], box_xyxy[1]), 
-                                      (box_xyxy[2], box_xyxy[3]), (255, 255, 0), 2)
+                        cv2.circle(img, (repspoint[0], repspoint[1]), 5, (0, 0, 255), -1)
+                        cv2.rectangle(img, (box_xyxy[0], box_xyxy[1]), (box_xyxy[2], box_xyxy[3]), (255, 255, 0), 2)
         return people, img
