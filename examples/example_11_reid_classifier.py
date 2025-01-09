@@ -5,7 +5,13 @@
 from pyppbox.standalone import trainReIDClassifier
 
 
-# Reider
+# The simplest way with internal config supposing everything is set the way you want, 
+# then you can simply import the `trainReIDClassifier` and call it directly; for example:
+#
+# >>> from pyppbox.standalone import trainReIDClassifier
+# >>> trainReIDClassifier()
+
+# Set your custom config for a reider; for example,
 myreider={
     'ri_name': 'Torchreid', 
     'classifier_pkl': 'C:/pyppbox_v3/data/modules/torchreid/classifier/gta5_osnet_ain_ms_d_c.pkl', 
@@ -15,16 +21,12 @@ myreider={
     'min_confidence': 0.35,
     'device': 'cuda'
 }
+# The `model_path` above can also be pointed to the internal one inside your Python enviroment.
 
+# Now you can train your reid classifier
 trainReIDClassifier(
     reider=myreider, 
     train_data="", # Set train_data="" means using the default 'train_data' in line 12
     classifier_pkl="data/new_gta_osnet_ain_ms_d_c.pkl" # Set classifier_pkl="" to use the default in line 11
 )
-
-# The simplest way with internal config supposing everything is set the way you want, 
-# then you can simply import the `trainReIDClassifier` and call it directly; for example:
-#
-# >>> from pyppbox.standalone import trainReIDClassifier
-# >>> trainReIDClassifier()
 
