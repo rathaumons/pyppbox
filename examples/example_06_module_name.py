@@ -30,7 +30,7 @@ setMainReIDer(reider="Torchreid")
 """
 
 # Instead of calling `setMainDetector()`, `setMainTracker()`, and aslo 
-# `setMainReIDer()`, you can call `setMainModules()` to overwrite the default 
+# `setMainReIDer()`, you can call `setMainModules()` to override the default 
 # configurations and set and load the ones you need.
 main_configurations = {'detector': 'YOLO_Classic', 
                        'tracker': 'SORT', 
