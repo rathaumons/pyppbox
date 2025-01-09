@@ -20,17 +20,17 @@
 
 import torch
 print("########################## PyTorch ##########################")
-print("GPU with CUDA = " + str(torch.cuda.is_available()))
-print("Number of CUDA GPU = " + str(torch.cuda.device_count()))
+print(f"GPU with CUDA = {torch.cuda.is_available()}")
+print(f"Number of CUDA GPU = {torch.cuda.device_count()}")
 import cv2
 print("########################### OpenCV ##########################")
-print("OpenCV = " + str(cv2.__version__))
-print("Number of CUDA GPU = " + str(cv2.cuda.getCudaEnabledDeviceCount()))
+print(f"OpenCV = {cv2.__version__}")
+print(f"Number of CUDA GPU = {cv2.cuda.getCudaEnabledDeviceCount()}")
 import pyppbox_torchreid
 print("######################### Torchreid #########################")
-print("Torchreid = " + str(pyppbox_torchreid.__version__))
+print(f"Torchreid = {pyppbox_torchreid.__version__}")
 from pyppbox_torchreid.metrics.rank_cylib import rank_cy
-print("Cython test finished -> Congrats if you don't see otherwise..")
+print("Cython test finished -> Congrats if you don't see otherwise.")
 print("######################## Ultralytics ########################")
 import ultralytics
-print("Ultralytics = " + str(ultralytics.__version__))
+print(f"Ultralytics = {ultralytics.__version__}")
