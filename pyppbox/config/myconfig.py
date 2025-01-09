@@ -130,7 +130,7 @@ class NoneCFG(BaseCGF):
         Parameters
         ----------
         input : any
-            A parameter to be overwritten to a unified string of :code:`"None"`.
+            A parameter to be overrided with a unified string of :code:`"None"`.
         """
         input = "None"
         self.dt_name = self.unified_strings.getUnifiedFormat(input)
@@ -173,7 +173,7 @@ class MainCFG(BaseCGF):
                 self.reider = self.unified_strings.getUnifiedFormat(self.configs['reider'])
                 self.configs = self.getDocument()
             except Exception as e:
-                msg = "MainCFG : set() -> " + str(e)
+                msg = f"MainCFG : set() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
         else:
@@ -264,18 +264,15 @@ class DCFGYOLOCLS(BaseCGF):
                 self.dt_name = self.unified_strings.getUnifiedFormat(self.configs['dt_name'])
                 self.nms = self.configs['nms']
                 self.conf = self.configs['conf']
-                self.class_file = getAdaptiveAbsPathFDS(self.from_dir, 
-                                                        self.configs['class_file'])
-                self.model_cfg_file = getAdaptiveAbsPathFDS(self.from_dir, 
-                                                            self.configs['model_cfg_file'])
-                self.model_weights = getAdaptiveAbsPathFDS(self.from_dir, 
-                                                           self.configs['model_weights'])
+                self.class_file = getAdaptiveAbsPathFDS(self.from_dir, self.configs['class_file'])
+                self.model_cfg_file = getAdaptiveAbsPathFDS(self.from_dir, self.configs['model_cfg_file'])
+                self.model_weights = getAdaptiveAbsPathFDS(self.from_dir, self.configs['model_weights'])
                 self.model_image_size = self.configs['model_image_size']
                 self.model_resolution = (self.model_image_size, self.model_image_size)
                 self.repspoint_calibration = self.configs['repspoint_calibration']
                 self.configs = self.getDocument()
             except Exception as e:
-                msg = "DCFGYOLOCLS : set() -> " + str(e)
+                msg = f"DCFGYOLOCLS : set() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
         else:
@@ -376,12 +373,11 @@ class DCFGYOLOULT(BaseCGF):
                 self.device = self.configs['device']
                 self.max_det = self.configs['max_det']
                 self.line_width = self.configs['line_width']
-                self.model_file = getAdaptiveAbsPathFDS(self.from_dir, 
-                                                        self.configs['model_file'])
+                self.model_file = getAdaptiveAbsPathFDS(self.from_dir, self.configs['model_file'])
                 self.repspoint_calibration = self.configs['repspoint_calibration']
                 self.configs = self.getDocument()
             except Exception as e:
-                msg = "DCFGYOLOULT : set() -> " + str(e)
+                msg = f"DCFGYOLOULT : set() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
         else:
@@ -467,7 +463,7 @@ class DCFGGT(BaseCGF):
                 self.gt_map_file = getAdaptiveAbsPathFDS(self.from_dir, self.configs['gt_map_file'])
                 self.configs = self.getDocument()
             except Exception as e:
-                msg = "DCFGGT : set() -> " + str(e)
+                msg = f"DCFGGT : set() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
         else:
@@ -520,7 +516,7 @@ class TCFGCentroid(BaseCGF):
                 self.max_spread = self.configs['max_spread']
                 self.configs = self.getDocument()
             except Exception as e:
-                msg = "TCFGCentroid : set() -> " + str(e)
+                msg = f"TCFGCentroid : set() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
         else:
@@ -577,7 +573,7 @@ class TCFGSORT(BaseCGF):
                 self.iou_threshold = self.configs['iou_threshold']
                 self.configs = self.getDocument()
             except Exception as e:
-                msg = "TCFGSORT : set() -> " + str(e)
+                msg = f"TCFGSORT : set() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
         else:
@@ -663,7 +659,7 @@ class TCFGDeepSORT(BaseCGF):
                 self.model_file = getAdaptiveAbsPathFDS(self.from_dir, self.configs['model_file'])
                 self.configs = self.getDocument()
             except Exception as e:
-                msg = "TCFGDeepSORT : set() -> " + str(e)
+                msg = f"TCFGDeepSORT : set() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
         else:
@@ -772,7 +768,7 @@ class RCFGFaceNet(BaseCGF):
                 self.yl_w_calibration = self.configs['yl_w_calibration']
                 self.configs = self.getDocument()
             except Exception as e:
-                msg = "RCFGFaceNet : set() -> " + str(e)
+                msg = f"RCFGFaceNet : set() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
         else:
@@ -873,13 +869,10 @@ class RCFGTorchreid(BaseCGF):
             try:
                 from pyppbox.modules.reiders.torchreid.model_dict import TorchreidModelDict
                 self.ri_name = self.unified_strings.getUnifiedFormat(self.configs['ri_name'])
-                self.classifier_pkl = getAdaptiveAbsPathFDS(self.from_dir, 
-                                                            self.configs['classifier_pkl'])
-                self.train_data = getAdaptiveAbsPathFDS(self.from_dir, 
-                                                        self.configs['train_data'])
+                self.classifier_pkl = getAdaptiveAbsPathFDS(self.from_dir, self.configs['classifier_pkl'])
+                self.train_data = getAdaptiveAbsPathFDS(self.from_dir, self.configs['train_data'])
                 self.model_name = self.configs['model_name']
-                self.model_path = getAdaptiveAbsPathFDS(self.from_dir, 
-                                                        self.configs['model_path'])
+                self.model_path = getAdaptiveAbsPathFDS(self.from_dir, self.configs['model_path'])
                 self.min_confidence = self.configs['min_confidence']
                 self.device = self.configs['device']
                 self.configs = self.getDocument()
@@ -890,7 +883,7 @@ class RCFGTorchreid(BaseCGF):
                 self.model_dict = TorchreidModelDict()
                 self.model_wh = self.model_dict.getWH(getFileName(self.model_path))
             except Exception as e:
-                msg = "RCFGTorchreid : set() -> " + str(e)
+                msg = f"RCFGTorchreid : set() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
         else:
@@ -1152,7 +1145,7 @@ class MyConfigurator(PYPPBOXStructure):
         ----------
         main_yaml : str or dict, default=None
             A YAML/JSON file path, or a raw/ready dictionary of the main configurations 
-            or main.yaml. This :obj:`main_yaml` helps overwrite the original one configured 
+            or main.yaml. This :obj:`main_yaml` helps override the original one configured 
             during the :meth:`__init__()`.
             Leave it as default :code:`main_yaml=None`, to load and set according to the 
             configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
@@ -1170,7 +1163,7 @@ class MyConfigurator(PYPPBOXStructure):
         ----------
         main_yaml : str or dict, default=None
             A YAML/JSON file path, or a raw/ready dictionary of the main configurations 
-            or main.yaml. This :obj:`main_yaml` helps overwrite the original one configured 
+            or main.yaml. This :obj:`main_yaml` helps override the original one configured 
             during the :meth:`__init__()`.
             Leave it as default :code:`main_yaml=None`, to load and set according to the 
             configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
@@ -1202,7 +1195,7 @@ class MyConfigurator(PYPPBOXStructure):
         ----------
         detectors_yaml : str or dict, default=None
             A YAML/JSON file path, or a raw/ready dictionary of the detectors' configurations 
-            or detectors.yaml. This :obj:`detectors_yaml` helps overwrite the original one 
+            or detectors.yaml. This :obj:`detectors_yaml` helps override the original one 
             configured during the :meth:`__init__()`. 
             Leave it as default :code:`detectors_yaml=None`, to load and set according to the 
             configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
@@ -1210,7 +1203,7 @@ class MyConfigurator(PYPPBOXStructure):
             An indication of whether the paths inside your configuration file are relative 
             to :code:`{pyppbox root}` or not. This indication or behavior was automatically 
             decided during the :meth:`__init__()`, and you don't need to set or change it 
-            unless you set :obj:`detectors_yaml` to overwrite the original configurations. If 
+            unless you set :obj:`detectors_yaml` to override the original configurations. If 
             all the paths inside your configuration file have full absolute paths, setting 
             :obj:`relative_to_pyppbox_root` is optional.
         """
@@ -1232,7 +1225,7 @@ class MyConfigurator(PYPPBOXStructure):
                 if d['dt_name'].lower() == self.unified_strings.gt:
                     self.dcfg_gt.set(d)
             except Exception as e:
-                msg = "MyConfigurator : setGTCFG() -> " + str(e)
+                msg = f"MyConfigurator : setGTCFG() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
 
@@ -1243,7 +1236,7 @@ class MyConfigurator(PYPPBOXStructure):
         ----------
         detectors_yaml : str or dict, default=None
             A YAML/JSON file path, or a raw/ready dictionary of the detectors' configurations 
-            or detectors.yaml. This :obj:`detectors_yaml` helps overwrite the original one 
+            or detectors.yaml. This :obj:`detectors_yaml` helps override the original one 
             configured during the :meth:`__init__()`. 
             Leave it as default :code:`detectors_yaml=None`, to load and set according to the 
             configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
@@ -1251,7 +1244,7 @@ class MyConfigurator(PYPPBOXStructure):
             An indication of whether the paths inside your configuration file are relative 
             to :code:`{pyppbox root}` or not. This indication or behavior was automatically 
             decided during the :meth:`__init__()`, and you don't need to set or change it 
-            unless you set :obj:`detectors_yaml` to overwrite the original configurations. If 
+            unless you set :obj:`detectors_yaml` to override the original configurations. If 
             all the paths inside your configuration file have full absolute paths, setting 
             :obj:`relative_to_pyppbox_root` is optional.
         """
@@ -1285,11 +1278,10 @@ class MyConfigurator(PYPPBOXStructure):
                     self.dcfg_gt.set(d)
                     self.dt_map.append(self.dcfg_gt.dt_name)
                 else:
-                    msg = ("MyConfigurator : setAllDCFG() -> Name '" + 
-                           str(d['dt_name']) + "' is not supported.")
+                    msg = f"MyConfigurator : setAllDCFG() -> Name '{d['dt_name']}' is not supported."
                     add_warning_log(msg)
             except Exception as e:
-                msg = "MyConfigurator : setAllDCFG() -> " + str(e)
+                msg = f"MyConfigurator : setAllDCFG() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
 
@@ -1300,7 +1292,7 @@ class MyConfigurator(PYPPBOXStructure):
         ----------
         trackers_yaml : str or dict, default=None
             A YAML/JSON file path, or a raw/ready dictionary of the trackers' configurations 
-            or trackers.yaml. This :obj:`trackers_yaml` helps overwrite the original one 
+            or trackers.yaml. This :obj:`trackers_yaml` helps override the original one 
             configured during the :meth:`__init__()`. 
             Leave it as default :code:`trackers_yaml=None`, to load and set according to the 
             configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
@@ -1308,7 +1300,7 @@ class MyConfigurator(PYPPBOXStructure):
             An indication of whether the paths inside your configuration file are relative 
             to :code:`{pyppbox root}` or not. This indication or behavior was automatically 
             decided during the :meth:`__init__()`, and you don't need to set or change it 
-            unless you set :obj:`trackers_yaml` to overwrite the original configurations. If 
+            unless you set :obj:`trackers_yaml` to override the original configurations. If 
             all the paths inside your configuration file have full absolute paths, setting 
             :obj:`relative_to_pyppbox_root` is optional.
         """
@@ -1341,11 +1333,10 @@ class MyConfigurator(PYPPBOXStructure):
                     self.tcfg_deepsort.set(d)
                     self.tk_map.append(self.tcfg_deepsort.tk_name)
                 else:
-                    msg = ("MyConfigurator : setAllTCFG() -> Name '" + 
-                           str(d['dt_name']) + "' is not supported.")
+                    msg = f"MyConfigurator : setAllTCFG() -> Name '{d['dt_name']}' is not supported."
                     add_warning_log(msg)
             except Exception as e:
-                msg = "MyConfigurator : setAllTCFG() -> "  + str(e)
+                msg = f"MyConfigurator : setAllTCFG() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
 
@@ -1356,7 +1347,7 @@ class MyConfigurator(PYPPBOXStructure):
         ----------
         reiders_yaml : str or dict, default=None
             A YAML/JSON file path, or a raw/ready dictionary of the reiders' configurations or 
-            reiders.yaml. This :obj:`reiders_yaml` helps overwrite the original one configured 
+            reiders.yaml. This :obj:`reiders_yaml` helps override the original one configured 
             during the :meth:`__init__()`. 
             Leave it as default :code:`reiders_yaml=None`, to load and set according to the 
             configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
@@ -1364,7 +1355,7 @@ class MyConfigurator(PYPPBOXStructure):
             An indication of whether the paths inside your configuration file are relative 
             to :code:`{pyppbox root}` or not. This indication or behavior was automatically 
             decided during the :meth:`__init__()`, and you don't need to set or change it 
-            unless you set :obj:`reiders_yaml` to overwrite the original configurations. If 
+            unless you set :obj:`reiders_yaml` to override the original configurations. If 
             all the paths inside your configuration file have full absolute paths, setting 
             :obj:`relative_to_pyppbox_root` is optional.
         """
@@ -1393,15 +1384,14 @@ class MyConfigurator(PYPPBOXStructure):
                     self.rcfg_torchreid.set(d)
                     self.ri_map.append(self.rcfg_torchreid.ri_name)
                 else:
-                    msg = ("MyConfigurator : setAllRCFG() -> Name '" + 
-                           str(d['dt_name']) + "' is not supported.")
+                    msg = f"MyConfigurator : setAllRCFG() -> Name '{d['dt_name']}' is not supported."
                     add_warning_log(msg)
             except Exception as e:
-                raise ValueError("MyConfigurator : setAllRCFG() -> "  + str(e))
+                raise ValueError(f"MyConfigurator : setAllRCFG() -> {e}")
     
     def setASupportedModuleCFG(self, input_cfg, relative_to_pyppbox_root=False):
         """Load and set configurations for a supported module. Be aware that calling 
-        this method will overwrite the original or previous configurations.
+        this method will override the original or previous configurations.
 
         Parameters
         ----------
@@ -1426,11 +1416,10 @@ class MyConfigurator(PYPPBOXStructure):
                     self.dcfg_gt = DCFGGT(relative_to_pyppbox_root)
                     self.dcfg_gt.set(cfg)
                 else:
-                    msg = ("MyConfigurator : setASupportedModuleCFG() -> Name '" + 
-                           str(cfg['dt_name']) + "' is not supported.")
+                    msg = f"MyConfigurator : setASupportedModuleCFG() -> Name '{cfg['dt_name']}' is not supported."
                     add_warning_log(msg)
             except Exception as e:
-                msg = "MyConfigurator : setASupportedModuleCFG() -> " + str(e)
+                msg = f"MyConfigurator : setASupportedModuleCFG() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
         elif "tk_name" in k_list:
@@ -1445,11 +1434,10 @@ class MyConfigurator(PYPPBOXStructure):
                     self.tcfg_deepsort = TCFGDeepSORT(relative_to_pyppbox_root)
                     self.tcfg_deepsort.set(cfg)
                 else:
-                    msg = ("MyConfigurator : setASupportedModuleCFG() -> Name '" + 
-                           str(cfg['tk_name']) + "' is not supported.")
+                    msg = f"MyConfigurator : setASupportedModuleCFG() -> Name '{cfg['tk_name']}' is not supported."
                     add_warning_log(msg)
             except Exception as e:
-                msg = "MyConfigurator : setASupportedModuleCFG() -> " + str(e)
+                msg = f"MyConfigurator : setASupportedModuleCFG() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
         elif "ri_name" in k_list:
@@ -1461,11 +1449,10 @@ class MyConfigurator(PYPPBOXStructure):
                     self.rcfg_torchreid = RCFGTorchreid(relative_to_pyppbox_root)
                     self.rcfg_torchreid.set(cfg)
                 else:
-                    msg = ("MyConfigurator : setASupportedModuleCFG() -> Name '" + 
-                           str(cfg['ri_name']) + "' is not supported.")
+                    msg = f"MyConfigurator : setASupportedModuleCFG() -> Name '{cfg['ri_name']}' is not supported."
                     add_warning_log(msg)
             except Exception as e:
-                msg = "MyConfigurator : setASupportedModuleCFG() -> " + str(e)
+                msg = f"MyConfigurator : setASupportedModuleCFG() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
 

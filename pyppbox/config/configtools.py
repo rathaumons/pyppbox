@@ -24,8 +24,7 @@ import yaml
 from yaml.loader import SafeLoader
 
 from .unifiedstrings import UnifiedStrings
-from pyppbox.utils.commontools import (joinFPathFull, getAbsPathFDS, 
-                                       getGlobalRootDir, isExist)
+from pyppbox.utils.commontools import joinFPathFull, getAbsPathFDS, getGlobalRootDir, isExist
 from pyppbox.utils.logtools import add_warning_log, add_error_log
 
 
@@ -81,10 +80,8 @@ class PYPPBOXStructure(object):
         """
         if cfg_dir != internal_cfg_dir:
             if not isExist(cfg_dir):
-                add_warning_log("PYPPBOXStructure : __init__() -> cfg_dir='" + 
-                                str(cfg_dir) + "' does not exist.")
-                add_warning_log("PYPPBOXStructure : __init__() -> " + 
-                                "Switched to internal cfg directory !")
+                add_warning_log(f"PYPPBOXStructure : __init__() -> cfg_dir='{cfg_dir}' does not exist.")
+                add_warning_log("PYPPBOXStructure : __init__() -> Switched to internal cfg directory !")
                 cfg_dir = internal_cfg_dir
         self.cfg_dir = cfg_dir
         self.internal_root_dir = internal_root_dir
@@ -125,10 +122,8 @@ class PYPPBOXStructure(object):
             A path of the config directory.
         """
         if not isExist(cfg_dir):
-            add_warning_log("PYPPBOXStructure : setCustomCFG() -> cfg_dir='" 
-                            + str(cfg_dir) + "' does not exist.")
-            add_warning_log("PYPPBOXStructure : setCustomCFG() -> " + 
-                            "Switched to internal cfg directory !")
+            add_warning_log(f"PYPPBOXStructure : setCustomCFG() -> cfg_dir='{cfg_dir}' does not exist.")
+            add_warning_log("PYPPBOXStructure : setCustomCFG() -> Switched to internal cfg directory!")
             cfg_dir = internal_cfg_dir
         self.cfg_dir = cfg_dir
         self.setYAMLPath()
@@ -237,11 +232,11 @@ def loadDocument(yaml_json):
                 elif '.yaml' in yaml_json.lower():
                     document = yaml.load(cfg, Loader=SafeLoader)
             except ValueError as e:
-                msg = 'loadDocument() -> ' + str(e)
+                msg = f'loadDocument() -> {e}'
                 add_error_log(msg)
                 raise ValueError(msg)
     else:
-        msg = "loadDocument() -> " + str(yaml_json) + "' does not exist!"
+        msg = f"loadDocument() -> '{yaml_json}' does not exist!"
         add_error_log(msg)
         raise ValueError(msg)
     return document
@@ -268,13 +263,13 @@ def loadListDocument(yaml_json):
                 elif '.yaml' in yaml_json.lower():
                     docs = yaml.load_all(cfg, Loader=SafeLoader)
             except ValueError as e:
-                msg = 'loadListDocument() -> ' + str(e)
+                msg = f'loadListDocument() -> {e}'
                 add_error_log(msg)
                 raise ValueError(msg)
             for doc in docs:
                 document_list.append(doc)
     else:
-        msg = "loadListDocument() -> " + str(yaml_json) + "' does not exist!"
+        msg = f"loadListDocument() -> '{yaml_json}' does not exist!"
         add_error_log(msg)
         raise ValueError(msg)
     return document_list
@@ -299,7 +294,7 @@ def loadRawYAMLString(raw_string):
         d = yaml.load(raw_string, Loader=SafeLoader)
         document = next(iter(d))
     except ValueError as e:
-        msg = 'loadRawYAMLString() -> ' + str(e)
+        msg = f'loadRawYAMLString() -> {e}'
         add_error_log(msg)
         raise ValueError(msg)
     return document
@@ -324,7 +319,7 @@ def loadRawYAMLStringMT(raw_string):
         for d in ds:
             document_list.append(d)
     except ValueError as e:
-        msg = 'loadRawYAMLStringMT() -> ' + str(e)
+        msg = f'loadRawYAMLStringMT() -> {e}'
         add_error_log(msg)
         raise ValueError(msg)
     return document_list
@@ -348,7 +343,7 @@ def dumpDocDict(output_file, doc, header):
             for key, value in doc.items():
                 dumping.write('%s: %s\n' % (key, value))
     except ValueError as e:
-        msg = 'dumpDocDict() -> ' + str(e)
+        msg = f'dumpDocDict() -> {e}'
         add_error_log(msg)
         raise ValueError(msg)
 
@@ -375,7 +370,7 @@ def dumpListDocDict(output_file, doc_list, header):
                     dumping.write("---\n")
                     sep_index += 1
     except ValueError as e:
-        msg = 'dumpListDocDict() -> ' + str(e)
+        msg = f'dumpListDocDict() -> {e}'
         add_error_log(msg)
         raise ValueError(msg)
 
