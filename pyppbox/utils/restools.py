@@ -106,14 +106,14 @@ class ResIO(object):
         if id_mode != "deepid":
             if str(id_mode).lower() in " deepid faceid ":
                 id_mode = str(id_mode).lower()
-                add_info_log("-----RESIO : Set id_mode='" + str(id_mode) + "'")
+                add_info_log(f"-----RESIO : Set id_mode='{id_mode}'")
             else :
-                add_warning_log("-----RESIO : id_mode='" + str(id_mode) + "' is not recognized.")
-                add_warning_log("-----RESIO : Overwite id_mode='" + str(id_mode) + "'.")
+                add_warning_log(f"-----RESIO : id_mode='{id_mode}' is not recognized.")
+                add_warning_log(f"-----RESIO : Override id_mode='{id_mode}'.")
         self.__sort_people_by_x__()
         dump_mode = int(dump_mode)
         if dump_mode < 1 and dump_mode > 3:
-            add_warning_log("-----RESIO : 'dump_mode' is out of range -> Overwite 'dump_mode=3'")
+            add_warning_log("-----RESIO : 'dump_mode' is out of range -> Override 'dump_mode=3'")
         with open(dump_file, 'w') as dumpfile:
             for f, p in zip(self.frames, self.sorted_people):
                 dump_str = ""
@@ -121,35 +121,31 @@ class ResIO(object):
                     if id_mode == "deepid": 
                         tmp_deepid = p.deepid
                         if '%' in tmp_deepid: tmp_deepid = tmp_deepid[:-4]
-                        dump_str = f + "\t" + str(p.repspoint) + "\t" + tmp_deepid + "\n"
+                        dump_str = f"{f}\t{p.repspoint}\t{tmp_deepid}\n"
                     elif id_mode == "faceid": 
                         tmp_faceid = p.faceid
                         if '%' in tmp_faceid: tmp_faceid = tmp_faceid[:-4]
-                        dump_str = f + "\t" + str(p.repspoint) + "\t" + tmp_faceid + "\n"
+                        dump_str = f"{f}\t{p.repspoint}\t{tmp_faceid}\n"
                 elif dump_mode == 2:
                     if id_mode == "deepid": 
                         tmp_deepid = p.deepid
                         if '%' in tmp_deepid: tmp_deepid = tmp_deepid[:-4]
-                        dump_str = (f + "\t" + str(p.repspoint) + "\t" + tmp_deepid + "\t" + 
-                                    str(p.box_xywh) + "\n")
+                        dump_str = f"{f}\t{p.repspoint}\t{tmp_deepid}\t{p.box_xywh}\n"
                     elif id_mode == "faceid": 
                         tmp_faceid = p.faceid
                         if '%' in tmp_faceid: tmp_faceid = tmp_faceid[:-4]
-                        dump_str = (f + "\t" + str(p.repspoint) + "\t" + tmp_faceid + "\t" + 
-                                    str(p.box_xywh) + "\n")
+                        dump_str = f"{f}\t{p.repspoint}\t{tmp_faceid}\t{p.box_xywh}\n"
                 else:
                     if id_mode == "deepid": 
                         tmp_deepid = p.deepid
                         if '%' in tmp_deepid: tmp_deepid = tmp_deepid[:-4]
-                        dump_str = (f + "\t" + str(p.repspoint) + "\t" + tmp_deepid + "\t" + 
-                                    str(p.box_xywh) + "\t" + str(p.box_xyxy) + "\n")
+                        dump_str = f"{f}\t{p.repspoint}\t{tmp_deepid}\t{p.box_xywh}\t{p.box_xyxy}\n"
                     elif id_mode == "faceid": 
                         tmp_faceid = p.faceid
                         if '%' in tmp_faceid: tmp_faceid = tmp_faceid[:-4]
-                        dump_str = (f + "\t" + str(p.repspoint) + "\t" + tmp_faceid + "\t" + 
-                                    str(p.box_xywh) + "\t" + str(p.box_xyxy) + "\n")
+                        dump_str = f"{f}\t{p.repspoint}\t{tmp_faceid}\t{p.box_xywh}\t{p.box_xyxy}\n"
                 dumpfile.write(dump_str)
-        add_info_log("-----RESIO : Successfully dump to '" + dump_file + "'")
+        add_info_log(f"-----RESIO : Successfully dump to '{dump_file}'")
     
     def dumpAll(self, dump_dir=default_dump_dir, dump_mode=3):
         """Dump the result as a text file in a directory with both deepid and faceid. 
@@ -168,44 +164,32 @@ class ResIO(object):
         dump_mode = int(dump_mode)
         self.__sort_people_by_x__()
         if dump_mode < 1 and dump_mode > 3:
-            add_warning_log("-----RESIO : 'dump_mode' is out of range -> Overwite 'dump_mode=3'")
+            add_warning_log("-----RESIO : 'dump_mode' is out of range -> Override 'dump_mode=3'")
         with open(dump_file, 'w') as dumpfile:
             for f, p in zip(self.frames, self.sorted_people):
                 dump_str = ""
+                tmp_deepid = p.deepid
+                tmp_faceid = p.faceid
+                if '%' in tmp_deepid: tmp_deepid = tmp_deepid[:-4]
+                if '%' in tmp_faceid: tmp_faceid = tmp_faceid[:-4]
                 if dump_mode == 1:
-                    tmp_deepid = p.deepid
-                    tmp_faceid = p.faceid
-                    if '%' in tmp_deepid: tmp_deepid = tmp_deepid[:-4]
-                    if '%' in tmp_faceid: tmp_faceid = tmp_faceid[:-4]
-                    dump_str = (f + "\t" + str(p.repspoint) + "\t" + tmp_deepid + "\t" + 
-                                tmp_faceid + "\n")
+                    dump_str = f"{f}\t{p.repspoint}\t{tmp_deepid}\t{tmp_faceid}\n"
                 elif dump_mode == 2:
-                    tmp_deepid = p.deepid
-                    tmp_faceid = p.faceid
-                    if '%' in tmp_deepid: tmp_deepid = tmp_deepid[:-4]
-                    if '%' in tmp_faceid: tmp_faceid = tmp_faceid[:-4]
-                    dump_str = (f + "\t" + str(p.repspoint) + "\t" + tmp_deepid + "\t" + 
-                                tmp_faceid + "\t" + str(p.box_xywh) + "\n")
+                    dump_str = f"{f}\t{p.repspoint}\t{tmp_deepid}\t{tmp_faceid}\t{p.box_xywh}\n"
                 else:
-                    tmp_deepid = p.deepid
-                    tmp_faceid = p.faceid
-                    if '%' in tmp_deepid: tmp_deepid = tmp_deepid[:-4]
-                    if '%' in tmp_faceid: tmp_faceid = tmp_faceid[:-4]
-                    dump_str = (f + "\t" + str(p.repspoint) + "\t" + tmp_deepid + "\t" + 
-                                tmp_faceid + "\t" + str(p.box_xywh) + "\t" + 
-                                str(p.box_xyxy) + "\n")
+                    dump_str = f"{f}\t{p.repspoint}\t{tmp_deepid}\t{tmp_faceid}\t{p.box_xywh}\t{p.box_xyxy}\n"
                 dumpfile.write(dump_str)
-        add_info_log("-----RESIO : Successfully dump to '" + dump_file + "'")
+        add_info_log(f"-----RESIO : Successfully dump to '{dump_file}'")
 
     def __generateFileName__(self, dump_dir=default_dump_dir):
         timestamp = getTimestamp()
-        dump_file_name = "res_" + str(timestamp) + "_full.txt"
+        dump_file_name = f"res_{timestamp}_full.txt"
         if isExist(dump_dir):
             dump_dir = getAbsPathFDS(dump_dir)
         else:
-            add_warning_log("-----RESIO : dump_dir='" + str(dump_dir) + "' does not exist!")
+            add_warning_log(f"-----RESIO : dump_dir='{dump_dir}' does not exist!")
             dump_dir = default_dump_dir
-            add_warning_log("-----RESIO : Overwrite dump_dir='" + str(dump_dir) + "'.")
+            add_warning_log(f"-----RESIO : Override dump_dir='{dump_dir}'.")
         dump_file_name = joinFPathFull(dump_dir, dump_file_name)
         return dump_file_name
 
