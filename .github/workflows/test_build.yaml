@@ -18,8 +18,7 @@ jobs:
         pip install "setuptools>=67.2.0"
         pip install wheel build PyYAML
     - name: Build .whl
-      run: |
-        python -m build --wheel --skip-dependency-check
+      run: python -m build --wheel --skip-dependency-check
     - name: Archive
       uses: actions/upload-artifact@v4
       with:
@@ -40,8 +39,7 @@ jobs:
         pip install "setuptools>=67.2.0"
         pip install wheel build PyYAML
     - name: Build .tar.gz
-      run: |
-        python -m build --sdist --skip-dependency-check
+      run: python -m build --sdist --skip-dependency-check
     - name: Archive
       uses: actions/upload-artifact@v4
       with:
@@ -69,8 +67,7 @@ jobs:
         pip install *.whl
         pip show pyppbox
     - name: Uninstall pyppbox
-      run: |
-        pip uninstall -y pyppbox
+      run: pip uninstall -y pyppbox
     - name: Test .tar.gz
       run: |
         cd dist

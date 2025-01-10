@@ -22,8 +22,7 @@ jobs:
         pip install -r requirements.txt
         pip freeze
     - name: Install pyppbox from GitHub
-      run: |
-        pip install git+https://github.com/rathaumons/pyppbox.git
+      run: pip install git+https://github.com/rathaumons/pyppbox.git
     - name: Install modules' data
       run: |
         pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.2.0/pyppbox_data_yolocls-1.2.0-py3-none-any.whl
