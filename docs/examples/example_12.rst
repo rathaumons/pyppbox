@@ -1,14 +1,13 @@
-Example 12: Use a supported module directly
-===========================================
+Example 12: Train all the internal reider classifiers for GTA V dataset
+=======================================================================
 
-- **Description**: Use a supported detector/tracker/reider directly in your code.
+- **Description**: Use the standalone :func:`trainReIDClassifier()` to train and save a classifier .PKL files for GTA V dataset.
 - **Featuring**: 
-   - :py:class:`MyYOLOULT` | :py:class:`pyppbox.modules.detectors.yoloult.MyYOLOULT`
-   - :py:class:`DCFGYOLOULT` | :py:class:`pyppbox.config.myconfig.DCFGYOLOULT`
+   - :py:meth:`trainReIDClassifier` | :py:meth:`pyppbox.standalone.trainReIDClassifier`
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 
 .. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
 
-.. literalinclude:: ../../examples/example_12_direct_module.py
+.. literalinclude:: ../../examples/example_12_retain_gta5_reid_classifiers.py
    :encoding: latin-1

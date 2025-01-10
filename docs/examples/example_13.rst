@@ -1,14 +1,14 @@
-Example 13: Use pyppbox in multithreading application
-=====================================================
+Example 13: Use a supported module directly
+===========================================
 
-- **Description**: Use a pyppbox in multithreading application.
+- **Description**: Use a supported detector/tracker/reider directly in your code.
 - **Featuring**: 
-   - :py:class:`MT` | :py:class:`pyppbox.ppb.mt.MT`
-   - :py:func:`visualizePeople` | :py:func:`pyppbox.utils.visualizetools.visualizePeople`
+   - :py:class:`MyYOLOULT` | :py:class:`pyppbox.modules.detectors.yoloult.MyYOLOULT`
+   - :py:class:`DCFGYOLOULT` | :py:class:`pyppbox.config.myconfig.DCFGYOLOULT`
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 
 .. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
 
-.. literalinclude:: ../../examples/example_13_multithreading.py
+.. literalinclude:: ../../examples/example_13_direct_module.py
    :encoding: latin-1
