@@ -302,6 +302,8 @@ class MT(object):
             else: 
                 add_info_log("---PYPPBOX : The input detecor is not recognized.")
                 self.__dt_is_set__ = False
+        else:
+            add_warning_log("---PYPPBOX : The config is not set.")
 
     def __setCustomDetector__(self, detector_dict):
         if detector_dict:
@@ -363,10 +365,9 @@ class MT(object):
         if isinstance(detector, dict):
             self.__setCustomDetector__(detector)
         elif isinstance(detector, str):
-            if (isDictString(detector) or "yaml" in detector.lower() or 
-                "json" in detector.lower()):
+            if (isDictString(detector) or "yaml" in detector.lower() or "json" in detector.lower()):
                 self.__setCustomDetector__(getCFGDict(detector))
-            elif detector.lower() == "":
+            elif detector == "":
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__loadDefaultDetector__()
                 add_info_log('---PYPPBOX : Use detector according to the "main.yaml"')
@@ -500,6 +501,8 @@ class MT(object):
             else: 
                 add_warning_log("---PYPPBOX : The input tracker is not recognized.")
                 self.__tk_is_set__ = False
+        else:
+            add_warning_log("---PYPPBOX : The config is not set.")
 
     def __setCustomTracker__(self, tracker_dict):
         if tracker_dict:
@@ -561,10 +564,9 @@ class MT(object):
         if isinstance(tracker, dict):
             self.__setCustomTracker__(tracker)
         elif isinstance(tracker, str):
-            if (isDictString(tracker) or "yaml" in tracker.lower() or 
-                "json" in tracker.lower()):
+            if (isDictString(tracker) or "yaml" in tracker.lower() or "json" in tracker.lower()):
                 self.__setCustomTracker__(getCFGDict(tracker))
-            elif tracker.lower() == "":
+            elif tracker == "":
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__loadDefaultTracker__()
                 add_info_log('---PYPPBOX : Use tracker according to the "main.yaml"')
@@ -669,6 +671,8 @@ class MT(object):
             else:
                 add_warning_log("---PYPPBOX : The input reider is not recognized.")
                 self.__ri_is_set__ = False
+        else:
+            add_warning_log("---PYPPBOX : The config is not set.")
 
     def __setCustomReIDer__(self, reider_dict, auto_load=True):
         if reider_dict:
@@ -738,10 +742,9 @@ class MT(object):
         if isinstance(reider, dict):
             self.__setCustomReIDer__(reider, auto_load)
         elif isinstance(reider, str):
-            if (isDictString(reider) or "yaml" in reider.lower() or 
-                "json" in reider.lower()):
+            if (isDictString(reider) or "yaml" in reider.lower() or "json" in reider.lower()):
                 self.__setCustomReIDer__(getCFGDict(reider), auto_load)
-            elif reider.lower() == "":
+            elif reider == "":
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__loadDefaultReIDer__(auto_load=auto_load)
                 add_info_log('---PYPPBOX : Use reider according to the "main.yaml"')
@@ -950,13 +953,13 @@ class MT(object):
                     index += 1
         return people, reid_count
 
-    def trainReIDClassifier(self, reider="Default", train_data="", classifier_pkl=""):
+    def trainReIDClassifier(self, reider="", train_data="", classifier_pkl=""):
         """Train classifier of a reider by pointing to a data directory. Calling 
         :func:`setConfigDir()` or :func:`setMainReIDer()` in advance is not required.
 
         Parameters
         ----------
-        reider : str or dict, default="Default" 
+        reider : str or dict, default="" 
             A supported name, a raw/ready dictionary, or a YAML/JSON file which is passed to 
             :func:`setMainReIDer()`, where `reider=reider`, and `auto_load=False`.
         train_data : str, default=""
