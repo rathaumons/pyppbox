@@ -101,13 +101,13 @@ def detectPeople(img,
                  alt_repspoint_top=True):
     """See :func:`pyppbox.ppb.mt.MT.detectPeople`"""
     return _mt.detectPeople(img, 
-                                  img_is_mat=img_is_mat, 
-                                  visual=visual, 
-                                  save=save, 
-                                  save_file=save_file, 
-                                  min_width_filter=min_width_filter, 
-                                  alt_repspoint=alt_repspoint, 
-                                  alt_repspoint_top=alt_repspoint_top)
+                            img_is_mat=img_is_mat, 
+                            visual=visual, 
+                            save=save, 
+                            save_file=save_file, 
+                            min_width_filter=min_width_filter, 
+                            alt_repspoint=alt_repspoint, 
+                            alt_repspoint_top=alt_repspoint_top)
 
 def setMainTracker(tracker=""):
     """See :func:`pyppbox.ppb.mt.MT.setMainTracker`"""
@@ -125,7 +125,7 @@ def reidPeople(img, people, deduplicate=True, img_is_mat=False):
     """See :func:`pyppbox.ppb.mt.MT.reidPeople`"""
     return _mt.reidPeople(img, people, deduplicate=deduplicate, img_is_mat=img_is_mat)
 
-def trainReIDClassifier(reider="Default", train_data="", classifier_pkl=""):
+def trainReIDClassifier(reider="", train_data="", classifier_pkl=""):
     """See :func:`pyppbox.ppb.mt.MT.trainReIDClassifier`"""
     _mt.trainReIDClassifier(reider=reider, train_data=train_data, classifier_pkl=classifier_pkl)
 
