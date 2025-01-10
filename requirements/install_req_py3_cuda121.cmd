@@ -24,7 +24,7 @@ pip install "setuptools>=67.2.0"
 :: Uninstall conflict packages
 pip uninstall -y ultralytics
 :: Install common packages
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
 pip install -r requirements.txt
 cls
 :: Make sure there is no conflict
