@@ -172,8 +172,8 @@ class MT(object):
                 self.__cfg_is_set__ = True
                 if load_all:
                     add_info_log(f"---PYPPBOX : DT='{self.__cfg__.mcfg.detector}', "
-                                f"TK='{self.__cfg__.mcfg.tracker}', "
-                                f"RI='{self.__cfg__.mcfg.reider}'")
+                                 f"TK='{self.__cfg__.mcfg.tracker}', "
+                                 f"RI='{self.__cfg__.mcfg.reider}'")
                     self.__loadDefaultDetector__()
                     self.__loadDefaultTracker__()
                     self.__loadDefaultReIDer__()
@@ -702,7 +702,7 @@ class MT(object):
                 self.__ri_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set reider='{self.__ri_cfg__.ri_name}'")
                 self.__revokeGTDTOnly__()
-            else :
+            else:
                 self.__ri_is_set__ = False
                 add_warning_log(f"---PYPPBOX : reider='{reider_dict['ri_name']}' is not recognized.")
 
