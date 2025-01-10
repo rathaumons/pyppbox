@@ -12,7 +12,17 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.8b1](https://github.com/rathaumons/pyppbox/tree/v3.8b1) - The Last V3
+* `pyppbox` [v3.9.0](https://github.com/rathaumons/pyppbox/tree/v3.9.0) - The Last V3
+
+  - Fix `trainReIDClassifier()` for default input
+  - Add an example of retraining all internal reider classifiers for GTA V dataset
+  - Rearrange some examples
+  - Update and improve documentation
+  - Optimize GitHub workflows
+  - **Known issue/limitation**:
+    - You tell me :)
+
+* `pyppbox` [v3.8b1](https://github.com/rathaumons/pyppbox/tree/v3.8b1) - ~~The Last V3~~
 
   - Add `show_footnote` option to `visualizePeople()`
   - Optimize and enhance general performance
@@ -69,13 +79,13 @@
 * `pyppbox` [v3.6b4](https://github.com/rathaumons/pyppbox/tree/v3.6b4) - ~~The Last V3~~
 
   - Integrate [SFPS](https://github.com/rathaROG/smooth-fps) for better FPS calculation
-  - Update workflow
+  - Update GitHub workflows
   - **Known issue/limitation**:
     - You tell me :)
 
 * `pyppbox` [v3.6b3](https://github.com/rathaumons/pyppbox/tree/v3.6b3) - ~~The Last V3~~
 
-  - Fix typo and update workflow
+  - Fix typo and update GitHub workflows
   - **Known issue/limitation**:
     - You tell me :)
 
