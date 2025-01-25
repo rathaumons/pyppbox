@@ -18,7 +18,7 @@ from pyppbox.utils.visualizetools import visualizePeople
 # module by its name still relies on the config directory. These methods load
 # the configurations from the config directory set by last `setConfigDir()`, and 
 # if `setConfigDir()` has not been called before, they will reference the internal 
-# config directory in order to  load the corresponding configurations. If you 
+# config directory in order to load the corresponding configurations. If you 
 # wish to change from referencing the internal configurations to your custom 
 # config directory like "cfg", you can, in advance, call 
 # `setConfigDir(config_dir="cfg", load_all=False)` .
