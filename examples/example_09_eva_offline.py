@@ -17,6 +17,6 @@ wrong_id, missed_det, fault_det, total_det, score = compareRes2Ref(
     ref_box_xyxy_index=4, # 4 is index of the bounding box xyxy in ref_txt
     res_compare_index=2, # 2 is Name ID in res_txt
     ref_compare_index=2, # 2 is Name ID in ref_txt
-    box_max_spread= 5 # Similar to IOU, but it uses distancing
+    box_max_spread=5 # Similar to IOU, but it uses distancing
 )
 
