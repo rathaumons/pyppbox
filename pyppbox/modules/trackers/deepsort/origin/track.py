@@ -52,7 +52,7 @@ class Track:
     hits : int
         Total number of measurement updates.
     age : int
-        Total number of frames since first occurance.
+        Total number of frames since first occurrence.
     time_since_update : int
         Total number of frames since last measurement update.
     state : TrackState

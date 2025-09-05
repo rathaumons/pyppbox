@@ -431,7 +431,7 @@ class MT(object):
         save_file : str, default=""
             Indicate a path of where to save the processed image.
         min_width_filter : int, default=35
-            Mininum width filter of a detected person.
+            Minimum width filter of a detected person.
         alt_repspoint : bool, default=False
             An indication of whether to use the alternative :meth:`findRepspointBB`.
         alt_repspoint_top : bool, default=True

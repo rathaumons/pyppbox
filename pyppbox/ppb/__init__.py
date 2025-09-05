@@ -21,7 +21,7 @@
 
 """
 Standalone is designed for easy detect, track, and reid people in a single thread 
-enviroment or in command line. 
+environment or in command line. 
 
 For multithreading application, see :py:class:`pyppbox.ppb.mt.MT`.
 

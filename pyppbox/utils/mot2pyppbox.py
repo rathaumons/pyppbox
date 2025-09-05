@@ -47,7 +47,7 @@ def remove_from_splitter(input_line, splitter=',', from_spl=6, with_newline=Fals
     if with_newline: res = res + "\n"
     return res
 
-# step 2: replace 2nd colum with repspoint and realID
+# step 2: replace 2nd column with repspoint and realID
 def replace_column_with(input_line, splitter=',', column_index=2, with_str="(0, 0)	XXX", use_numid=True, with_newline=False):
     """
     :meta private:

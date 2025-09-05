@@ -31,7 +31,7 @@ Base Structure of ``pyppbox``
    │       ├───facenet  ..................  Reider FaceNet
    │       └───torchreid  ................  Reider Torchreid
    ├───standalone  .......................  Standalone module
-   └───utils  ............................  Utilities including visualization, evaulation, etc.
+   └───utils  ............................  Utilities including visualization, evaluation, etc.
 
 
 Data: ``pyppbox-data`` and ``pyppbox-data-gta5``

@@ -85,7 +85,7 @@ class BaseCGF(object):
         output : str
             A path file to dump.
         header : str
-            A file header descriptoin.
+            A file header description.
         """
         dumpDocDict(output_file=output, doc=self.configs, header=header)
     
@@ -97,7 +97,7 @@ class BaseCGF(object):
         output : str
             A path file to dump.
         header : str
-            A file header descriptoin.
+            A file header description.
         """
         dumpListDocDict(output_file=output, doc=self.configs, header=header)
 
@@ -130,7 +130,7 @@ class NoneCFG(BaseCGF):
         Parameters
         ----------
         input : any
-            A parameter to be overrided with a unified string of :code:`"None"`.
+            A parameter to be overridden with a unified string of :code:`"None"`.
         """
         input = "None"
         self.dt_name = self.unified_strings.getUnifiedFormat(input)
@@ -439,7 +439,7 @@ class DCFGGT(BaseCGF):
             current working directory. 
             (2) Set :code:`relative_to_pyppbox_root=True` when all the paths in your configuration 
             file are relative to :code:`{pyppbox root}` like all the default paths inside in pyppbox's 
-            internal configuration files are orginally set relatively to :code:{pyppbox root}
+            internal configuration files are originally set relatively to :code:{pyppbox root}
         """
         super().__init__()
         self.from_dir = ""
@@ -709,7 +709,7 @@ class RCFGFaceNet(BaseCGF):
     batch_size : int
         Parameter :obj:`batch_size` of reider FaceNet.
     min_confidence : float
-        Mininum confidence of the prediction.
+        Minimum confidence of the prediction.
     yl_h_calibration : list[int, int], default=[-125, 75]
         When YOLO is used as the detector, this list of :code:`[val_1, val_2]` and a 
         :class:`pyppbox.utils.persontools.Person`'s respoint :code:`(X, Y)` are used to find 
@@ -819,7 +819,7 @@ class RCFGTorchreid(BaseCGF):
     model_path : str
         Path of a pretrained model file for reider Torchreid.
     min_confidence : float
-        Mininum confidence of the prediction.
+        Minimum confidence of the prediction.
     device : str
         Parameter device for specifying a computing device.
     base_model_path : str
@@ -1107,7 +1107,7 @@ class MyConfigurator(PYPPBOXStructure):
     """
 
     def __init__(self, cfg_dir=internal_cfg_dir, set_all_modules=False):
-        """Initailize according to the given directory of the YAML configurations.
+        """Initialize according to the given directory of the YAML configurations.
 
         Parameters
         ----------
@@ -1115,7 +1115,7 @@ class MyConfigurator(PYPPBOXStructure):
             A path of the config directory where stores main.yaml, detectors.yaml, 
             trackers.yaml, and reiders.yaml.
         set_all_modules : bool, default=False
-            An idication of whether to load and set all configurations of all supported 
+            An indication of whether to load and set all configurations of all supported 
             modules. :code:`set_all_modules=True` will trigger :meth:`setMCFG()`, 
             :meth:`setAllDCFG()`, :meth:`setAllTCFG()`, and :meth:`setAllRCFG()`.
         """
@@ -1398,7 +1398,7 @@ class MyConfigurator(PYPPBOXStructure):
         input_cfg: str or dict
             A YAML/JSON file path, or a raw/ready dictionary of the configurations 
             of a supported module.
-        relative_to_pyppbox_root : bool, defualt=False
+        relative_to_pyppbox_root : bool, default=False
             An indication of whether the paths inside the given :obj:`input_cfg` are 
             relative to :code:`{pyppbox root}` or not. 
         """

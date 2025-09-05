@@ -21,7 +21,7 @@ myreider={
     'min_confidence': 0.35,
     'device': 'cuda'
 }
-# Where `model_path` above can also be pointed to the internal one inside your Python enviroment.
+# Where `model_path` above can also be pointed to the internal one inside your Python environment.
 
 # Finally, you can train your reid classifier
 trainReIDClassifier(

@@ -23,7 +23,7 @@
 
 
 
-# Upated on 07/03/2022 by Ratha Siv
+# Updated on 07/03/2022 by Ratha Siv
 
 
 from __future__ import absolute_import

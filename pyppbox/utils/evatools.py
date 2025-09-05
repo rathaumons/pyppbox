@@ -276,7 +276,7 @@ class MyEVA(object):
         Parameters
         ----------
         print_summary : bool, default=True
-            An indication of whether to print a summary text in the termianl.
+            An indication of whether to print a summary text in the terminal.
 
         Returns
         -------

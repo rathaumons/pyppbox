@@ -66,10 +66,10 @@ class MyYOLOCLS(object):
             A :obj:`Mat` like image.
         visual : bool, default=True
             An indication of whether to visualize the detected objects.
-        class_filter : list[int, ...], defualt=0
+        class_filter : list[int, ...], default=0
             Object's class filter, [0] = Person only.
         min_width_filter : int, default=35
-            Mininum width filter of a detected object.
+            Minimum width filter of a detected object.
 
         Returns
         -------
@@ -80,7 +80,7 @@ class MyYOLOCLS(object):
         list[ndarray[int, int, int, int], ...]
             A list of bounding box :code:`ndarray[x1, y1, x2, y2]`.
         list[tuple(int, int)]
-            A lsit of represented 2D point :code:`(x, y)` of every detected object.
+            A list of represented 2D point :code:`(x, y)` of every detected object.
         float
             A list of the detection confidence of every detected object.
         """
@@ -116,7 +116,7 @@ class MyYOLOCLS(object):
         visual : bool, default=True
             An indication of whether to visualize the detected people.
         min_width_filter : int, default=35
-            Mininum width filter of a detected person.
+            Minimum width filter of a detected person.
         alt_repspoint : bool, default=False
             An indication of whether to use the alternative :meth:`findRepspointBB`.
         alt_repspoint_top : bool, default=True

@@ -39,7 +39,7 @@ def _cosine_distance(a, b, data_is_normalized=False):
         An LxM matrix of L samples of dimensionality M.
     data_is_normalized : Optional[bool]
         If True, assumes rows in a and b are unit length vectors.
-        Otherwise, a and b are explicitly normalized to lenght 1.
+        Otherwise, a and b are explicitly normalized to length 1.
 
     Returns
     -------

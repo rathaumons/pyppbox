@@ -9,7 +9,7 @@ from pyppbox.standalone import (setMainDetector, setMainTracker, setMainReIDer,
 from pyppbox.utils.visualizetools import visualizePeople
 
 
-# As in example 04 & 05, `setMainDetector()`, `setMainTracker()`, and aslo 
+# As in example 04 & 05, `setMainDetector()`, `setMainTracker()`, and also 
 # `setMainReIDer()` allow you to easily set a detector, a tracker and a reider 
 # by a raw string, a ready dictionary, or a YAML/JSON file without having to
 # call the `setConfigDir()` in advance. 
@@ -29,7 +29,7 @@ setMainTracker(tracker="SORT")
 setMainReIDer(reider="Torchreid")
 """
 
-# Instead of calling `setMainDetector()`, `setMainTracker()`, and aslo 
+# Instead of calling `setMainDetector()`, `setMainTracker()`, and also 
 # `setMainReIDer()`, you can call `setMainModules()` to override the default 
 # configurations and set and load the ones you need.
 main_configurations = {'detector': 'YOLO_Classic', 

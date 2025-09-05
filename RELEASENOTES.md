@@ -259,7 +259,7 @@
 
 * `pyppbox` [v3.0b1](https://github.com/rathaumons/pyppbox/tree/v3.0b1)
 
-  - Introduce new structure of `pyppbox` -> Cleaner and simplier
+  - Introduce new structure of `pyppbox` -> Cleaner and simpler
   - Introduce [`pyppbox-data`](https://github.com/rathaumons/pyppbox-data) and [`pyppbox-data-gta5`](https://github.com/rathaumons/PoseTReID_DATASET#-introducing-pyppbox-data-gta5) -> Size of `pyppbox` is now 99.9% smaller, easier to build and easier to install independently, with the freedom of choice for the modules you need
   - Introduce new standard `Person` class for `pyppbox` -> `pyppbox.utils.persontools.Person`
   - Introduce standalone functions for easy detect, track, and reid people -> `pyppbox.standalone` to replace `PManager`
@@ -272,7 +272,7 @@
   - standalone comparison function `compareRes2Ref()` for supported datasets -> `pyppbox.utils.evatools.compareRes2Ref`
   - Introduce new ground truth tools `GTIO` and `GTInterpreter` for supported datasets -> `pyppbox.utils.gttools`
   - Introduce new internal logging -> `pyppbox.logtools`
-  - Introduce new in-code `numpydoc` documentation ***methods/funtions/classes***
+  - Introduce new in-code `numpydoc` documentation ***methods/functions/classes***
   - Introduce new online `Sphinx` documentation -> [https://rathaumons.github.io/pyppbox](https://rathaumons.github.io/pyppbox)
   - Remove unnecessary import from submodules and their `__init__.py` files
   - Remove `input_video` and `force_hd` from main configurations, and other unused parameters from other configuration files -> New defaults `{pyppbox root}/config/cfg`
@@ -301,7 +301,7 @@
   - ***`torchreid` for pyppbox*** is changed to `pyppbox-torchreid` as package name
   - ***`opencv-contrib-python` for pyppbox*** is changed to `pyppbox-opencv` as package name
   - Enhance `Person` class & add `keypoints` attribute
-  - Improve & generalize the names of some ***methods/funtions/classes***
+  - Improve & generalize the names of some ***methods/functions/classes***
   - Enhance `PManager` & introduce `__` for private ***classes/methods***
   - Improve all related ***configurators*** & change some default configurations
   - Introduce ***lite*** & ***full*** edition of the extra models/weights

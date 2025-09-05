@@ -167,7 +167,7 @@ def getBool(input_string):
     elif input_string.lower() == "false":
         res = False
     else:
-        raise ValueError("getBool() -> Can't covert {} to a boolean.".format(input_string))
+        raise ValueError("getBool() -> Can't convert {} to a boolean.".format(input_string))
     return res
 
 def getFloat(input_string, default_val=0.0, ignore_raise=True):
