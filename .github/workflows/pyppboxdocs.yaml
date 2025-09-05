@@ -20,7 +20,7 @@ jobs:
       run: |
         cd requirements
         python -m pip install --upgrade pip
-        pip install "setuptools>=67.2.0"
+        pip install "setuptools>=67.8.0"
         pip install wheel build
         pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
         pip install -r requirements.txt

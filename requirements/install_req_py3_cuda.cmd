@@ -20,7 +20,7 @@ setlocal
 cd /d %~dp0
 :: Upgrade & install basic packages
 python -m pip install --upgrade pip
-pip install "setuptools>=67.2.0"
+pip install "setuptools>=67.8.0"
 :: Uninstall conflict packages
 pip uninstall -y ultralytics
 :: Install common packages
