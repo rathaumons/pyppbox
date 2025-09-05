@@ -12,7 +12,19 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.9.0](https://github.com/rathaumons/pyppbox/tree/v3.9.0) - The Last V3
+* `pyppbox` [v3.10.0](https://github.com/rathaumons/pyppbox/tree/v3.10.0) - The Last V3
+
+  - Add miscellaneous `misc` options to all dump functions in `ResIO`
+  - Remove the legacy License classifier for [PEP 639](https://peps.python.org/pep-0639/) compliance
+  - Detect and dodge fake CUDA setups in OpenCV
+  - Change `setuptools` minimum version to v67.8.0
+  - Fix most if not all typos
+  - Update and improve `GETSTARTED.md`
+  - Update and improve GitHub workflows
+  - **Known issue/limitation**:
+    - You tell me :)
+
+* `pyppbox` [v3.9.0](https://github.com/rathaumons/pyppbox/tree/v3.9.0) - ~~The Last V3~~
 
   - Fix `trainReIDClassifier()` for default input
   - Add an example of retraining all internal reider classifiers for GTA V dataset
