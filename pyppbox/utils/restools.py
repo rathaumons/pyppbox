@@ -66,7 +66,7 @@ class ResIO(object):
             self.people.append(person)
         else:
             raise ValueError("RESIO : addPerson() -> Input 'person' is not valid.")
-    
+
     def addPeople(self, frame, people):
         """Add a frame index and a list of :class:`pyppbox.utils.persontools.Person` 
         object in that :obj:`frame` index into :attr:`frames` and :attr:`people`.
@@ -86,8 +86,8 @@ class ResIO(object):
                         self.people.append(person)
                 else:
                     raise ValueError("RESIO : addPeople() -> Input 'people' is not valid.")
-    
-    def dump(self, dump_dir=default_dump_dir, dump_mode=3, id_mode="deepid"):
+
+    def dump(self, dump_dir=default_dump_dir, dump_mode=3, id_mode="deepid", include_misc=False, max_misc=5):
         """Dump the result as a text file in a directory with a choice of :code:`"deepid"` or 
         :code:`"faceid"`. Each line represents frame index and a person's details separated by '\\t'.
 
@@ -99,8 +99,12 @@ class ResIO(object):
             Set 1 to dump: frame index, repspoint, deepid/faceid.
             Set 2 to dump: frame index, repspoint, deepid/faceid, box_xywh.
             Set 3 to dump: frame index, repspoint, deepid/faceid, box_xywh, box_xyxy.
-        id_mode : str, defualt="deepid"
+        id_mode : str, default="deepid"
             Set choice between :code:`"deepid"` and :code:`"faceid"`.
+        include_misc : bool, default=False
+            Set whether to include misc (Miscellaneous items).
+        max_misc : int, default=5
+            Set the maximum number of miscellaneous items to include.
         """
         dump_file = self.__generateFileName__(dump_dir)
         if id_mode != "deepid":
@@ -144,11 +148,15 @@ class ResIO(object):
                         tmp_faceid = p.faceid
                         if '%' in tmp_faceid: tmp_faceid = tmp_faceid[:-4]
                         dump_str = f"{f}\t{p.repspoint}\t{tmp_faceid}\t{p.box_xywh}\t{p.box_xyxy}\n"
+                if include_misc:
+                    if p.misc:
+                        misc = p.misc[:max_misc]
+                        dump_str = dump_str[:-1] + '\t' + '\t'.join(str(m) for m in misc) + '\n'
                 dumpfile.write(dump_str)
         add_info_log(f"-----RESIO : Successfully dump to '{dump_file}'")
-    
-    def dumpAll(self, dump_dir=default_dump_dir, dump_mode=3):
-        """Dump the result as a text file in a directory with both deepid and faceid. 
+
+    def dumpAll(self, dump_dir=default_dump_dir, dump_mode=3, include_misc=False, max_misc=5):
+        """Dump the result as a text file in a directory with both :code:`"deepid"` and :code:`"faceid"`. 
         Each line represents frame index and a person's details separated by '\\t'.
 
         Parameters
@@ -159,6 +167,10 @@ class ResIO(object):
             Set 1 to dump: frame index, repspoint, deepid, faceid.
             Set 2 to dump: frame index, repspoint, deepid, faceid, box_xywh.
             Set 3 to dump: frame index, repspoint, deepid, faceid, box_xywh, box_xyxy.
+        include_misc : bool, default=False
+            Set whether to include misc (Miscellaneous items).
+        max_misc : int, default=5
+            Set the maximum number of miscellaneous items to include.
         """
         dump_file = self.__generateFileName__(dump_dir)
         dump_mode = int(dump_mode)
@@ -178,6 +190,10 @@ class ResIO(object):
                     dump_str = f"{f}\t{p.repspoint}\t{tmp_deepid}\t{tmp_faceid}\t{p.box_xywh}\n"
                 else:
                     dump_str = f"{f}\t{p.repspoint}\t{tmp_deepid}\t{tmp_faceid}\t{p.box_xywh}\t{p.box_xyxy}\n"
+                if include_misc:
+                    if p.misc:
+                        misc = p.misc[:max_misc]
+                        dump_str = dump_str[:-1] + '\t' + '\t'.join(str(m) for m in misc) + '\n'
                 dumpfile.write(dump_str)
         add_info_log(f"-----RESIO : Successfully dump to '{dump_file}'")
 
