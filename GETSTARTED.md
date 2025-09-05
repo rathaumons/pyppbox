@@ -130,3 +130,5 @@ Similar to [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox),
 ### 3️⃣ Customized Ultralytics
 
 Also, similar to `pyppbox_torchreid`, our custom `ultralytics` is changed to [`pyppbox-ultralytics`](https://github.com/rathaumons/ultralytics-for-pyppbox), but this time, the module name is still the same `ultralytics` and it is the main reason why the official `ultralytics` must be removed. Find out more why `pyppbox` needs the customized `pyppbox-ultralytics` -> [[Repo]](https://github.com/rathaumons/ultralytics-for-pyppbox) [[PyPI]](https://pypi.org/project/pyppbox-ultralytics/)
+
+*Note: [`pyppbox-ultralytics`](https://github.com/rathaumons/ultralytics-for-pyppbox) is discontinued, and `pyppbox` now uses [`vsensebox-ultralytics`](https://github.com/numediart/ultralytics-for-vsensebox).*
