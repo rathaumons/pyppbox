@@ -84,7 +84,7 @@ class UnifiedStrings(object):
     """
 
     def __init__(self, strings_yaml=default_strings_yaml):
-        """Initailize by calling :meth:`load(strings_yaml=strings_yaml)`.
+        """Initialize by calling :meth:`load(strings_yaml=strings_yaml)`.
 
         Parameters
         ----------

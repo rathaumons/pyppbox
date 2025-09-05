@@ -78,7 +78,7 @@ class TorchreidModelDict(object):
     """
 
     def __init__(self, model_dict_yaml=default_model_dict_yaml):
-        """Initailize and set attributes according to model_dict_yaml.
+        """Initialize and set attributes according to model_dict_yaml.
 
         Parameters
         ----------

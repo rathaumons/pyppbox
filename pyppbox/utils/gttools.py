@@ -45,7 +45,7 @@ class GTIO(object):
 
     def loadInputGTMap(self, gt_map_txt, splitter=':'):
         """Load an input of GT (Ground-truth) map text and set :attr:`map_list`. 
-        A map text must have consistent format with the same spliiter in every 
+        A map text must have consistent format with the same splitter in every 
         line like. The default format is :code:`video_file_name:gt_file_name`; for example, 
         the first line in the map file looks like :code:`video.mp4:gt.txt`. Most suitable 
         :obj:`splitter` is colon :code:`:` because it can't be used in a file name. Other 
@@ -87,7 +87,7 @@ class GTIO(object):
         Returns
         -------
         str
-            A file name of the coresponding GT (Ground-truth) text.
+            A file name of the corresponding GT (Ground-truth) text.
         """
         gt_txt = ""
         for pair in self.map_list:
@@ -198,7 +198,7 @@ class GTInterpreter(object):
         self.gtIO = GTIO()
 
     def setDetectOnly(self, unknownFID="Unknown", unknownDID="Unknown", detect_only=True):
-        """Set whether to use 'Detect Only' mode (Set unkown faceid and deepid) or full GT 
+        """Set whether to use 'Detect Only' mode (Set unknown faceid and deepid) or full GT 
         mode with real ID as in the GT (Ground-truth).
         
         Parameters
@@ -209,7 +209,7 @@ class GTInterpreter(object):
             Set the :attr:`unknownFID`.
         detect_only : bool, default=True
             Set :code:`detect_only=True` to tell :func:`getPeople()` to return people 
-            with unkown :obj:`faceid` and :obj:`deepid`.
+            with unknown :obj:`faceid` and :obj:`deepid`.
             Set :code:`detect_only=False` to tell :func:`getPeople()` to return people 
             with real IDs as in the GT (Ground-truth).
         """

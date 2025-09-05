@@ -17,7 +17,7 @@ All requirements are not strictly limited. However, some specific modules might 
   - Upgrade `pip` and `setuptools`:
     ```
     python -m pip install --upgrade pip
-    pip install "setuptools>=67.2.0"
+    pip install "setuptools>=67.8.0"
     ```
   - Recommend removing the official `ultralytics`:
     ```

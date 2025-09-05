@@ -69,7 +69,7 @@ class PYPPBOXStructure(object):
     """
 
     def __init__(self, cfg_dir=internal_cfg_dir):
-        """Initailize according to the input :obj:`cfg_dir` and automatically call 
+        """Initialize according to the input :obj:`cfg_dir` and automatically call 
         :meth:`setDIR()`, :meth:`setYAMLPath()`, :meth:`setSTR()`, and :meth:`setVP()`.
 
         Parameters
@@ -335,7 +335,7 @@ def dumpDocDict(output_file, doc, header):
     doc : dict
         A configuration dictionary of a single document.
     header : str
-        A file header descriptoin.
+        A file header description.
     """
     try:
         with open(output_file, 'w') as dumping:
@@ -357,7 +357,7 @@ def dumpListDocDict(output_file, doc_list, header):
     doc_list : list[dict, ...]
         A list of configuration dictionary.
     header : str
-        A file header descriptoin.
+        A file header description.
     """
     try: 
         with open(output_file, 'w') as dumping:
