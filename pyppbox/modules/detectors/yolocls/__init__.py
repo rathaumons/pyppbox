@@ -51,8 +51,9 @@ class MyYOLOCLS(object):
         """
         self.cfg = cfg
         net = cv2.dnn.readNet(cfg.model_weights, cfg.model_cfg_file)
-        net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
-        net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
+        if cv2.cuda.getCudaEnabledDeviceCount() > 0:
+            net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
+            net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
         self.model = cv2.dnn_DetectionModel(net)
         self.model.setInputParams(size=cfg.model_resolution, scale=1/255.0)
 
