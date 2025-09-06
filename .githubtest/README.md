@@ -9,3 +9,5 @@
 [![Test Core Windows](https://github.com/rathaumons/pyppbox/actions/workflows/test_core_windows.yaml/badge.svg)](https://github.com/rathaumons/pyppbox/actions/workflows/test_core_windows.yaml)
 
 [![Test Core Linux](https://github.com/rathaumons/pyppbox/actions/workflows/test_core_linux.yaml/badge.svg)](https://github.com/rathaumons/pyppbox/actions/workflows/test_core_linux.yaml)
+
+[![Test Core macOS](https://github.com/rathaumons/pyppbox/actions/workflows/test_core_macos.yaml/badge.svg)](https://github.com/rathaumons/pyppbox/actions/workflows/test_core_macos.yaml)
