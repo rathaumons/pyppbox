@@ -3,23 +3,22 @@
 ###########################################################
 # --- # YOLO_Classic
 # dt_name: YOLO_Classic
-# nms: 0.45
-# conf: 0.5
+# nms: 0.7
+# conf: 0.4
 # class_file: data/modules/yolo_classic/coco.names
 # model_cfg_file: data/modules/yolo_classic/yolov4.cfg
 # model_weights: data/modules/yolo_classic/yolov4.weights
-# model_image_size: 416
+# model_image_size: 1024
 # repspoint_calibration: 0.25
 ###########################################################
 # --- # YOLO_Ultralytics
 # dt_name: YOLO_Ultralytics
-# conf: 0.5
+# conf: 0.4
 # iou: 0.7
-# imgsz: 416
+# imgsz: 1024
 # show_boxes: True
 # device: 0
-# max_det: 50
-# line_width: 500
+# max_det: 100
 # model_file: data/modules/yolo_ultralytics/yolov8s-pose.pt
 # repspoint_calibration: 0.25
 ###########################################################
@@ -29,22 +28,21 @@
 # gt_map_file: data/datasets/GTA_V_DATASET/ground_truth/gt_map.txt
 ###########################################################
 dt_name: YOLO_Classic
-nms: 0.45
-conf: 0.5
+nms: 0.7
+conf: 0.4
 class_file: data/modules/yolo_classic/coco.names
 model_cfg_file: data/modules/yolo_classic/yolov4.cfg
 model_weights: data/modules/yolo_classic/yolov4.weights
-model_image_size: 416
+model_image_size: 1024
 repspoint_calibration: 0.25
 ---
 dt_name: YOLO_Ultralytics
-conf: 0.5
+conf: 0.4
 iou: 0.7
-imgsz: 416
+imgsz: 1024
 show_boxes: False
 device: 0
 max_det: 100
-line_width: 500
 model_file: data/modules/yolo_ultralytics/yolov8s-pose.pt
 repspoint_calibration: 0.25
 ---

@@ -353,8 +353,8 @@ class MT(object):
             (2) Set :code:`detector="YOLO_Classic"`.etc, to set YOLO Classic as the main detector and 
             load its configurations from detectors.yaml.
             (3) Set a raw string or ready dictionary is also possible; for example, 
-            :code:`detector="[{'dt_name': 'YOLO_Ultralytics', 'conf': 0.5, 'iou': 0.7, 'imgsz': 416, 
-            'show_boxes': True, 'device': 0, 'max_det': 100, 'line_width': 500, 
+            :code:`detector="[{'dt_name': 'YOLO_Ultralytics', 'conf': 0.4, 'iou': 0.7, 'imgsz': 1024, 
+            'show_boxes': True, 'device': 0, 'max_det': 100, 
             'model_file': 'data/modules/yolo_ultralytics/yolov8l-pose.pt', 
             'repspoint_calibration': 0.25}]"`.
             (4) Set :code:`detector="a_supported_detector.yaml"` or :code:`detector="a_supported_detector.json"` 
@@ -411,7 +411,7 @@ class MT(object):
                      visual=False, 
                      save=False, 
                      save_file="", 
-                     min_width_filter=35,
+                     min_width_filter=15,
                      alt_repspoint=False, 
                      alt_repspoint_top=True): 
         """Detect people by giving an image. :func:`setConfigDir()` or :func:`setMainDetector()` must 
@@ -430,7 +430,7 @@ class MT(object):
             Decide whether to save the return :obj:`img` to a JPG file.
         save_file : str, default=""
             Indicate a path of where to save the processed image.
-        min_width_filter : int, default=35
+        min_width_filter : int, default=15
             Minimum width filter of a detected person.
         alt_repspoint : bool, default=False
             An indication of whether to use the alternative :meth:`findRepspointBB`.
