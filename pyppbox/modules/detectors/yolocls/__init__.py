@@ -57,7 +57,7 @@ class MyYOLOCLS(object):
         self.model = cv2.dnn_DetectionModel(net)
         self.model.setInputParams(size=cfg.model_resolution, scale=1/255.0)
 
-    def detect(self, img, visual=True, class_filter=[0], min_width_filter=35):
+    def detect(self, img, visual=True, class_filter=[0], min_width_filter=15):
         """Detect general object with object's class filter :obj:`class_filter` in a 
         given :obj:`Mat` like image.
 
@@ -69,7 +69,7 @@ class MyYOLOCLS(object):
             An indication of whether to visualize the detected objects.
         class_filter : list[int, ...], default=0
             Object's class filter, [0] = Person only.
-        min_width_filter : int, default=35
+        min_width_filter : int, default=15
             Minimum width filter of a detected object.
 
         Returns
@@ -107,7 +107,7 @@ class MyYOLOCLS(object):
                         cv2.rectangle(img, (box_xyxy[0], box_xyxy[1]), (box_xyxy[2], box_xyxy[3]), (255, 255, 0), 2)
         return img, pboxes_xywh, pboxes_xyxy, repspoints, confs
 
-    def detectPeople(self, img, visual=True, min_width_filter=35, alt_repspoint=False, alt_repspoint_top=True):
+    def detectPeople(self, img, visual=True, min_width_filter=15, alt_repspoint=False, alt_repspoint_top=True):
         """Detect person(s) in a given :obj:`Mat` like image.
 
         Parameters
@@ -116,7 +116,7 @@ class MyYOLOCLS(object):
             A :obj:`Mat` like image.
         visual : bool, default=True
             An indication of whether to visualize the detected people.
-        min_width_filter : int, default=35
+        min_width_filter : int, default=15
             Minimum width filter of a detected person.
         alt_repspoint : bool, default=False
             An indication of whether to use the alternative :meth:`findRepspointBB`.

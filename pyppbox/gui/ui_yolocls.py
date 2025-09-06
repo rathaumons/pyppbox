@@ -169,12 +169,12 @@ class Ui_YOLOCLS(object):
     def updateCFG(self, yolocls_ui):
         yolocs_doc = {
             "dt_name": unified_strings.getUnifiedFormat("YOLO_Classic"),
-            "nms": getFloat(self.yl_nms_lineEdit.text(), default_val=0.45),
-            "conf": getFloat(self.yl_conf_lineEdit.text(), default_val=0.5),
+            "nms": getFloat(self.yl_nms_lineEdit.text(), default_val=0.7),
+            "conf": getFloat(self.yl_conf_lineEdit.text(), default_val=0.4),
             "class_file": normalizePathFDS(root_dir, self.yl_class_file_lineEdit.text()),
             "model_cfg_file": normalizePathFDS(root_dir, self.yl_model_cfg_file_lineEdit.text()),
             "model_weights": normalizePathFDS(root_dir, self.yl_model_weights_lineEdit.text()),
-            "model_image_size": getInt(self.yl_model_imgsize_lineEdit.text(), default_val=416),
+            "model_image_size": getInt(self.yl_model_imgsize_lineEdit.text(), default_val=1024),
             "repspoint_calibration": getFloat(self.yl_repspint_calib_lineEdit.text(), default_val=0.25)
         }
         yolo_utlt_doc = self.mycfg.dcfg_yolout.getDocument()

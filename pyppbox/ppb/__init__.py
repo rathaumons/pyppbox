@@ -96,7 +96,7 @@ def detectPeople(img,
                  visual=False, 
                  save=False, 
                  save_file="", 
-                 min_width_filter=35, 
+                 min_width_filter=15, 
                  alt_repspoint=False, 
                  alt_repspoint_top=True):
     """See :func:`pyppbox.ppb.mt.MT.detectPeople`"""

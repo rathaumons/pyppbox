@@ -110,7 +110,7 @@ class MyYOLOULT(object):
                 cv2.line(img, pos1, pos2, [int(x) for x in self.limb_color[i]], thickness=2, lineType=cv2.LINE_AA)
 
 
-    def detect(self, img, visual=True, classes=0, min_width_filter=35):
+    def detect(self, img, visual=True, classes=0, min_width_filter=15):
         """Detect general object with object's class filter :obj:`class_filter` 
         in a given :obj:`Mat` like image.
 
@@ -122,7 +122,7 @@ class MyYOLOULT(object):
             An indication of whether to visualize the detected objects.
         classes : int, default=0
             Object's class filter, 0 means person only
-        min_width_filter : int, default=35
+        min_width_filter : int, default=15
             Minimum width filter of a detected object.
 
         Returns
@@ -154,7 +154,6 @@ class MyYOLOULT(object):
             show_boxes=self.cfg.show_boxes,
             device=self.cfg.device,
             max_det=int(self.cfg.max_det),
-            line_width=self.cfg.line_width,
             verbose=False
         )
         if self.cpu_only:
@@ -196,7 +195,7 @@ class MyYOLOULT(object):
                         cv2.rectangle(img, (box_xyxy[0], box_xyxy[1]), (box_xyxy[2], box_xyxy[3]), (255, 255, 0), 2)
         return img, pboxes_xywh, pboxes_xyxy, repspoints, keypoints, confs
 
-    def detectPeople(self, img, visual=True, min_width_filter=35, alt_repspoint=False, alt_repspoint_top=True):
+    def detectPeople(self, img, visual=True, min_width_filter=15, alt_repspoint=False, alt_repspoint_top=True):
         """Detect person(s) in a given :obj:`Mat` like image.
 
         Parameters
@@ -205,7 +204,7 @@ class MyYOLOULT(object):
             A :obj:`Mat` like image.
         visual : bool, default=True
             An indication of whether to visualize the detected people.
-        min_width_filter : int, default=35
+        min_width_filter : int, default=15
             Minimum width filter of a detected person.
         alt_repspoint : bool, default=False
             An indication of whether to use the alternative :meth:`findRepspointBB`.
@@ -229,7 +228,6 @@ class MyYOLOULT(object):
             show_boxes=self.cfg.show_boxes,
             device=self.cfg.device,
             max_det=int(self.cfg.max_det),
-            line_width=self.cfg.line_width,
             verbose=False
         )
         if self.cpu_only:

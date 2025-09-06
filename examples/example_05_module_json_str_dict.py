@@ -14,9 +14,9 @@ from pyppbox.utils.visualizetools import visualizePeople
 
 # Use a raw dictionary string
 """
-mydetector="[{'dt_name': 'YOLO_Ultralytics', 'conf': 0.5, 'iou': 0.7, \
-    'imgsz': 416, 'show_boxes': True, 'device': 0, \
-    'max_det': 100, 'line_width': 500, 'model_file': \
+mydetector="[{'dt_name': 'YOLO_Ultralytics', 'conf': 0.4, 'iou': 0.7, \
+    'imgsz': 1024, 'show_boxes': True, 'device': 0, \
+    'max_det': 100, 'model_file': \
     'C:/pyppbox_v3/data/modules/yolo_ultralytics/yolov8l-pose.pt', \
     'repspoint_calibration': 0.25}]"
 mytracker="[{'tk_name': 'SORT', 'max_age': 1, 'min_hits': 3, \
@@ -32,13 +32,12 @@ myreider="[{'ri_name': 'Torchreid', 'classifier_pkl': \
 # Use a ready dictionary of a detector
 mydetector={
     'dt_name': 'YOLO_Ultralytics', 
-    'conf': 0.5, 
+    'conf': 0.4, 
     'iou': 0.7, 
-    'imgsz': 416, 
+    'imgsz': 1024, 
     'show_boxes': False, 
     'device': 0, 
     'max_det': 100, 
-    'line_width': 500, 
     'model_file': 'C:/pyppbox_v3/data/modules/yolo_ultralytics/yolov8l-pose.pt', 
     'repspoint_calibration': 0.25
 }

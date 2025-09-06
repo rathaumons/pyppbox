@@ -40,15 +40,15 @@ class Ui_YOLOULT(object):
     
     def setupUi(self, yoloult_ui):
         yoloult_ui.setObjectName("yoloult_ui")
-        yoloult_ui.resize(390, 330)
+        yoloult_ui.resize(390, 300)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, 
                                            QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(yoloult_ui.sizePolicy().hasHeightForWidth())
         yoloult_ui.setSizePolicy(sizePolicy)
-        yoloult_ui.setMinimumSize(QtCore.QSize(390, 330))
-        yoloult_ui.setMaximumSize(QtCore.QSize(390, 330))
+        yoloult_ui.setMinimumSize(QtCore.QSize(390, 300))
+        yoloult_ui.setMaximumSize(QtCore.QSize(390, 300))
         self.max_det_lineEdit = QtWidgets.QLineEdit(parent=yoloult_ui)
         self.max_det_lineEdit.setGeometry(QtCore.QRect(110, 160, 241, 21))
         self.max_det_lineEdit.setObjectName("max_det_lineEdit")
@@ -75,7 +75,7 @@ class Ui_YOLOULT(object):
                                      QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.conf_label.setObjectName("conf_label")
         self.model_file_pushButton = QtWidgets.QPushButton(parent=yoloult_ui)
-        self.model_file_pushButton.setGeometry(QtCore.QRect(360, 220, 21, 24))
+        self.model_file_pushButton.setGeometry(QtCore.QRect(360, 190, 21, 24))
         self.model_file_pushButton.setObjectName("model_file_pushButton")
         self.iou_label = QtWidgets.QLabel(parent=yoloult_ui)
         self.iou_label.setGeometry(QtCore.QRect(10, 40, 91, 16))
@@ -105,35 +105,26 @@ class Ui_YOLOULT(object):
         self.device_lineEdit.setGeometry(QtCore.QRect(110, 130, 241, 21))
         self.device_lineEdit.setObjectName("device_lineEdit")
         self.save_pushButton = QtWidgets.QPushButton(parent=yoloult_ui)
-        self.save_pushButton.setGeometry(QtCore.QRect(150, 290, 91, 31))
+        self.save_pushButton.setGeometry(QtCore.QRect(150, 260, 91, 31))
         self.save_pushButton.setObjectName("save_pushButton")
         self.model_file_label = QtWidgets.QLabel(parent=yoloult_ui)
-        self.model_file_label.setGeometry(QtCore.QRect(10, 220, 91, 16))
+        self.model_file_label.setGeometry(QtCore.QRect(10, 190, 91, 16))
         self.model_file_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
                                            QtCore.Qt.AlignmentFlag.AlignTrailing|
                                            QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.model_file_label.setObjectName("model_file_label")
         self.model_file_lineEdit = QtWidgets.QLineEdit(parent=yoloult_ui)
-        self.model_file_lineEdit.setGeometry(QtCore.QRect(110, 220, 241, 21))
+        self.model_file_lineEdit.setGeometry(QtCore.QRect(110, 190, 241, 21))
         self.model_file_lineEdit.setObjectName("model_file_lineEdit")
         self.model_file_lineEdit.setReadOnly(True)
-        self.line_width_lineEdit = QtWidgets.QLineEdit(parent=yoloult_ui)
-        self.line_width_lineEdit.setGeometry(QtCore.QRect(110, 190, 241, 21))
-        self.line_width_lineEdit.setObjectName("line_width_lineEdit")
-        self.line_width_label = QtWidgets.QLabel(parent=yoloult_ui)
-        self.line_width_label.setGeometry(QtCore.QRect(10, 190, 91, 16))
-        self.line_width_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                           QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                           QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.line_width_label.setObjectName("line_width_label")
         self.repspoint_calib_label = QtWidgets.QLabel(parent=yoloult_ui)
-        self.repspoint_calib_label.setGeometry(QtCore.QRect(10, 250, 91, 16))
+        self.repspoint_calib_label.setGeometry(QtCore.QRect(10, 220, 91, 16))
         self.repspoint_calib_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
                                                 QtCore.Qt.AlignmentFlag.AlignTrailing|
                                                 QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.repspoint_calib_label.setObjectName("repspoint_calib_label")
         self.repspoint_calib_lineEdit = QtWidgets.QLineEdit(parent=yoloult_ui)
-        self.repspoint_calib_lineEdit.setGeometry(QtCore.QRect(110, 250, 241, 21))
+        self.repspoint_calib_lineEdit.setGeometry(QtCore.QRect(110, 220, 241, 21))
         self.repspoint_calib_lineEdit.setObjectName("repspoint_calib_lineEdit")
         self.boxes_comboBox = QtWidgets.QComboBox(parent=yoloult_ui)
         self.boxes_comboBox.setGeometry(QtCore.QRect(110, 100, 241, 21))
@@ -157,8 +148,8 @@ class Ui_YOLOULT(object):
         yoloult_ui.setWindowTitle(_translate("yoloult_ui", "YOLO Ultralytics"))
         self.max_det_lineEdit.setPlaceholderText(_translate("yoloult_ui", "100"))
         self.devices_label.setText(_translate("yoloult_ui", "device"))
-        self.conf_lineEdit.setPlaceholderText(_translate("yoloult_ui", "0.5"))
-        self.imgsz_lineEdit.setPlaceholderText(_translate("yoloult_ui", "416"))
+        self.conf_lineEdit.setPlaceholderText(_translate("yoloult_ui", "0.4"))
+        self.imgsz_lineEdit.setPlaceholderText(_translate("yoloult_ui", "1024"))
         self.iou_lineEdit.setPlaceholderText(_translate("yoloult_ui", "0.7"))
         self.conf_label.setText(_translate("yoloult_ui", "conf"))
         self.model_file_pushButton.setText(_translate("yoloult_ui", "..."))
@@ -169,8 +160,6 @@ class Ui_YOLOULT(object):
         self.device_lineEdit.setPlaceholderText(_translate("yoloult_ui", "0"))
         self.save_pushButton.setText(_translate("yoloult_ui", "Save"))
         self.model_file_label.setText(_translate("yoloult_ui", "model_file"))
-        self.line_width_lineEdit.setPlaceholderText(_translate("yoloult_ui", "500"))
-        self.line_width_label.setText(_translate("yoloult_ui", "line_width"))
         self.repspoint_calib_label.setText(_translate("yoloult_ui", "repspoint_calib"))
         self.repspoint_calib_lineEdit.setPlaceholderText(_translate("yoloult_ui", "0.25"))
         self.boxes_comboBox.setItemText(0, _translate("yoloult_ui", "True"))
@@ -183,7 +172,6 @@ class Ui_YOLOULT(object):
         self.imgsz_lineEdit.setText(str(self.mycfg.dcfg_yolout.imgsz))
         self.device_lineEdit.setText(str(self.mycfg.dcfg_yolout.device))
         self.max_det_lineEdit.setText(str(self.mycfg.dcfg_yolout.max_det))
-        self.line_width_lineEdit.setText(str(self.mycfg.dcfg_yolout.line_width))
         self.model_file_lineEdit.setText(getAbsPathFDS(self.mycfg.dcfg_yolout.model_file))
         self.repspoint_calib_lineEdit.setText(str(self.mycfg.dcfg_yolout.repspoint_calibration))
         self.loadComboBoxes()
@@ -204,13 +192,12 @@ class Ui_YOLOULT(object):
             device = getInt(self.device_lineEdit.text())
         yolo_utlt_doc = {
             "dt_name": unified_strings.getUnifiedFormat("YOLO_Ultralytics"),
-            "conf": getFloat(self.conf_lineEdit.text(), default_val=0.5),
+            "conf": getFloat(self.conf_lineEdit.text(), default_val=0.4),
             "iou": getFloat(self.iou_lineEdit.text(), default_val=0.7),
-            "imgsz": getInt(self.imgsz_lineEdit.text(), default_val=416),
+            "imgsz": getInt(self.imgsz_lineEdit.text(), default_val=1024),
             "show_boxes": self.boxes_comboBox.currentText(),
             "device": device,
             "max_det": getInt(self.max_det_lineEdit.text(), default_val=100),
-            "line_width": getInt(self.line_width_lineEdit.text(), default_val=500),
             "model_file": normalizePathFDS(root_dir, self.model_file_lineEdit.text()),
             "repspoint_calibration": getFloat(self.repspoint_calib_lineEdit.text(), default_val=0.25)
         }

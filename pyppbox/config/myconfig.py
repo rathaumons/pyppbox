@@ -321,8 +321,6 @@ class DCFGYOLOULT(BaseCGF):
         Parameter device of YOLO_Ultralytics.
     max_det : int
         Parameter max_det of YOLO_Ultralytics.
-    line_width : int
-        Parameter line_width of YOLO_Ultralytics.
     model_file : str
         Path of :attr:`model_file` for YOLO_Ultralytics.
     repspoint_calibration : float
@@ -372,7 +370,6 @@ class DCFGYOLOULT(BaseCGF):
                 self.show_boxes = self.configs['show_boxes']
                 self.device = self.configs['device']
                 self.max_det = self.configs['max_det']
-                self.line_width = self.configs['line_width']
                 self.model_file = getAdaptiveAbsPathFDS(self.from_dir, self.configs['model_file'])
                 self.repspoint_calibration = self.configs['repspoint_calibration']
                 self.configs = self.getDocument()
@@ -400,7 +397,6 @@ class DCFGYOLOULT(BaseCGF):
             "show_boxes": self.show_boxes,
             "device": self.device,
             "max_det": self.max_det,
-            "line_width": self.line_width,
             "model_file": normalizePathFDS(internal_root_dir, self.model_file),
             "repspoint_calibration": self.repspoint_calibration
         }
@@ -946,23 +942,22 @@ class MyCFGHeaders(object):
                 "###########################################################\n"
                 "# --- # YOLO_Classic\n"
                 "# dt_name: YOLO_Classic\n"
-                "# nms: 0.45\n"
-                "# conf: 0.5\n"
+                "# nms: 0.7\n"
+                "# conf: 0.4\n"
                 "# class_file: data/modules/yolo_classic/coco.names\n"
                 "# model_cfg_file: data/modules/yolo_classic/yolov4.cfg\n"
                 "# model_weights: data/modules/yolo_classic/yolov4.weights\n"
-                "# model_image_size: 416\n"
+                "# model_image_size: 1024\n"
                 "# repspoint_calibration: 0.25\n"
                 "###########################################################\n"
                 "# --- # YOLO_Ultralytics\n"
                 "# dt_name: YOLO_Ultralytics\n"
-                "# conf: 0.5\n"
+                "# conf: 0.4\n"
                 "# iou: 0.7\n"
-                "# imgsz: 416\n"
+                "# imgsz: 1024\n"
                 "# show_boxes: True\n"
                 "# device: 0\n"
-                "# max_det: 50\n"
-                "# line_width: 500\n"
+                "# max_det: 100\n"
                 "# model_file: data/modules/yolo_ultralytics/yolov8l-pose.pt\n"
                 "# repspoint_calibration: 0.25\n"
                 "###########################################################\n"

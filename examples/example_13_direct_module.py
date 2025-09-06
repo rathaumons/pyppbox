@@ -13,13 +13,12 @@ from pyppbox.config.myconfig import DCFGYOLOULT
 # Use a ready dictionary
 mydetector={
     'dt_name': 'YOLO_Ultralytics', 
-    'conf': 0.5, 
+    'conf': 0.4, 
     'iou': 0.7, 
-    'imgsz': 416, 
+    'imgsz': 1024, 
     'show_boxes': True, 
     'device': 0, 
     'max_det': 100, 
-    'line_width': 500, 
     'model_file': 'C:/pyppbox_v3/data/modules/yolo_ultralytics/yolov8l-pose.pt', 
     'repspoint_calibration': 0.25
 }
