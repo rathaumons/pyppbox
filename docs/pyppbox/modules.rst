@@ -18,7 +18,7 @@ The table below shows all the current supported modules which are integrated in 
    |            |              |                  | | * Run on: CPU or GPU (OpenCV DNN)             |
    |            |              +------------------+-------------------------------------------------+
    |            |              | YOLO_Ultralytics | | * Integrated by linking `ultralytics`_        |
-   |            |              |                  | | * Model: .pt `V3, V5, V8, V9, v10, v11`_      |
+   |            |              |                  | | * Model: .pt `V3, V5, V8, V9, v10, v11, v12`_ |
    |            |              |                  | | * Run on: CPU or GPU (PyTorch)                |
    +------------+--------------+------------------+-------------------------------------------------+
    | Trackers   | Centroid     | Centroid         | | * Built-in / Native                           |
@@ -45,7 +45,7 @@ The table below shows all the current supported modules which are integrated in 
 .. _V2, V3: https://pjreddie.com/darknet/yolo/
 .. _V4: https://github.com/AlexeyAB/darknet
 .. _ultralytics: https://github.com/numediart/ultralytics-for-vsensebox
-.. _V3, V5, V8, V9, v10, v11: https://github.com/ultralytics/assets/releases
+.. _V3, V5, V8, V9, v10, v11, v12: https://github.com/ultralytics/assets/releases
 .. _SORT repo: https://github.com/abewley/sort
 .. _DeepSORT repo: https://github.com/deshwalmahesh/yolov7-deepsort-tracking
 .. _FaceNet repo: https://github.com/davidsandberg/facenet
