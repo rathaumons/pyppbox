@@ -12,7 +12,19 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.10.0](https://github.com/rathaumons/pyppbox/tree/v3.10.0) - The Last V3
+* `pyppbox` [v3.11.0](https://github.com/rathaumons/pyppbox/tree/v3.11.0) - The Last V3
+
+  - Remove the unused `line_width` from `YOLO_Ultralytics` configuration
+  - Set `yolov8s-pose.pt` as default for `YOLO_Ultralytics` detector
+  - Optimize the default parameters of the detectors for better detection
+  - Set `pyppbox-data` [v1.3.0](https://github.com/rathaumons/pyppbox-data/releases/tag/v1.3.0) as default in documentation and workflows
+  - Clean up redundant direct dependencies and related modules
+  - Update all related workflows, GUI, example, and config files
+  - Update and improve documentation
+  - **Known issue/limitation**:
+    - You tell me :)
+
+* `pyppbox` [v3.10.0](https://github.com/rathaumons/pyppbox/tree/v3.10.0) - ~~The Last V3~~
 
   - Add miscellaneous `misc` options to all dump functions in `ResIO`
   - Remove the legacy License classifier for [PEP 639](https://peps.python.org/pep-0639/) compliance
