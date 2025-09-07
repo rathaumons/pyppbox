@@ -23,9 +23,7 @@ https://github.com/kpzhang93/MTCNN_face_detection_alignment
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 from six import string_types, iteritems
 
 import numpy as np

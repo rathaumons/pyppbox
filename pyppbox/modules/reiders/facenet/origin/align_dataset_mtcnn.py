@@ -22,14 +22,6 @@
 # SOFTWARE.
 
 
-
-# Updated on 07/03/2022 by Ratha Siv
-
-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
 import imageio
 import skimage.transform
 import sys
