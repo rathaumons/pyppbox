@@ -79,11 +79,11 @@ You need to install the main package which is `pyppbox` and the data for the mod
 * Install [`pyppbox-data-xxx`](https://github.com/rathaumons/pyppbox-data/)
   - Download the latest from [releases](https://github.com/rathaumons/pyppbox-data/releases) or install the ones you need directly:
     ```
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.2.0/pyppbox_data_yolocls-1.2.0-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.2.0/pyppbox_data_yoloult-1.2.0-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.2.0/pyppbox_data_deepsort-1.2.0-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.2.0/pyppbox_data_facenet-1.2.0-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.2.0/pyppbox_data_torchreid-1.2.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.3.0/pyppbox_data_yolocls-1.3.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.3.0/pyppbox_data_yoloult-1.3.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.3.0/pyppbox_data_deepsort-1.3.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.3.0/pyppbox_data_facenet-1.3.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.3.0/pyppbox_data_torchreid-1.3.0-py3-none-any.whl
     ```
 
 * Install [`pyppbox-data-gta5`](https://github.com/rathaumons/PoseTReID_DATASET#-introducing-pyppbox-data-gta5)
