@@ -958,7 +958,7 @@ class MyCFGHeaders(object):
                 "# show_boxes: True\n"
                 "# device: 0\n"
                 "# max_det: 100\n"
-                "# model_file: data/modules/yolo_ultralytics/yolov8l-pose.pt\n"
+                "# model_file: data/modules/yolo_ultralytics/yolov8s-pose.pt\n"
                 "# repspoint_calibration: 0.25\n"
                 "###########################################################\n"
                 "# --- # GT aka Ground Truth\n"

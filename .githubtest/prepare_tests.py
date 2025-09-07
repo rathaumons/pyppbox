@@ -14,7 +14,7 @@ yolo_utlt_doc={
     'show_boxes': False, 
     'device': 'cpu', # <- Switch to CPU
     'max_det': 100, 
-    'model_file': 'data/modules/yolo_ultralytics/yolov8n-pose.pt', # yolov8n-pose.pt
+    'model_file': 'data/modules/yolo_ultralytics/yolov8s-pose.pt', # yolov8s-pose.pt
     'repspoint_calibration': 0.25
 }
 internal_configs.dumpAllDCFG(

@@ -19,7 +19,7 @@ mydetector={
     'show_boxes': True, 
     'device': 0, 
     'max_det': 100, 
-    'model_file': 'C:/pyppbox_v3/data/modules/yolo_ultralytics/yolov8l-pose.pt', 
+    'model_file': 'C:/pyppbox_v3/data/modules/yolo_ultralytics/yolov8s-pose.pt', 
     'repspoint_calibration': 0.25
 }
 

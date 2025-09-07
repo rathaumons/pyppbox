@@ -17,7 +17,7 @@ from pyppbox.utils.visualizetools import visualizePeople
 mydetector="[{'dt_name': 'YOLO_Ultralytics', 'conf': 0.4, 'iou': 0.7, \
     'imgsz': 1024, 'show_boxes': True, 'device': 0, \
     'max_det': 100, 'model_file': \
-    'C:/pyppbox_v3/data/modules/yolo_ultralytics/yolov8l-pose.pt', \
+    'C:/pyppbox_v3/data/modules/yolo_ultralytics/yolov8s-pose.pt', \
     'repspoint_calibration': 0.25}]"
 mytracker="[{'tk_name': 'SORT', 'max_age': 1, 'min_hits': 3, \
     'iou_threshold': 0.3}]"
@@ -38,7 +38,7 @@ mydetector={
     'show_boxes': False, 
     'device': 0, 
     'max_det': 100, 
-    'model_file': 'C:/pyppbox_v3/data/modules/yolo_ultralytics/yolov8l-pose.pt', 
+    'model_file': 'C:/pyppbox_v3/data/modules/yolo_ultralytics/yolov8s-pose.pt', 
     'repspoint_calibration': 0.25
 }
 

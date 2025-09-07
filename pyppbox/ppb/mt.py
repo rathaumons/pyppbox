@@ -355,7 +355,7 @@ class MT(object):
             (3) Set a raw string or ready dictionary is also possible; for example, 
             :code:`detector="[{'dt_name': 'YOLO_Ultralytics', 'conf': 0.4, 'iou': 0.7, 'imgsz': 1024, 
             'show_boxes': True, 'device': 0, 'max_det': 100, 
-            'model_file': 'data/modules/yolo_ultralytics/yolov8l-pose.pt', 
+            'model_file': 'data/modules/yolo_ultralytics/yolov8s-pose.pt', 
             'repspoint_calibration': 0.25}]"`.
             (4) Set :code:`detector="a_supported_detector.yaml"` or :code:`detector="a_supported_detector.json"` 
             to set the main detector and its configuration from a YAML file. 
