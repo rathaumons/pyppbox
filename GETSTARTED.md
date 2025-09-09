@@ -28,16 +28,16 @@ All requirements are not strictly limited. However, some specific modules might 
   - On ***Windows***, recommend using the `cmd` installer:
     - For GPU (CUDA): `install_req_py3_cuda121.cmd` (Or `install_req_py3_cuda.cmd` for CUDA 11.8)
     - For CPU-only: `install_req_py3_cpu.cmd` (Or skip this and go straight to Setup section below)
-  - On ***Linux***:
+  - On ***Linux*** (The latest installation instruction for [TensorFlow](https://www.tensorflow.org/install) and [PyTorch](https://pytorch.org/get-started/locally/)):
     - For GPU (CUDA):
       ```
-      python -m pip install tensorflow[and-cuda] # TensorFlow GPU
+      pip install tensorflow[and-cuda] # TensorFlow GPU
       pip install torch torchvision
       pip install -r requirements.txt
       ```
     - For CPU-only (Or skip this and go straight to Setup section below):
       ```
-      python -m pip install tensorflow # TensorFlow CPU
+      pip install tensorflow # TensorFlow CPU
       pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
       pip install -r requirements.txt
       ```
