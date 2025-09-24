@@ -6,8 +6,8 @@
 from pyppbox.utils.evatools import compareRes2Ref
 
 
-res_txt = "../examples/data/result_gta.mp4.txt"
-ref_txt = "../examples/data/gta.mp4.txt"
+res_txt = "../../examples/data/result_gta.mp4.txt"
+ref_txt = "../../examples/data/gta.mp4.txt"
 
 results = compareRes2Ref(
     res_txt=res_txt, 

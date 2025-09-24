@@ -1,7 +1,7 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                           #
 #   pyppbox: Toolbox for people detecting, tracking, and re-identifying.    #
-#   Copyright (C) 2022 UMONS-Numediart                                      #
+#   Copyright (C) 2025 UMONS-Numediart                                      #
 #                                                                           #
 #   This program is free software: you can redistribute it and/or modify    #
 #   it under the terms of the GNU General Public License as published by    #
@@ -54,7 +54,7 @@ class TorchreidModel(object):
 
         Parameters
         ----------
-        mcfg : dict
+        mcfg : Dict[str, Any]
             A configuration dictionary of a single document of the configurations.
         """
         self.name = mcfg['name']
@@ -71,7 +71,7 @@ class TorchreidModelDict(object):
 
     Attributes
     ----------
-    raw_model : dict, auto
+    raw_model : Dict[str, Any], auto
         A configuration dictionary of a single document of the Torchreid model configurations.
     model_list : list[TorchreidModel, ...], auto
         A list of all :class:`TorchreidModel` objects.

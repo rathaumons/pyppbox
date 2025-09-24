@@ -1,7 +1,7 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                           #
 #   pyppbox: Toolbox for people detecting, tracking, and re-identifying.    #
-#   Copyright (C) 2022 UMONS-Numediart                                      #
+#   Copyright (C) 2025 UMONS-Numediart                                      #
 #                                                                           #
 #   This program is free software: you can redistribute it and/or modify    #
 #   it under the terms of the GNU General Public License as published by    #
@@ -25,6 +25,7 @@ from pyppbox.utils.logtools import add_info_log, add_warning_log, add_error_log
 # Common
 import cv2
 from collections import Counter
+from typing import Any, Dict, List, Union, Optional
 
 # Configurations
 from pyppbox.config.configtools import isDictString, getCFGDict
@@ -42,8 +43,7 @@ from pyppbox.utils.evatools import NothingDetecter, NothingTracker, NothingReide
 from pyppbox.utils.commontools import getAbsPathFDS, isExist, getCVMat, getAncestorDir
 
 
-__none_cfg__ = NoneCFG()
-__none_cfg__.set("Fiat Moneey")
+__none_cfg__ = NoneCFG("Fiat Moneey")
 
 class MT(object):
 
@@ -109,16 +109,16 @@ class MT(object):
         self.__cfg_is_set__ = False
         # detector
         self.__dt_is_set__ = False
-        self.__dt_cfg__ = []
-        self.__dt__ = []
+        self.__dt_cfg__ = __none_cfg__
+        self.__dt__ = None
         # tracker
         self.__tk_is_set__ = False
-        self.__tk_cfg__ = []
-        self.__tk__ = []
+        self.__tk_cfg__ = __none_cfg__
+        self.__tk__ = None
         # reider
         self.__ri_is_set__ = False
-        self.__ri_cfg__ = []
-        self.__ri__ = []
+        self.__ri_cfg__ = __none_cfg__
+        self.__ri__ = None
         self.__deepidlistTMP__ = []
         self.__faceidlistTMP__ = []
 
@@ -138,7 +138,7 @@ class MT(object):
             self.__loadDefaultTracker__()
             self.__loadDefaultReIDer__()
 
-    def setConfigDir(self, config_dir=None, load_all=False):
+    def setConfigDir(self, config_dir: Optional[str] = None, load_all: bool = False):
         """Set configurations by a pointing to a config directory :obj:`config_dir`, 
         where stores 4 required YAML files:
         (1) main.yaml, tells what main detector/tracker/reider are chosen.
@@ -187,7 +187,7 @@ class MT(object):
             add_error_log(msg)
             raise ValueError(msg)
 
-    def setMainModules(self, main_yaml=None, load_all=True):
+    def setMainModules(self, main_yaml: Optional[Union[str, Dict[str, Any]]] = None, load_all: bool = True):
         """Load and set the main detector, the main tracker, and the main reider all at once 
         according to the given main configurations, :obj:`main_yaml`. If the :func:`setConfigDir()` 
         has not yet been called, internal config directory will be used.
@@ -224,6 +224,29 @@ class MT(object):
             A :class:`MyConfigurator` object used to store and manage all the configurations of pyppbox.
         """
         return self.__cfg__
+
+    def getMainConfig(self, current=True):
+        """Get the main configurations which used to identify the main detector/tracker/reider.
+
+        Parameters
+        ----------
+        current : bool, default=True
+            When it is True (default), return the most current main configurations; otherwise, return 
+            the main configurations stored in the :obj:`MyConfigurator` object.
+
+        Returns
+        -------
+        dict
+            A configuration dictionary of the main configurations.
+        """
+        if current:
+            return {
+                "detector": self.__dt_cfg__.dt_name,
+                "tracker": self.__tk_cfg__.tk_name,
+                "reider": self.__ri_cfg__.ri_name,
+            }
+        else:
+            return self.__cfg__.getMCFG()
 
 
     ###########################################
@@ -337,7 +360,7 @@ class MT(object):
                 self.__dt_is_set__ = False
                 add_warning_log(f"---PYPPBOX : detector='{detector_dict['dt_name']}' is not recognized.")
 
-    def setMainDetector(self, detector=""):
+    def setMainDetector(self, detector: Union[str, Dict[str, Any]] = ""):
         """Set the main detector by a supported name, a raw/ready dictionary, or a YAML/JSON file. 
         Calling :func:`setConfigDir()` before :func:`setMainTracker()` is optional. Different from 
         the rest, setting the main detector by its name results in loading the configurations from 
@@ -361,7 +384,7 @@ class MT(object):
             to set the main detector and its configuration from a YAML file. 
         """
         self.__dt_is_set__ = False
-        self.__dt__ = []
+        self.__dt__ = None
         if isinstance(detector, dict):
             self.__setCustomDetector__(detector)
         elif isinstance(detector, str):
@@ -539,7 +562,7 @@ class MT(object):
                 self.__tk_is_set__ = False
                 add_warning_log(f"---PYPPBOX : tracker='{tracker_dict['tk_name']}' is not recognized.")
 
-    def setMainTracker(self, tracker=""):
+    def setMainTracker(self, tracker: Union[str, Dict[str, Any]] = ""):
         """Set the main tracker by a supported name, a raw/ready dictionary, or a YAML/JSON file. 
         Calling :func:`setConfigDir()` before :func:`setMainTracker()` is optional. Different from 
         the rest, setting the main tracker by its name results in loading the configurations from 
@@ -560,7 +583,7 @@ class MT(object):
             to set the main tracker and its configuration from a YAML file. 
         """
         self.__tk_is_set__ = False
-        self.__tk__ = []
+        self.__tk__ = None
         if isinstance(tracker, dict):
             self.__setCustomTracker__(tracker)
         elif isinstance(tracker, str):
@@ -706,7 +729,7 @@ class MT(object):
                 self.__ri_is_set__ = False
                 add_warning_log(f"---PYPPBOX : reider='{reider_dict['ri_name']}' is not recognized.")
 
-    def setMainReIDer(self, reider="", auto_load=True):
+    def setMainReIDer(self, reider: Union[str, Dict[str, Any]] = "", auto_load: bool = True):
         """Set the main reider by a supported name, a raw/ready dictionary, or a YAML/JSON file. 
         Calling :func:`setConfigDir()` before :func:`setMainTracker()` is optional. Different from 
         the rest, setting the main reider by its name results in loading the configurations from the 
@@ -738,7 +761,7 @@ class MT(object):
             some time to do so.
         """
         self.__ri_is_set__ = False
-        self.__ri__ = []
+        self.__ri__ = None
         if isinstance(reider, dict):
             self.__setCustomReIDer__(reider, auto_load)
         elif isinstance(reider, str):
@@ -953,7 +976,12 @@ class MT(object):
                     index += 1
         return people, reid_count
 
-    def trainReIDClassifier(self, reider="", train_data="", classifier_pkl=""):
+    def trainReIDClassifier(
+        self, 
+        reider: Union[str, Dict[str, Any]] = "", 
+        train_data: str = "", 
+        classifier_pkl: str = ""
+    ):
         """Train classifier of a reider by pointing to a data directory. Calling 
         :func:`setConfigDir()` or :func:`setMainReIDer()` in advance is not required.
 

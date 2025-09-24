@@ -1,7 +1,7 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                           #
 #   pyppbox: Toolbox for people detecting, tracking, and re-identifying.    #
-#   Copyright (C) 2022 UMONS-Numediart                                      #
+#   Copyright (C) 2025 UMONS-Numediart                                      #
 #                                                                           #
 #   This program is free software: you can redistribute it and/or modify    #
 #   it under the terms of the GNU General Public License as published by    #
@@ -19,9 +19,11 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
+from typing import Any, Dict, List, Union, Optional
+
 from .unifiedstrings import UnifiedStrings
-from .configtools import (PYPPBOXStructure, getCFGDict, getListCFGDoc, 
-                          loadListDocument, dumpDocDict, dumpListDocDict)
+from .configtools import (PYPPBOXStructure, getCFGDict, getCFGDictList, 
+                          loadDocumentList, dumpDocDict, dumpDocDictList)
 from pyppbox.utils.logtools import add_warning_log, add_error_log
 from pyppbox.utils.commontools import (
     getFileName, 
@@ -48,16 +50,18 @@ class BaseCGF(object):
     ----------
     unified_strings : MyStrings, auto
         A :class:`MyStrings` object used to store unified strings.
-    configs : dict or list[dict], default={}
-        A configuration dictionary of a single document or a list of multiple documents 
-        of the configurations.
+    config : Dict[str, Any], default={}
+        A configuration dictionary of a single document of the configuration.
+    configs : List[Dict[str, Any]], default=[]
+        A list of multiple documents of the configurations.
     """
 
     def __init__(self):
         self.unified_strings = unified_strings
-        self.configs = {}
+        self.config: Dict[str, Any] = {}
+        self.configs: List[Dict[str, Any]] = []
     
-    def loadDoc(self, input):
+    def loadDoc(self, input: Union[str, Dict[str, Any]]):
         """Load and set dictionary of a single document from a YAML/JSON file or string.
 
         Parameters
@@ -65,9 +69,9 @@ class BaseCGF(object):
         input : str or dict
             A YAML/JSON file path, or a raw/ready dictionary.
         """
-        self.configs = getCFGDict(input)
+        self.config = getCFGDict(input)
     
-    def loadDocs(self, input):
+    def loadDocs(self, input: Union[str, Dict[str, Any]]):
         """Load and set a list of multiple documents from a YAML/JSON file or string.
 
         Parameters
@@ -75,9 +79,9 @@ class BaseCGF(object):
         input : str or dict
             A YAML/JSON file path, or a raw/ready dictionary.
         """
-        self.configs = getListCFGDoc(input)
+        self.configs = getCFGDictList(input)
     
-    def dumpDoc(self, output, header=""):
+    def dumpDoc(self, output: str, header: str = ""):
         """Dump the :attr:`configs` into a YAML file with simple format.
 
         Parameters
@@ -87,9 +91,9 @@ class BaseCGF(object):
         header : str
             A file header description.
         """
-        dumpDocDict(output_file=output, doc=self.configs, header=header)
+        dumpDocDict(output_file=output, doc=self.config, header=header)
     
-    def dumpDocs(self, output, header=""):
+    def dumpDocs(self, output: str, header: str = ""):
         """Dump the :attr:`configs` into a YAML file with simple format.
 
         Parameters
@@ -99,7 +103,7 @@ class BaseCGF(object):
         header : str
             A file header description.
         """
-        dumpListDocDict(output_file=output, doc=self.configs, header=header)
+        dumpDocDictList(output_file=output, doc_list=self.configs, header=header)
 
 
 class NoneCFG(BaseCGF):
@@ -123,22 +127,27 @@ class NoneCFG(BaseCGF):
         "None" name of a reider.
     """
 
-    def set(self, input):
+    def __init__(self, name: Any) -> None:
+        """Initialize every attribute with a unified string of "None" regardless the :obj:`name`."""
+        super().__init__()
+        name = self.unified_strings.getUnifiedFormat("None")
+        self.dt_name = name
+        self.tk_name = name
+        self.ri_name = name
+        self.detector = name
+        self.tracker = name
+        self.reider = name
+
+    def set(self, name: Any) -> "NoneCFG":
         """
-        Set every attribute with a unified string of "None" regardless the :obj:`input`.
+        Set every attribute with a unified string of "None" regardless the :obj:`Any`.
 
         Parameters
         ----------
-        input : any
+        input : Any
             A parameter to be overridden with a unified string of :code:`"None"`.
         """
-        input = "None"
-        self.dt_name = self.unified_strings.getUnifiedFormat(input)
-        self.tk_name = self.unified_strings.getUnifiedFormat(input)
-        self.ri_name = self.unified_strings.getUnifiedFormat(input)
-        self.detector = self.unified_strings.getUnifiedFormat(input)
-        self.tracker = self.unified_strings.getUnifiedFormat(input)
-        self.reider = self.unified_strings.getUnifiedFormat(input)
+        return self
 
 
 class MainCFG(BaseCGF):
@@ -156,7 +165,10 @@ class MainCFG(BaseCGF):
         Name of a reider.
     """
 
-    def set(self, input):
+    def __init__(self) -> None:
+        super().__init__()
+
+    def set(self, input: Union[str, Dict[str, Any]]):
         """
         Set main configurations according to :obj:`input`.
 
@@ -166,12 +178,12 @@ class MainCFG(BaseCGF):
             A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
-        if self.configs:
+        if self.config:
             try:
-                self.detector = self.unified_strings.getUnifiedFormat(self.configs['detector'])
-                self.tracker = self.unified_strings.getUnifiedFormat(self.configs['tracker'])
-                self.reider = self.unified_strings.getUnifiedFormat(self.configs['reider'])
-                self.configs = self.getDocument()
+                self.detector = self.unified_strings.getUnifiedFormat(self.config['detector'])
+                self.tracker = self.unified_strings.getUnifiedFormat(self.config['tracker'])
+                self.reider = self.unified_strings.getUnifiedFormat(self.config['reider'])
+                self.config = self.getDocument()
             except Exception as e:
                 msg = f"MainCFG : set() -> {e}"
                 add_error_log(msg)
@@ -249,7 +261,7 @@ class DCFGYOLOCLS(BaseCGF):
         if relative_to_pyppbox_root:
             self.from_dir = internal_root_dir
 
-    def set(self, input):
+    def set(self, input: Union[str, Dict[str, Any]]):
         """
         Set configurations according to :obj:`input`.
 
@@ -259,18 +271,18 @@ class DCFGYOLOCLS(BaseCGF):
             A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
-        if self.configs:
+        if self.config:
             try:
-                self.dt_name = self.unified_strings.getUnifiedFormat(self.configs['dt_name'])
-                self.nms = self.configs['nms']
-                self.conf = self.configs['conf']
-                self.class_file = getAdaptiveAbsPathFDS(self.from_dir, self.configs['class_file'])
-                self.model_cfg_file = getAdaptiveAbsPathFDS(self.from_dir, self.configs['model_cfg_file'])
-                self.model_weights = getAdaptiveAbsPathFDS(self.from_dir, self.configs['model_weights'])
-                self.model_image_size = self.configs['model_image_size']
+                self.dt_name = self.unified_strings.getUnifiedFormat(self.config['dt_name'])
+                self.nms = self.config['nms']
+                self.conf = self.config['conf']
+                self.class_file = getAdaptiveAbsPathFDS(self.from_dir, self.config['class_file'])
+                self.model_cfg_file = getAdaptiveAbsPathFDS(self.from_dir, self.config['model_cfg_file'])
+                self.model_weights = getAdaptiveAbsPathFDS(self.from_dir, self.config['model_weights'])
+                self.model_image_size = self.config['model_image_size']
                 self.model_resolution = (self.model_image_size, self.model_image_size)
-                self.repspoint_calibration = self.configs['repspoint_calibration']
-                self.configs = self.getDocument()
+                self.repspoint_calibration = self.config['repspoint_calibration']
+                self.config = self.getDocument()
             except Exception as e:
                 msg = f"DCFGYOLOCLS : set() -> {e}"
                 add_error_log(msg)
@@ -351,7 +363,7 @@ class DCFGYOLOULT(BaseCGF):
         if relative_to_pyppbox_root:
             self.from_dir = internal_root_dir
 
-    def set(self, input):
+    def set(self, input: Union[str, Dict[str, Any]]):
         """
         Set configurations according to :obj:`input`.
 
@@ -361,18 +373,18 @@ class DCFGYOLOULT(BaseCGF):
             A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
-        if self.configs:
+        if self.config:
             try:
-                self.dt_name = self.unified_strings.getUnifiedFormat(self.configs['dt_name'])
-                self.conf = self.configs['conf']
-                self.iou = self.configs['iou']
-                self.imgsz = self.configs['imgsz']
-                self.show_boxes = self.configs['show_boxes']
-                self.device = self.configs['device']
-                self.max_det = self.configs['max_det']
-                self.model_file = getAdaptiveAbsPathFDS(self.from_dir, self.configs['model_file'])
-                self.repspoint_calibration = self.configs['repspoint_calibration']
-                self.configs = self.getDocument()
+                self.dt_name = self.unified_strings.getUnifiedFormat(self.config['dt_name'])
+                self.conf = self.config['conf']
+                self.iou = self.config['iou']
+                self.imgsz = self.config['imgsz']
+                self.show_boxes = self.config['show_boxes']
+                self.device = self.config['device']
+                self.max_det = self.config['max_det']
+                self.model_file = getAdaptiveAbsPathFDS(self.from_dir, self.config['model_file'])
+                self.repspoint_calibration = self.config['repspoint_calibration']
+                self.config = self.getDocument()
             except Exception as e:
                 msg = f"DCFGYOLOULT : set() -> {e}"
                 add_error_log(msg)
@@ -442,7 +454,7 @@ class DCFGGT(BaseCGF):
         if relative_to_pyppbox_root:
             self.from_dir = internal_root_dir
 
-    def set(self, input):
+    def set(self, input: Union[str, Dict[str, Any]]):
         """
         Set configurations according to :obj:`input`.
 
@@ -452,12 +464,12 @@ class DCFGGT(BaseCGF):
             A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
-        if self.configs:
+        if self.config:
             try:
-                self.dt_name = self.unified_strings.getUnifiedFormat(self.configs['dt_name'])
-                self.gt_file = getAdaptiveAbsPathFDS(self.from_dir, self.configs['gt_file'])
-                self.gt_map_file = getAdaptiveAbsPathFDS(self.from_dir, self.configs['gt_map_file'])
-                self.configs = self.getDocument()
+                self.dt_name = self.unified_strings.getUnifiedFormat(self.config['dt_name'])
+                self.gt_file = getAdaptiveAbsPathFDS(self.from_dir, self.config['gt_file'])
+                self.gt_map_file = getAdaptiveAbsPathFDS(self.from_dir, self.config['gt_map_file'])
+                self.config = self.getDocument()
             except Exception as e:
                 msg = f"DCFGGT : set() -> {e}"
                 add_error_log(msg)
@@ -496,6 +508,9 @@ class TCFGCentroid(BaseCGF):
         object of previous and current state.
     """
 
+    def __init__(self) -> None:
+        super().__init__()
+
     def set(self, input):
         """
         Set configurations according to :obj:`input`.
@@ -506,11 +521,11 @@ class TCFGCentroid(BaseCGF):
             A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
-        if self.configs:
+        if self.config:
             try:
-                self.tk_name = self.unified_strings.getUnifiedFormat(self.configs['tk_name'])
-                self.max_spread = self.configs['max_spread']
-                self.configs = self.getDocument()
+                self.tk_name = self.unified_strings.getUnifiedFormat(self.config['tk_name'])
+                self.max_spread = self.config['max_spread']
+                self.config = self.getDocument()
             except Exception as e:
                 msg = f"TCFGCentroid : set() -> {e}"
                 add_error_log(msg)
@@ -551,7 +566,10 @@ class TCFGSORT(BaseCGF):
         Parameter :obj:`iou_threshold` of tracker SORT.
     """
 
-    def set(self, input):
+    def __init__(self) -> None:
+        super().__init__()
+
+    def set(self, input: Union[str, Dict[str, Any]]):
         """
         Set configurations according to :obj:`input`.
 
@@ -561,13 +579,13 @@ class TCFGSORT(BaseCGF):
             A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
-        if self.configs:
+        if self.config:
             try:
-                self.tk_name = self.unified_strings.getUnifiedFormat(self.configs['tk_name'])
-                self.max_age = self.configs['max_age']
-                self.min_hits = self.configs['min_hits']
-                self.iou_threshold = self.configs['iou_threshold']
-                self.configs = self.getDocument()
+                self.tk_name = self.unified_strings.getUnifiedFormat(self.config['tk_name'])
+                self.max_age = self.config['max_age']
+                self.min_hits = self.config['min_hits']
+                self.iou_threshold = self.config['iou_threshold']
+                self.config = self.getDocument()
             except Exception as e:
                 msg = f"TCFGSORT : set() -> {e}"
                 add_error_log(msg)
@@ -636,7 +654,7 @@ class TCFGDeepSORT(BaseCGF):
         if relative_to_pyppbox_root:
             self.from_dir = internal_root_dir
 
-    def set(self, input):
+    def set(self, input: Union[str, Dict[str, Any]]):
         """
         Set configurations according to :obj:`input`.
 
@@ -646,14 +664,14 @@ class TCFGDeepSORT(BaseCGF):
             A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
-        if self.configs:
+        if self.config:
             try:
-                self.tk_name = self.unified_strings.getUnifiedFormat(self.configs['tk_name'])
-                self.nn_budget = self.configs['nn_budget']
-                self.nms_max_overlap = self.configs['nms_max_overlap']
-                self.max_cosine_distance = self.configs['max_cosine_distance']
-                self.model_file = getAdaptiveAbsPathFDS(self.from_dir, self.configs['model_file'])
-                self.configs = self.getDocument()
+                self.tk_name = self.unified_strings.getUnifiedFormat(self.config['tk_name'])
+                self.nn_budget = self.config['nn_budget']
+                self.nms_max_overlap = self.config['nms_max_overlap']
+                self.max_cosine_distance = self.config['max_cosine_distance']
+                self.model_file = getAdaptiveAbsPathFDS(self.from_dir, self.config['model_file'])
+                self.config = self.getDocument()
             except Exception as e:
                 msg = f"TCFGDeepSORT : set() -> {e}"
                 add_error_log(msg)
@@ -740,7 +758,7 @@ class RCFGFaceNet(BaseCGF):
         if relative_to_pyppbox_root:
             self.from_dir = internal_root_dir
 
-    def set(self, input):
+    def set(self, input: Union[str, Dict[str, Any]]):
         """
         Set configurations according to :obj:`input`.
 
@@ -750,19 +768,19 @@ class RCFGFaceNet(BaseCGF):
             A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
-        if self.configs:
+        if self.config:
             try:
-                self.ri_name = self.unified_strings.getUnifiedFormat(self.configs['ri_name'])
-                self.gpu_mem = self.configs['gpu_mem']
-                self.model_det = getAdaptiveAbsPathFDS(self.from_dir, self.configs['model_det'])
-                self.model_file = getAdaptiveAbsPathFDS(self.from_dir, self.configs['model_file'])
-                self.classifier_pkl = getAdaptiveAbsPathFDS(self.from_dir, self.configs['classifier_pkl'])
-                self.train_data = getAdaptiveAbsPathFDS(self.from_dir, self.configs['train_data'])
-                self.batch_size = self.configs['batch_size']
-                self.min_confidence = self.configs['min_confidence']
-                self.yl_h_calibration = self.configs['yl_h_calibration']
-                self.yl_w_calibration = self.configs['yl_w_calibration']
-                self.configs = self.getDocument()
+                self.ri_name = self.unified_strings.getUnifiedFormat(self.config['ri_name'])
+                self.gpu_mem = self.config['gpu_mem']
+                self.model_det = getAdaptiveAbsPathFDS(self.from_dir, self.config['model_det'])
+                self.model_file = getAdaptiveAbsPathFDS(self.from_dir, self.config['model_file'])
+                self.classifier_pkl = getAdaptiveAbsPathFDS(self.from_dir, self.config['classifier_pkl'])
+                self.train_data = getAdaptiveAbsPathFDS(self.from_dir, self.config['train_data'])
+                self.batch_size = self.config['batch_size']
+                self.min_confidence = self.config['min_confidence']
+                self.yl_h_calibration = self.config['yl_h_calibration']
+                self.yl_w_calibration = self.config['yl_w_calibration']
+                self.config = self.getDocument()
             except Exception as e:
                 msg = f"RCFGFaceNet : set() -> {e}"
                 add_error_log(msg)
@@ -851,7 +869,7 @@ class RCFGTorchreid(BaseCGF):
         if relative_to_pyppbox_root:
             self.from_dir = internal_root_dir
 
-    def set(self, input):
+    def set(self, input: Union[str, Dict[str, Any]]):
         """
         Set configurations according to :obj:`input`.
 
@@ -861,17 +879,17 @@ class RCFGTorchreid(BaseCGF):
             A YAML/JSON file path, or a raw/ready dictionary.
         """
         super().loadDoc(input)
-        if self.configs:
+        if self.config:
             try:
                 from pyppbox.modules.reiders.torchreid.model_dict import TorchreidModelDict
-                self.ri_name = self.unified_strings.getUnifiedFormat(self.configs['ri_name'])
-                self.classifier_pkl = getAdaptiveAbsPathFDS(self.from_dir, self.configs['classifier_pkl'])
-                self.train_data = getAdaptiveAbsPathFDS(self.from_dir, self.configs['train_data'])
-                self.model_name = self.configs['model_name']
-                self.model_path = getAdaptiveAbsPathFDS(self.from_dir, self.configs['model_path'])
-                self.min_confidence = self.configs['min_confidence']
-                self.device = self.configs['device']
-                self.configs = self.getDocument()
+                self.ri_name = self.unified_strings.getUnifiedFormat(self.config['ri_name'])
+                self.classifier_pkl = getAdaptiveAbsPathFDS(self.from_dir, self.config['classifier_pkl'])
+                self.train_data = getAdaptiveAbsPathFDS(self.from_dir, self.config['train_data'])
+                self.model_name = self.config['model_name']
+                self.model_path = getAdaptiveAbsPathFDS(self.from_dir, self.config['model_path'])
+                self.min_confidence = self.config['min_confidence']
+                self.device = self.config['device']
+                self.config = self.getDocument()
                 self.base_model_path = getAdaptiveAbsPathFDS(
                     self.from_dir, 
                     joinFPathFull(getAncestorDir(self.model_path, 1), 'base')
@@ -1042,7 +1060,7 @@ class MyCFGHeaders(object):
             Copyright header string.
         """
         header=("::    pyppbox: Toolbox for people detecting, tracking, and re-identifying.\n"
-                "::    Copyright (C) 2022 UMONS-Numediart\n"
+                "::    Copyright (C) 2025 UMONS-Numediart\n"
                 "::\n"
                 "::    This program is free software: you can redistribute it and/or modify\n"
                 "::    it under the terms of the GNU General Public License as published by\n"
@@ -1101,7 +1119,7 @@ class MyConfigurator(PYPPBOXStructure):
         A list used to store abstract or unsupported :class:`BaseCGF` objects.
     """
 
-    def __init__(self, cfg_dir=internal_cfg_dir, set_all_modules=False):
+    def __init__(self, cfg_dir: str = internal_cfg_dir, set_all_modules: bool = False):
         """Initialize according to the given directory of the YAML configurations.
 
         Parameters
@@ -1126,15 +1144,32 @@ class MyConfigurator(PYPPBOXStructure):
             self.setAllTCFG()
             self.setAllRCFG()
 
-    def setCustomCFG(self, cfg_dir):
+    def setCustomCFG(self, cfg_dir: str):
+        """Set a path of a custom config directory where stores main.yaml, detectors.yaml, 
+        trackers.yaml, and reiders.yaml.
+
+        Parameters
+        ----------
+        cfg_dir : str
+            A path of the config directory.
+        """
         super().setCustomCFG(cfg_dir=cfg_dir)
         self.relative_to_pyppbox_root = False
         if cfg_dir == internal_cfg_dir:
             self.relative_to_pyppbox_root = True
 
-    def setMCFG(self, main_yaml=None):
-        """Load and set the main configurations which used to identify the main 
-        detector/tracker/reider.
+    def getMCFG(self):
+        """Get the main configurations which used to identify the main detector/tracker/reider.
+
+        Returns
+        -------
+        dict
+            A configuration dictionary of the main configurations.
+        """
+        return self.mcfg.getDocument()
+
+    def setMCFG(self, main_yaml: Optional[Union[str, Dict[str, Any]]] = None):
+        """Load and set the main configurations which used to identify the main detector/tracker/reider.
 
         Parameters
         ----------
@@ -1151,7 +1186,7 @@ class MyConfigurator(PYPPBOXStructure):
         else:
             self.mcfg.set(main_yaml)
     
-    def setMainModules(self, main_yaml=None):
+    def setMainModules(self, main_yaml: Optional[Union[str, Dict[str, Any]]] = None):
         """Call :meth:`setMCFG()` and then load and set the main detector/tracker/reider accordingly.
 
         Parameters
@@ -1164,26 +1199,30 @@ class MyConfigurator(PYPPBOXStructure):
             configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
         """
         self.setMCFG(main_yaml=main_yaml)
-        selected_dt = self.mcfg.configs['detector']
-        dt_list = loadListDocument(self.detectors_yaml)
+        selected_dt = self.mcfg.config['detector']
+        dt_list = loadDocumentList(self.detectors_yaml)
         for dt in dt_list:
             if dt['dt_name'].lower() == selected_dt.lower():
                 self.setASupportedModuleCFG(dt, self.relative_to_pyppbox_root)
                 break
-        selected_tk = self.mcfg.configs['tracker']
-        tk_list = loadListDocument(self.trackers_yaml)
+        selected_tk = self.mcfg.config['tracker']
+        tk_list = loadDocumentList(self.trackers_yaml)
         for tk in tk_list:
             if tk['tk_name'].lower() == selected_tk.lower():
                 self.setASupportedModuleCFG(tk, self.relative_to_pyppbox_root)
                 break
-        selected_ri = self.mcfg.configs['reider']
-        ri_list = loadListDocument(self.reiders_yaml)
+        selected_ri = self.mcfg.config['reider']
+        ri_list = loadDocumentList(self.reiders_yaml)
         for ri in ri_list:
             if ri['ri_name'].lower() == selected_ri.lower():
                 self.setASupportedModuleCFG(ri, self.relative_to_pyppbox_root)
                 break
     
-    def setGTCFG(self, detectors_yaml=None, relative_to_pyppbox_root=None):
+    def setGTCFG(
+        self, 
+        detectors_yaml: Optional[Union[str, Dict[str, Any]]] = None, 
+        relative_to_pyppbox_root: Optional[bool] = None
+    ):
         """Manually load and set the configurations for :attr:`dcfg_gt`.
 
         Parameters
@@ -1212,9 +1251,9 @@ class MyConfigurator(PYPPBOXStructure):
             raise ValueError(msg)
         docs = []
         if detectors_yaml is None:
-            docs = loadListDocument(self.detectors_yaml)
+            docs = loadDocumentList(self.detectors_yaml)
         elif detectors_yaml is not None:
-            docs = getListCFGDoc(detectors_yaml)
+            docs = getCFGDictList(detectors_yaml)
         for d in docs:
             try:
                 if d['dt_name'].lower() == self.unified_strings.gt:
@@ -1224,7 +1263,11 @@ class MyConfigurator(PYPPBOXStructure):
                 add_error_log(msg)
                 raise ValueError(msg)
 
-    def setAllDCFG(self, detectors_yaml=None, relative_to_pyppbox_root=None):
+    def setAllDCFG(
+        self, 
+        detectors_yaml: Optional[Union[str, Dict[str, Any]]] = None, 
+        relative_to_pyppbox_root: Optional[bool] = None
+    ):
         """Load and set the configurations for all supported detectors.
 
         Parameters
@@ -1257,9 +1300,9 @@ class MyConfigurator(PYPPBOXStructure):
             raise ValueError(msg)
         docs = []
         if detectors_yaml is None:
-            docs = loadListDocument(self.detectors_yaml)
+            docs = loadDocumentList(self.detectors_yaml)
         elif detectors_yaml is not None:
-            docs = getListCFGDoc(detectors_yaml)
+            docs = getCFGDictList(detectors_yaml)
         self.dt_map = []
         for d in docs:
             try:
@@ -1280,7 +1323,11 @@ class MyConfigurator(PYPPBOXStructure):
                 add_error_log(msg)
                 raise ValueError(msg)
 
-    def setAllTCFG(self, trackers_yaml=None, relative_to_pyppbox_root=None):
+    def setAllTCFG(
+        self, 
+        trackers_yaml: Optional[Union[str, Dict[str, Any]]] = None, 
+        relative_to_pyppbox_root: Optional[bool] = None
+    ):
         """Load and set the configurations for all supported trackers.
 
         Parameters
@@ -1312,9 +1359,9 @@ class MyConfigurator(PYPPBOXStructure):
             raise ValueError(msg)
         docs = []
         if trackers_yaml is None:
-            docs = loadListDocument(self.trackers_yaml)
+            docs = loadDocumentList(self.trackers_yaml)
         elif trackers_yaml is not None:
-            docs = getListCFGDoc(trackers_yaml)
+            docs = getCFGDictList(trackers_yaml)
         self.tk_map = []
         for d in docs:
             try:
@@ -1328,14 +1375,18 @@ class MyConfigurator(PYPPBOXStructure):
                     self.tcfg_deepsort.set(d)
                     self.tk_map.append(self.tcfg_deepsort.tk_name)
                 else:
-                    msg = f"MyConfigurator : setAllTCFG() -> Name '{d['dt_name']}' is not supported."
+                    msg = f"MyConfigurator : setAllTCFG() -> Name '{d['tk_name']}' is not supported."
                     add_warning_log(msg)
             except Exception as e:
                 msg = f"MyConfigurator : setAllTCFG() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
 
-    def setAllRCFG(self, reiders_yaml=None, relative_to_pyppbox_root=None):
+    def setAllRCFG(
+        self, 
+        reiders_yaml: Optional[Union[str, Dict[str, Any]]] = None, 
+        relative_to_pyppbox_root: Optional[bool] = None
+    ):
         """Load and set the configurations for all reiders.
 
         Parameters
@@ -1366,9 +1417,9 @@ class MyConfigurator(PYPPBOXStructure):
             raise ValueError(msg)
         docs = []
         if reiders_yaml is None:
-            docs = loadListDocument(self.reiders_yaml)
+            docs = loadDocumentList(self.reiders_yaml)
         elif reiders_yaml is not None:
-            docs = getListCFGDoc(reiders_yaml)
+            docs = getCFGDictList(reiders_yaml)
         self.ri_map = []
         for d in docs:
             try:
@@ -1379,12 +1430,16 @@ class MyConfigurator(PYPPBOXStructure):
                     self.rcfg_torchreid.set(d)
                     self.ri_map.append(self.rcfg_torchreid.ri_name)
                 else:
-                    msg = f"MyConfigurator : setAllRCFG() -> Name '{d['dt_name']}' is not supported."
+                    msg = f"MyConfigurator : setAllRCFG() -> Name '{d['ri_name']}' is not supported."
                     add_warning_log(msg)
             except Exception as e:
                 raise ValueError(f"MyConfigurator : setAllRCFG() -> {e}")
     
-    def setASupportedModuleCFG(self, input_cfg, relative_to_pyppbox_root=False):
+    def setASupportedModuleCFG(
+        self, 
+        input_cfg: Union[str, Dict[str, Any]], 
+        relative_to_pyppbox_root: bool = False
+    ):
         """Load and set configurations for a supported module. Be aware that calling 
         this method will override the original or previous configurations.
 
@@ -1398,7 +1453,7 @@ class MyConfigurator(PYPPBOXStructure):
             relative to :code:`{pyppbox root}` or not. 
         """
         cfg = getCFGDict(input_cfg)
-        k_list = list(input_cfg.keys())
+        k_list = list(cfg.keys())
         if "dt_name" in k_list:
             try:
                 if cfg['dt_name'].lower() == self.unified_strings.yolo_cls:
@@ -1451,7 +1506,7 @@ class MyConfigurator(PYPPBOXStructure):
                 add_error_log(msg)
                 raise ValueError(msg)
 
-    def addAnAbstractCFG(self, input_cfg):
+    def addAnAbstractCFG(self, input_cfg: Union[str, Dict[str, Any]]):
         """Add the configurations for an anbstract or unsupported module as a :class:`BaseCGF` 
         object and add it to the independent config list :attr:`abstractCFGs`.
 
@@ -1464,43 +1519,43 @@ class MyConfigurator(PYPPBOXStructure):
         tmpCFG.loadDoc(input_cfg)
         self.abstractCFGs.append(tmpCFG)
 
-    def dumpMainCFG(self, document):
+    def dumpMainCFG(self, document: Dict[str, Any]):
         """Dump the main configurations to main.yaml.
 
         Parameters
         ----------
-        document : dict
+        document : Dict[str, Any]
             A configuration dictionary of a single document of the configurations.
         """
         dumpDocDict(self.main_yaml, document, self.cfg_headers.mainHeader())
 
-    def dumpAllDCFG(self, document_list):
+    def dumpAllDCFG(self, document_list: List[Dict[str, Any]]):
         """Dump the detectors' configurations to detectors.yaml.
 
         Parameters
         ----------
-        document_list : list[dict]
+        document_list : List[Dict[str, Any]]
             A list of multiple documents of the configurations.
         """
-        dumpListDocDict(self.detectors_yaml, document_list, self.cfg_headers.detectorHeader())
+        dumpDocDictList(self.detectors_yaml, document_list, self.cfg_headers.detectorHeader())
 
-    def dumpAllTCFG(self, document_list):
+    def dumpAllTCFG(self, document_list: List[Dict[str, Any]]):
         """Dump the trackers' configurations to trackers.yaml.
 
         Parameters
         ----------
-        document_list : list[dict]
+        document_list : List[Dict[str, Any]]
             A list of multiple documents of the configurations.
         """
-        dumpListDocDict(self.trackers_yaml, document_list, self.cfg_headers.trackerHeader())
+        dumpDocDictList(self.trackers_yaml, document_list, self.cfg_headers.trackerHeader())
 
-    def dumpAllRCFG(self, document_list):
+    def dumpAllRCFG(self, document_list: List[Dict[str, Any]]):
         """Dump the reiders' configurations to reiders.yaml.
 
         Parameters
         ----------
-        document_list : list[dict]
+        document_list : List[Dict[str, Any]]
             A list of multiple documents of the configurations.
         """
-        dumpListDocDict(self.reiders_yaml, document_list, self.cfg_headers.reiderHeader())
+        dumpDocDictList(self.reiders_yaml, document_list, self.cfg_headers.reiderHeader())
 

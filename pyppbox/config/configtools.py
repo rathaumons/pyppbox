@@ -1,7 +1,7 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                           #
 #   pyppbox: Toolbox for people detecting, tracking, and re-identifying.    #
-#   Copyright (C) 2022 UMONS-Numediart                                      #
+#   Copyright (C) 2025 UMONS-Numediart                                      #
 #                                                                           #
 #   This program is free software: you can redistribute it and/or modify    #
 #   it under the terms of the GNU General Public License as published by    #
@@ -21,6 +21,8 @@
 
 import json
 import yaml
+
+from typing import Any, Dict, List
 from yaml.loader import SafeLoader
 
 from .unifiedstrings import UnifiedStrings
@@ -113,7 +115,7 @@ class PYPPBOXStructure(object):
         self.reiders_yaml = joinFPathFull(self.cfg_dir, "reiders.yaml")
     
     def setCustomCFG(self, cfg_dir):
-        """Set a custom path of a config directory where stores main.yaml, 
+        """Set a path of a custom config directory where stores main.yaml, 
         detectors.yaml, trackers.yaml, and reiders.yaml.
 
         Parameters
@@ -185,7 +187,7 @@ def getCFGDict(input):
         doc = input
     return doc
 
-def getListCFGDoc(input):
+def getCFGDictList(input):
     """Get a list of configuration dictionary of document from the given :obj:`input`.
 
     Parameters
@@ -201,7 +203,7 @@ def getListCFGDoc(input):
     doc_list = []
     if isinstance(input, str):
         if ".yaml" in input.lower():
-            doc_list = loadListDocument(getAbsPathFDS(input))
+            doc_list = loadDocumentList(getAbsPathFDS(input))
         else:
             doc_list = loadRawYAMLStringMT(input)
     elif isinstance(input, dict):
@@ -241,7 +243,7 @@ def loadDocument(yaml_json):
         raise ValueError(msg)
     return document
 
-def loadListDocument(yaml_json):
+def loadDocumentList(yaml_json):
     """Return a list of configuration dictionary from the given file :obj:`yaml_json`.
 
     Parameters
@@ -263,13 +265,13 @@ def loadListDocument(yaml_json):
                 elif '.yaml' in yaml_json.lower():
                     docs = yaml.load_all(cfg, Loader=SafeLoader)
             except ValueError as e:
-                msg = f'loadListDocument() -> {e}'
+                msg = f'loadDocumentList() -> {e}'
                 add_error_log(msg)
                 raise ValueError(msg)
             for doc in docs:
                 document_list.append(doc)
     else:
-        msg = f"loadListDocument() -> '{yaml_json}' does not exist!"
+        msg = f"loadDocumentList() -> '{yaml_json}' does not exist!"
         add_error_log(msg)
         raise ValueError(msg)
     return document_list
@@ -332,7 +334,7 @@ def dumpDocDict(output_file, doc, header):
     ----------
     output_file : str
         A path file to dump.
-    doc : dict
+    doc : Dict[str, Any]
         A configuration dictionary of a single document.
     header : str
         A file header description.
@@ -347,7 +349,7 @@ def dumpDocDict(output_file, doc, header):
         add_error_log(msg)
         raise ValueError(msg)
 
-def dumpListDocDict(output_file, doc_list, header):
+def dumpDocDictList(output_file, doc_list, header):
     """Dump a list of YAML dictionary into a YAML file with simple format.
 
     Parameters
@@ -370,7 +372,7 @@ def dumpListDocDict(output_file, doc_list, header):
                     dumping.write("---\n")
                     sep_index += 1
     except ValueError as e:
-        msg = f'dumpListDocDict() -> {e}'
+        msg = f'dumpDocDictList() -> {e}'
         add_error_log(msg)
         raise ValueError(msg)
 

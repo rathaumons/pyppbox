@@ -1,7 +1,7 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                           #
 #   pyppbox: Toolbox for people detecting, tracking, and re-identifying.    #
-#   Copyright (C) 2022 UMONS-Numediart                                      #
+#   Copyright (C) 2025 UMONS-Numediart                                      #
 #                                                                           #
 #   This program is free software: you can redistribute it and/or modify    #
 #   it under the terms of the GNU General Public License as published by    #
@@ -38,10 +38,13 @@ class GTIO(object):
     ----------
     map_list : list[list[str, str], ...]
         A map list of :code:`[[video file name, GT (Ground-truth) text file name], ...]`.
+    map_dict : Dict[str, str]
+        A map dictionary of :code:`{video file name: GT (Ground-truth) text file name, ...}`.
     """
 
     def __init__(self):
         self.map_list = []
+        self.map_dict = {}
 
     def loadInputGTMap(self, gt_map_txt, splitter=':'):
         """Load an input of GT (Ground-truth) map text and set :attr:`map_list`. 
@@ -68,8 +71,13 @@ class GTIO(object):
                 self.map_lines = map_file.readlines()
                 for line in self.map_lines:
                     line = formatLineInGTMap(line, splitter=splitter)
-                    line = line.split(splitter)
-                    self.map_list.append(line)
+                    parts = line.split(splitter)
+                    if len(parts) == 2:
+                        self.map_list.append(parts)
+                        self.map_dict[parts[0]] = parts[1]  # <-- Add this line
+                    else:
+                        msg = f"GTIO : loadInputGTMap() -> Invalid line format: {line}"
+                        add_error_log(msg)
         except Exception as e:
             msg = f"GTIO : loadInputGTMap() -> {e}"
             add_error_log(msg)
@@ -89,15 +97,19 @@ class GTIO(object):
         str
             A file name of the corresponding GT (Ground-truth) text.
         """
-        gt_txt = ""
-        for pair in self.map_list:
-            if getFileName(input_video) == pair[0]:
-                gt_txt = pair[1]
-        return gt_txt
+
+        # gt_txt = ""
+        # for pair in self.map_list:
+        #     if getFileName(input_video) == pair[0]:
+        #         gt_txt = pair[1]
+        # return gt_txt
+
+        video_name = getFileName(input_video)
+        return self.map_dict.get(video_name, "")
 
     def loadGT(self, gt_file_txt):
         """Read an input of GT (Ground-truth) text file, and return the :obj:`gt_frames`, 
-        :obj:`gt_frames_dict`, :obj:`total_detections`, and :obj:`init_frame`.
+        :obj:`gt_frames_list`, :obj:`total_detections`, and :obj:`init_frame`.
 
         Parameters
         ----------
@@ -119,7 +131,7 @@ class GTIO(object):
             Initial frame index.
         """
         gt_frames = []
-        gt_frames_dict = []
+        gt_frames_list = []
         total_detections = 0
         init_frame = 0
         try:
@@ -144,20 +156,20 @@ class GTIO(object):
                         gt_frame.append(line)
                     elif line[0] > same_frame or loop_id == loop_len - 1:
                         gt_frames.append(gt_frame)
-                        gt_frames_dict.append(same_frame)
+                        gt_frames_list.append(same_frame)
                         same_frame = line[0]
                         gt_frame = []
                         gt_frame.append(line)
                     loop_id += 1
                 gt_frames.append(gt_frame)
-                gt_frames_dict.append(same_frame)
+                gt_frames_list.append(same_frame)
             add_info_log(f"------GTIO : Loaded <- {getFileName(gt_file_txt)}")
             add_info_log(f"------GTIO : Found {len(gt_frames)} nonempty frame(s) and the initial frame is {init_frame}.")
         except Exception as e:
             msg = "GTIO : loadGT() -> " + str(e)
             add_error_log(msg)
             raise ValueError(msg)
-        return gt_frames, gt_frames_dict, total_detections, init_frame
+        return gt_frames, gt_frames_list, total_detections, init_frame
 
 
 class GTInterpreter(object):
@@ -186,7 +198,7 @@ class GTInterpreter(object):
         A list of GT frames, each frame is a list of GT-format person, and 
         each GT-format person is a list carrying info of a person in a frame like 
         :code:`[1, (637, 308), "Franklin", [593 241  89 270], [593 241 682 511]]`.
-    gt_frames_dict : list[int, ...]
+    gt_frames_list : list[int, ...]
         A list of frame indexes of GT (Ground-truth).
     """
 
@@ -240,7 +252,7 @@ class GTInterpreter(object):
             A file path of GT (Ground-truth) text.
         """
         (self.gt_frames, 
-         self.gt_frames_dict, 
+         self.gt_frames_list, 
          self.total_detections, 
          self.init_frame) = self.gtIO.loadGT(gt_file_txt=gt_file_txt)
 
@@ -259,8 +271,8 @@ class GTInterpreter(object):
             :code:`[[1, (637, 308), "Franklin", [593 241  89 270], [593 241 682 511]], ...]`.
         """
         gt_frame = []
-        if int(frame_index) in self.gt_frames_dict:
-            found_index = self.gt_frames_dict.index(frame_index)
+        if int(frame_index) in self.gt_frames_list:
+            found_index = self.gt_frames_list.index(frame_index)
             gt_frame = self.gt_frames[found_index]
         return gt_frame
 

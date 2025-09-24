@@ -20,8 +20,8 @@ setMainModules(main_yaml=main_configurations)
 # Use MyEVA
 eva = MyEVA()
 
-# The "../examples/gta.mp4.txt" is ground-truth for "gta.mp4"
-gt_file = "../examples/data/gta.mp4.txt" 
+# The "../../examples/gta.mp4.txt" is ground-truth for "gta.mp4"
+gt_file = "../../examples/data/gta.mp4.txt" 
 
 # id_mode="faceid"
 eva.setGTByKnownGTFile(gt_file=gt_file, id_mode="faceid") 
@@ -29,7 +29,7 @@ eva.setGTByKnownGTFile(gt_file=gt_file, id_mode="faceid")
 # (Optional) MyEVA requires you to help count reid from `reidPeople()`
 total_reid = 0 
 
-input_video = "../examples/data/gta.mp4"
+input_video = "../../examples/data/gta.mp4"
 cap = cv2.VideoCapture(input_video)
 
 # Use ResIO

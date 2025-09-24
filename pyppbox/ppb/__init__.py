@@ -1,7 +1,7 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                           #
 #   pyppbox: Toolbox for people detecting, tracking, and re-identifying.    #
-#   Copyright (C) 2022 UMONS-Numediart                                      #
+#   Copyright (C) 2025 UMONS-Numediart                                      #
 #                                                                           #
 #   This program is free software: you can redistribute it and/or modify    #
 #   it under the terms of the GNU General Public License as published by    #
@@ -79,10 +79,6 @@ def setMainModules(main_yaml=None, load_all=True):
     """See :func:`pyppbox.ppb.mt.MT.setMainModules`"""
     _mt.setMainModules(main_yaml=main_yaml, load_all=load_all)
 
-def getConfig():
-    """See :func:`pyppbox.ppb.mt.MT.getConfig`"""
-    return _mt.getConfig()
-
 def forceFullGTMode():
     """See :func:`pyppbox.ppb.mt.MT.forceFullGTMode`"""
     _mt.forceFullGTMode()
@@ -91,14 +87,31 @@ def setMainDetector(detector=""):
     """See :func:`pyppbox.ppb.mt.MT.setMainDetector`"""
     _mt.setMainDetector(detector=detector)
 
-def detectPeople(img, 
-                 img_is_mat=False, 
-                 visual=False, 
-                 save=False, 
-                 save_file="", 
-                 min_width_filter=15, 
-                 alt_repspoint=False, 
-                 alt_repspoint_top=True):
+def getConfig():
+    """See :func:`pyppbox.ppb.mt.MT.getConfig`"""
+    return _mt.getConfig()
+
+def getMainConfig(current=True):
+    """See :func:`pyppbox.ppb.mt.MT.getMainConfig`"""
+    if current:
+        return {
+            "detector": _mt.__dt_cfg__.dt_name,
+            "tracker": _mt.__tk_cfg__.tk_name,
+            "reider": _mt.__ri_cfg__.ri_name,
+        }
+    else:
+        return _mt.__cfg__.getMCFG()
+
+def detectPeople(
+    img, 
+    img_is_mat=False, 
+    visual=False, 
+    save=False, 
+    save_file="", 
+    min_width_filter=15, 
+    alt_repspoint=False, 
+    alt_repspoint_top=True
+):
     """See :func:`pyppbox.ppb.mt.MT.detectPeople`"""
     return _mt.detectPeople(img, 
                             img_is_mat=img_is_mat, 
@@ -129,6 +142,6 @@ def trainReIDClassifier(reider="", train_data="", classifier_pkl=""):
     """See :func:`pyppbox.ppb.mt.MT.trainReIDClassifier`"""
     _mt.trainReIDClassifier(reider=reider, train_data=train_data, classifier_pkl=classifier_pkl)
 
-__all__ = ['setConfigDir', 'setMainModules', 'getConfig', 'forceFullGTMode', 
-           'setMainDetector', 'detectPeople', 'setMainTracker', 'trackPeople', 
+__all__ = ['setConfigDir', 'setMainModules', 'forceFullGTMode', 'setMainDetector', 
+           'getConfig', 'getMainConfig', 'detectPeople', 'setMainTracker', 'trackPeople', 
            'setMainReIDer', 'reidPeople', 'trainReIDClassifier', 'MT']

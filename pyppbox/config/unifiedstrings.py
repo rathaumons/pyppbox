@@ -1,7 +1,7 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                           #
 #   pyppbox: Toolbox for people detecting, tracking, and re-identifying.    #
-#   Copyright (C) 2022 UMONS-Numediart                                      #
+#   Copyright (C) 2025 UMONS-Numediart                                      #
 #                                                                           #
 #   This program is free software: you can redistribute it and/or modify    #
 #   it under the terms of the GNU General Public License as published by    #
@@ -33,7 +33,7 @@ class UnifiedStrings(object):
 
     Attributes
     ----------
-    data : dict, auto
+    data : Dict[str, Any], auto
         Data or documents read from strings.yaml.
     none : str, auto
         Unified string of word 'None'.
@@ -111,7 +111,7 @@ class UnifiedStrings(object):
 
         Parameters
         ----------
-        data : dict
+        data : Dict[str, Any]
             A configuration dictionary of a single document of the unified strings.
         """
         # module

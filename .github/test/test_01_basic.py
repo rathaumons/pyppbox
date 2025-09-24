@@ -14,7 +14,7 @@ main_configurations = {'detector': 'YOLO_Ultralytics',
                        'reider': 'FaceNet'}
 setMainModules(main_yaml=main_configurations)
 
-image = "../examples/data/gta.jpg"
+image = "../../examples/data/gta.jpg"
 
 # Detect people and save as visualized image detection_output.jpg
 detected_people, visual_image = detectPeople(

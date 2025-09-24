@@ -26,7 +26,7 @@ setTracker(tracker="None")  # FYI, "None" is not None
 setReIDer(reider="None")    # FYI, "None" is not None
 """
 
-input_video = "../examples/data/gta.mp4"
+input_video = "../../examples/data/gta.mp4"
 cap = cv2.VideoCapture(input_video)
 
 frame_index = 0

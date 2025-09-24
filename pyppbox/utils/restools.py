@@ -1,7 +1,7 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                           #
 #   pyppbox: Toolbox for people detecting, tracking, and re-identifying.    #
-#   Copyright (C) 2022 UMONS-Numediart                                      #
+#   Copyright (C) 2025 UMONS-Numediart                                      #
 #                                                                           #
 #   This program is free software: you can redistribute it and/or modify    #
 #   it under the terms of the GNU General Public License as published by    #
@@ -20,6 +20,8 @@
 
 
 import numpy as np
+
+from copy import deepcopy
 
 from .persontools import Person
 from .logtools import add_info_log, add_warning_log
@@ -83,7 +85,7 @@ class ResIO(object):
                 if isinstance(people[0], Person):
                     for person in people:
                         self.frames.append(str(frame))
-                        self.people.append(person)
+                        self.people.append(deepcopy(person))
                 else:
                     raise ValueError("RESIO : addPeople() -> Input 'people' is not valid.")
 

@@ -1,7 +1,7 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                           #
 #   pyppbox: Toolbox for people detecting, tracking, and re-identifying.    #
-#   Copyright (C) 2022 UMONS-Numediart                                      #
+#   Copyright (C) 2025 UMONS-Numediart                                      #
 #                                                                           #
 #   This program is free software: you can redistribute it and/or modify    #
 #   it under the terms of the GNU General Public License as published by    #
@@ -24,7 +24,7 @@ import sys
 import subprocess as sp
 
 from pyppbox.utils.logtools import add_info_log, add_warning_log, add_error_log
-from pyppbox.config.configtools import PYPPBOXStructure, loadDocument, loadListDocument
+from pyppbox.config.configtools import PYPPBOXStructure, loadDocument, loadDocumentList
 from pyppbox.utils.commontools import getAbsPathFDS, joinFPathFull, isExist
 from pyppbox.gui.guihub import writeUITMP
 
@@ -66,19 +66,19 @@ def showMainConfig():
 def showAllDTConfig():
     """Print JSON dictionary of the configurations in detectors.yaml.
     """
-    print(loadListDocument(pyppbox_struct.detectors_yaml))
+    print(loadDocumentList(pyppbox_struct.detectors_yaml))
     add_warning_log("FYI: This basic method only serves GUI submodule `pyppbox.gui`.")
 
 def showAllTKConfig():
     """Print JSON dictionary of the configurations in trackers.yaml.
     """
-    print(loadListDocument(pyppbox_struct.trackers_yaml))
+    print(loadDocumentList(pyppbox_struct.trackers_yaml))
     add_warning_log("FYI: This basic method only serves GUI submodule `pyppbox.gui`.")
 
 def showAllRIConfig():
     """Print JSON dictionary of the configurations in reiders.yaml.
     """
-    print(loadListDocument(pyppbox_struct.reiders_yaml))
+    print(loadDocumentList(pyppbox_struct.reiders_yaml))
     add_warning_log("FYI: This basic method only serves GUI submodule `pyppbox.gui`.")
 
 def resetInternalConfig():

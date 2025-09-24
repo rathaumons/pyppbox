@@ -27,6 +27,5 @@ internal_configs.dumpAllDCFG(
 
 # Directories for test result
 import os
-test_result = "test_0"
 for i in range(1, 5):
-    os.makedirs(test_result + str(i))
+    os.makedirs("test_0" + str(i))

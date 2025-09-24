@@ -1,7 +1,7 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                           #
 #   pyppbox: Toolbox for people detecting, tracking, and re-identifying.    #
-#   Copyright (C) 2022 UMONS-Numediart                                      #
+#   Copyright (C) 2025 UMONS-Numediart                                      #
 #                                                                           #
 #   This program is free software: you can redistribute it and/or modify    #
 #   it under the terms of the GNU General Public License as published by    #
@@ -490,7 +490,7 @@ def compareRes2Ref(res_txt, ref_txt, res_box_xyxy_index=5, ref_box_xyxy_index=4,
             res_interpreter = GTInterpreter()
             res_interpreter.setGT(getAbsPathFDS(res_txt))
             init_frame = ref_interpreter.init_frame
-            last_frame = init_frame + ref_interpreter.gt_frames_dict[-1] + 1
+            last_frame = init_frame + ref_interpreter.gt_frames_list[-1] + 1
             
             for frame in range(init_frame, last_frame):
                 ref_frame = ref_interpreter.findGTFrame(frame)

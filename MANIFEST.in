@@ -3,7 +3,6 @@ global-include pyppbox *.*
 exclude .gitignore
 recursive-exclude .git *.*
 recursive-exclude .github *.*
-recursive-exclude .githubtest *.*
 recursive-exclude docs *.*
 recursive-exclude examples *.*
 global-exclude */__pycache__
