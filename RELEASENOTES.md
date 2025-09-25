@@ -18,9 +18,9 @@
   - Add `getMainConfig(current=True)` to retrieve current main modules
   - Improve multithreading core (`pyppbox.ppb.mt.MT`)
   - Overhaul configuration system including helper renames:
-    - `getListCFGDoc` -> `getCFGDictList`
-    - `loadListDocument` -> `loadDocumentList`
-    - `dumpListDocDict` -> `dumpDocDictList`
+    - `getListCFGDoc()` -> `getCFGDictList()`
+    - `loadListDocument()` -> `loadDocumentList()`
+    - `dumpListDocDict()` -> `dumpDocDictList()`
   - Fix and enhance the main tools and utilities:
     - Fix `ResIO.addPeople()` to correctly store metadata
     - Add `GTIO.map_dict` for O(1) video → GT lookups
@@ -28,7 +28,7 @@
     - Enhance visualization tools (`visualizetools.py`)
   - Restructure GitHub tests:
     - Move `.githubtest/` -> `.github/test/`
-    - Update the related test .py
+    - Update the related test .py files
     - Update CI workflows (Linux/macOS/Windows)
   - Update copyrights to 2025
   - Update and improve documentation
