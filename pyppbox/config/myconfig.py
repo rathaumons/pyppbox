@@ -82,7 +82,7 @@ class BaseCGF(object):
         self.configs = getCFGDictList(input)
     
     def dumpDoc(self, output: str, header: str = ""):
-        """Dump the :attr:`configs` into a YAML file with simple format.
+        """Dump the :attr:`config` into a YAML file with simple format.
 
         Parameters
         ----------
