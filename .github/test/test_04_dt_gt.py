@@ -11,8 +11,8 @@ from pyppbox.utils.visualizetools import visualizePeople
 
 mydetector={
     'dt_name': 'GT', # Here, 'dt_name' must be 'GT' -> Check `gttools` for more
-    'gt_file': '../examples/data/gta.mp4.txt', # Set path of ground-truth text file
-    'gt_map_file': '../examples/data/gt_map.txt' # Set path of Video:GT mapping text file
+    'gt_file': '../../examples/data/gta.mp4.txt', # Set path of ground-truth text file
+    'gt_map_file': '../../examples/data/gt_map.txt' # Set path of Video:GT mapping text file
 }
 
 setMainDetector(detector=mydetector)
