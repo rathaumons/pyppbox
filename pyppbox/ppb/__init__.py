@@ -93,14 +93,7 @@ def getConfig():
 
 def getMainConfig(current=True):
     """See :func:`pyppbox.ppb.mt.MT.getMainConfig`"""
-    if current:
-        return {
-            "detector": _mt.__dt_cfg__.dt_name,
-            "tracker": _mt.__tk_cfg__.tk_name,
-            "reider": _mt.__ri_cfg__.ri_name,
-        }
-    else:
-        return _mt.__cfg__.getMCFG()
+    return _mt.getMainConfig(current=current)
 
 def detectPeople(
     img, 
