@@ -12,7 +12,30 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.11.0](https://github.com/rathaumons/pyppbox/tree/v3.11.0) - The Last V3
+* `pyppbox` [v3.12.0](https://github.com/rathaumons/pyppbox/tree/v3.12.0) - The Last V3
+
+  - Add comprehensive type hints across the major codebase
+  - Add `getMainConfig(current=True)` to retrieve current main modules
+  - Improve multithreading core (`pyppbox.ppb.mt.MT`)
+  - Overhaul configuration system including helper renames:
+    - `getListCFGDoc` -> `getCFGDictList`
+    - `loadListDocument` -> `loadDocumentList`
+    - `dumpListDocDict` -> `dumpDocDictList`
+  - Fix and enhance the main tools and utilities:
+    - Fix `ResIO.addPeople()` to correctly store metadata
+    - Add `GTIO.map_dict` for O(1) video → GT lookups
+    - Enhance `GTIO.getGTFileName()` by using the new  `GTIO.map_dict`
+    - Enhance visualization tools (`visualizetools.py`)
+  - Restructure GitHub tests:
+    - Move `.githubtest/` -> `.github/test/`
+    - Update the related test .py
+    - Update CI workflows (Linux/macOS/Windows)
+  - Update copyrights to 2025
+  - Update and improve documentation
+  - **Known issue/limitation**:
+    - You tell me :)
+
+* `pyppbox` [v3.11.0](https://github.com/rathaumons/pyppbox/tree/v3.11.0) - ~~The Last V3~~
 
   - Remove the unused `line_width` from `YOLO_Ultralytics` configuration
   - Set `yolov8s-pose.pt` as default for `YOLO_Ultralytics` detector
