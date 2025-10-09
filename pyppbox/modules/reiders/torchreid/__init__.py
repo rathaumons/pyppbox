@@ -107,7 +107,7 @@ class MyTorchreid(object):
             else:
                 result = self.class_names[best_class]
                 conf = best_proba
-                # add_info_log('-----RI : Result = "%s"' % result)
+                # add_info_log('--------RI : Result = "%s"' % result)
         else:
             # add_warning_log(f"--------RI : The input can't be processed -> Return {self.err}")
             result = self.err

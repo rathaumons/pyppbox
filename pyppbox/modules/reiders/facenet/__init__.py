@@ -144,7 +144,7 @@ class MyFaceNet(object):
                 else:
                     result = self.pnames[best_class]
                     conf = best_proba
-                    # add_info_log('-----RI : Result -> "%s"' % result)
+                    # add_info_log('--------RI : Result -> "%s"' % result)
         else:
             # add_warning_log("--------RI : Can't find any face! -> Return " + str(self.err))
             result = self.err
@@ -215,9 +215,9 @@ class MyFaceNet(object):
                 classifier_filename_exp = os.path.expanduser(self.classifier_file)
 
                 paths, labels = fn.get_image_paths_and_labels(dataset)
-                add_info_log('-----RI : Number of people: %d' % len(dataset))
+                add_info_log('--------RI : Number of people: %d' % len(dataset))
 
-                add_info_log('-----RI : Loading feature extraction model ... ')
+                add_info_log('--------RI : Loading feature extraction model ... ')
                 modeldir = self.model_file
                 fn.load_model(modeldir)
 
@@ -227,7 +227,7 @@ class MyFaceNet(object):
                 embedding_size = embeddings.get_shape()[1]
 
                 # Run forward pass to calculate embeddings
-                add_info_log('-----RI : Calculating features ... ')
+                add_info_log('--------RI : Calculating features ... ')
                 batch_size = self.batch_size
                 image_size = 160
                 nrof_images = len(paths)
@@ -242,7 +242,7 @@ class MyFaceNet(object):
                     emb_array[start_index:end_index, :] = sess.run(embeddings, feed_dict=feed_dict)
 
                 # Train classifier
-                add_info_log('-----RI : Training classifier ... ')
+                add_info_log('--------RI : Training classifier ... ')
                 model = SVC(C=C, kernel=kernel, probability=probability, 
                             decision_function_shape=decision_function_shape)
                 model.fit(emb_array, labels)
@@ -251,7 +251,7 @@ class MyFaceNet(object):
                 class_names = [cls.name.replace('_', ' ') for cls in dataset]
                 with open(classifier_filename_exp, 'wb') as outfile:
                     pickle.dump((model, class_names), outfile)
-                add_info_log('-----RI : Classifier file saved! -> %s' % classifier_filename_exp)
+                add_info_log('--------RI : Classifier file saved! -> %s' % classifier_filename_exp)
                 classes_txt = classifier_filename_exp[:-3] + "txt"
                 with open(classes_txt, 'w') as classes_file:
                     classes_file.writelines([str(c) + "\n" for c in class_names])
