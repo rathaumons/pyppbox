@@ -31,20 +31,14 @@ import argparse
 from filterpy.kalman import KalmanFilter
 
 import lap
-# from scipy.optimize import linear_sum_assignment
 
 np.random.seed(0)
 
 
 def linear_assignment(cost_matrix):
-  try:
-    # import lap
-    _, x, y = lap.lapjv(cost_matrix, extend_cost=True)
-    return np.array([[y[i],i] for i in x if i >= 0])
-  except ImportError:
-    from scipy.optimize import linear_sum_assignment
-    x, y = linear_sum_assignment(cost_matrix)
-    return np.array(list(zip(x, y)))
+  # row_indices, col_indices = lap.lapjvx(cost_matrix, extend_cost=True, return_cost=False)
+  # return np.array(list(zip(row_indices, col_indices)))
+  return lap.lapjvxa(cost_matrix, extend_cost=True, return_cost=False)
 
 
 def iou_batch(bb_test, bb_gt):
