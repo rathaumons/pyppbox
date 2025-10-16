@@ -24,7 +24,7 @@ torch
 torchvision
 ### Tracker: SORT
 filterpy
-lapx
+lapx>=0.6.0
 ### GUI
 PyQt6
 sfps
