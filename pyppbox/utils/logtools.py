@@ -61,36 +61,50 @@ __this_logger__ = logging.getLogger(__name__)
 __this_logger__.info(": Here we go!")
 __TRUE__ = True
 
+# Honor environment variable to disable terminal logs in child processes
+if os.environ.get("PYPPBOX_DISABLE_TERMINAL_LOG", "").lower() in ("1", "true", "yes", "on"):
+    __TRUE__ = False
+
 
 #############################################################################
 
 
-def add_warning_log(msg, terminal_log=__TRUE__, add_new_line=True):
+def add_warning_log(msg, terminal_log=None, add_new_line=True):
     """
     :meta private:
     """
-    global __this_logger__
-    if terminal_log: print(msg)
+    global __this_logger__, __TRUE__
+    # Respect explicit caller override; otherwise use current global toggle
+    if terminal_log is None:
+        terminal_log = __TRUE__
+    if terminal_log:
+        print(msg)
     if add_new_line: msg = ': \n' + str(msg)
     else: msg = ': ' + str(msg)
     __this_logger__.warning(msg)
 
-def add_info_log(msg, terminal_log=__TRUE__, add_new_line=False):
+def add_info_log(msg, terminal_log=None, add_new_line=False):
     """
     :meta private:
     """
-    global __this_logger__
-    if terminal_log: print(msg)
+    global __this_logger__, __TRUE__
+    if terminal_log is None:
+        terminal_log = __TRUE__
+    if terminal_log:
+        print(msg)
     if add_new_line: msg = ': \n' + str(msg)
     else: msg = ': ' + str(msg)
     __this_logger__.info(msg)
 
-def add_error_log(msg, terminal_log=__TRUE__, add_new_line=True):
+def add_error_log(msg, terminal_log=None, add_new_line=True):
     """
     :meta private:
     """
-    global __this_logger__
-    if terminal_log: print(msg)
+    global __this_logger__, __TRUE__
+    if terminal_log is None:
+        terminal_log = __TRUE__
+    if terminal_log:
+        print(msg)
     if add_new_line: msg = ': \n' + str(msg)
     else: msg = ': ' + str(msg)
     __this_logger__.error(msg)
