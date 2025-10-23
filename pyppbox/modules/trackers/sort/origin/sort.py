@@ -435,4 +435,4 @@ if __name__ == '__main__':
   print("Total Tracking took: %.3f seconds for %d frames or %.1f FPS" % (total_time, total_frames, total_frames / total_time))
 
   if display:
-      print("Note: to get real runtime results run without the option: --display")
+    print("Note: to get real runtime results run without the option: --display")
