@@ -357,9 +357,19 @@ class Ui_PYPPBOXLauncher(object):
                         self.reider_comboBox.currentText(), 
                         self.input_video_file_lineEdit.text(), 
                         self.input_force_hd_comboBox.currentText())
+        
         launcher.hide()
-        p = sp.Popen([sys.executable, os.path.join(current_dir, 'guidemo.py')])
-        stdout, stderr = p.communicate()
+        # Inherit env and disable pyppbox terminal logs in child process
+        env = os.environ.copy()
+        env["PYPPBOX_DISABLE_TERMINAL_LOG"] = "1"
+        # Optionally drop child's stdout/stderr so nothing prints to terminal
+        p = sp.Popen(
+            [sys.executable, os.path.join(current_dir, 'guidemo.py')],
+            stdout=sp.DEVNULL,
+            stderr=sp.DEVNULL,
+            env=env
+        )
+        p.wait()
         self.mycfg.setMCFG()
         launcher.show()
 
