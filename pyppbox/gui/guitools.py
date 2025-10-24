@@ -23,7 +23,7 @@ import os
 import sys
 import subprocess as sp
 
-from pyppbox.utils.logtools import add_info_log, add_warning_log, add_error_log
+from pyppbox.utils.logtools import add_info_log, add_warning_log, add_error_log, get_env
 from pyppbox.config.configtools import PYPPBOXStructure, loadDocument, loadDocumentList
 from pyppbox.utils.commontools import getAbsPathFDS, joinFPathFull, isExist
 from pyppbox.gui.guihub import writeUITMP
@@ -96,8 +96,8 @@ def launchGUI():
     """Launch GUI configuration tool of pyppbox.
     """
     writeUITMP(__cfgdir__)
-    p = sp.Popen([sys.executable, os.path.join(current_dir, 'ui_launcher.py')])
-    stdout, stderr = p.communicate()
+    p = sp.Popen([sys.executable, os.path.join(current_dir, 'ui_launcher.py')], env=get_env())
+    p.wait()
 
 def generateConfig(cfg_dir, auto_launch_gui=True):
     """Generate the 4 required YAML files to a given :obj:`cfg_dir`:
@@ -126,4 +126,5 @@ def generateConfig(cfg_dir, auto_launch_gui=True):
         except Exception as e:
             msg = "generateCFG() -> " + str(e)
             add_error_log(msg)
-            raise print(msg)
+            print(msg)
+            raise
