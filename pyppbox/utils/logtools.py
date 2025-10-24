@@ -37,8 +37,7 @@ __logger__ = None
 # Remove old logs
 def cleanup_old_logs():
     """
-    Clean up old log files in the log directory that are older than the maximum age.
-    Default age is 1 day.
+    Clean up old log files in the log directory that are older than 1 day.
     """
     global __log_dir__, __max_age__
     if os.path.exists(__log_dir__):
