@@ -19,7 +19,13 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
+import os
 import cv2
+
+from pyppbox.utils.logtools import set_terminal_log_from_env, add_info_log
+
+# Honor environment variable to disable/enable terminal logs
+set_terminal_log_from_env()
 
 from sfps import SFPS
 from pyppbox.gui.guihub import loadUITMP, loadInputTMP
@@ -31,7 +37,6 @@ from pyppbox.utils.commontools import (joinFPathFull, getGlobalRootDir,
 from pyppbox.standalone import (setConfigDir, detectPeople, trackPeople, 
                                 reidPeople, getConfig)
 
-
 # Get config_dir from ui.tmp file
 config_dir = loadUITMP()
 
@@ -40,7 +45,7 @@ setConfigDir(config_dir=config_dir, load_all=True)
 
 # Load input from input.tmp
 input_source, force_hd = loadInputTMP()
-print("---GUIDEMO : Input video <- " + getFileName(input_source))
+add_info_log("---GUIDEMO : Input video <- " + getFileName(input_source))
 
 # Use MyEVA (Only supports faceid and deepid on GTA V dataset)
 eva = MyEVA()
