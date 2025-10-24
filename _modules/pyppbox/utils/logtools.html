@@ -1,0 +1,709 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyppbox.utils.logtools &#8212; pyppbox 3.13.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/rtd_sphinx_search.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/rtd_search_config.js"></script>
+    <script src="../../../_static/js/rtd_sphinx_search.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyppbox/utils/logtools';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.13.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">🐍📦 pyppbox</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getstarted.html">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/standalone.html">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/structure.html">
+    Structure
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../pyppbox/config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../pyppbox/utils.html">
+    Utilities
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../releasenotes.html">
+    Release Notes
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getstarted.html">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/standalone.html">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/structure.html">
+    Structure
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/utils.html">
+    Utilities
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../releasenotes.html">
+    Release Notes
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pyppbox.utils.logtools</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for pyppbox.utils.logtools</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   pyppbox: Toolbox for people detecting, tracking, and re-identifying.    #</span>
+<span class="c1">#   Copyright (C) 2025 UMONS-Numediart                                      #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   This program is free software: you can redistribute it and/or modify    #</span>
+<span class="c1">#   it under the terms of the GNU General Public License as published by    #</span>
+<span class="c1">#   the Free Software Foundation, either version 3 of the License, or       #</span>
+<span class="c1">#   (at your option) any later version.                                     #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   This program is distributed in the hope that it will be useful,         #</span>
+<span class="c1">#   but WITHOUT ANY WARRANTY; without even the implied warranty of          #</span>
+<span class="c1">#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           #</span>
+<span class="c1">#   GNU General Public License for more details.                            #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   You should have received a copy of the GNU General Public License       #</span>
+<span class="c1">#   along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.  #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="n">__timestamp__</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S&quot;</span><span class="p">))</span>
+<span class="n">__pyppbox_root__</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">))</span>
+<span class="n">__log_dir__</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__pyppbox_root__</span><span class="p">,</span> <span class="s2">&quot;data/logs&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="n">__log_txt_path__</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__log_dir__</span><span class="p">,</span> <span class="s2">&quot;log_&quot;</span> <span class="o">+</span> <span class="n">__timestamp__</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">)</span>
+<span class="n">__max_age__</span> <span class="o">=</span> <span class="mi">86400</span> <span class="o">*</span> <span class="mi">1</span> <span class="c1"># 1 DAY</span>
+
+<span class="c1"># Global toggles</span>
+<span class="n">__terminal_log__</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">__file_log__</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">__logger__</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># Remove old logs</span>
+<div class="viewcode-block" id="cleanup_old_logs">
+<a class="viewcode-back" href="../../../pyppbox/utils.html#pyppbox.utils.logtools.cleanup_old_logs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cleanup_old_logs</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Clean up old log files in the log directory that are older than 1 day.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">__log_dir__</span><span class="p">,</span> <span class="n">__max_age__</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">__log_dir__</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">__log_dir__</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">&quot;git&quot;</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">:</span> <span class="k">continue</span>
+            <span class="n">filestamp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__log_dir__</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span><span class="o">.</span><span class="n">st_mtime</span>
+            <span class="k">if</span>  <span class="n">filestamp</span> <span class="o">&lt;</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">__max_age__</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__log_dir__</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">__log_dir__</span><span class="p">)</span></div>
+
+
+<span class="n">cleanup_old_logs</span><span class="p">()</span>
+
+<span class="c1"># follow the enviroment variable to disable file logging</span>
+<div class="viewcode-block" id="set_file_log_from_env">
+<a class="viewcode-back" href="../../../pyppbox/utils.html#pyppbox.utils.logtools.set_file_log_from_env">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_file_log_from_env</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the file logging status according to the environment variable</span>
+<span class="sd">    :code:`PYPPBOX_DISABLE_FILE_LOG`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">__file_log__</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PYPPBOX_DISABLE_FILE_LOG&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">,</span> <span class="s2">&quot;on&quot;</span><span class="p">):</span>
+        <span class="n">__file_log__</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PYPPBOX_DISABLE_FILE_LOG&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="s2">&quot;no&quot;</span><span class="p">,</span> <span class="s2">&quot;off&quot;</span><span class="p">):</span>
+        <span class="n">__file_log__</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<span class="n">set_file_log_from_env</span><span class="p">()</span>
+
+<span class="c1"># Initial logger</span>
+<span class="k">if</span> <span class="n">__file_log__</span><span class="p">:</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+        <span class="n">filename</span><span class="o">=</span><span class="n">__log_txt_path__</span><span class="p">,</span>
+        <span class="n">filemode</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span>
+        <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> </span><span class="si">%(levelname)-3s</span><span class="s1"> </span><span class="si">%(message)-3s</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">datefmt</span><span class="o">=</span><span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">,</span>
+        <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span>
+    <span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">__log_txt_path__</span><span class="p">,</span> <span class="s1">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">log_txt</span><span class="p">:</span>
+        <span class="n">log_txt</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;-------------------------------------------------&quot;</span><span class="p">)</span>
+        <span class="n">log_txt</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;-------------------------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">log_txt</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#################################################&quot;</span><span class="p">)</span>
+        <span class="n">log_txt</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#################################################</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">log_txt</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;-------------------------------------------------&quot;</span><span class="p">)</span>
+        <span class="n">log_txt</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;-------------------------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">__logger__</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+    <span class="n">__logger__</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;: Here we go!&quot;</span><span class="p">)</span>
+
+
+<span class="c1">#############################################################################</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">add_warning_log</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">terminal_log</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">add_new_line</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :meta private:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">__logger__</span><span class="p">,</span> <span class="n">__terminal_log__</span>
+    <span class="c1"># Respect explicit caller override; otherwise use current global toggle</span>
+    <span class="k">if</span> <span class="n">terminal_log</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">terminal_log</span> <span class="o">=</span> <span class="n">__terminal_log__</span>
+    <span class="k">if</span> <span class="n">terminal_log</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">add_new_line</span><span class="p">:</span> <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;: </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">__logger__</span><span class="p">:</span> <span class="n">__logger__</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">add_info_log</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">terminal_log</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">add_new_line</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :meta private:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">__logger__</span><span class="p">,</span> <span class="n">__terminal_log__</span>
+    <span class="k">if</span> <span class="n">terminal_log</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">terminal_log</span> <span class="o">=</span> <span class="n">__terminal_log__</span>
+    <span class="k">if</span> <span class="n">terminal_log</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">add_new_line</span><span class="p">:</span> <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;: </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">__logger__</span><span class="p">:</span> <span class="n">__logger__</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">add_error_log</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">terminal_log</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">add_new_line</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :meta private:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">__logger__</span><span class="p">,</span> <span class="n">__terminal_log__</span>
+    <span class="k">if</span> <span class="n">terminal_log</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">terminal_log</span> <span class="o">=</span> <span class="n">__terminal_log__</span>
+    <span class="k">if</span> <span class="n">terminal_log</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">add_new_line</span><span class="p">:</span> <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;: </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">__logger__</span><span class="p">:</span> <span class="n">__logger__</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ignore_this_logger</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :meta private:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logger_to_ignore</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">logger_to_ignore</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">disable_this_logger</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :meta private:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ignore_this_logger</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">)</span>
+    <span class="n">logger_to_disable</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">logger_to_disable</span><span class="o">.</span><span class="n">disabled</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">disable_other_loggers</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :meta private:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">loggerDict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">wanted_list</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot; yolo ultralytics pyppbox_ultralytics deepsort &quot;</span> <span class="o">+</span> 
+                       <span class="s2">&quot; facenet torchreid pyppbox_torchreid tensorflow &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">wanted_list</span><span class="p">:</span>
+            <span class="n">disable_this_logger</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+
+<div class="viewcode-block" id="disable_terminal_log">
+<a class="viewcode-back" href="../../../pyppbox/utils.html#pyppbox.utils.logtools.disable_terminal_log">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">disable_terminal_log</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Disable all console or terminal logging of pyppbox.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">__terminal_log__</span>
+    <span class="n">__terminal_log__</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PYPPBOX_DISABLE_TERMINAL_LOG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span></div>
+
+
+<div class="viewcode-block" id="enable_terminal_log">
+<a class="viewcode-back" href="../../../pyppbox/utils.html#pyppbox.utils.logtools.enable_terminal_log">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">enable_terminal_log</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Enable all console or terminal logging of pyppbox.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">__terminal_log__</span>
+    <span class="n">__terminal_log__</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PYPPBOX_DISABLE_TERMINAL_LOG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span></div>
+
+
+<div class="viewcode-block" id="get_terminal_log_status">
+<a class="viewcode-back" href="../../../pyppbox/utils.html#pyppbox.utils.logtools.get_terminal_log_status">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_terminal_log_status</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the current status of terminal logging.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        :code:`True` if terminal logging is enabled, :code:`False` otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">__terminal_log__</span>
+    <span class="k">return</span> <span class="n">__terminal_log__</span></div>
+
+
+<div class="viewcode-block" id="set_terminal_log_from_env">
+<a class="viewcode-back" href="../../../pyppbox/utils.html#pyppbox.utils.logtools.set_terminal_log_from_env">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_terminal_log_from_env</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the terminal logging status according to the environment variable</span>
+<span class="sd">    :code:`PYPPBOX_DISABLE_TERMINAL_LOG`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">__terminal_log__</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PYPPBOX_DISABLE_TERMINAL_LOG&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">,</span> <span class="s2">&quot;on&quot;</span><span class="p">):</span>
+        <span class="n">__terminal_log__</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PYPPBOX_DISABLE_TERMINAL_LOG&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="s2">&quot;no&quot;</span><span class="p">,</span> <span class="s2">&quot;off&quot;</span><span class="p">):</span>
+        <span class="n">__terminal_log__</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="get_env">
+<a class="viewcode-back" href="../../../pyppbox/utils.html#pyppbox.utils.logtools.get_env">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_env</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get a copy of the current environment variables.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, UMONS-Numediart, Ratha SIV.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

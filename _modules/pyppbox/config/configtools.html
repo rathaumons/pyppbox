@@ -1,0 +1,910 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyppbox.config.configtools &#8212; pyppbox 3.13.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/rtd_sphinx_search.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/rtd_search_config.js"></script>
+    <script src="../../../_static/js/rtd_sphinx_search.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyppbox/config/configtools';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.13.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">🐍📦 pyppbox</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getstarted.html">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/standalone.html">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/structure.html">
+    Structure
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../pyppbox/config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../pyppbox/utils.html">
+    Utilities
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../releasenotes.html">
+    Release Notes
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getstarted.html">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/standalone.html">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/structure.html">
+    Structure
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/utils.html">
+    Utilities
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../releasenotes.html">
+    Release Notes
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pyppbox.config.configtools</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for pyppbox.config.configtools</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   pyppbox: Toolbox for people detecting, tracking, and re-identifying.    #</span>
+<span class="c1">#   Copyright (C) 2025 UMONS-Numediart                                      #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   This program is free software: you can redistribute it and/or modify    #</span>
+<span class="c1">#   it under the terms of the GNU General Public License as published by    #</span>
+<span class="c1">#   the Free Software Foundation, either version 3 of the License, or       #</span>
+<span class="c1">#   (at your option) any later version.                                     #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   This program is distributed in the hope that it will be useful,         #</span>
+<span class="c1">#   but WITHOUT ANY WARRANTY; without even the implied warranty of          #</span>
+<span class="c1">#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           #</span>
+<span class="c1">#   GNU General Public License for more details.                            #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   You should have received a copy of the GNU General Public License       #</span>
+<span class="c1">#   along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.  #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">yaml.loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">SafeLoader</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.unifiedstrings</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnifiedStrings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.utils.commontools</span><span class="w"> </span><span class="kn">import</span> <span class="n">joinFPathFull</span><span class="p">,</span> <span class="n">getAbsPathFDS</span><span class="p">,</span> <span class="n">getGlobalRootDir</span><span class="p">,</span> <span class="n">isExist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.utils.logtools</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_warning_log</span><span class="p">,</span> <span class="n">add_error_log</span>
+
+
+<span class="n">internal_root_dir</span> <span class="o">=</span> <span class="n">getGlobalRootDir</span><span class="p">()</span>
+<span class="n">internal_config_dir</span> <span class="o">=</span> <span class="n">joinFPathFull</span><span class="p">(</span><span class="n">internal_root_dir</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">)</span>
+<span class="n">internal_cfg_dir</span> <span class="o">=</span> <span class="n">joinFPathFull</span><span class="p">(</span><span class="n">internal_config_dir</span><span class="p">,</span> <span class="s1">&#39;cfg&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PYPPBOXStructure">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PYPPBOXStructure</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class used to organize the structure of pyppbox.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    cfg_dir : str, default=&#39;{pyppbox root}/config/cfg&#39;</span>
+<span class="sd">        Path of config directory where stores main.yaml, detectors.yaml, </span>
+<span class="sd">        trackers.yaml, reiders.yaml.</span>
+<span class="sd">    internal_root_dir : str, auto</span>
+<span class="sd">        Path of pyppbox&#39;s root directory.</span>
+<span class="sd">    gui_root : str, auto</span>
+<span class="sd">        Path of GUI&#39;s root directory.</span>
+<span class="sd">    gui_tmp_dir : str, auto</span>
+<span class="sd">        Path of GUI&#39;s tmp directory.</span>
+<span class="sd">    data_dir : str, auto</span>
+<span class="sd">        Internal path of pyppbox&#39;s data directory.</span>
+<span class="sd">    dataset_dir : str, auto</span>
+<span class="sd">        Path of a supported dataset like </span>
+<span class="sd">        :code:`{pyppbox root}/data/datasets/GTA_V_DATASET`, etc.</span>
+<span class="sd">    gt_dir : str, auto</span>
+<span class="sd">        Path of a dataset&#39;s GT (Ground-truth) directory where stores all </span>
+<span class="sd">        the ground-truth text files and the mapping text file.</span>
+<span class="sd">    main_yaml : str, auto</span>
+<span class="sd">        Path of main.yaml.</span>
+<span class="sd">    detectors_yaml : str, auto</span>
+<span class="sd">        Path of detectors.yaml.</span>
+<span class="sd">    trackers_yaml : str, auto</span>
+<span class="sd">        Path of trackers.yaml.</span>
+<span class="sd">    reiders_yaml : str, auto</span>
+<span class="sd">        Path of reiders.yaml.</span>
+<span class="sd">    unified_strings : MyStrings, auto</span>
+<span class="sd">        A :class:`MyStrings` object used to store unified strings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg_dir</span><span class="o">=</span><span class="n">internal_cfg_dir</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize according to the input :obj:`cfg_dir` and automatically call </span>
+<span class="sd">        :meth:`setDIR()`, :meth:`setYAMLPath()`, :meth:`setSTR()`, and :meth:`setVP()`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cfg_dir : str, default=&#39;{pyppbox root}/config/cfg&#39;</span>
+<span class="sd">            A path of the config directory where stores main.yaml, detectors.yaml, </span>
+<span class="sd">            trackers.yaml, and reiders.yaml.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">cfg_dir</span> <span class="o">!=</span> <span class="n">internal_cfg_dir</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">isExist</span><span class="p">(</span><span class="n">cfg_dir</span><span class="p">):</span>
+                <span class="n">add_warning_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PYPPBOXStructure : __init__() -&gt; cfg_dir=&#39;</span><span class="si">{</span><span class="n">cfg_dir</span><span class="si">}</span><span class="s2">&#39; does not exist.&quot;</span><span class="p">)</span>
+                <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">&quot;PYPPBOXStructure : __init__() -&gt; Switched to internal cfg directory !&quot;</span><span class="p">)</span>
+                <span class="n">cfg_dir</span> <span class="o">=</span> <span class="n">internal_cfg_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cfg_dir</span> <span class="o">=</span> <span class="n">cfg_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">internal_root_dir</span> <span class="o">=</span> <span class="n">internal_root_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unified_strings</span> <span class="o">=</span> <span class="n">UnifiedStrings</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setDIR</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setYAMLPath</span><span class="p">()</span>
+
+<div class="viewcode-block" id="PYPPBOXStructure.setDIR">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.setDIR">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setDIR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Automatically config or set all necessary directories of the base structure </span>
+<span class="sd">        of pyppbox such as :attr:`gui_root`, :attr:`gui_tmp_dir`, :attr:`data_dir`, </span>
+<span class="sd">        :attr:`dataset_dir`, and :attr:`gt_dir`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># GUI </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gui_root</span> <span class="o">=</span> <span class="n">joinFPathFull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">internal_root_dir</span><span class="p">,</span> <span class="s1">&#39;gui&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gui_tmp_dir</span> <span class="o">=</span> <span class="n">joinFPathFull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gui_root</span><span class="p">,</span> <span class="s1">&#39;tmp&#39;</span><span class="p">)</span>
+        <span class="c1"># Dataset</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span> <span class="o">=</span> <span class="n">joinFPathFull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">internal_root_dir</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataset_dir</span> <span class="o">=</span> <span class="n">joinFPathFull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;datasets/GTA_V_DATASET&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gt_dir</span> <span class="o">=</span> <span class="n">joinFPathFull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset_dir</span><span class="p">,</span> <span class="s1">&#39;ground_truth&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PYPPBOXStructure.setYAMLPath">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.setYAMLPath">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setYAMLPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the paths of the necessary YAML files such as :attr:`main_yaml`, </span>
+<span class="sd">        :attr:`detectors_yaml`, :attr:`trackers_yaml`, and :attr:`reiders_yaml`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">main_yaml</span> <span class="o">=</span> <span class="n">joinFPathFull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg_dir</span><span class="p">,</span> <span class="s2">&quot;main.yaml&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detectors_yaml</span> <span class="o">=</span> <span class="n">joinFPathFull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg_dir</span><span class="p">,</span> <span class="s2">&quot;detectors.yaml&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trackers_yaml</span> <span class="o">=</span> <span class="n">joinFPathFull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg_dir</span><span class="p">,</span> <span class="s2">&quot;trackers.yaml&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reiders_yaml</span> <span class="o">=</span> <span class="n">joinFPathFull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg_dir</span><span class="p">,</span> <span class="s2">&quot;reiders.yaml&quot;</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="PYPPBOXStructure.setCustomCFG">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.setCustomCFG">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setCustomCFG</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg_dir</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a path of a custom config directory where stores main.yaml, </span>
+<span class="sd">        detectors.yaml, trackers.yaml, and reiders.yaml.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cfg_dir : str</span>
+<span class="sd">            A path of the config directory.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isExist</span><span class="p">(</span><span class="n">cfg_dir</span><span class="p">):</span>
+            <span class="n">add_warning_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PYPPBOXStructure : setCustomCFG() -&gt; cfg_dir=&#39;</span><span class="si">{</span><span class="n">cfg_dir</span><span class="si">}</span><span class="s2">&#39; does not exist.&quot;</span><span class="p">)</span>
+            <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">&quot;PYPPBOXStructure : setCustomCFG() -&gt; Switched to internal cfg directory!&quot;</span><span class="p">)</span>
+            <span class="n">cfg_dir</span> <span class="o">=</span> <span class="n">internal_cfg_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cfg_dir</span> <span class="o">=</span> <span class="n">cfg_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setYAMLPath</span><span class="p">()</span></div>
+</div>
+
+
+
+<span class="c1">#########################################################################################</span>
+
+
+<div class="viewcode-block" id="isDictString">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.config.configtools.isDictString">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">isDictString</span><span class="p">(</span><span class="n">input_string</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check whether the :obj:`input_string` is a valid raw dictionary.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input_string : str</span>
+<span class="sd">        An input of raw string.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        Validation status.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_string</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> 
+        <span class="nb">len</span><span class="p">(</span><span class="n">input_string</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="ow">and</span>
+        <span class="n">input_string</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;[&#39;</span> <span class="ow">and</span>
+        <span class="n">input_string</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;{&#39;</span> <span class="ow">and</span>  
+        <span class="n">input_string</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;]&#39;</span> <span class="ow">and</span> 
+        <span class="n">input_string</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;}&#39;</span>
+    <span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">input_string</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">SafeLoader</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="getCFGDict">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.config.configtools.getCFGDict">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">getCFGDict</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a configuration dictionary of a single document from the given :obj:`input`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input : str or dict</span>
+<span class="sd">        A YAML/JSON file path, or a raw/ready dictionary.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        A configuration dictionary of a single document.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;.yaml&quot;</span> <span class="ow">in</span> <span class="nb">input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;.json&quot;</span> <span class="ow">in</span> <span class="nb">input</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="n">loadDocument</span><span class="p">(</span><span class="n">getAbsPathFDS</span><span class="p">(</span><span class="nb">input</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="n">loadRawYAMLString</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="nb">input</span>
+    <span class="k">return</span> <span class="n">doc</span></div>
+
+
+<div class="viewcode-block" id="getCFGDictList">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.config.configtools.getCFGDictList">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">getCFGDictList</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a list of configuration dictionary of document from the given :obj:`input`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input : str or dict</span>
+<span class="sd">        A YAML/JSON file path, or a raw/ready dictionary.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list[dict, ...]</span>
+<span class="sd">        A list of configuration dictionary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">doc_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;.yaml&quot;</span> <span class="ow">in</span> <span class="nb">input</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">doc_list</span> <span class="o">=</span> <span class="n">loadDocumentList</span><span class="p">(</span><span class="n">getAbsPathFDS</span><span class="p">(</span><span class="nb">input</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">doc_list</span> <span class="o">=</span> <span class="n">loadRawYAMLStringMT</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">:</span>
+            <span class="n">doc_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">doc_list</span></div>
+
+
+<div class="viewcode-block" id="loadDocument">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.config.configtools.loadDocument">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">loadDocument</span><span class="p">(</span><span class="n">yaml_json</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a configuration dictionary of a single document from the given file </span>
+<span class="sd">    :obj:`yaml_json`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    yaml_json : str</span>
+<span class="sd">        A path of a YAML/JSON file.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        A configuration dictionary of a single document.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">document</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">isExist</span><span class="p">(</span><span class="n">yaml_json</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">yaml_json</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">cfg</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s1">&#39;.json&#39;</span> <span class="ow">in</span> <span class="n">yaml_json</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                    <span class="n">document</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="s1">&#39;.yaml&#39;</span> <span class="ow">in</span> <span class="n">yaml_json</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                    <span class="n">document</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">SafeLoader</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;loadDocument() -&gt; </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="n">add_error_log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;loadDocument() -&gt; &#39;</span><span class="si">{</span><span class="n">yaml_json</span><span class="si">}</span><span class="s2">&#39; does not exist!&quot;</span>
+        <span class="n">add_error_log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">document</span></div>
+
+
+<div class="viewcode-block" id="loadDocumentList">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.config.configtools.loadDocumentList">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">loadDocumentList</span><span class="p">(</span><span class="n">yaml_json</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a list of configuration dictionary from the given file :obj:`yaml_json`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    yaml_json : str</span>
+<span class="sd">        A path of a YAML/JSON file.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list[dict, ...]</span>
+<span class="sd">        A list of configuration dictionary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">document_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">isExist</span><span class="p">(</span><span class="n">yaml_json</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">yaml_json</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">cfg</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s1">&#39;.json&#39;</span> <span class="ow">in</span> <span class="n">yaml_json</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                    <span class="n">docs</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="s1">&#39;.yaml&#39;</span> <span class="ow">in</span> <span class="n">yaml_json</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                    <span class="n">docs</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load_all</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">SafeLoader</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;loadDocumentList() -&gt; </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="n">add_error_log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">:</span>
+                <span class="n">document_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;loadDocumentList() -&gt; &#39;</span><span class="si">{</span><span class="n">yaml_json</span><span class="si">}</span><span class="s2">&#39; does not exist!&quot;</span>
+        <span class="n">add_error_log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">document_list</span></div>
+
+
+<div class="viewcode-block" id="loadRawYAMLString">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.config.configtools.loadRawYAMLString">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">loadRawYAMLString</span><span class="p">(</span><span class="n">raw_string</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a configuration dictionary of a single document from the given string </span>
+<span class="sd">    :obj:`raw_string`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    raw_string : str</span>
+<span class="sd">        A raw string of JSON or YAML; for example, </span>
+<span class="sd">        :code:`raw_string=&quot;[{&#39;tk_name&#39;: &#39;SORT&#39;}]&quot;`.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        A configuration dictionary of a single document.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">document</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">raw_string</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">SafeLoader</span><span class="p">)</span>
+        <span class="n">document</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;loadRawYAMLString() -&gt; </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">add_error_log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">document</span></div>
+
+
+<div class="viewcode-block" id="loadRawYAMLStringMT">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.config.configtools.loadRawYAMLStringMT">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">loadRawYAMLStringMT</span><span class="p">(</span><span class="n">raw_string</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a list of multiple YAML dictionary from the given string :obj:`raw_string`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    raw_string : str</span>
+<span class="sd">        A raw string of JSON or YAML; for example, </span>
+<span class="sd">        :code:`raw_string=&quot;[{&#39;tk_name&#39;: &#39;SORT&#39;}, {&#39;tk_name&#39;: &#39;DeepSORT&#39;}]&quot;`.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list[dict, ...]</span>
+<span class="sd">        A list of configuration dictionary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">document_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load_all</span><span class="p">(</span><span class="n">raw_string</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">SafeLoader</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="n">document_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;loadRawYAMLStringMT() -&gt; </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">add_error_log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">document_list</span></div>
+
+
+<div class="viewcode-block" id="dumpDocDict">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.config.configtools.dumpDocDict">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dumpDocDict</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">header</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dump a configuration dictionary of a single document into a YAML file </span>
+<span class="sd">    with simple format.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output_file : str</span>
+<span class="sd">        A path file to dump.</span>
+<span class="sd">    doc : Dict[str, Any]</span>
+<span class="sd">        A configuration dictionary of a single document.</span>
+<span class="sd">    header : str</span>
+<span class="sd">        A file header description.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dumping</span><span class="p">:</span>
+            <span class="n">dumping</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">dumping</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;dumpDocDict() -&gt; </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">add_error_log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="dumpDocDictList">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.config.configtools.dumpDocDictList">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dumpDocDictList</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">doc_list</span><span class="p">,</span> <span class="n">header</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dump a list of YAML dictionary into a YAML file with simple format.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output_file : str</span>
+<span class="sd">        A path file to dump.</span>
+<span class="sd">    doc_list : list[dict, ...]</span>
+<span class="sd">        A list of configuration dictionary.</span>
+<span class="sd">    header : str</span>
+<span class="sd">        A file header description.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span> 
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dumping</span><span class="p">:</span>
+            <span class="n">dumping</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+            <span class="n">sep_index</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">doc_list</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">dumping</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">sep_index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">doc_list</span><span class="p">):</span>
+                    <span class="n">dumping</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;---</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">sep_index</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;dumpDocDictList() -&gt; </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">add_error_log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, UMONS-Numediart, Ratha SIV.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

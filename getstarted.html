@@ -1,0 +1,723 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>🚀 Getting Started &#8212; pyppbox 3.13.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/rtd_search_config.js"></script>
+    <script src="_static/js/rtd_sphinx_search.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'getstarted';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="💡 Examples" href="examples.html" />
+    <link rel="prev" title="🐍📦 pyppbox" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.13.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">🐍📦 pyppbox</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/standalone.html">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/structure.html">
+    Structure
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="pyppbox/config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="pyppbox/utils.html">
+    Utilities
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="releasenotes.html">
+    Release Notes
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/standalone.html">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/structure.html">
+    Structure
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/utils.html">
+    Utilities
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="releasenotes.html">
+    Release Notes
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">🚀 Getting Started</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="getting-started">
+<span id="getstarted-page"></span><h1>🚀 Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h1>
+<p>Installing <code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> is very easy and straightforward. You can install it from <a class="reference external" href="https://pypi.org/project/pyppbox/">PyPI</a> directly or use the prebuilt <code class="docutils literal notranslate"><span class="pre">.whl</span></code> files on <a class="reference external" href="https://github.com/rathaumons/pyppbox/releases">GitHub releases</a> or install from GitHub directly or build it from source on your own machine. However, in order to get it work, you need to install all the necessary dependencies or requirements for the modules you need.</p>
+<section id="requirements">
+<h2>⚙️ Requirements<a class="headerlink" href="#requirements" title="Link to this heading">#</a></h2>
+<p>All requirements are not strictly limited. However, some specific modules might need some special dependencies. For example, <code class="docutils literal notranslate"><span class="pre">YOLO_Classic</span></code> (With <code class="docutils literal notranslate"><span class="pre">.weights</span></code> model) relies on <a class="reference external" href="https://docs.opencv.org/4.x/d2/d58/tutorial_table_of_content_dnn.html">OpenCV DNN</a> in order to make use of GPU (CUDA) power. In this case, you might need to build OpenCV from source by yourself or use our <a class="reference external" href="https://github.com/rathaumons/opencv-for-pyppbox"><code class="docutils literal notranslate"><span class="pre">pyppbox-opencv</span></code></a> instead of the official <code class="docutils literal notranslate"><span class="pre">opencv-contrib-python</span></code> which does not include GPU (CUDA) support.</p>
+<ul>
+<li><p>Prerequisite:</p>
+<ul class="simple">
+<li><p>Python <a class="reference external" href="https://www.python.org/downloads/">[3.9-3.12]</a> (For <em><strong>macOS</strong></em> -&gt; Use Python 3.11 for bug-free GUI)</p></li>
+<li><p>Local pyppbox repo: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/rathaumons/pyppbox.git</span></code></p></li>
+</ul>
+</li>
+<li><p>Before you install dependencies/requirements:</p>
+<ul>
+<li><p>For Linux, recommend changing <code class="docutils literal notranslate"><span class="pre">python3</span></code> to <code class="docutils literal notranslate"><span class="pre">python</span></code>: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">install</span> <span class="pre">python-is-python3</span></code></p></li>
+<li><p>If you prefer conda + Python [3.9-3.12]: <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">create</span> <span class="pre">--name</span> <span class="pre">pyppbox_env</span> <span class="pre">python=3.11</span></code></p></li>
+<li><p>Upgrade <code class="docutils literal notranslate"><span class="pre">pip</span></code> and <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">pip</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="s2">&quot;setuptools&gt;=67.8.0&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Recommend removing the official <code class="docutils literal notranslate"><span class="pre">ultralytics</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">uninstall</span> <span class="o">-</span><span class="n">y</span> <span class="n">ultralytics</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p>Install dependencies/requirements under <code class="docutils literal notranslate"><span class="pre">pyppbox/requirements/</span></code>:</p>
+<ul>
+<li><p>On <em><strong>Windows</strong></em>, recommend using the <code class="docutils literal notranslate"><span class="pre">cmd</span></code> installer:</p>
+<ul class="simple">
+<li><p>For GPU (CUDA): <code class="docutils literal notranslate"><span class="pre">install_req_py3_cuda121.cmd</span></code> (Or <code class="docutils literal notranslate"><span class="pre">install_req_py3_cuda.cmd</span></code> for CUDA 11.8)</p></li>
+<li><p>For CPU-only: <code class="docutils literal notranslate"><span class="pre">install_req_py3_cpu.cmd</span></code> (Or skip this and go straight to Setup section below)</p></li>
+</ul>
+</li>
+<li><p>On <em><strong>Linux</strong></em> (The latest installation instruction for <a class="reference external" href="https://www.tensorflow.org/install">TensorFlow</a> and <a class="reference external" href="https://pytorch.org/get-started/locally/">PyTorch</a>):</p>
+<ul>
+<li><p>For GPU (CUDA):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">tensorflow</span><span class="p">[</span><span class="ow">and</span><span class="o">-</span><span class="n">cuda</span><span class="p">]</span> <span class="c1"># TensorFlow GPU</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">torch</span> <span class="n">torchvision</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</li>
+<li><p>For CPU-only (Or skip this and go straight to Setup section below):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">tensorflow</span> <span class="c1"># TensorFlow CPU</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">torch</span> <span class="n">torchvision</span> <span class="o">--</span><span class="n">index</span><span class="o">-</span><span class="n">url</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">download</span><span class="o">.</span><span class="n">pytorch</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">whl</span><span class="o">/</span><span class="n">cpu</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p>On <em><strong>macOS</strong></em>:</p>
+<ul>
+<li><p>For GPU (CUDA): Not available</p></li>
+<li><p>For CPU (Or skip this and go straight to Setup section below):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">torch</span> <span class="n">torchvision</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>(Optional) For GPU-Only (CUDA) -&gt; Verify the installed dependencies:</p>
+<ul class="simple">
+<li><p>Execute the <code class="docutils literal notranslate"><span class="pre">test_gpu.py</span></code></p>
+<ul>
+<li><p>On Windows -&gt; <code class="docutils literal notranslate"><span class="pre">test_gpu.cmd</span></code></p></li>
+<li><p>On Linux -&gt; <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">test_gpu.py</span></code></p></li>
+</ul>
+</li>
+<li><p>If there is no error, then you are all good and ready to go.</p></li>
+<li><p>For OpenCV, the official <code class="docutils literal notranslate"><span class="pre">opencv-contrib-python</span></code> (No GPU support) is set in the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file. If you need GPU support, check our <a class="reference external" href="https://github.com/rathaumons/opencv-for-pyppbox"><code class="docutils literal notranslate"><span class="pre">pyppbox-opencv</span></code></a> or build one from source by yourself.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="setup">
+<h2>💽 Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>You need to install the main package which is <code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> and the data for the modules you need <code class="docutils literal notranslate"><span class="pre">pyppbox-data-xxx</span></code>. If you want to have some fun with the demo on our <a class="reference external" href="https://github.com/rathaumons/PoseTReID_DATASET">GTA_V_DATASET</a>, you also need to install <code class="docutils literal notranslate"><span class="pre">pyppbox-data-gta5</span></code>.</p>
+<ul>
+<li><p>Install <code class="docutils literal notranslate"><span class="pre">pyppbox</span></code></p>
+<ul>
+<li><p>Use the latest <code class="docutils literal notranslate"><span class="pre">.whl</span></code> from <a class="reference external" href="https://github.com/rathaumons/pyppbox/releases">releases</a> or install from <a class="reference external" href="https://pypi.org/project/pyppbox/">PyPI</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pyppbox</span>
+</pre></div>
+</div>
+</li>
+<li><p>Or install directly from GitHub:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">rathaumons</span><span class="o">/</span><span class="n">pyppbox</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</li>
+<li><p>Or build from source:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">setuptools</span> <span class="n">wheel</span> <span class="n">build</span> <span class="n">PyYAML</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">build</span> <span class="o">--</span><span class="n">wheel</span> <span class="o">--</span><span class="n">skip</span><span class="o">-</span><span class="n">dependency</span><span class="o">-</span><span class="n">check</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">isolation</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p>Install <a class="reference external" href="https://github.com/rathaumons/pyppbox-data/"><code class="docutils literal notranslate"><span class="pre">pyppbox-data-xxx</span></code></a></p>
+<ul>
+<li><p>Download the latest from <a class="reference external" href="https://github.com/rathaumons/pyppbox-data/releases">releases</a> or install the ones you need directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">rathaumons</span><span class="o">/</span><span class="n">pyppbox</span><span class="o">-</span><span class="n">data</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">v1</span><span class="mf">.3.0</span><span class="o">/</span><span class="n">pyppbox_data_yolocls</span><span class="o">-</span><span class="mf">1.3.0</span><span class="o">-</span><span class="n">py3</span><span class="o">-</span><span class="n">none</span><span class="o">-</span><span class="nb">any</span><span class="o">.</span><span class="n">whl</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">rathaumons</span><span class="o">/</span><span class="n">pyppbox</span><span class="o">-</span><span class="n">data</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">v1</span><span class="mf">.3.0</span><span class="o">/</span><span class="n">pyppbox_data_yoloult</span><span class="o">-</span><span class="mf">1.3.0</span><span class="o">-</span><span class="n">py3</span><span class="o">-</span><span class="n">none</span><span class="o">-</span><span class="nb">any</span><span class="o">.</span><span class="n">whl</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">rathaumons</span><span class="o">/</span><span class="n">pyppbox</span><span class="o">-</span><span class="n">data</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">v1</span><span class="mf">.3.0</span><span class="o">/</span><span class="n">pyppbox_data_deepsort</span><span class="o">-</span><span class="mf">1.3.0</span><span class="o">-</span><span class="n">py3</span><span class="o">-</span><span class="n">none</span><span class="o">-</span><span class="nb">any</span><span class="o">.</span><span class="n">whl</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">rathaumons</span><span class="o">/</span><span class="n">pyppbox</span><span class="o">-</span><span class="n">data</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">v1</span><span class="mf">.3.0</span><span class="o">/</span><span class="n">pyppbox_data_facenet</span><span class="o">-</span><span class="mf">1.3.0</span><span class="o">-</span><span class="n">py3</span><span class="o">-</span><span class="n">none</span><span class="o">-</span><span class="nb">any</span><span class="o">.</span><span class="n">whl</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">rathaumons</span><span class="o">/</span><span class="n">pyppbox</span><span class="o">-</span><span class="n">data</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">v1</span><span class="mf">.3.0</span><span class="o">/</span><span class="n">pyppbox_data_torchreid</span><span class="o">-</span><span class="mf">1.3.0</span><span class="o">-</span><span class="n">py3</span><span class="o">-</span><span class="n">none</span><span class="o">-</span><span class="nb">any</span><span class="o">.</span><span class="n">whl</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p>Install <a class="reference external" href="https://github.com/rathaumons/PoseTReID_DATASET#-introducing-pyppbox-data-gta5"><code class="docutils literal notranslate"><span class="pre">pyppbox-data-gta5</span></code></a></p>
+<ul>
+<li><p>Download the latest from <a class="reference external" href="https://github.com/rathaumons/PoseTReID_DATASET/releases">releases</a> or install directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">numediart</span><span class="o">/</span><span class="n">PoseTReID_DATASET</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">v2</span><span class="mf">.0</span><span class="o">/</span><span class="n">pyppbox_data_gta5</span><span class="o">-</span><span class="mf">2.0</span><span class="o">-</span><span class="n">py3</span><span class="o">-</span><span class="n">none</span><span class="o">-</span><span class="nb">any</span><span class="o">.</span><span class="n">whl</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p>Quick Test</p>
+<ul>
+<li><p>In your Python terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pyppbox</span>
+<span class="n">pyppbox</span><span class="o">.</span><span class="n">launchGUI</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Now you should see the GUI demo like this screenshot:
+<img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_gui.jpg"></p>
+</li>
+<li><p>For related GUI functions and other configurations, check the <a class="reference external" href="https://rathaumons.github.io/pyppbox/pyppbox/config.html">Configurations page</a>.</p></li>
+<li><p>Check the <a class="reference external" href="https://rathaumons.github.io/pyppbox/examples.html">Examples page</a> for some real coding!</p></li>
+<li><p>⚠️ <em><strong>ATTENTION</strong></em> ⚠️</p>
+<ul class="simple">
+<li><p>If you use <em><strong>YOLO Ultralytics</strong></em> without GPU/CUDA, you must set <code class="docutils literal notranslate"><span class="pre">cpu</span></code> as string for the parameter <code class="docutils literal notranslate"><span class="pre">device</span></code> in its configuration.</p></li>
+<li><p>The same for <em><strong>Torchreid</strong></em> without GPU/CUDA, you must set <code class="docutils literal notranslate"><span class="pre">cpu</span></code> as string for the parameter <code class="docutils literal notranslate"><span class="pre">device</span></code> in its configuration.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Troubleshooting</p>
+<ul>
+<li><p>For <em><strong>macOS</strong></em>, if the GUI does not work, you may try Python 3.11 as suggested in Prerequisite section above.</p></li>
+<li><p>For <em><strong>Linux</strong></em>, if the GUI does not work, you might need to install these:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="s1">&#39;^libxcb.*-dev&#39;</span> <span class="n">libx11</span><span class="o">-</span><span class="n">xcb</span><span class="o">-</span><span class="n">dev</span> <span class="n">libglu1</span><span class="o">-</span><span class="n">mesa</span><span class="o">-</span><span class="n">dev</span> <span class="n">libxrender</span><span class="o">-</span><span class="n">dev</span> <span class="n">libxi</span><span class="o">-</span><span class="n">dev</span> <span class="n">libxkbcommon</span><span class="o">-</span><span class="n">dev</span> <span class="n">libxkbcommon</span><span class="o">-</span><span class="n">x11</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+</div>
+</li>
+<li><p>For <em><strong>Ubuntu on WSL 2</strong></em>, you need to install these:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libgl1</span><span class="o">-</span><span class="n">mesa</span><span class="o">-</span><span class="n">glx</span> <span class="n">xdg</span><span class="o">-</span><span class="n">utils</span> <span class="n">libegl1</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="fyi">
+<h2>📢 FYI<a class="headerlink" href="#fyi" title="Link to this heading">#</a></h2>
+<section id="customized-opencv">
+<h3>1️⃣ Customized OpenCV<a class="headerlink" href="#customized-opencv" title="Link to this heading">#</a></h3>
+<p>OpenCV is widely used in many well-known packages, but the majority of the prebuilt WHLs on the Internet including the official one on PyPI do not include GPU support. Thus, we build our custom one which includes NVIDIA <a class="reference external" href="https://developer.nvidia.com/cuda-downloads">CUDA</a> &amp; <a class="reference external" href="https://developer.nvidia.com/rdp/cudnn-download">cuDNN</a> supports for the <a class="reference external" href="https://docs.opencv.org/4.x/d2/d58/tutorial_table_of_content_dnn.html">OpenCV DNN module</a>. In order to well distinguish from the rest, we decided to build and change the package name from <code class="docutils literal notranslate"><span class="pre">opencv-contrib-python</span></code> to <a class="reference external" href="https://github.com/rathaumons/opencv-for-pyppbox"><code class="docutils literal notranslate"><span class="pre">pyppbox-opencv</span></code></a> -&gt; <a class="reference external" href="https://github.com/rathaumons/opencv-for-pyppbox">[Repo]</a> <a class="reference external" href="https://github.com/rathaumons/opencv-for-pyppbox/releases">[WHL]</a></p>
+</section>
+<section id="customized-torchreid">
+<h3>2️⃣ Customized Torchreid<a class="headerlink" href="#customized-torchreid" title="Link to this heading">#</a></h3>
+<p>Similar to <a class="reference external" href="https://github.com/rathaumons/opencv-for-pyppbox"><code class="docutils literal notranslate"><span class="pre">pyppbox-opencv</span></code></a>, our custom <code class="docutils literal notranslate"><span class="pre">torchreid</span></code> is changed to <a class="reference external" href="https://github.com/rathaumons/torchreid-for-pyppbox"><code class="docutils literal notranslate"><span class="pre">pyppbox-torchreid</span></code></a>. More than the normal package rename, the module name is also changed from <code class="docutils literal notranslate"><span class="pre">torchreid</span></code> to <code class="docutils literal notranslate"><span class="pre">pyppbox_torchreid</span></code> which means the <code class="docutils literal notranslate"><span class="pre">import</span></code> in the code must be also changed. Find out more why <code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> needs the customized <code class="docutils literal notranslate"><span class="pre">pyppbox-torchreid</span></code> -&gt; <a class="reference external" href="https://github.com/rathaumons/torchreid-for-pyppbox">[Repo]</a> <a class="reference external" href="https://pypi.org/project/pyppbox-torchreid/">[PyPI]</a></p>
+</section>
+<section id="customized-ultralytics">
+<h3>3️⃣ Customized Ultralytics<a class="headerlink" href="#customized-ultralytics" title="Link to this heading">#</a></h3>
+<p>Also, similar to <code class="docutils literal notranslate"><span class="pre">pyppbox_torchreid</span></code>, our custom <code class="docutils literal notranslate"><span class="pre">ultralytics</span></code> is changed to <a class="reference external" href="https://github.com/rathaumons/ultralytics-for-pyppbox"><code class="docutils literal notranslate"><span class="pre">pyppbox-ultralytics</span></code></a>, but this time, the module name is still the same <code class="docutils literal notranslate"><span class="pre">ultralytics</span></code> and it is the main reason why the official <code class="docutils literal notranslate"><span class="pre">ultralytics</span></code> must be removed. Find out more why <code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> needs the customized <code class="docutils literal notranslate"><span class="pre">pyppbox-ultralytics</span></code> -&gt; <a class="reference external" href="https://github.com/rathaumons/ultralytics-for-pyppbox">[Repo]</a> <a class="reference external" href="https://pypi.org/project/pyppbox-ultralytics/">[PyPI]</a></p>
+<p><em>Note: <a class="reference external" href="https://github.com/rathaumons/ultralytics-for-pyppbox"><code class="docutils literal notranslate"><span class="pre">pyppbox-ultralytics</span></code></a> is discontinued, and <code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> now uses <a class="reference external" href="https://github.com/numediart/ultralytics-for-vsensebox"><code class="docutils literal notranslate"><span class="pre">vsensebox-ultralytics</span></code></a>.</em></p>
+</section>
+</section>
+</section>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">🐍📦 <strong>pyppbox</strong></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="examples.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">💡 Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">⚙️ Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">💽 Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fyi">📢 FYI</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#customized-opencv">1️⃣ Customized OpenCV</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#customized-torchreid">2️⃣ Customized Torchreid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#customized-ultralytics">3️⃣ Customized Ultralytics</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, UMONS-Numediart, Ratha SIV.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

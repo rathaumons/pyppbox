@@ -1,0 +1,1130 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Release Notes &#8212; pyppbox 3.13.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/rtd_search_config.js"></script>
+    <script src="_static/js/rtd_sphinx_search.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'releasenotes';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Utilities" href="pyppbox/utils.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.13.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">🐍📦 pyppbox</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="getstarted.html">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/standalone.html">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/structure.html">
+    Structure
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="pyppbox/config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="pyppbox/utils.html">
+    Utilities
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="#">
+    Release Notes
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="getstarted.html">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/standalone.html">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/structure.html">
+    Structure
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/utils.html">
+    Utilities
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Release Notes
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Release Notes</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="release-notes">
+<span id="releasenotes-page"></span><h1>Release Notes<a class="headerlink" href="#release-notes" title="Link to this heading">#</a></h1>
+<section id="pyppbox-v4-even-smaller">
+<h2><strong>pyppbox V4 - Even Smaller</strong><a class="headerlink" href="#pyppbox-v4-even-smaller" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> v4.0b1 (COMING SOON 🚀)</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> will leverage <a class="reference external" href="https://github.com/rathaumons/vsensebox"><code class="docutils literal notranslate"><span class="pre">vsensebox</span></code></a> for detection and tracking</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox.utils.persontools</span></code> will change to adapt <a class="reference external" href="https://github.com/rathaumons/vsensebox"><code class="docutils literal notranslate"><span class="pre">vsensebox</span></code></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox.ppb</span></code> will replace <code class="docutils literal notranslate"><span class="pre">pyppbox.standalone</span></code></p></li>
+<li><p>All configuration files will also change</p></li>
+<li><p>More changes will be added here! Stay tuned!</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="pyppbox-v3-make-simpler-and-faster">
+<h2><strong>pyppbox V3 - Make Simpler and Faster</strong><a class="headerlink" href="#pyppbox-v3-make-simpler-and-faster" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.13.0">v3.13.0</a> - The Last V3</p>
+<ul>
+<li><p>Fix a bug and improve performance of SORT tracker:</p>
+<ul>
+<li><p>Refactor and optimize SORT tracking algorithm</p></li>
+<li><p>Fix a bug where unmatched tracks are not cleared after timeout</p></li>
+<li><p>Improve and enhance other internal functions</p></li>
+<li><p>Switch default assignment solver to the new <code class="docutils literal notranslate"><span class="pre">lapx</span></code>’s <a class="reference external" href="https://github.com/rathaROG/lapx#3-the-new-function-lapjvxa"><code class="docutils literal notranslate"><span class="pre">lapjvxa()</span></code></a></p></li>
+</ul>
+</li>
+<li><p>Improve performance of Centroid tracker by using the new <code class="docutils literal notranslate"><span class="pre">lapx</span></code>’s <a class="reference external" href="https://github.com/rathaROG/lapx#3-the-new-function-lapjvxa"><code class="docutils literal notranslate"><span class="pre">lapjvxa()</span></code></a></p></li>
+<li><p>Improve the internal logging control:</p>
+<ul>
+<li><p>Add environment variable <code class="docutils literal notranslate"><span class="pre">PYPPBOX_DISABLE_FILE_LOG</span></code> to allow users to disable internal temporary text log files in <code class="docutils literal notranslate"><span class="pre">pyppbox/data/logs</span></code> (disabled by default); can be activated as follows:</p>
+<ul>
+<li><p>On Linux terminal: <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">PYPPBOX_DISABLE_FILE_LOG=1</span></code></p></li>
+<li><p>On Windows terminal: <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">PYPPBOX_DISABLE_FILE_LOG=1</span></code></p></li>
+</ul>
+</li>
+<li><p>Add environment varible <code class="docutils literal notranslate"><span class="pre">PYPPBOX_DISABLE_TERMINAL_LOG</span></code> to allow users to disable the terminal log completely; can be toggled with the built-in functions:</p>
+<ul>
+<li><p>Enable (default): <code class="docutils literal notranslate"><span class="pre">pyppbox.enable_terminal_log()</span></code> or export/set <code class="docutils literal notranslate"><span class="pre">PYPPBOX_DISABLE_TERMINAL_LOG=0</span></code> in terminal</p></li>
+<li><p>Disable: <code class="docutils literal notranslate"><span class="pre">pyppbox.disable_terminal_log()</span></code> or export/set <code class="docutils literal notranslate"><span class="pre">PYPPBOX_DISABLE_TERMINAL_LOG=1</span></code> in terminal</p></li>
+</ul>
+</li>
+<li><p>Add enviroment variable adaptation for all GUI modules and related functions</p></li>
+<li><p>Add more logging <a class="reference external" href="https://rathaumons.github.io/pyppbox/pyppbox/utils.html#module-pyppbox.utils.logtools">functions</a></p></li>
+</ul>
+</li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.12.0">v3.12.0</a> - ~~The Last V3~~</p>
+<ul>
+<li><p>Add comprehensive type hints across the major codebase</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">getMainConfig(current=True)</span></code> to retrieve current main modules</p></li>
+<li><p>Improve multithreading core (<code class="docutils literal notranslate"><span class="pre">pyppbox.ppb.mt.MT</span></code>)</p></li>
+<li><p>Overhaul configuration system including helper renames:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">getListCFGDoc()</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">getCFGDictList()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loadListDocument()</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">loadDocumentList()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dumpListDocDict()</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">dumpDocDictList()</span></code></p></li>
+</ul>
+</li>
+<li><p>Fix and enhance the main tools and utilities:</p>
+<ul>
+<li><p>Fix <code class="docutils literal notranslate"><span class="pre">ResIO.addPeople()</span></code> to correctly store metadata</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">GTIO.map_dict</span></code> for O(1) video → GT lookups</p></li>
+<li><p>Enhance <code class="docutils literal notranslate"><span class="pre">GTIO.getGTFileName()</span></code> by using the new  <code class="docutils literal notranslate"><span class="pre">GTIO.map_dict</span></code></p></li>
+<li><p>Enhance visualization tools (<code class="docutils literal notranslate"><span class="pre">visualizetools.py</span></code>)</p></li>
+</ul>
+</li>
+<li><p>Restructure GitHub tests:</p>
+<ul>
+<li><p>Move <code class="docutils literal notranslate"><span class="pre">.githubtest/</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">.github/test/</span></code></p></li>
+<li><p>Update the related test .py files</p></li>
+<li><p>Update CI workflows (Linux/macOS/Windows)</p></li>
+</ul>
+</li>
+<li><p>Update copyrights to 2025</p></li>
+<li><p>Update and improve documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.11.0">v3.11.0</a> - ~~The Last V3~~</p>
+<ul>
+<li><p>Remove the unused <code class="docutils literal notranslate"><span class="pre">line_width</span></code> from <code class="docutils literal notranslate"><span class="pre">YOLO_Ultralytics</span></code> configuration</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">yolov8s-pose.pt</span></code> as default for <code class="docutils literal notranslate"><span class="pre">YOLO_Ultralytics</span></code> detector</p></li>
+<li><p>Optimize the default parameters of the detectors for better detection</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">pyppbox-data</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox-data/releases/tag/v1.3.0">v1.3.0</a> as default in documentation and workflows</p></li>
+<li><p>Clean up redundant direct dependencies and related modules</p></li>
+<li><p>Update all related workflows, GUI, example, and config files</p></li>
+<li><p>Update and improve documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.10.0">v3.10.0</a> - ~~The Last V3~~</p>
+<ul>
+<li><p>Add miscellaneous <code class="docutils literal notranslate"><span class="pre">misc</span></code> options to all dump functions in <code class="docutils literal notranslate"><span class="pre">ResIO</span></code></p></li>
+<li><p>Remove the legacy License classifier for <a class="reference external" href="https://peps.python.org/pep-0639/">PEP 639</a> compliance</p></li>
+<li><p>Detect and dodge fake CUDA setups in OpenCV</p></li>
+<li><p>Change <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> minimum version to v67.8.0</p></li>
+<li><p>Fix most if not all typos</p></li>
+<li><p>Update and improve <code class="docutils literal notranslate"><span class="pre">GETSTARTED.md</span></code></p></li>
+<li><p>Update and improve GitHub workflows</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.9.0">v3.9.0</a> - ~~The Last V3~~</p>
+<ul>
+<li><p>Fix <code class="docutils literal notranslate"><span class="pre">trainReIDClassifier()</span></code> for default input</p></li>
+<li><p>Add an example of retraining all internal reider classifiers for GTA V dataset</p></li>
+<li><p>Rearrange some examples</p></li>
+<li><p>Update and improve documentation</p></li>
+<li><p>Optimize GitHub workflows</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.8b1">v3.8b1</a> - ~~The Last V3~~</p>
+<ul>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">show_footnote</span></code> option to <code class="docutils literal notranslate"><span class="pre">visualizePeople()</span></code></p></li>
+<li><p>Optimize and enhance general performance</p></li>
+<li><p>Correct typos and improve documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.7b1">v3.7b1</a> - ~~The Last V3~~</p>
+<ul>
+<li><p>Sync <code class="docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code>’s misc across frames in all trackers</p></li>
+<li><p>Improve and add <code class="docutils literal notranslate"><span class="pre">--use-numid</span></code> for using number id in MOT as the real id in <code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> format</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.6b9">v3.6b9</a> - ~~The Last V3~~</p>
+<ul>
+<li><p>Fix <code class="docutils literal notranslate"><span class="pre">setMainTracker()</span></code> and <code class="docutils literal notranslate"><span class="pre">setMainReIDer()</span></code> for default input</p></li>
+<li><p>Correct <code class="docutils literal notranslate"><span class="pre">show_ids</span></code> documentation in <code class="docutils literal notranslate"><span class="pre">visualizePeople()</span></code></p></li>
+<li><p>Correct an error message in <code class="docutils literal notranslate"><span class="pre">visualizePeople()</span></code></p></li>
+<li><p>Update and improve documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.6b8">v3.6b8</a> - ~~The Last V3~~</p>
+<ul>
+<li><p>Fix FaceNet alignment issue in data preparation for training</p></li>
+<li><p>Update and improve documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.6b7">v3.6b7</a> - ~~The Last V3~~</p>
+<ul>
+<li><p>Improve examples</p></li>
+<li><p>Improve requirements</p></li>
+<li><p>Update and improve <code class="docutils literal notranslate"><span class="pre">GETSTARTED.md</span></code></p></li>
+<li><p>Update and improve documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.6b6">v3.6b6</a> - ~~The Last V3~~</p>
+<ul>
+<li><p>Add proper supports for YOLOv9, YOLOv10, and YOLOv11</p></li>
+<li><p>Update requirements and documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.6b5">v3.6b5</a>- ~~The Last V3~~</p>
+<ul>
+<li><p>Fix file filter in Torchreid GUI</p></li>
+<li><p>Switch from <a class="reference external" href="https://github.com/rathaumons/ultralytics-for-pyppbox"><code class="docutils literal notranslate"><span class="pre">pyppbox-ultralytics</span></code></a> to <a class="reference external" href="https://github.com/numediart/ultralytics-for-vsensebox"><code class="docutils literal notranslate"><span class="pre">vsensebox-ultralytics</span></code></a></p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.6b4">v3.6b4</a> - ~~The Last V3~~</p>
+<ul>
+<li><p>Integrate <a class="reference external" href="https://github.com/rathaROG/smooth-fps">SFPS</a> for better FPS calculation</p></li>
+<li><p>Update GitHub workflows</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.6b3">v3.6b3</a> - ~~The Last V3~~</p>
+<ul>
+<li><p>Fix typo and update GitHub workflows</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.6b2">v3.6b2</a></p>
+<ul>
+<li><p>Add a warning for the changes in the coming major version 4</p></li>
+<li><p>Update documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.6b1">v3.6b1</a></p>
+<ul>
+<li><p>Replace <code class="docutils literal notranslate"><span class="pre">pyunpack</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">patool</span></code> with <code class="docutils literal notranslate"><span class="pre">shutil</span></code></p></li>
+<li><p>Improve Example 9 - example_09_eva_offline.py</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">pyppbox.gui.guitools</span></code> to the documentation</p></li>
+<li><p>Fix <code class="docutils literal notranslate"><span class="pre">useInternalConfigDir()</span></code> in <code class="docutils literal notranslate"><span class="pre">pyppbox.gui.guitools</span></code></p></li>
+<li><p>Fix sphinx-build warning for utils.rst</p></li>
+<li><p>Fix and improve documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.5b2">v3.5b2</a></p>
+<ul>
+<li><p>Increase default random ID range in evatools</p></li>
+<li><p>Add exception to <code class="docutils literal notranslate"><span class="pre">generateStaticID()</span></code> in <code class="docutils literal notranslate"><span class="pre">pyppbox.utils.evatools.TKOReider</span></code></p></li>
+<li><p>Update documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.5b1">v3.5b1</a></p>
+<ul>
+<li><p>Add Python 3.12 support</p></li>
+<li><p>Change GUI Demo title</p></li>
+<li><p>Update documentation</p></li>
+<li><p>Update and improve GitHub workflows</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.4b2">v3.4b2</a></p>
+<ul>
+<li><p>Add freedom of input video without GT (Ground-truth) in GUI demo</p></li>
+<li><p>Update GitHub workflows</p></li>
+<li><p>Update and improve documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.4b1">v3.4b1</a></p>
+<ul>
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">findRepspointList()</span></code> from <code class="docutils literal notranslate"><span class="pre">pyppbox.utils.persontools</span></code></p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">findRepspointBB()</span></code> and <code class="docutils literal notranslate"><span class="pre">findRepspointUP()</span></code> to <code class="docutils literal notranslate"><span class="pre">pyppbox.utils.persontools</span></code></p></li>
+<li><p>Add float support for the private <code class="docutils literal notranslate"><span class="pre">convertStringToNPL()</span></code> of <code class="docutils literal notranslate"><span class="pre">pyppbox.utils.gttools</span></code></p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">min_width_filter</span></code> support for <code class="docutils literal notranslate"><span class="pre">detectPeople()</span></code> of <code class="docutils literal notranslate"><span class="pre">ppbox.standalone</span></code></p></li>
+<li><p>Add alternative repspoint support for <code class="docutils literal notranslate"><span class="pre">detectPeople()</span></code> of <code class="docutils literal notranslate"><span class="pre">ppbox.standalone</span></code> and all detectors</p></li>
+<li><p>Add <a class="reference external" href="https://motchallenge.net/instructions/">MOT Challenge ground-truth</a> converter -&gt; <code class="docutils literal notranslate"><span class="pre">pyppbox.utils.mot2pyppbox</span></code></p></li>
+<li><p>Improve documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.3b1">v3.3b1</a></p>
+<ul>
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">ontracked</span></code> and its related methods from <code class="docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">misc</span></code> to <code class="docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></p></li>
+<li><p>Improve documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.2b2">v3.2b2</a></p>
+<ul>
+<li><p>Add a hotfix for issue <a class="reference external" href="https://github.com/rathaumons/pyppbox/issues/21">#21</a></p></li>
+<li><p>Improve documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.2b1">v3.2b1</a></p>
+<ul>
+<li><p>Update some default configurations</p></li>
+<li><p>Update configurations/GUI/examples for <code class="docutils literal notranslate"><span class="pre">pyppbox-ultralytics&gt;=8.0.218</span></code></p></li>
+<li><p>Update GitHub tests</p></li>
+<li><p>Update GitHub workflows</p></li>
+<li><p>Update requirements</p></li>
+<li><p>Update and improve <code class="docutils literal notranslate"><span class="pre">GETSTARTED.md</span></code></p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>You tell me :)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.1b5">v3.1b5</a></p>
+<ul>
+<li><p>Fix minor visaul bug</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">install_req_py3_cuda121.cmd</span></code> for CUDA 12.1</p></li>
+<li><p>Improve documentation</p></li>
+<li><p>Drop support for Python 3.8</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>[Issue] YOLO Ultralytics: May throw <code class="docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">error:</span> <span class="pre">an</span> <span class="pre">illegal</span> <span class="pre">memory</span> <span class="pre">access</span> <span class="pre">was</span> <span class="pre">encountered</span></code> in multithread application</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.1b4">v3.1b4</a></p>
+<ul>
+<li><p>Improve support for new <code class="docutils literal notranslate"><span class="pre">pyppbox-ultralytics</span></code></p></li>
+<li><p>Improve documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>[Issue] YOLO Ultralytics: May throw <code class="docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">error:</span> <span class="pre">an</span> <span class="pre">illegal</span> <span class="pre">memory</span> <span class="pre">access</span> <span class="pre">was</span> <span class="pre">encountered</span></code> in multithread application</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.1b3">v3.1b3</a></p>
+<ul>
+<li><p>Update and improve visualizetools for new <code class="docutils literal notranslate"><span class="pre">pyppbox-ultralytics</span></code></p></li>
+<li><p>Update requirements</p></li>
+<li><p>Improve documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>[Issue] YOLO Ultralytics: May throw <code class="docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">error:</span> <span class="pre">an</span> <span class="pre">illegal</span> <span class="pre">memory</span> <span class="pre">access</span> <span class="pre">was</span> <span class="pre">encountered</span></code> in multithread application</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.1b2">v3.1b2</a></p>
+<ul>
+<li><p>Improve all supported trackers</p></li>
+<li><p>Improve evatools</p></li>
+<li><p>Change some default configurations</p></li>
+<li><p>Update and improve examples</p></li>
+<li><p>Improve documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>[Issue] YOLO Ultralytics: May throw <code class="docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">error:</span> <span class="pre">an</span> <span class="pre">illegal</span> <span class="pre">memory</span> <span class="pre">access</span> <span class="pre">was</span> <span class="pre">encountered</span></code> in multithread application</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.1b1">v3.1b1</a></p>
+<ul>
+<li><p>Add multithreading support for standalone -&gt; <code class="docutils literal notranslate"><span class="pre">ppbox.standalone.mt.MT</span></code></p></li>
+<li><p>Add multithreading example -&gt; See example 13</p></li>
+<li><p>Add CPU support for <code class="docutils literal notranslate"><span class="pre">Torchreid</span></code></p></li>
+<li><p>Implement install requirements/dependencies -&gt; See setup.py</p></li>
+<li><p>Simplify and improve requirements</p></li>
+<li><p>Update default config files</p></li>
+<li><p>Update and improve documentation</p></li>
+<li><p>Update and improve GUI</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>[Issue] YOLO Ultralytics: May throw <code class="docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">error:</span> <span class="pre">an</span> <span class="pre">illegal</span> <span class="pre">memory</span> <span class="pre">access</span> <span class="pre">was</span> <span class="pre">encountered</span></code> in multithread application</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.0b5">v3.0b5</a></p>
+<ul>
+<li><p>Fix a critical bug in GUI of FaceNet which can cause missing <code class="docutils literal notranslate"><span class="pre">train_data</span></code> configuration</p></li>
+<li><p>Fix and improve documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>[Issue] YOLO Ultralytics: May throw <code class="docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">error:</span> <span class="pre">an</span> <span class="pre">illegal</span> <span class="pre">memory</span> <span class="pre">access</span> <span class="pre">was</span> <span class="pre">encountered</span></code> in multithread application</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.0b4">v3.0b4</a></p>
+<ul>
+<li><p>Add hotfix for command <code class="docutils literal notranslate"><span class="pre">python</span></code> in <code class="docutils literal notranslate"><span class="pre">subprocess</span></code> when running on Linux</p></li>
+<li><p>Update and improve dependencies/requirements for macOS and Linux</p></li>
+<li><p>Update and improve <code class="docutils literal notranslate"><span class="pre">GETSTARTED.md</span></code> for macOS and Linux</p></li>
+<li><p>Add core stability test for macOS</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>[Issue] YOLO Ultralytics: May throw <code class="docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">error:</span> <span class="pre">an</span> <span class="pre">illegal</span> <span class="pre">memory</span> <span class="pre">access</span> <span class="pre">was</span> <span class="pre">encountered</span></code> in multithread application</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.0b3">v3.0b3</a></p>
+<ul>
+<li><p>Fix GUI for GT</p></li>
+<li><p>Improve supports for Python [3.8-3.11]</p></li>
+<li><p>Update and improve dependencies/requirements</p></li>
+<li><p>Update and improve <code class="docutils literal notranslate"><span class="pre">GETSTARTED.md</span></code></p></li>
+<li><p>Update test workflows for Python [3.8-3.11]</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>[Issue] YOLO Ultralytics: May throw <code class="docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">error:</span> <span class="pre">an</span> <span class="pre">illegal</span> <span class="pre">memory</span> <span class="pre">access</span> <span class="pre">was</span> <span class="pre">encountered</span></code> in multithread application</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.0b2">v3.0b2</a></p>
+<ul>
+<li><p>Add Linux and macOS supports</p></li>
+<li><p>Add workflow for Windows/Linux core stability tests</p></li>
+<li><p>Add workflow for PyPI build -&gt; <code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> is now available on PyPI</p></li>
+<li><p>Improve independency of the modules</p></li>
+<li><p>Improve supports for CPU-Only</p></li>
+<li><p>Improve setup quality</p></li>
+<li><p>Improve GUI stability</p></li>
+<li><p>Update and normalize dependencies/requirements</p></li>
+<li><p>Update and improve documentation</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>[Issue] YOLO Ultralytics: May throw <code class="docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">error:</span> <span class="pre">an</span> <span class="pre">illegal</span> <span class="pre">memory</span> <span class="pre">access</span> <span class="pre">was</span> <span class="pre">encountered</span></code> in multithread application</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v3.0b1">v3.0b1</a></p>
+<ul>
+<li><p>Introduce new structure of <code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> -&gt; Cleaner and simpler</p></li>
+<li><p>Introduce <a class="reference external" href="https://github.com/rathaumons/pyppbox-data"><code class="docutils literal notranslate"><span class="pre">pyppbox-data</span></code></a> and <a class="reference external" href="https://github.com/rathaumons/PoseTReID_DATASET#-introducing-pyppbox-data-gta5"><code class="docutils literal notranslate"><span class="pre">pyppbox-data-gta5</span></code></a> -&gt; Size of <code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> is now 99.9% smaller, easier to build and easier to install independently, with the freedom of choice for the modules you need</p></li>
+<li><p>Introduce new standard <code class="docutils literal notranslate"><span class="pre">Person</span></code> class for <code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></p></li>
+<li><p>Introduce standalone functions for easy detect, track, and reid people -&gt; <code class="docutils literal notranslate"><span class="pre">pyppbox.standalone</span></code> to replace <code class="docutils literal notranslate"><span class="pre">PManager</span></code></p></li>
+<li><p>Introduce new powerful and dynamic <em><strong>configuration classes</strong></em>, <code class="docutils literal notranslate"><span class="pre">pyppbox.config</span></code> -&gt; No more separated internal GLOBAL/LOCAL .py files</p></li>
+<li><p>Introduce new supported configuration formats -&gt; All YAML/JSON, raw string, ready dictionary, and file</p></li>
+<li><p>Introduce standalone visual function <code class="docutils literal notranslate"><span class="pre">visualizePeople()</span></code> for easy visualize people -&gt; <code class="docutils literal notranslate"><span class="pre">pyppbox.utils.visualizetools.visualizePeople</span></code></p></li>
+<li><p>Introduce standalone function <code class="docutils literal notranslate"><span class="pre">trainReIDClassifier()</span></code> for easy train classifier of the supported reiders -&gt; <code class="docutils literal notranslate"><span class="pre">pyppbox.standalone.trainReIDClassifier</span></code></p></li>
+<li><p>Introduce new result I/O class <code class="docutils literal notranslate"><span class="pre">ResIO</span></code> for easy create new ground-truth and dump result into text file -&gt; <code class="docutils literal notranslate"><span class="pre">pyppbox.utils.restools.ResIO</span></code></p></li>
+<li><p>Introduce new evaluation class <code class="docutils literal notranslate"><span class="pre">MyEVA</span></code>, and instead of represented point, bounding box is now used for matching and comparing the result -&gt; <code class="docutils literal notranslate"><span class="pre">pyppbox.utils.evatools.MyEVA</span></code></p></li>
+<li><p>standalone comparison function <code class="docutils literal notranslate"><span class="pre">compareRes2Ref()</span></code> for supported datasets -&gt; <code class="docutils literal notranslate"><span class="pre">pyppbox.utils.evatools.compareRes2Ref</span></code></p></li>
+<li><p>Introduce new ground truth tools <code class="docutils literal notranslate"><span class="pre">GTIO</span></code> and <code class="docutils literal notranslate"><span class="pre">GTInterpreter</span></code> for supported datasets -&gt; <code class="docutils literal notranslate"><span class="pre">pyppbox.utils.gttools</span></code></p></li>
+<li><p>Introduce new internal logging -&gt; <code class="docutils literal notranslate"><span class="pre">pyppbox.logtools</span></code></p></li>
+<li><p>Introduce new in-code <code class="docutils literal notranslate"><span class="pre">numpydoc</span></code> documentation <em><strong>methods/functions/classes</strong></em></p></li>
+<li><p>Introduce new online <code class="docutils literal notranslate"><span class="pre">Sphinx</span></code> documentation -&gt; <a class="reference external" href="https://rathaumons.github.io/pyppbox">https://rathaumons.github.io/pyppbox</a></p></li>
+<li><p>Remove unnecessary import from submodules and their <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> files</p></li>
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">input_video</span></code> and <code class="docutils literal notranslate"><span class="pre">force_hd</span></code> from main configurations, and other unused parameters from other configuration files -&gt; New defaults <code class="docutils literal notranslate"><span class="pre">{pyppbox</span> <span class="pre">root}/config/cfg</span></code></p></li>
+<li><p>Add and update <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/main/examples">examples</a> for <code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> V3+ -&gt; No longer compatible with older versions of <code class="docutils literal notranslate"><span class="pre">pyppbox</span></code></p></li>
+<li><p>Update and improve all supported modules</p></li>
+<li><p>Update and improve GUI</p></li>
+<li><p>Update <em><strong>requirements</strong></em></p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>[Issue] YOLO Ultralytics: May throw <code class="docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">error:</span> <span class="pre">an</span> <span class="pre">illegal</span> <span class="pre">memory</span> <span class="pre">access</span> <span class="pre">was</span> <span class="pre">encountered</span></code> in multithread application</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="pyppbox-v2-hello-ultralytics-yolov8">
+<h2><strong>pyppbox V2 - Hello Ultralytics YOLOv8</strong><a class="headerlink" href="#pyppbox-v2-hello-ultralytics-yolov8" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v2.0b2">v2.0b2</a></p>
+<ul>
+<li><p>Fix person’s keypoint issue in <code class="docutils literal notranslate"><span class="pre">PManager</span></code> when using YOLO Ultralytics with pose estimation model</p></li>
+<li><p>Add support for the new keypoint data format of YOLO Ultralytics’s pose estimation model</p></li>
+<li><p>Remove unnecessary imports</p></li>
+<li><p>Update requirements</p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>[Issue] YOLO Ultralytics: May throw <code class="docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">error:</span> <span class="pre">an</span> <span class="pre">illegal</span> <span class="pre">memory</span> <span class="pre">access</span> <span class="pre">was</span> <span class="pre">encountered</span></code> in multithread application</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v2.0b1">v2.0b1</a></p>
+<ul>
+<li><p>Integrate PyTorch Ultralytics YOLOv8 -&gt; <code class="docutils literal notranslate"><span class="pre">pyppbox-ultralytics</span></code> as package name</p></li>
+<li><p><em><strong><code class="docutils literal notranslate"><span class="pre">torchreid</span></code> for pyppbox</strong></em> is changed to <code class="docutils literal notranslate"><span class="pre">pyppbox-torchreid</span></code> as package name</p></li>
+<li><p><em><strong><code class="docutils literal notranslate"><span class="pre">opencv-contrib-python</span></code> for pyppbox</strong></em> is changed to <code class="docutils literal notranslate"><span class="pre">pyppbox-opencv</span></code> as package name</p></li>
+<li><p>Enhance <code class="docutils literal notranslate"><span class="pre">Person</span></code> class &amp; add <code class="docutils literal notranslate"><span class="pre">keypoints</span></code> attribute</p></li>
+<li><p>Improve &amp; generalize the names of some <em><strong>methods/functions/classes</strong></em></p></li>
+<li><p>Enhance <code class="docutils literal notranslate"><span class="pre">PManager</span></code> &amp; introduce <code class="docutils literal notranslate"><span class="pre">__</span></code> for private <em><strong>classes/methods</strong></em></p></li>
+<li><p>Improve all related <em><strong>configurators</strong></em> &amp; change some default configurations</p></li>
+<li><p>Introduce <em><strong>lite</strong></em> &amp; <em><strong>full</strong></em> edition of the extra models/weights</p></li>
+<li><p>Update <em><strong>requirements</strong></em> &amp; drop supports for <em><strong>Python 3.9 &amp; CUDA 11.6/11.7</strong></em></p></li>
+<li><p>Update the <code class="docutils literal notranslate"><span class="pre">FacNet</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">Torchreid</span></code> pretrained classifier <em><strong>PKLs</strong></em> for <em><strong>GTA5 dataset</strong></em></p></li>
+<li><p>Update examples</p></li>
+<li><p>Change to <code class="docutils literal notranslate"><span class="pre">pypa/build</span></code> for <code class="docutils literal notranslate"><span class="pre">setup.py</span></code></p></li>
+<li><p><strong>Known issue/limitation</strong>:</p>
+<ul>
+<li><p>[Issue] YOLO Ultralytics: May throw <code class="docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">error:</span> <span class="pre">an</span> <span class="pre">illegal</span> <span class="pre">memory</span> <span class="pre">access</span> <span class="pre">was</span> <span class="pre">encountered</span></code> in multithread application</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="pyppbox-v1-1-multithreading-ready">
+<h2><strong>pyppbox V1.1 - Multithreading Ready</strong><a class="headerlink" href="#pyppbox-v1-1-multithreading-ready" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v1.1b5">v1.1b5</a></p>
+<ul>
+<li><p>Add support for <strong>CUDA 11.8</strong> -  Ready for RTX 4000 series :)</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v1.1b4">v1.1b4</a></p>
+<ul>
+<li><p>Correct minor mistakes in default configuration related files and classes</p></li>
+<li><p>Improve <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> and change from <code class="docutils literal notranslate"><span class="pre">pip</span></code> to <code class="docutils literal notranslate"><span class="pre">bdist_wheel</span></code></p></li>
+<li><p>Update requirements - February 2023 update</p></li>
+<li><p>Update <code class="docutils literal notranslate"><span class="pre">DeepSORT</span></code> for <code class="docutils literal notranslate"><span class="pre">numpy==1.24.2</span></code></p></li>
+<li><p>Clean up unused codes and improve some README.md files</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v1.1b3">v1.1b3</a></p>
+<ul>
+<li><p>Fix a bug in UI demo <code class="docutils literal notranslate"><span class="pre">uidemo.py</span></code> when a given input video file does not exist in <code class="docutils literal notranslate"><span class="pre">GT</span></code> dictionary</p></li>
+<li><p>Check pull <a class="reference external" href="https://github.com/rathaumons/pyppbox/pull/6">#6</a> for more details</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v1.1b2">v1.1b2</a></p>
+<ul>
+<li><p>Fix minor bugs of <code class="docutils literal notranslate"><span class="pre">SORT</span></code> module and <code class="docutils literal notranslate"><span class="pre">PManager()</span></code> in a rare/simulated scenario when a person appears and disappears from frame to frame</p></li>
+<li><p>Check pull <a class="reference external" href="https://github.com/rathaumons/pyppbox/pull/5">#5</a> for more details</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/v1.1b1">v1.1b1</a></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">PManager()</span></code> now has the default <code class="docutils literal notranslate"><span class="pre">__init__(enableEval=False,</span> <span class="pre">localConfig=False)</span></code></p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">enableEval=False</span></code> means all related <code class="docutils literal notranslate"><span class="pre">EVA</span></code> classes are disabled -&gt; Check <code class="docutils literal notranslate"><span class="pre">example_advanced.py</span></code></p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">localConfig=False</span></code> means PManager uses the <strong>GLOBAL</strong> <code class="docutils literal notranslate"><span class="pre">cfg</span></code> dir inside the <code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> package</p></li>
+<li><p>When <code class="docutils literal notranslate"><span class="pre">localConfig=True</span></code>, you must call <code class="docutils literal notranslate"><span class="pre">setLocalConfig(local_cfg_dir)</span></code> in order to set your new <strong>LOCAL</strong> <code class="docutils literal notranslate"><span class="pre">cfg</span></code> dir</p></li>
+<li><p>The idea of <strong>GLOBAL</strong> &amp; <strong>LOCAL</strong> enables <code class="docutils literal notranslate"><span class="pre">pyppbox</span></code> to be used in multi-threading without interfering with the <strong>GLOBAL</strong> <code class="docutils literal notranslate"><span class="pre">cfg</span></code> dir</p></li>
+<li><p>Your <strong>LOCAL</strong> <code class="docutils literal notranslate"><span class="pre">cfg</span></code> dir requires 4 configuration files: <strong><code class="docutils literal notranslate"><span class="pre">main.yaml</span></code></strong>, <strong><code class="docutils literal notranslate"><span class="pre">detectors.yaml</span></code></strong>, <strong><code class="docutils literal notranslate"><span class="pre">trackers.yaml</span></code></strong>, and <strong><code class="docutils literal notranslate"><span class="pre">reiders.yaml</span></code></strong></p></li>
+<li><p>Make sure the all input files such as pre-trained weights/models and others exist according to your <strong>LOCAL</strong> <code class="docutils literal notranslate"><span class="pre">cfg</span></code></p></li>
+<li><p>Check the <strong>LOCAL</strong> <code class="docutils literal notranslate"><span class="pre">cfg</span></code> and <code class="docutils literal notranslate"><span class="pre">example_local_cfg.py</span></code> as an example</p></li>
+<li><p>Check pull <a class="reference external" href="https://github.com/rathaumons/pyppbox/pull/4">#4</a> for more details</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="pyppbox-v1">
+<h2><strong>pyppbox V1</strong><a class="headerlink" href="#pyppbox-v1" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The GitHub repo was reinitiated from version 1.0b9 where the complete history is available here <a class="reference external" href="https://github.com/rathaumons/pyppbox/tree/33da56302d27204931337b44d9a6a5adc1eb5257">33da563</a></p></li>
+<li><p><a class="reference external" href="https://github.com/CMU-Perceptual-Computing-Lab/openpose"><code class="docutils literal notranslate"><span class="pre">OpenPose</span></code></a> submodule was removed due to <a class="reference external" href="https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE">its complicated license</a> -&gt; Check this repo <a class="reference external" href="https://github.com/rathaumons/pyppbox-paper"><code class="docutils literal notranslate"><span class="pre">pyppbox-paper</span></code></a> if you need <code class="docutils literal notranslate"><span class="pre">OpenPose</span></code> or need to reproduce the results in the paper</p></li>
+</ul>
+</section>
+</section>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="pyppbox/utils.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Utilities</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox-v4-even-smaller"><strong>pyppbox V4 - Even Smaller</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox-v3-make-simpler-and-faster"><strong>pyppbox V3 - Make Simpler and Faster</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox-v2-hello-ultralytics-yolov8"><strong>pyppbox V2 - Hello Ultralytics YOLOv8</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox-v1-1-multithreading-ready"><strong>pyppbox V1.1 - Multithreading Ready</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox-v1"><strong>pyppbox V1</strong></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, UMONS-Numediart, Ratha SIV.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

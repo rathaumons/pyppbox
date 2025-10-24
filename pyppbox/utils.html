@@ -1,0 +1,1726 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Utilities &#8212; pyppbox 3.13.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/rtd_sphinx_search.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/rtd_search_config.js"></script>
+    <script src="../_static/js/rtd_sphinx_search.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pyppbox/utils';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Release Notes" href="../releasenotes.html" />
+    <link rel="prev" title="Configurations" href="config.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.13.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">🐍📦 pyppbox</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getstarted.html">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="standalone.html">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="structure.html">
+    Structure
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="#">
+    Utilities
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../releasenotes.html">
+    Release Notes
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getstarted.html">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="standalone.html">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="structure.html">
+    Structure
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Utilities
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../releasenotes.html">
+    Release Notes
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Utilities</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="utilities">
+<span id="utils-page"></span><h1>Utilities<a class="headerlink" href="#utilities" title="Link to this heading">#</a></h1>
+<section id="module-pyppbox.utils.evatools">
+<span id="pyppbox-utils-evatools"></span><h2>pyppbox.utils.evatools<a class="headerlink" href="#module-pyppbox.utils.evatools" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyppbox.utils.evatools.</span></span><span class="sig-name descname"><span class="pre">MyEVA</span></span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#MyEVA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class used to generate the evaluation of the supported datasets.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA.reid_count">
+<span class="sig-name descname"><span class="pre">reid_count</span></span><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA.reid_count" title="Link to this definition">#</a></dt>
+<dd><p>Total number of ReID count.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA.diff_count">
+<span class="sig-name descname"><span class="pre">diff_count</span></span><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA.diff_count" title="Link to this definition">#</a></dt>
+<dd><p>Total number of wrong IDs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA.missed_detect">
+<span class="sig-name descname"><span class="pre">missed_detect</span></span><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA.missed_detect" title="Link to this definition">#</a></dt>
+<dd><p>Total number of missed detection(s).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA.fault_detect">
+<span class="sig-name descname"><span class="pre">fault_detect</span></span><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA.fault_detect" title="Link to this definition">#</a></dt>
+<dd><p>Total number of fault detection(s).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA.current_frame">
+<span class="sig-name descname"><span class="pre">current_frame</span></span><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA.current_frame" title="Link to this definition">#</a></dt>
+<dd><p>Current frame index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA.frame_to_check">
+<span class="sig-name descname"><span class="pre">frame_to_check</span></span><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA.frame_to_check" title="Link to this definition">#</a></dt>
+<dd><p>Frame index which is used for the validation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA.score">
+<span class="sig-name descname"><span class="pre">score</span></span><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA.score" title="Link to this definition">#</a></dt>
+<dd><p>Score of the evaluation, between 0 and 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA.id_mode">
+<span class="sig-name descname"><span class="pre">id_mode</span></span><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA.id_mode" title="Link to this definition">#</a></dt>
+<dd><p>Indication of whether <code class="code docutils literal notranslate"><span class="pre">&quot;deepid&quot;</span></code> or <code class="code docutils literal notranslate"><span class="pre">&quot;faceid&quot;</span></code> is used for the evaluation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str, default=”deepid”</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA.gt_interpreter">
+<span class="sig-name descname"><span class="pre">gt_interpreter</span></span><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA.gt_interpreter" title="Link to this definition">#</a></dt>
+<dd><p>GT (Ground-truth) loader, <code class="xref py py-class docutils literal notranslate"><span class="pre">GTInterpreter</span></code> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyppbox.utils.gttools.GTInterpreter" title="pyppbox.utils.gttools.GTInterpreter">GTInterpreter</a>, auto</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA.gt_file_name">
+<span class="sig-name descname"><span class="pre">gt_file_name</span></span><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA.gt_file_name" title="Link to this definition">#</a></dt>
+<dd><p>GT (Ground-truth) file name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str, auto</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA.gt_file">
+<span class="sig-name descname"><span class="pre">gt_file</span></span><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA.gt_file" title="Link to this definition">#</a></dt>
+<dd><p>GT (Ground-truth) file path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str, auto</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA.getSummary">
+<span class="sig-name descname"><span class="pre">getSummary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">print_summary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#MyEVA.getSummary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA.getSummary" title="Link to this definition">#</a></dt>
+<dd><p>Generate a summary of the evaluation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>print_summary</strong> (<em>bool</em><em>, </em><em>default=True</em>) – An indication of whether to print a summary text in the terminal.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>diff_count</strong> (<em>int</em>) – Total number of wrong ID(s).</p></li>
+<li><p><strong>missed_detect</strong> (<em>int</em>) – Total number of missed detection(s).</p></li>
+<li><p><strong>fault_detect</strong> (<em>int</em>) – Total number of fault detection(s).</p></li>
+<li><p><strong>reid_count</strong> (<em>int</em>) – Total number of ReID count.</p></li>
+<li><p><strong>gt_interpreter.total_detections</strong> (<em>int</em>) – Total number of detection(s) or all ID(s) in all frame(s) in the GT (Ground-truth).</p></li>
+<li><p><strong>score</strong> (<em>float</em>) – Score of the evaluation, between 0 and 1 -&gt; (Total ID - Wrong ID - Missed Detection) / Total ID.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA.setGTByGTMap">
+<span class="sig-name descname"><span class="pre">setGTByGTMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gt_map_txt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_video</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'deepid'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#MyEVA.setGTByGTMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA.setGTByGTMap" title="Link to this definition">#</a></dt>
+<dd><p>Set a GT (Ground-truth) text file by give the GT mapping file <code class="xref py py-obj docutils literal notranslate"><span class="pre">gt_map_txt</span></code> and
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">input_video</span></code> of a supported dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt_map_file</strong> (<em>str</em>) – A file path of a Video=GT mapping text file for GT (Ground-truth).</p></li>
+<li><p><strong>input_video</strong> (<em>str</em>) – A video file path.</p></li>
+<li><p><strong>id_mode</strong> (<em>bool</em><em>, </em><em>default=&quot;deepid&quot;</em>) – An indication of whether <code class="code docutils literal notranslate"><span class="pre">&quot;deepid&quot;</span></code> or <code class="code docutils literal notranslate"><span class="pre">&quot;faceid&quot;</span></code> is used for the evaluation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA.setGTByKnownGTFile">
+<span class="sig-name descname"><span class="pre">setGTByKnownGTFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gt_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'deepid'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#MyEVA.setGTByKnownGTFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA.setGTByKnownGTFile" title="Link to this definition">#</a></dt>
+<dd><p>Set a GT (Ground-truth) text file and <a class="reference internal" href="#pyppbox.utils.evatools.MyEVA.id_mode" title="pyppbox.utils.evatools.MyEVA.id_mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id_mode</span></code></a> which is used to compare.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt_file</strong> (<em>str</em>) – A file path of a GT (Ground-truth).</p></li>
+<li><p><strong>id_mode</strong> (<em>bool</em><em>, </em><em>default=&quot;deepid&quot;</em>) – An indication of whether <code class="code docutils literal notranslate"><span class="pre">&quot;deepid&quot;</span></code> or <code class="code docutils literal notranslate"><span class="pre">&quot;faceid&quot;</span></code> is used for the evaluation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA.setReIDcount">
+<span class="sig-name descname"><span class="pre">setReIDcount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#MyEVA.setReIDcount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA.setReIDcount" title="Link to this definition">#</a></dt>
+<dd><p>Set the total <a class="reference internal" href="#pyppbox.utils.evatools.MyEVA.reid_count" title="pyppbox.utils.evatools.MyEVA.reid_count"><code class="xref py py-attr docutils literal notranslate"><span class="pre">reid_count</span></code></a> according to <code class="xref py py-obj docutils literal notranslate"><span class="pre">total_count</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>total_count</strong> (<em>int</em>) – Total number of ReID count.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.MyEVA.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">people</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#MyEVA.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.MyEVA.validate" title="Link to this definition">#</a></dt>
+<dd><p>Validate a frame by comparing the given list of Person to the GT (Ground-truth) file.
+<a class="reference internal" href="#pyppbox.utils.evatools.MyEVA" title="pyppbox.utils.evatools.MyEVA"><code class="xref py py-class docutils literal notranslate"><span class="pre">MyEVA</span></code></a> has an internal frame tracker <a class="reference internal" href="#pyppbox.utils.evatools.MyEVA.current_frame" title="pyppbox.utils.evatools.MyEVA.current_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_frame</span></code></a> which helps the <a class="reference internal" href="#pyppbox.utils.evatools.MyEVA.validate" title="pyppbox.utils.evatools.MyEVA.validate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">validate()</span></code></a>
+keep track which frame to validate especially when it is called inside a loop of video frames;
+however, when the parameter <code class="xref py py-obj docutils literal notranslate"><span class="pre">frame_id</span></code> is used and set to greater than <code class="code docutils literal notranslate"><span class="pre">-1</span></code>,
+<a class="reference internal" href="#pyppbox.utils.evatools.MyEVA.validate" title="pyppbox.utils.evatools.MyEVA.validate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">validate()</span></code></a> will refer to this <code class="xref py py-obj docutils literal notranslate"><span class="pre">frame_id</span></code> as the frame index for the validation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>people</strong> (<em>list</em><em>[</em><a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><em>Person</em></a><em>, </em><em>...</em><em>]</em>) – A list of <a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a> object.</p></li>
+<li><p><strong>frame_id</strong> (<em>int</em><em>, </em><em>default=-1</em><em>, </em><em>optional</em>) – An indication of which frame index is used for the validation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.NothingDetecter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyppbox.utils.evatools.</span></span><span class="sig-name descname"><span class="pre">NothingDetecter</span></span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#NothingDetecter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.NothingDetecter" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class acted as a detector which does not perform any detection.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.NothingDetecter.detectFrame">
+<span class="sig-name descname"><span class="pre">detectFrame</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#NothingDetecter.detectFrame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.NothingDetecter.detectFrame" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.NothingReider">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyppbox.utils.evatools.</span></span><span class="sig-name descname"><span class="pre">NothingReider</span></span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#NothingReider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.NothingReider" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class acted as a reider which does not perform any re-identifying.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.NothingReider.recognize">
+<span class="sig-name descname"><span class="pre">recognize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#NothingReider.recognize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.NothingReider.recognize" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.NothingTracker">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyppbox.utils.evatools.</span></span><span class="sig-name descname"><span class="pre">NothingTracker</span></span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#NothingTracker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.NothingTracker" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class acted as a tracker which does not perform any tracking.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.NothingTracker.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#NothingTracker.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.NothingTracker.update" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.TKOReider">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyppbox.utils.evatools.</span></span><span class="sig-name descname"><span class="pre">TKOReider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">static</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">static_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#TKOReider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.TKOReider" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class acted as a reider which can return random IDs.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.TKOReider.generateID">
+<span class="sig-name descname"><span class="pre">generateID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string_length</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#TKOReider.generateID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.TKOReider.generateID" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.TKOReider.generateStaticID">
+<span class="sig-name descname"><span class="pre">generateStaticID</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#TKOReider.generateStaticID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.TKOReider.generateStaticID" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.TKOReider.recognize">
+<span class="sig-name descname"><span class="pre">recognize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#TKOReider.recognize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.TKOReider.recognize" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.TKOReider.setStaticIDs">
+<span class="sig-name descname"><span class="pre">setStaticIDs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">static_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plus_random</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">65536</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#TKOReider.setStaticIDs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.TKOReider.setStaticIDs" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.utils.evatools.compareRes2Ref">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.utils.evatools.</span></span><span class="sig-name descname"><span class="pre">compareRes2Ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res_txt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_txt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res_box_xyxy_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_box_xyxy_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res_compare_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_compare_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">box_max_spread</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/evatools.html#compareRes2Ref"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.evatools.compareRes2Ref" title="Link to this definition">#</a></dt>
+<dd><p>Compare the result text file generated by <code class="xref py py-class docutils literal notranslate"><span class="pre">ResIO</span></code> to any reference
+or GT (Ground-truth) text file, ideally used for comparing the strings of
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">deepid</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">faceid</span></code> in result to the reference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>res_txt</strong> (<em>str</em>) – A path of the result text file.</p></li>
+<li><p><strong>ref_txt</strong> (<em>str</em>) – A path of the reference text file.</p></li>
+<li><p><strong>res_box_xyxy_index</strong> (<em>int</em><em>, </em><em>default=5</em>) – Index of bounding box <code class="code docutils literal notranslate"><span class="pre">[X1,</span> <span class="pre">Y1,</span> <span class="pre">X2,</span> <span class="pre">Y2]</span></code> in the result text file.</p></li>
+<li><p><strong>ref_box_xyxy_index</strong> (<em>int</em><em>, </em><em>default=4</em>) – Index of bounding box <code class="code docutils literal notranslate"><span class="pre">[X1,</span> <span class="pre">Y1,</span> <span class="pre">X2,</span> <span class="pre">Y2]</span></code> in the reference text file.</p></li>
+<li><p><strong>res_compare_index</strong> (<em>int</em><em>, </em><em>default=2</em>) – Index of what to compare in the result text file.</p></li>
+<li><p><strong>ref_compare_index</strong> (<em>int</em><em>, </em><em>default=2</em>) – Index of what to compare in the reference text file.</p></li>
+<li><p><strong>box_max_spread</strong> (<em>int</em><em>, </em><em>default=10</em>) – Max spread or max margin used to decide whether 2 bounding boxes are the same
+by comparing the differences between the elements in the result’s bounding
+box and the coressponding elements in the reference’s bounding box.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>int</em> – Total number of wrong ID count.</p></li>
+<li><p><em>int</em> – Total number of missed detection count.</p></li>
+<li><p><em>int</em> – Total number of fault detection count.</p></li>
+<li><p><em>int</em> – Total number of all detection or ID count in all frame(s) in the reference text file.</p></li>
+<li><p><em>float</em> – Score of the evaluation, between 0 and 1 -&gt; (Total ID - Wrong ID - Missed detection) / Total ID.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-pyppbox.utils.gttools">
+<span id="pyppbox-utils-gttools"></span><h2>pyppbox.utils.gttools<a class="headerlink" href="#module-pyppbox.utils.gttools" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTIO">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyppbox.utils.gttools.</span></span><span class="sig-name descname"><span class="pre">GTIO</span></span><a class="reference internal" href="../_modules/pyppbox/utils/gttools.html#GTIO"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.gttools.GTIO" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class used for performing I/O opterations on the GT (Ground-truth) text file of
+the supported datasets.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTIO.map_list">
+<span class="sig-name descname"><span class="pre">map_list</span></span><a class="headerlink" href="#pyppbox.utils.gttools.GTIO.map_list" title="Link to this definition">#</a></dt>
+<dd><p>A map list of <code class="code docutils literal notranslate"><span class="pre">[[video</span> <span class="pre">file</span> <span class="pre">name,</span> <span class="pre">GT</span> <span class="pre">(Ground-truth)</span> <span class="pre">text</span> <span class="pre">file</span> <span class="pre">name],</span> <span class="pre">...]</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[list[str, str], …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTIO.map_dict">
+<span class="sig-name descname"><span class="pre">map_dict</span></span><a class="headerlink" href="#pyppbox.utils.gttools.GTIO.map_dict" title="Link to this definition">#</a></dt>
+<dd><p>A map dictionary of <code class="code docutils literal notranslate"><span class="pre">{video</span> <span class="pre">file</span> <span class="pre">name:</span> <span class="pre">GT</span> <span class="pre">(Ground-truth)</span> <span class="pre">text</span> <span class="pre">file</span> <span class="pre">name,</span> <span class="pre">...}</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTIO.getGTFileName">
+<span class="sig-name descname"><span class="pre">getGTFileName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_video</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/gttools.html#GTIO.getGTFileName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.gttools.GTIO.getGTFileName" title="Link to this definition">#</a></dt>
+<dd><p>Return the video file name corresponding to the <code class="xref py py-obj docutils literal notranslate"><span class="pre">input_video</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input_video</strong> (<em>str</em>) – File path of input video.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A file name of the corresponding GT (Ground-truth) text.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTIO.loadGT">
+<span class="sig-name descname"><span class="pre">loadGT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gt_file_txt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/gttools.html#GTIO.loadGT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.gttools.GTIO.loadGT" title="Link to this definition">#</a></dt>
+<dd><p>Read an input of GT (Ground-truth) text file, and return the <code class="xref py py-obj docutils literal notranslate"><span class="pre">gt_frames</span></code>,
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">gt_frames_list</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">total_detections</span></code>, and <code class="xref py py-obj docutils literal notranslate"><span class="pre">init_frame</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>gt_file_txt</strong> (<em>str</em>) – A file path of GT (Ground-truth) text.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>list[list[list[int, tuple(int, int), str, [int, int, int, int], [int, int, int, int]], …], …]</em> – A list of GT frames, each frame is a list of GT-format person, and each
+GT-format person is a list carrying info of a person in a frame like
+<code class="code docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">(637,</span> <span class="pre">308),</span> <span class="pre">&quot;Franklin&quot;,</span> <span class="pre">[593</span> <span class="pre">241</span>&#160; <span class="pre">89</span> <span class="pre">270],</span> <span class="pre">[593</span> <span class="pre">241</span> <span class="pre">682</span> <span class="pre">511]]</span></code>.</p></li>
+<li><p><em>list[int, …]</em> – A list of frame indexes of the GT (Ground-truth).</p></li>
+<li><p><em>int</em> – Total number of all detection or ID count in all frame(s) in the
+GT (Ground-truth).</p></li>
+<li><p><em>int</em> – Initial frame index.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTIO.loadInputGTMap">
+<span class="sig-name descname"><span class="pre">loadInputGTMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gt_map_txt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">splitter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">':'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/gttools.html#GTIO.loadInputGTMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.gttools.GTIO.loadInputGTMap" title="Link to this definition">#</a></dt>
+<dd><p>Load an input of GT (Ground-truth) map text and set <a class="reference internal" href="#pyppbox.utils.gttools.GTIO.map_list" title="pyppbox.utils.gttools.GTIO.map_list"><code class="xref py py-attr docutils literal notranslate"><span class="pre">map_list</span></code></a>.
+A map text must have consistent format with the same splitter in every
+line like. The default format is <code class="code docutils literal notranslate"><span class="pre">video_file_name:gt_file_name</span></code>; for example,
+the first line in the map file looks like <code class="code docutils literal notranslate"><span class="pre">video.mp4:gt.txt</span></code>. Most suitable
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">splitter</span></code> is colon <code class="code docutils literal notranslate"><span class="pre">:</span></code> because it can’t be used in a file name. Other
+symbol/char like <code class="code docutils literal notranslate"><span class="pre">=</span></code> should be fine as long as it is not used in the file
+names of both video and GT text file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt_map_txt</strong> (<em>str</em>) – A file path of GT (Ground-truth) map text.</p></li>
+<li><p><strong>splitter</strong> (<em>str</em><em>, </em><em>default=':'</em>) – A string with length of <code class="code docutils literal notranslate"><span class="pre">1</span></code> used as a splitter of the mapping.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTInterpreter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyppbox.utils.gttools.</span></span><span class="sig-name descname"><span class="pre">GTInterpreter</span></span><a class="reference internal" href="../_modules/pyppbox/utils/gttools.html#GTInterpreter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.gttools.GTInterpreter" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class used for interpreting GT (Ground-truth) of supported datasets.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTInterpreter.init_frame">
+<span class="sig-name descname"><span class="pre">init_frame</span></span><a class="headerlink" href="#pyppbox.utils.gttools.GTInterpreter.init_frame" title="Link to this definition">#</a></dt>
+<dd><p>Initial frame index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTInterpreter.current_frame">
+<span class="sig-name descname"><span class="pre">current_frame</span></span><a class="headerlink" href="#pyppbox.utils.gttools.GTInterpreter.current_frame" title="Link to this definition">#</a></dt>
+<dd><p>Current frame index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTInterpreter.total_detections">
+<span class="sig-name descname"><span class="pre">total_detections</span></span><a class="headerlink" href="#pyppbox.utils.gttools.GTInterpreter.total_detections" title="Link to this definition">#</a></dt>
+<dd><p>Total number of all detection or ID count in all frame(s) in the
+GT (Ground-truth).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTInterpreter.detect_only">
+<span class="sig-name descname"><span class="pre">detect_only</span></span><a class="headerlink" href="#pyppbox.utils.gttools.GTInterpreter.detect_only" title="Link to this definition">#</a></dt>
+<dd><p>Indication of whether using ‘Detect Only’ mode or full GT mode with real ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTInterpreter.gtIO">
+<span class="sig-name descname"><span class="pre">gtIO</span></span><a class="headerlink" href="#pyppbox.utils.gttools.GTInterpreter.gtIO" title="Link to this definition">#</a></dt>
+<dd><p>GT (Ground-truth) IO, <a class="reference internal" href="#pyppbox.utils.gttools.GTIO" title="pyppbox.utils.gttools.GTIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">GTIO</span></code></a> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyppbox.utils.gttools.GTIO" title="pyppbox.utils.gttools.GTIO">GTIO</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTInterpreter.unknownFID">
+<span class="sig-name descname"><span class="pre">unknownFID</span></span><a class="headerlink" href="#pyppbox.utils.gttools.GTInterpreter.unknownFID" title="Link to this definition">#</a></dt>
+<dd><p>A string for setting unknown <code class="xref py py-obj docutils literal notranslate"><span class="pre">faceid</span></code> of a <a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTInterpreter.unknownDID">
+<span class="sig-name descname"><span class="pre">unknownDID</span></span><a class="headerlink" href="#pyppbox.utils.gttools.GTInterpreter.unknownDID" title="Link to this definition">#</a></dt>
+<dd><p>A string for setting unknown <code class="xref py py-obj docutils literal notranslate"><span class="pre">deepid</span></code> of a <a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTInterpreter.gt_frames">
+<span class="sig-name descname"><span class="pre">gt_frames</span></span><a class="headerlink" href="#pyppbox.utils.gttools.GTInterpreter.gt_frames" title="Link to this definition">#</a></dt>
+<dd><p>A list of GT frames, each frame is a list of GT-format person, and
+each GT-format person is a list carrying info of a person in a frame like
+<code class="code docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">(637,</span> <span class="pre">308),</span> <span class="pre">&quot;Franklin&quot;,</span> <span class="pre">[593</span> <span class="pre">241</span>&#160; <span class="pre">89</span> <span class="pre">270],</span> <span class="pre">[593</span> <span class="pre">241</span> <span class="pre">682</span> <span class="pre">511]]</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[list[list[int, tuple(int, int), str, [int, int, int, int], [int, int, int, int]], …], …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTInterpreter.gt_frames_list">
+<span class="sig-name descname"><span class="pre">gt_frames_list</span></span><a class="headerlink" href="#pyppbox.utils.gttools.GTInterpreter.gt_frames_list" title="Link to this definition">#</a></dt>
+<dd><p>A list of frame indexes of GT (Ground-truth).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[int, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTInterpreter.findGTFrame">
+<span class="sig-name descname"><span class="pre">findGTFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/gttools.html#GTInterpreter.findGTFrame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.gttools.GTInterpreter.findGTFrame" title="Link to this definition">#</a></dt>
+<dd><p>Return a gt_frame, list of GT-format person in the given <code class="xref py py-obj docutils literal notranslate"><span class="pre">frame_index</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>frame_index</strong> (<em>int</em>) – A frame index.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of all GT-format person in the given <code class="xref py py-obj docutils literal notranslate"><span class="pre">frame_index</span></code>; for example,
+<code class="code docutils literal notranslate"><span class="pre">[[1,</span> <span class="pre">(637,</span> <span class="pre">308),</span> <span class="pre">&quot;Franklin&quot;,</span> <span class="pre">[593</span> <span class="pre">241</span>&#160; <span class="pre">89</span> <span class="pre">270],</span> <span class="pre">[593</span> <span class="pre">241</span> <span class="pre">682</span> <span class="pre">511]],</span> <span class="pre">...]</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[list[str, …], …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTInterpreter.getPeople">
+<span class="sig-name descname"><span class="pre">getPeople</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/gttools.html#GTInterpreter.getPeople"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.gttools.GTInterpreter.getPeople" title="Link to this definition">#</a></dt>
+<dd><p>Return a <code class="code docutils literal notranslate"><span class="pre">list[Person,</span> <span class="pre">...]</span></code> and a cv <code class="xref py py-obj docutils literal notranslate"><span class="pre">Mat</span></code>, similar to function
+<code class="xref py py-func docutils literal notranslate"><span class="pre">detectPeople()</span></code> in <a class="reference internal" href="standalone.html#module-pyppbox.standalone" title="pyppbox.standalone"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyppbox.standalone</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>Mat</em>) – A <code class="xref py py-obj docutils literal notranslate"><span class="pre">Mat</span></code> like image.</p></li>
+<li><p><strong>visual</strong> – An indication of whether to draw bounding boxes on the return <code class="xref py py-obj docutils literal notranslate"><span class="pre">img</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>list[Person, …]</em> – A list of <a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a> object.</p></li>
+<li><p><em>Mat</em> – A <code class="xref py py-obj docutils literal notranslate"><span class="pre">Mat</span></code> like image.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTInterpreter.setDetectOnly">
+<span class="sig-name descname"><span class="pre">setDetectOnly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unknownFID</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Unknown'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unknownDID</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Unknown'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detect_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/gttools.html#GTInterpreter.setDetectOnly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.gttools.GTInterpreter.setDetectOnly" title="Link to this definition">#</a></dt>
+<dd><p>Set whether to use ‘Detect Only’ mode (Set unknown faceid and deepid) or full GT
+mode with real ID as in the GT (Ground-truth).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>unknownFID</strong> (<em>str</em><em>, </em><em>default=&quot;Unknown&quot;</em>) – Set the <a class="reference internal" href="#pyppbox.utils.gttools.GTInterpreter.unknownFID" title="pyppbox.utils.gttools.GTInterpreter.unknownFID"><code class="xref py py-attr docutils literal notranslate"><span class="pre">unknownFID</span></code></a>.</p></li>
+<li><p><strong>unknownFID</strong> – Set the <a class="reference internal" href="#pyppbox.utils.gttools.GTInterpreter.unknownFID" title="pyppbox.utils.gttools.GTInterpreter.unknownFID"><code class="xref py py-attr docutils literal notranslate"><span class="pre">unknownFID</span></code></a>.</p></li>
+<li><p><strong>detect_only</strong> (<em>bool</em><em>, </em><em>default=True</em>) – Set <code class="code docutils literal notranslate"><span class="pre">detect_only=True</span></code> to tell <a class="reference internal" href="#pyppbox.utils.gttools.GTInterpreter.getPeople" title="pyppbox.utils.gttools.GTInterpreter.getPeople"><code class="xref py py-func docutils literal notranslate"><span class="pre">getPeople()</span></code></a> to return people
+with unknown <code class="xref py py-obj docutils literal notranslate"><span class="pre">faceid</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">deepid</span></code>.
+Set <code class="code docutils literal notranslate"><span class="pre">detect_only=False</span></code> to tell <a class="reference internal" href="#pyppbox.utils.gttools.GTInterpreter.getPeople" title="pyppbox.utils.gttools.GTInterpreter.getPeople"><code class="xref py py-func docutils literal notranslate"><span class="pre">getPeople()</span></code></a> to return people
+with real IDs as in the GT (Ground-truth).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.gttools.GTInterpreter.setGT">
+<span class="sig-name descname"><span class="pre">setGT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gt_file_txt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/gttools.html#GTInterpreter.setGT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.gttools.GTInterpreter.setGT" title="Link to this definition">#</a></dt>
+<dd><p>Set a GT (Ground-truth) file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>gt_file_txt</strong> (<em>str</em>) – A file path of GT (Ground-truth) text.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyppbox.utils.logtools">
+<span id="pyppbox-utils-logtools"></span><h2>pyppbox.utils.logtools<a class="headerlink" href="#module-pyppbox.utils.logtools" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.utils.logtools.cleanup_old_logs">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.utils.logtools.</span></span><span class="sig-name descname"><span class="pre">cleanup_old_logs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/logtools.html#cleanup_old_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.logtools.cleanup_old_logs" title="Link to this definition">#</a></dt>
+<dd><p>Clean up old log files in the log directory that are older than 1 day.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.utils.logtools.disable_terminal_log">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.utils.logtools.</span></span><span class="sig-name descname"><span class="pre">disable_terminal_log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/logtools.html#disable_terminal_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.logtools.disable_terminal_log" title="Link to this definition">#</a></dt>
+<dd><p>Disable all console or terminal logging of pyppbox.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.utils.logtools.enable_terminal_log">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.utils.logtools.</span></span><span class="sig-name descname"><span class="pre">enable_terminal_log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/logtools.html#enable_terminal_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.logtools.enable_terminal_log" title="Link to this definition">#</a></dt>
+<dd><p>Enable all console or terminal logging of pyppbox.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.utils.logtools.get_env">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.utils.logtools.</span></span><span class="sig-name descname"><span class="pre">get_env</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/logtools.html#get_env"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.logtools.get_env" title="Link to this definition">#</a></dt>
+<dd><p>Get a copy of the current environment variables.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.utils.logtools.get_terminal_log_status">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.utils.logtools.</span></span><span class="sig-name descname"><span class="pre">get_terminal_log_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/logtools.html#get_terminal_log_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.logtools.get_terminal_log_status" title="Link to this definition">#</a></dt>
+<dd><p>Get the current status of terminal logging.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="code docutils literal notranslate"><span class="pre">True</span></code> if terminal logging is enabled, <code class="code docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.utils.logtools.set_file_log_from_env">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.utils.logtools.</span></span><span class="sig-name descname"><span class="pre">set_file_log_from_env</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/logtools.html#set_file_log_from_env"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.logtools.set_file_log_from_env" title="Link to this definition">#</a></dt>
+<dd><p>Set the file logging status according to the environment variable
+<code class="code docutils literal notranslate"><span class="pre">PYPPBOX_DISABLE_FILE_LOG</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.utils.logtools.set_terminal_log_from_env">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.utils.logtools.</span></span><span class="sig-name descname"><span class="pre">set_terminal_log_from_env</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/logtools.html#set_terminal_log_from_env"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.logtools.set_terminal_log_from_env" title="Link to this definition">#</a></dt>
+<dd><p>Set the terminal logging status according to the environment variable
+<code class="code docutils literal notranslate"><span class="pre">PYPPBOX_DISABLE_TERMINAL_LOG</span></code>.</p>
+</dd></dl>
+
+</section>
+<section id="module-pyppbox.utils.mot2pyppbox">
+<span id="pyppbox-utils-mot2pyppbox"></span><h2>pyppbox.utils.mot2pyppbox<a class="headerlink" href="#module-pyppbox.utils.mot2pyppbox" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.utils.mot2pyppbox.convert">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.utils.mot2pyppbox.</span></span><span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gt.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gt_pyppbox.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">splitter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_numid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_conf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_conf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">find_repspoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alt_repspoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alt_repspoint_top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/mot2pyppbox.html#convert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.mot2pyppbox.convert" title="Link to this definition">#</a></dt>
+<dd><p>Convert ground-truth of MOT Challenge text file to pyppbox format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_file</strong> (<em>str</em><em>, </em><em>default=&quot;gt.txt&quot;</em>) – Input MOT Challenge text file.</p></li>
+<li><p><strong>output_file</strong> (<em>str</em><em>, </em><em>default=&quot;gt_pyppbox.txt&quot;</em>) – Output pyppbox text file.</p></li>
+<li><p><strong>splitter</strong> (<em>str</em><em>, </em><em>default='</em><em>,</em><em>'</em>) – Column or data splitter.</p></li>
+<li><p><strong>use_numid</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Whether to use number id as real id.</p></li>
+<li><p><strong>min_conf</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Filter for minimum conf.</p></li>
+<li><p><strong>max_conf</strong> (<em>float</em><em>, </em><em>default=1.0</em>) – Filter for maximum conf.</p></li>
+<li><p><strong>find_repspoint</strong> (<em>bool</em><em>, </em><em>default=True</em>) – Whether to calculate repspoint.</p></li>
+<li><p><strong>alt_repspoint</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Whether to use alternative repspoint.</p></li>
+<li><p><strong>alt_repspoint_top</strong> (<em>bool</em><em>, </em><em>default=True</em>) – Whether y is the top for alternative repspoint.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-pyppbox.utils.persontools">
+<span id="pyppbox-utils-persontools"></span><h2>pyppbox.utils.persontools<a class="headerlink" href="#module-pyppbox.utils.persontools" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.Person">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyppbox.utils.persontools.</span></span><span class="sig-name descname"><span class="pre">Person</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">box_xywh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">box_xyxy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keypoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repspoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">det_conf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faceid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">__ustrings__.unk_fid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deepid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">__ustrings__.unk_did</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faceid_conf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deepid_conf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/persontools.html#Person"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.persontools.Person" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class used to represent a person.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.Person.init_id">
+<span class="sig-name descname"><span class="pre">init_id</span></span><a class="headerlink" href="#pyppbox.utils.persontools.Person.init_id" title="Link to this definition">#</a></dt>
+<dd><p>Initial ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.Person.cid">
+<span class="sig-name descname"><span class="pre">cid</span></span><a class="headerlink" href="#pyppbox.utils.persontools.Person.cid" title="Link to this definition">#</a></dt>
+<dd><p>Current ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.Person.box_xywh">
+<span class="sig-name descname"><span class="pre">box_xywh</span></span><a class="headerlink" href="#pyppbox.utils.persontools.Person.box_xywh" title="Link to this definition">#</a></dt>
+<dd><p>Bounding box [x y width height], shape=(4,), dtype=int, ndim=1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.Person.box_xyxy">
+<span class="sig-name descname"><span class="pre">box_xyxy</span></span><a class="headerlink" href="#pyppbox.utils.persontools.Person.box_xyxy" title="Link to this definition">#</a></dt>
+<dd><p>Bounding box [x1 y1 x2 y2], shape=(4,), dtype=int, ndim=1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.Person.keypoints">
+<span class="sig-name descname"><span class="pre">keypoints</span></span><a class="headerlink" href="#pyppbox.utils.persontools.Person.keypoints" title="Link to this definition">#</a></dt>
+<dd><p>Keypoints of the body.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.Person.repspoint">
+<span class="sig-name descname"><span class="pre">repspoint</span></span><a class="headerlink" href="#pyppbox.utils.persontools.Person.repspoint" title="Link to this definition">#</a></dt>
+<dd><p>Respesented 2D point (x, y).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple(int, int), default=(0, 0)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.Person.det_conf">
+<span class="sig-name descname"><span class="pre">det_conf</span></span><a class="headerlink" href="#pyppbox.utils.persontools.Person.det_conf" title="Link to this definition">#</a></dt>
+<dd><p>Confidence of detection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, default=0.5</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.Person.faceid">
+<span class="sig-name descname"><span class="pre">faceid</span></span><a class="headerlink" href="#pyppbox.utils.persontools.Person.faceid" title="Link to this definition">#</a></dt>
+<dd><p>Face ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str, default=”Unknown”</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.Person.deepid">
+<span class="sig-name descname"><span class="pre">deepid</span></span><a class="headerlink" href="#pyppbox.utils.persontools.Person.deepid" title="Link to this definition">#</a></dt>
+<dd><p>Deep ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str, default=”Unknown”</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.Person.faceid_conf">
+<span class="sig-name descname"><span class="pre">faceid_conf</span></span><a class="headerlink" href="#pyppbox.utils.persontools.Person.faceid_conf" title="Link to this definition">#</a></dt>
+<dd><p>Confidence of <a class="reference internal" href="#pyppbox.utils.persontools.Person.faceid" title="pyppbox.utils.persontools.Person.faceid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">faceid</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, default=0.0</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.Person.deepid_conf">
+<span class="sig-name descname"><span class="pre">deepid_conf</span></span><a class="headerlink" href="#pyppbox.utils.persontools.Person.deepid_conf" title="Link to this definition">#</a></dt>
+<dd><p>Confidence of <a class="reference internal" href="#pyppbox.utils.persontools.Person.deepid" title="pyppbox.utils.persontools.Person.deepid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">deepid</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, default=0.0</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.Person.misc">
+<span class="sig-name descname"><span class="pre">misc</span></span><a class="headerlink" href="#pyppbox.utils.persontools.Person.misc" title="Link to this definition">#</a></dt>
+<dd><p>Miscellaneous items.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[], optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.Person.getDet">
+<span class="sig-name descname"><span class="pre">getDet</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/persontools.html#Person.getDet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.persontools.Person.getDet" title="Link to this definition">#</a></dt>
+<dd><p>Get a numpy array of detection bounding box with confidence in shape (5,).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Numpy array of x1, y1, x2, y2, and confidence.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.Person.getDetRS">
+<span class="sig-name descname"><span class="pre">getDetRS</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/persontools.html#Person.getDetRS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.persontools.Person.getDetRS" title="Link to this definition">#</a></dt>
+<dd><p>Get a numpy array of detection bounding box with confidence in shape (1, 5).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Numpy array of x1, y1, x2, y2, and confidence.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.Person.updateIDs">
+<span class="sig-name descname"><span class="pre">updateIDs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_cid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_faceid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_deepid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_faceid_conf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_deepid_conf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/persontools.html#Person.updateIDs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.persontools.Person.updateIDs" title="Link to this definition">#</a></dt>
+<dd><p>Update <a class="reference internal" href="#pyppbox.utils.persontools.Person.cid" title="pyppbox.utils.persontools.Person.cid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cid</span></code></a> with <code class="xref py py-obj docutils literal notranslate"><span class="pre">new_id</span></code>, <a class="reference internal" href="#pyppbox.utils.persontools.Person.faceid" title="pyppbox.utils.persontools.Person.faceid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">faceid</span></code></a> with <code class="xref py py-obj docutils literal notranslate"><span class="pre">new_faceid</span></code>,
+and <a class="reference internal" href="#pyppbox.utils.persontools.Person.deepid" title="pyppbox.utils.persontools.Person.deepid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">deepid</span></code></a> with <code class="xref py py-obj docutils literal notranslate"><span class="pre">new_deepid</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>new_cid</strong> (<em>int</em>) – New current ID.</p></li>
+<li><p><strong>new_faceid</strong> (<em>str</em>) – New face ID.</p></li>
+<li><p><strong>new_deepid</strong> (<em>str</em>) – New deep ID.</p></li>
+<li><p><strong>new_faceid_conf</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – New confidence of <a class="reference internal" href="#pyppbox.utils.persontools.Person.faceid" title="pyppbox.utils.persontools.Person.faceid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">faceid</span></code></a>.</p></li>
+<li><p><strong>new_deepid_conf</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – New confidence of <a class="reference internal" href="#pyppbox.utils.persontools.Person.deepid" title="pyppbox.utils.persontools.Person.deepid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">deepid</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.findRepspoint">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.utils.persontools.</span></span><span class="sig-name descname"><span class="pre">findRepspoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">box_xyxy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibrate_weight</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/persontools.html#findRepspoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.persontools.findRepspoint" title="Link to this definition">#</a></dt>
+<dd><p>Find respesented point <code class="code docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code> of a <a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a>
+object by its bounding <code class="code docutils literal notranslate"><span class="pre">box_xyxy</span></code> of <code class="code docutils literal notranslate"><span class="pre">[x1,</span> <span class="pre">y1,</span> <span class="pre">x2,</span> <span class="pre">y2]</span></code>. The <code class="xref py py-obj docutils literal notranslate"><span class="pre">calibrate_weight</span></code>
+indicates, in between <code class="code docutils literal notranslate"><span class="pre">min(y1,</span> <span class="pre">y2)</span></code> and <code class="code docutils literal notranslate"><span class="pre">max(y1,</span> <span class="pre">y2)</span></code>, where the <code class="code docutils literal notranslate"><span class="pre">y</span></code> is.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>box_xyxy</strong> (<em>ndarray</em><em>, </em><em>optional</em>) – Bounding box <code class="code docutils literal notranslate"><span class="pre">[x1,</span> <span class="pre">y1,</span> <span class="pre">x2,</span> <span class="pre">y2]</span></code>, <code class="code docutils literal notranslate"><span class="pre">shape=(4,)</span></code>, <code class="code docutils literal notranslate"><span class="pre">dtype=int</span></code>,
+<code class="code docutils literal notranslate"><span class="pre">ndim=1</span></code>.</p></li>
+<li><p><strong>calibrate_weight</strong> (<em>float</em>) – Calibration weight.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Respesented 2D point <code class="code docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple(int, int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.findRepspointBB">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.utils.persontools.</span></span><span class="sig-name descname"><span class="pre">findRepspointBB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">box_xyxy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefer_top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/persontools.html#findRepspointBB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.persontools.findRepspointBB" title="Link to this definition">#</a></dt>
+<dd><p>Find respesented point <code class="code docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code> of a <a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a>
+object by its bounding <code class="code docutils literal notranslate"><span class="pre">box_xyxy</span></code> of <code class="code docutils literal notranslate"><span class="pre">[x1,</span> <span class="pre">y1,</span> <span class="pre">x2,</span> <span class="pre">y2]</span></code>. <code class="code docutils literal notranslate"><span class="pre">x</span></code> is the middle
+of <code class="code docutils literal notranslate"><span class="pre">x1</span></code> and <code class="code docutils literal notranslate"><span class="pre">x2</span></code> while <code class="code docutils literal notranslate"><span class="pre">y</span></code> is the min or max of <code class="code docutils literal notranslate"><span class="pre">(y1,</span> <span class="pre">y2)</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>box_xyxy</strong> (<em>ndarray</em>) – Bounding box <code class="code docutils literal notranslate"><span class="pre">[x1,</span> <span class="pre">y1,</span> <span class="pre">x2,</span> <span class="pre">y2]</span></code>, <code class="code docutils literal notranslate"><span class="pre">shape=(4,)</span></code>, <code class="code docutils literal notranslate"><span class="pre">dtype=int</span></code>,
+<code class="code docutils literal notranslate"><span class="pre">ndim=1</span></code>.</p></li>
+<li><p><strong>calibrate_weight</strong> (<em>float</em>) – Calibration weight.</p></li>
+<li><p><strong>prefer_top</strong> (<em>bool</em><em>, </em><em>default=True</em>) – Decide whether <code class="code docutils literal notranslate"><span class="pre">y</span></code> is at the top or bottom of the bounding box.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Respesented 2D point <code class="code docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple(int, int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.utils.persontools.findRepspointUP">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.utils.persontools.</span></span><span class="sig-name descname"><span class="pre">findRepspointUP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keypoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">box_xyxy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibrate_weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefer_box</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/persontools.html#findRepspointUP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.persontools.findRepspointUP" title="Link to this definition">#</a></dt>
+<dd><p>Find respesented point <code class="code docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code> of a <a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a>
+object by its YOLOv8 pose <code class="code docutils literal notranslate"><span class="pre">keypoint</span></code> (17 keypoints) or by the bounding <code class="code docutils literal notranslate"><span class="pre">box_xyxy</span></code>
+of <code class="code docutils literal notranslate"><span class="pre">[x1,</span> <span class="pre">y1,</span> <span class="pre">x2,</span> <span class="pre">y2]</span></code>. The <code class="xref py py-obj docutils literal notranslate"><span class="pre">calibrate_weight</span></code> indicates, in between
+<code class="code docutils literal notranslate"><span class="pre">min(y1,</span> <span class="pre">y2)</span></code> and <code class="code docutils literal notranslate"><span class="pre">max(y1,</span> <span class="pre">y2)</span></code>, where the <code class="code docutils literal notranslate"><span class="pre">y</span></code> is.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>keypoint</strong> (<em>ndarray</em>) – 17 keypoints generated by YOLOv8 (Ultralytics).</p></li>
+<li><p><strong>box_xyxy</strong> (<em>ndarray</em>) – Bounding box <code class="code docutils literal notranslate"><span class="pre">[x1,</span> <span class="pre">y1,</span> <span class="pre">x2,</span> <span class="pre">y2]</span></code>, <code class="code docutils literal notranslate"><span class="pre">shape=(4,)</span></code>, <code class="code docutils literal notranslate"><span class="pre">dtype=int</span></code>,
+<code class="code docutils literal notranslate"><span class="pre">ndim=1</span></code>.</p></li>
+<li><p><strong>calibrate_weight</strong> (<em>float</em>) – Calibration weight.</p></li>
+<li><p><strong>prefer_box</strong> (<em>bool</em><em>, </em><em>default=True</em>) – Generate respesented point whether by <code class="code docutils literal notranslate"><span class="pre">box_xyxy</span></code> or <code class="code docutils literal notranslate"><span class="pre">keypoint</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Respesented 2D point <code class="code docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple(int, int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-pyppbox.utils.restools">
+<span id="pyppbox-utils-restools"></span><h2>pyppbox.utils.restools<a class="headerlink" href="#module-pyppbox.utils.restools" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyppbox.utils.restools.ResIO">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyppbox.utils.restools.</span></span><span class="sig-name descname"><span class="pre">ResIO</span></span><a class="reference internal" href="../_modules/pyppbox/utils/restools.html#ResIO"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.restools.ResIO" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class used to generate and dump results into text file.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.restools.ResIO.frames">
+<span class="sig-name descname"><span class="pre">frames</span></span><a class="headerlink" href="#pyppbox.utils.restools.ResIO.frames" title="Link to this definition">#</a></dt>
+<dd><p>a list of frame indexes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.restools.ResIO.people">
+<span class="sig-name descname"><span class="pre">people</span></span><a class="headerlink" href="#pyppbox.utils.restools.ResIO.people" title="Link to this definition">#</a></dt>
+<dd><p>A list of object <a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person">Person</a>, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyppbox.utils.restools.ResIO.sorted_people">
+<span class="sig-name descname"><span class="pre">sorted_people</span></span><a class="headerlink" href="#pyppbox.utils.restools.ResIO.sorted_people" title="Link to this definition">#</a></dt>
+<dd><p>A list used to store the sorted list of <a class="reference internal" href="#pyppbox.utils.restools.ResIO.people" title="pyppbox.utils.restools.ResIO.people"><code class="xref py py-attr docutils literal notranslate"><span class="pre">people</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person">Person</a>, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.restools.ResIO.addPeople">
+<span class="sig-name descname"><span class="pre">addPeople</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">people</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/restools.html#ResIO.addPeople"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.restools.ResIO.addPeople" title="Link to this definition">#</a></dt>
+<dd><p>Add a frame index and a list of <a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a>
+object in that <code class="xref py py-obj docutils literal notranslate"><span class="pre">frame</span></code> index into <a class="reference internal" href="#pyppbox.utils.restools.ResIO.frames" title="pyppbox.utils.restools.ResIO.frames"><code class="xref py py-attr docutils literal notranslate"><span class="pre">frames</span></code></a> and <a class="reference internal" href="#pyppbox.utils.restools.ResIO.people" title="pyppbox.utils.restools.ResIO.people"><code class="xref py py-attr docutils literal notranslate"><span class="pre">people</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> (<em>int</em>) – A frame index.</p></li>
+<li><p><strong>people</strong> (<em>list</em><em>[</em><a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><em>Person</em></a><em>, </em><em>...</em><em>]</em>) – A list of object <a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.restools.ResIO.addPerson">
+<span class="sig-name descname"><span class="pre">addPerson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">person</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/restools.html#ResIO.addPerson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.restools.ResIO.addPerson" title="Link to this definition">#</a></dt>
+<dd><p>Add a <code class="xref py py-obj docutils literal notranslate"><span class="pre">frame</span></code> index and a <a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a>
+object in that <code class="xref py py-attr docutils literal notranslate"><span class="pre">frame</span></code> index into <a class="reference internal" href="#pyppbox.utils.restools.ResIO.frames" title="pyppbox.utils.restools.ResIO.frames"><code class="xref py py-attr docutils literal notranslate"><span class="pre">frames</span></code></a> and <a class="reference internal" href="#pyppbox.utils.restools.ResIO.people" title="pyppbox.utils.restools.ResIO.people"><code class="xref py py-attr docutils literal notranslate"><span class="pre">people</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> (<em>int</em>) – A frame index.</p></li>
+<li><p><strong>person</strong> (<a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><em>Person</em></a>) – An object of <a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a> class.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.restools.ResIO.dump">
+<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dump_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">default_dump_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dump_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'deepid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_misc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_misc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/restools.html#ResIO.dump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.restools.ResIO.dump" title="Link to this definition">#</a></dt>
+<dd><p>Dump the result as a text file in a directory with a choice of <code class="code docutils literal notranslate"><span class="pre">&quot;deepid&quot;</span></code> or
+<code class="code docutils literal notranslate"><span class="pre">&quot;faceid&quot;</span></code>. Each line represents frame index and a person’s details separated by ‘t’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dump_dir</strong> (<em>str</em><em>, </em><em>default='{pyppbox root}/data/res'</em>) – A directory where to dump the result text file.</p></li>
+<li><p><strong>dump_mode</strong> (<em>int</em><em>, </em><em>default=3</em>) – Set 1 to dump: frame index, repspoint, deepid/faceid.
+Set 2 to dump: frame index, repspoint, deepid/faceid, box_xywh.
+Set 3 to dump: frame index, repspoint, deepid/faceid, box_xywh, box_xyxy.</p></li>
+<li><p><strong>id_mode</strong> (<em>str</em><em>, </em><em>default=&quot;deepid&quot;</em>) – Set choice between <code class="code docutils literal notranslate"><span class="pre">&quot;deepid&quot;</span></code> and <code class="code docutils literal notranslate"><span class="pre">&quot;faceid&quot;</span></code>.</p></li>
+<li><p><strong>include_misc</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Set whether to include misc (Miscellaneous items).</p></li>
+<li><p><strong>max_misc</strong> (<em>int</em><em>, </em><em>default=5</em>) – Set the maximum number of miscellaneous items to include.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.utils.restools.ResIO.dumpAll">
+<span class="sig-name descname"><span class="pre">dumpAll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dump_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">default_dump_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dump_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_misc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_misc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/restools.html#ResIO.dumpAll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.restools.ResIO.dumpAll" title="Link to this definition">#</a></dt>
+<dd><p>Dump the result as a text file in a directory with both <code class="code docutils literal notranslate"><span class="pre">&quot;deepid&quot;</span></code> and <code class="code docutils literal notranslate"><span class="pre">&quot;faceid&quot;</span></code>.
+Each line represents frame index and a person’s details separated by ‘t’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dump_dir</strong> (<em>str</em><em>, </em><em>default='{pyppbox root}/data/res'</em>) – A directory of where to dump the result text file.</p></li>
+<li><p><strong>dump_mode</strong> (<em>int</em><em>, </em><em>default=3</em>) – Set 1 to dump: frame index, repspoint, deepid, faceid.
+Set 2 to dump: frame index, repspoint, deepid, faceid, box_xywh.
+Set 3 to dump: frame index, repspoint, deepid, faceid, box_xywh, box_xyxy.</p></li>
+<li><p><strong>include_misc</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Set whether to include misc (Miscellaneous items).</p></li>
+<li><p><strong>max_misc</strong> (<em>int</em><em>, </em><em>default=5</em>) – Set the maximum number of miscellaneous items to include.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyppbox.utils.visualizetools">
+<span id="pyppbox-utils-visualizetools"></span><h2>pyppbox.utils.visualizetools<a class="headerlink" href="#module-pyppbox.utils.visualizetools" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.utils.visualizetools.visualizePeople">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.utils.visualizetools.</span></span><span class="sig-name descname"><span class="pre">visualizePeople</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">people</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_box</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_skl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(True,</span> <span class="pre">True,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(True,</span> <span class="pre">True,</span> <span class="pre">True)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_reid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_repspoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_footnote</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_is_mat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/utils/visualizetools.html#visualizePeople"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.utils.visualizetools.visualizePeople" title="Link to this definition">#</a></dt>
+<dd><p>Visualize people in the image by the given people.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>str</em><em> or </em><em>Mat</em>) – An image file or a <code class="xref py py-obj docutils literal notranslate"><span class="pre">Mat</span></code> like image.</p></li>
+<li><p><strong>people</strong> (<em>list</em><em>[</em><a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><em>Person</em></a><em>, </em><em>...</em><em>]</em>) – Set a list of <a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a> object found in the input <code class="xref py py-obj docutils literal notranslate"><span class="pre">img</span></code>.</p></li>
+<li><p><strong>show_box</strong> (<em>bool</em><em>, </em><em>default=True</em>) – Indicate whether to visualize bounding boxes.</p></li>
+<li><p><strong>show_skl</strong> (<em>tuple</em><em>(</em><em>bool</em><em>, </em><em>bool</em><em>, </em><em>int</em><em>)</em><em>, </em><em>default=</em><em>(</em><em>True</em><em>,</em><em>True</em><em>,</em><em>5</em><em>)</em>) – Set how to visualize the keypoints and skeletons.
+Set the first element to <code class="code docutils literal notranslate"><span class="pre">True</span></code> to visualize the keypoints.
+Set the second element to <code class="code docutils literal notranslate"><span class="pre">True</span></code> to visualize the skeletons.
+The third element is the size of skeleton lines.</p></li>
+<li><p><strong>show_ids</strong> (<em>tuple</em><em>(</em><em>bool</em><em>, </em><em>bool</em><em>, </em><em>bool</em><em>)</em><em>, </em><em>default=</em><em>(</em><em>True</em><em>,</em><em>True</em><em>,</em><em>True</em><em>)</em>) – Set whether to visualize the IDs.
+Set the first element to <code class="code docutils literal notranslate"><span class="pre">True</span></code> to visualize the cid.
+Set the second element to <code class="code docutils literal notranslate"><span class="pre">True</span></code> to visualize the deepid.
+Set the third element to <code class="code docutils literal notranslate"><span class="pre">True</span></code> to visualize the faceid.</p></li>
+<li><p><strong>show_reid</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>default=</em><em>(</em><em>0</em><em>,</em><em>0</em><em>)</em>) – <code class="xref py py-obj docutils literal notranslate"><span class="pre">show_reid</span></code> is corresponding to <code class="xref py py-obj docutils literal notranslate"><span class="pre">reid_count</span></code> in <code class="xref py py-func docutils literal notranslate"><span class="pre">reidPeople()</span></code>
+Tuple of (ReID count, ReID deduplicate count)</p></li>
+<li><p><strong>show_repspoint</strong> (<em>bool</em><em>, </em><em>default=True</em>) – Indicate whether to show the <code class="xref py py-obj docutils literal notranslate"><span class="pre">repspoint</span></code> of <a class="reference internal" href="#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a> object.</p></li>
+<li><p><strong>show_footnote</strong> (<em>bool</em><em>, </em><em>default=True</em>) – Indicate whether to show the foot note.</p></li>
+<li><p><strong>img_is_mat</strong> (<em>bool</em><em>, </em><em>default=True</em>) – Speed up the function by specifying whether the <code class="xref py py-obj docutils literal notranslate"><span class="pre">img</span></code> is <code class="xref py py-obj docutils literal notranslate"><span class="pre">Mat</span></code> like image.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A visualized <code class="xref py py-obj docutils literal notranslate"><span class="pre">Mat</span></code> like image.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Mat</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="config.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Configurations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../releasenotes.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Release Notes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyppbox.utils.evatools">pyppbox.utils.evatools</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA"><code class="docutils literal notranslate"><span class="pre">MyEVA</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA.reid_count"><code class="docutils literal notranslate"><span class="pre">MyEVA.reid_count</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA.diff_count"><code class="docutils literal notranslate"><span class="pre">MyEVA.diff_count</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA.missed_detect"><code class="docutils literal notranslate"><span class="pre">MyEVA.missed_detect</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA.fault_detect"><code class="docutils literal notranslate"><span class="pre">MyEVA.fault_detect</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA.current_frame"><code class="docutils literal notranslate"><span class="pre">MyEVA.current_frame</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA.frame_to_check"><code class="docutils literal notranslate"><span class="pre">MyEVA.frame_to_check</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA.score"><code class="docutils literal notranslate"><span class="pre">MyEVA.score</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA.id_mode"><code class="docutils literal notranslate"><span class="pre">MyEVA.id_mode</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA.gt_interpreter"><code class="docutils literal notranslate"><span class="pre">MyEVA.gt_interpreter</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA.gt_file_name"><code class="docutils literal notranslate"><span class="pre">MyEVA.gt_file_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA.gt_file"><code class="docutils literal notranslate"><span class="pre">MyEVA.gt_file</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA.getSummary"><code class="docutils literal notranslate"><span class="pre">MyEVA.getSummary()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA.setGTByGTMap"><code class="docutils literal notranslate"><span class="pre">MyEVA.setGTByGTMap()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA.setGTByKnownGTFile"><code class="docutils literal notranslate"><span class="pre">MyEVA.setGTByKnownGTFile()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA.setReIDcount"><code class="docutils literal notranslate"><span class="pre">MyEVA.setReIDcount()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.MyEVA.validate"><code class="docutils literal notranslate"><span class="pre">MyEVA.validate()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.NothingDetecter"><code class="docutils literal notranslate"><span class="pre">NothingDetecter</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.NothingDetecter.detectFrame"><code class="docutils literal notranslate"><span class="pre">NothingDetecter.detectFrame()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.NothingReider"><code class="docutils literal notranslate"><span class="pre">NothingReider</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.NothingReider.recognize"><code class="docutils literal notranslate"><span class="pre">NothingReider.recognize()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.NothingTracker"><code class="docutils literal notranslate"><span class="pre">NothingTracker</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.NothingTracker.update"><code class="docutils literal notranslate"><span class="pre">NothingTracker.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.TKOReider"><code class="docutils literal notranslate"><span class="pre">TKOReider</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.TKOReider.generateID"><code class="docutils literal notranslate"><span class="pre">TKOReider.generateID()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.TKOReider.generateStaticID"><code class="docutils literal notranslate"><span class="pre">TKOReider.generateStaticID()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.TKOReider.recognize"><code class="docutils literal notranslate"><span class="pre">TKOReider.recognize()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.TKOReider.setStaticIDs"><code class="docutils literal notranslate"><span class="pre">TKOReider.setStaticIDs()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.evatools.compareRes2Ref"><code class="docutils literal notranslate"><span class="pre">compareRes2Ref()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyppbox.utils.gttools">pyppbox.utils.gttools</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTIO"><code class="docutils literal notranslate"><span class="pre">GTIO</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTIO.map_list"><code class="docutils literal notranslate"><span class="pre">GTIO.map_list</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTIO.map_dict"><code class="docutils literal notranslate"><span class="pre">GTIO.map_dict</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTIO.getGTFileName"><code class="docutils literal notranslate"><span class="pre">GTIO.getGTFileName()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTIO.loadGT"><code class="docutils literal notranslate"><span class="pre">GTIO.loadGT()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTIO.loadInputGTMap"><code class="docutils literal notranslate"><span class="pre">GTIO.loadInputGTMap()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTInterpreter"><code class="docutils literal notranslate"><span class="pre">GTInterpreter</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTInterpreter.init_frame"><code class="docutils literal notranslate"><span class="pre">GTInterpreter.init_frame</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTInterpreter.current_frame"><code class="docutils literal notranslate"><span class="pre">GTInterpreter.current_frame</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTInterpreter.total_detections"><code class="docutils literal notranslate"><span class="pre">GTInterpreter.total_detections</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTInterpreter.detect_only"><code class="docutils literal notranslate"><span class="pre">GTInterpreter.detect_only</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTInterpreter.gtIO"><code class="docutils literal notranslate"><span class="pre">GTInterpreter.gtIO</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTInterpreter.unknownFID"><code class="docutils literal notranslate"><span class="pre">GTInterpreter.unknownFID</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTInterpreter.unknownDID"><code class="docutils literal notranslate"><span class="pre">GTInterpreter.unknownDID</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTInterpreter.gt_frames"><code class="docutils literal notranslate"><span class="pre">GTInterpreter.gt_frames</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTInterpreter.gt_frames_list"><code class="docutils literal notranslate"><span class="pre">GTInterpreter.gt_frames_list</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTInterpreter.findGTFrame"><code class="docutils literal notranslate"><span class="pre">GTInterpreter.findGTFrame()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTInterpreter.getPeople"><code class="docutils literal notranslate"><span class="pre">GTInterpreter.getPeople()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTInterpreter.setDetectOnly"><code class="docutils literal notranslate"><span class="pre">GTInterpreter.setDetectOnly()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.gttools.GTInterpreter.setGT"><code class="docutils literal notranslate"><span class="pre">GTInterpreter.setGT()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyppbox.utils.logtools">pyppbox.utils.logtools</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.logtools.cleanup_old_logs"><code class="docutils literal notranslate"><span class="pre">cleanup_old_logs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.logtools.disable_terminal_log"><code class="docutils literal notranslate"><span class="pre">disable_terminal_log()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.logtools.enable_terminal_log"><code class="docutils literal notranslate"><span class="pre">enable_terminal_log()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.logtools.get_env"><code class="docutils literal notranslate"><span class="pre">get_env()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.logtools.get_terminal_log_status"><code class="docutils literal notranslate"><span class="pre">get_terminal_log_status()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.logtools.set_file_log_from_env"><code class="docutils literal notranslate"><span class="pre">set_file_log_from_env()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.logtools.set_terminal_log_from_env"><code class="docutils literal notranslate"><span class="pre">set_terminal_log_from_env()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyppbox.utils.mot2pyppbox">pyppbox.utils.mot2pyppbox</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.mot2pyppbox.convert"><code class="docutils literal notranslate"><span class="pre">convert()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyppbox.utils.persontools">pyppbox.utils.persontools</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.Person"><code class="docutils literal notranslate"><span class="pre">Person</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.Person.init_id"><code class="docutils literal notranslate"><span class="pre">Person.init_id</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.Person.cid"><code class="docutils literal notranslate"><span class="pre">Person.cid</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.Person.box_xywh"><code class="docutils literal notranslate"><span class="pre">Person.box_xywh</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.Person.box_xyxy"><code class="docutils literal notranslate"><span class="pre">Person.box_xyxy</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.Person.keypoints"><code class="docutils literal notranslate"><span class="pre">Person.keypoints</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.Person.repspoint"><code class="docutils literal notranslate"><span class="pre">Person.repspoint</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.Person.det_conf"><code class="docutils literal notranslate"><span class="pre">Person.det_conf</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.Person.faceid"><code class="docutils literal notranslate"><span class="pre">Person.faceid</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.Person.deepid"><code class="docutils literal notranslate"><span class="pre">Person.deepid</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.Person.faceid_conf"><code class="docutils literal notranslate"><span class="pre">Person.faceid_conf</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.Person.deepid_conf"><code class="docutils literal notranslate"><span class="pre">Person.deepid_conf</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.Person.misc"><code class="docutils literal notranslate"><span class="pre">Person.misc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.Person.getDet"><code class="docutils literal notranslate"><span class="pre">Person.getDet()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.Person.getDetRS"><code class="docutils literal notranslate"><span class="pre">Person.getDetRS()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.Person.updateIDs"><code class="docutils literal notranslate"><span class="pre">Person.updateIDs()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.findRepspoint"><code class="docutils literal notranslate"><span class="pre">findRepspoint()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.findRepspointBB"><code class="docutils literal notranslate"><span class="pre">findRepspointBB()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.persontools.findRepspointUP"><code class="docutils literal notranslate"><span class="pre">findRepspointUP()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyppbox.utils.restools">pyppbox.utils.restools</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.restools.ResIO"><code class="docutils literal notranslate"><span class="pre">ResIO</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.restools.ResIO.frames"><code class="docutils literal notranslate"><span class="pre">ResIO.frames</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.restools.ResIO.people"><code class="docutils literal notranslate"><span class="pre">ResIO.people</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.restools.ResIO.sorted_people"><code class="docutils literal notranslate"><span class="pre">ResIO.sorted_people</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.restools.ResIO.addPeople"><code class="docutils literal notranslate"><span class="pre">ResIO.addPeople()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.restools.ResIO.addPerson"><code class="docutils literal notranslate"><span class="pre">ResIO.addPerson()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.restools.ResIO.dump"><code class="docutils literal notranslate"><span class="pre">ResIO.dump()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.restools.ResIO.dumpAll"><code class="docutils literal notranslate"><span class="pre">ResIO.dumpAll()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pyppbox.utils.visualizetools">pyppbox.utils.visualizetools</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.utils.visualizetools.visualizePeople"><code class="docutils literal notranslate"><span class="pre">visualizePeople()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, UMONS-Numediart, Ratha SIV.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

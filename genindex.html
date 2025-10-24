@@ -1,0 +1,1604 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index &#8212; pyppbox 3.13.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/rtd_search_config.js"></script>
+    <script src="_static/js/rtd_sphinx_search.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.13.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">🐍📦 pyppbox</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="getstarted.html">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/standalone.html">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/structure.html">
+    Structure
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="pyppbox/config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="pyppbox/utils.html">
+    Utilities
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="releasenotes.html">
+    Release Notes
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="getstarted.html">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/standalone.html">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/structure.html">
+    Structure
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="pyppbox/utils.html">
+    Utilities
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="releasenotes.html">
+    Release Notes
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#_"><strong>_</strong></a>
+ | <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#Y"><strong>Y</strong></a>
+ 
+</div>
+<h2 id="_">_</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/modules/detectors.html#pyppbox.modules.detectors.yolocls.MyYOLOCLS.__init__">__init__() (pyppbox.modules.detectors.yolocls.MyYOLOCLS method)</a>
+
+      <ul>
+        <li><a href="pyppbox/modules/detectors.html#pyppbox.modules.detectors.yoloult.MyYOLOULT.__init__">(pyppbox.modules.detectors.yoloult.MyYOLOULT method)</a>
+</li>
+        <li><a href="pyppbox/modules/reiders.html#pyppbox.modules.reiders.facenet.MyFaceNet.__init__">(pyppbox.modules.reiders.facenet.MyFaceNet method)</a>
+</li>
+        <li><a href="pyppbox/modules/reiders.html#pyppbox.modules.reiders.torchreid.MyTorchreid.__init__">(pyppbox.modules.reiders.torchreid.MyTorchreid method)</a>
+</li>
+        <li><a href="pyppbox/modules/trackers.html#pyppbox.modules.trackers.centroid.MyCentroid.__init__">(pyppbox.modules.trackers.centroid.MyCentroid method)</a>
+</li>
+        <li><a href="pyppbox/modules/trackers.html#pyppbox.modules.trackers.deepsort.MyDeepSORT.__init__">(pyppbox.modules.trackers.deepsort.MyDeepSORT method)</a>
+</li>
+        <li><a href="pyppbox/modules/trackers.html#pyppbox.modules.trackers.sort.MySORT.__init__">(pyppbox.modules.trackers.sort.MySORT method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.abstractCFGs">abstractCFGs (pyppbox.config.myconfig.MyConfigurator attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.addAnAbstractCFG">addAnAbstractCFG() (pyppbox.config.myconfig.MyConfigurator method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.restools.ResIO.addPeople">addPeople() (pyppbox.utils.restools.ResIO method)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.restools.ResIO.addPerson">addPerson() (pyppbox.utils.restools.ResIO method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGTorchreid.base_model_path">base_model_path (pyppbox.config.myconfig.RCFGTorchreid attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.BaseCGF">BaseCGF (class in pyppbox.config.myconfig)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGFaceNet.batch_size">batch_size (pyppbox.config.myconfig.RCFGFaceNet attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.Person.box_xywh">box_xywh (pyppbox.utils.persontools.Person attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.Person.box_xyxy">box_xyxy (pyppbox.utils.persontools.Person attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.centroid">centroid (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/modules/detectors.html#pyppbox.modules.detectors.yolocls.MyYOLOCLS.cfg">cfg (pyppbox.modules.detectors.yolocls.MyYOLOCLS attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/modules/detectors.html#pyppbox.modules.detectors.yoloult.MyYOLOULT.cfg">(pyppbox.modules.detectors.yoloult.MyYOLOULT attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.cfg_dir">cfg_dir (pyppbox.config.configtools.PYPPBOXStructure attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.cfg_headers">cfg_headers (pyppbox.config.myconfig.MyConfigurator attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.Person.cid">cid (pyppbox.utils.persontools.Person attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOCLS.class_file">class_file (pyppbox.config.myconfig.DCFGYOLOCLS attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGFaceNet.classifier_pkl">classifier_pkl (pyppbox.config.myconfig.RCFGFaceNet attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGTorchreid.classifier_pkl">(pyppbox.config.myconfig.RCFGTorchreid attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.logtools.cleanup_old_logs">cleanup_old_logs() (in module pyppbox.utils.logtools)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/modules/detectors.html#pyppbox.modules.detectors.yoloult.MyYOLOULT.colors">colors (pyppbox.modules.detectors.yoloult.MyYOLOULT attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.compareRes2Ref">compareRes2Ref() (in module pyppbox.utils.evatools)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOCLS.conf">conf (pyppbox.config.myconfig.DCFGYOLOCLS attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOULT.conf">(pyppbox.config.myconfig.DCFGYOLOULT attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.BaseCGF.config">config (pyppbox.config.myconfig.BaseCGF attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.BaseCGF.configs">configs (pyppbox.config.myconfig.BaseCGF attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.mot2pyppbox.convert">convert() (in module pyppbox.utils.mot2pyppbox)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyCFGHeaders.copyrightCMDHeader">copyrightCMDHeader() (pyppbox.config.myconfig.MyCFGHeaders method)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA.current_frame">current_frame (pyppbox.utils.evatools.MyEVA attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTInterpreter.current_frame">(pyppbox.utils.gttools.GTInterpreter attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.data">data (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.data_dir">data_dir (pyppbox.config.configtools.PYPPBOXStructure attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.dataset_dir">dataset_dir (pyppbox.config.configtools.PYPPBOXStructure attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.dcfg_gt">dcfg_gt (pyppbox.config.myconfig.MyConfigurator attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.dcfg_yolocs">dcfg_yolocs (pyppbox.config.myconfig.MyConfigurator attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.dcfg_yolout">dcfg_yolout (pyppbox.config.myconfig.MyConfigurator attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGGT">DCFGGT (class in pyppbox.config.myconfig)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOCLS">DCFGYOLOCLS (class in pyppbox.config.myconfig)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOULT">DCFGYOLOULT (class in pyppbox.config.myconfig)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.Person.deepid">deepid (pyppbox.utils.persontools.Person attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.Person.deepid_conf">deepid_conf (pyppbox.utils.persontools.Person attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.deepsort">deepsort (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.Person.det_conf">det_conf (pyppbox.utils.persontools.Person attribute)</a>
+</li>
+      <li><a href="pyppbox/modules/detectors.html#pyppbox.modules.detectors.yolocls.MyYOLOCLS.detect">detect() (pyppbox.modules.detectors.yolocls.MyYOLOCLS method)</a>
+
+      <ul>
+        <li><a href="pyppbox/modules/detectors.html#pyppbox.modules.detectors.yoloult.MyYOLOULT.detect">(pyppbox.modules.detectors.yoloult.MyYOLOULT method)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTInterpreter.detect_only">detect_only (pyppbox.utils.gttools.GTInterpreter attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.NothingDetecter.detectFrame">detectFrame() (pyppbox.utils.evatools.NothingDetecter method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MainCFG.detector">detector (pyppbox.config.myconfig.MainCFG attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.NoneCFG.detector">(pyppbox.config.myconfig.NoneCFG attribute)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.detector">(pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyCFGHeaders.detectorHeader">detectorHeader() (pyppbox.config.myconfig.MyCFGHeaders method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.detectors_yaml">detectors_yaml (pyppbox.config.configtools.PYPPBOXStructure attribute)</a>
+</li>
+      <li><a href="pyppbox/standalone.html#pyppbox.standalone.detectPeople">detectPeople() (in module pyppbox.standalone)</a>
+
+      <ul>
+        <li><a href="pyppbox/modules/detectors.html#pyppbox.modules.detectors.yolocls.MyYOLOCLS.detectPeople">(pyppbox.modules.detectors.yolocls.MyYOLOCLS method)</a>
+</li>
+        <li><a href="pyppbox/modules/detectors.html#pyppbox.modules.detectors.yoloult.MyYOLOULT.detectPeople">(pyppbox.modules.detectors.yoloult.MyYOLOULT method)</a>
+</li>
+        <li><a href="pyppbox/standalone.html#pyppbox.ppb.mt.MT.detectPeople">(pyppbox.ppb.mt.MT method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOULT.device">device (pyppbox.config.myconfig.DCFGYOLOULT attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGTorchreid.device">(pyppbox.config.myconfig.RCFGTorchreid attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA.diff_count">diff_count (pyppbox.utils.evatools.MyEVA attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.logtools.disable_terminal_log">disable_terminal_log() (in module pyppbox.utils.logtools)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.dt_map">dt_map (pyppbox.config.myconfig.MyConfigurator attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGGT.dt_name">dt_name (pyppbox.config.myconfig.DCFGGT attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOCLS.dt_name">(pyppbox.config.myconfig.DCFGYOLOCLS attribute)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOULT.dt_name">(pyppbox.config.myconfig.DCFGYOLOULT attribute)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.NoneCFG.dt_name">(pyppbox.config.myconfig.NoneCFG attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.dtname_gt">dtname_gt (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.dtname_yl">dtname_yl (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.restools.ResIO.dump">dump() (pyppbox.utils.restools.ResIO method)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.restools.ResIO.dumpAll">dumpAll() (pyppbox.utils.restools.ResIO method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.dumpAllDCFG">dumpAllDCFG() (pyppbox.config.myconfig.MyConfigurator method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.dumpAllRCFG">dumpAllRCFG() (pyppbox.config.myconfig.MyConfigurator method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.dumpAllTCFG">dumpAllTCFG() (pyppbox.config.myconfig.MyConfigurator method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.BaseCGF.dumpDoc">dumpDoc() (pyppbox.config.myconfig.BaseCGF method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.dumpDocDict">dumpDocDict() (in module pyppbox.config.configtools)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.dumpDocDictList">dumpDocDictList() (in module pyppbox.config.configtools)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.BaseCGF.dumpDocs">dumpDocs() (pyppbox.config.myconfig.BaseCGF method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.dumpMainCFG">dumpMainCFG() (pyppbox.config.myconfig.MyConfigurator method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.logtools.enable_terminal_log">enable_terminal_log() (in module pyppbox.utils.logtools)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.err_did">err_did (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.err_fid">err_fid (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.Person.faceid">faceid (pyppbox.utils.persontools.Person attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.Person.faceid_conf">faceid_conf (pyppbox.utils.persontools.Person attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.facenet">facenet (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA.fault_detect">fault_detect (pyppbox.utils.evatools.MyEVA attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTInterpreter.findGTFrame">findGTFrame() (pyppbox.utils.gttools.GTInterpreter method)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.findRepspoint">findRepspoint() (in module pyppbox.utils.persontools)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.findRepspointBB">findRepspointBB() (in module pyppbox.utils.persontools)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.findRepspointUP">findRepspointUP() (in module pyppbox.utils.persontools)</a>
+</li>
+      <li><a href="pyppbox/standalone.html#pyppbox.standalone.forceFullGTMode">forceFullGTMode() (in module pyppbox.standalone)</a>
+
+      <ul>
+        <li><a href="pyppbox/standalone.html#pyppbox.ppb.mt.MT.forceFullGTMode">(pyppbox.ppb.mt.MT method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA.frame_to_check">frame_to_check (pyppbox.utils.evatools.MyEVA attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.restools.ResIO.frames">frames (pyppbox.utils.restools.ResIO attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGGT.from_dir">from_dir (pyppbox.config.myconfig.DCFGGT attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOCLS.from_dir">(pyppbox.config.myconfig.DCFGYOLOCLS attribute)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOULT.from_dir">(pyppbox.config.myconfig.DCFGYOLOULT attribute)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGFaceNet.from_dir">(pyppbox.config.myconfig.RCFGFaceNet attribute)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGTorchreid.from_dir">(pyppbox.config.myconfig.RCFGTorchreid attribute)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGDeepSORT.from_dir">(pyppbox.config.myconfig.TCFGDeepSORT attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.gui.guitools.generateConfig">generateConfig() (in module pyppbox.gui.guitools)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.TKOReider.generateID">generateID() (pyppbox.utils.evatools.TKOReider method)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.TKOReider.generateStaticID">generateStaticID() (pyppbox.utils.evatools.TKOReider method)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.logtools.get_env">get_env() (in module pyppbox.utils.logtools)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.logtools.get_terminal_log_status">get_terminal_log_status() (in module pyppbox.utils.logtools)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.getCFGDict">getCFGDict() (in module pyppbox.config.configtools)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.getCFGDictList">getCFGDictList() (in module pyppbox.config.configtools)</a>
+</li>
+      <li><a href="pyppbox/standalone.html#pyppbox.standalone.getConfig">getConfig() (in module pyppbox.standalone)</a>
+
+      <ul>
+        <li><a href="pyppbox/standalone.html#pyppbox.ppb.mt.MT.getConfig">(pyppbox.ppb.mt.MT method)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.Person.getDet">getDet() (pyppbox.utils.persontools.Person method)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.Person.getDetRS">getDetRS() (pyppbox.utils.persontools.Person method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGGT.getDocument">getDocument() (pyppbox.config.myconfig.DCFGGT method)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOCLS.getDocument">(pyppbox.config.myconfig.DCFGYOLOCLS method)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOULT.getDocument">(pyppbox.config.myconfig.DCFGYOLOULT method)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MainCFG.getDocument">(pyppbox.config.myconfig.MainCFG method)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGFaceNet.getDocument">(pyppbox.config.myconfig.RCFGFaceNet method)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGTorchreid.getDocument">(pyppbox.config.myconfig.RCFGTorchreid method)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGCentroid.getDocument">(pyppbox.config.myconfig.TCFGCentroid method)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGDeepSORT.getDocument">(pyppbox.config.myconfig.TCFGDeepSORT method)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGSORT.getDocument">(pyppbox.config.myconfig.TCFGSORT method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTIO.getGTFileName">getGTFileName() (pyppbox.utils.gttools.GTIO method)</a>
+</li>
+      <li><a href="pyppbox/standalone.html#pyppbox.ppb.mt.MT.getMainConfig">getMainConfig() (pyppbox.ppb.mt.MT method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.getMCFG">getMCFG() (pyppbox.config.myconfig.MyConfigurator method)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTInterpreter.getPeople">getPeople() (pyppbox.utils.gttools.GTInterpreter method)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA.getSummary">getSummary() (pyppbox.utils.evatools.MyEVA method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.getUnifiedFormat">getUnifiedFormat() (pyppbox.config.unifiedstrings.UnifiedStrings method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGFaceNet.gpu_mem">gpu_mem (pyppbox.config.myconfig.RCFGFaceNet attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.gt">gt (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.gt_dir">gt_dir (pyppbox.config.configtools.PYPPBOXStructure attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGGT.gt_file">gt_file (pyppbox.config.myconfig.DCFGGT attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA.gt_file">(pyppbox.utils.evatools.MyEVA attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA.gt_file_name">gt_file_name (pyppbox.utils.evatools.MyEVA attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTInterpreter.gt_frames">gt_frames (pyppbox.utils.gttools.GTInterpreter attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTInterpreter.gt_frames_list">gt_frames_list (pyppbox.utils.gttools.GTInterpreter attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA.gt_interpreter">gt_interpreter (pyppbox.utils.evatools.MyEVA attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGGT.gt_map_file">gt_map_file (pyppbox.config.myconfig.DCFGGT attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTInterpreter">GTInterpreter (class in pyppbox.utils.gttools)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTIO">GTIO (class in pyppbox.utils.gttools)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTInterpreter.gtIO">gtIO (pyppbox.utils.gttools.GTInterpreter attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.gui_root">gui_root (pyppbox.config.configtools.PYPPBOXStructure attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.gui_tmp_dir">gui_tmp_dir (pyppbox.config.configtools.PYPPBOXStructure attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA.id_mode">id_mode (pyppbox.utils.evatools.MyEVA attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOULT.imgsz">imgsz (pyppbox.config.myconfig.DCFGYOLOULT attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTInterpreter.init_frame">init_frame (pyppbox.utils.gttools.GTInterpreter attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.Person.init_id">init_id (pyppbox.utils.persontools.Person attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.internal_root_dir">internal_root_dir (pyppbox.config.configtools.PYPPBOXStructure attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOULT.iou">iou (pyppbox.config.myconfig.DCFGYOLOULT attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGSORT.iou_threshold">iou_threshold (pyppbox.config.myconfig.TCFGSORT attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.isDictString">isDictString() (in module pyppbox.config.configtools)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.Person.keypoints">keypoints (pyppbox.utils.persontools.Person attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.gui.guitools.launchGUI">launchGUI() (in module pyppbox.gui.guitools)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.load">load() (pyppbox.config.unifiedstrings.UnifiedStrings method)</a>
+</li>
+      <li><a href="pyppbox/modules/reiders.html#pyppbox.modules.reiders.facenet.MyFaceNet.load_classifier">load_classifier() (pyppbox.modules.reiders.facenet.MyFaceNet method)</a>
+
+      <ul>
+        <li><a href="pyppbox/modules/reiders.html#pyppbox.modules.reiders.torchreid.MyTorchreid.load_classifier">(pyppbox.modules.reiders.torchreid.MyTorchreid method)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.BaseCGF.loadDoc">loadDoc() (pyppbox.config.myconfig.BaseCGF method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.BaseCGF.loadDocs">loadDocs() (pyppbox.config.myconfig.BaseCGF method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.loadDocument">loadDocument() (in module pyppbox.config.configtools)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.loadDocumentList">loadDocumentList() (in module pyppbox.config.configtools)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTIO.loadGT">loadGT() (pyppbox.utils.gttools.GTIO method)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTIO.loadInputGTMap">loadInputGTMap() (pyppbox.utils.gttools.GTIO method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.loadRawYAMLString">loadRawYAMLString() (in module pyppbox.config.configtools)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.loadRawYAMLStringMT">loadRawYAMLStringMT() (in module pyppbox.config.configtools)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.main_yaml">main_yaml (pyppbox.config.configtools.PYPPBOXStructure attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MainCFG">MainCFG (class in pyppbox.config.myconfig)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyCFGHeaders.mainHeader">mainHeader() (pyppbox.config.myconfig.MyCFGHeaders method)</a>
+</li>
+      <li><a href="pyppbox/modules/reiders.html#pyppbox.modules.reiders.facenet.MyFaceNet.make_facenet_image">make_facenet_image() (pyppbox.modules.reiders.facenet.MyFaceNet method)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTIO.map_dict">map_dict (pyppbox.utils.gttools.GTIO attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTIO.map_list">map_list (pyppbox.utils.gttools.GTIO attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGSORT.max_age">max_age (pyppbox.config.myconfig.TCFGSORT attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGDeepSORT.max_cosine_distance">max_cosine_distance (pyppbox.config.myconfig.TCFGDeepSORT attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOULT.max_det">max_det (pyppbox.config.myconfig.DCFGYOLOULT attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGCentroid.max_spread">max_spread (pyppbox.config.myconfig.TCFGCentroid attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.mcfg">mcfg (pyppbox.config.myconfig.MyConfigurator attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGFaceNet.min_confidence">min_confidence (pyppbox.config.myconfig.RCFGFaceNet attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGTorchreid.min_confidence">(pyppbox.config.myconfig.RCFGTorchreid attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGSORT.min_hits">min_hits (pyppbox.config.myconfig.TCFGSORT attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.Person.misc">misc (pyppbox.utils.persontools.Person attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA.missed_detect">missed_detect (pyppbox.utils.evatools.MyEVA attribute)</a>
+</li>
+      <li><a href="pyppbox/modules/detectors.html#pyppbox.modules.detectors.yolocls.MyYOLOCLS.model">model (pyppbox.modules.detectors.yolocls.MyYOLOCLS attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/modules/detectors.html#pyppbox.modules.detectors.yoloult.MyYOLOULT.model">(pyppbox.modules.detectors.yoloult.MyYOLOULT attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOCLS.model_cfg_file">model_cfg_file (pyppbox.config.myconfig.DCFGYOLOCLS attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGFaceNet.model_det">model_det (pyppbox.config.myconfig.RCFGFaceNet attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGTorchreid.model_dict">model_dict (pyppbox.config.myconfig.RCFGTorchreid attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOULT.model_file">model_file (pyppbox.config.myconfig.DCFGYOLOULT attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGFaceNet.model_file">(pyppbox.config.myconfig.RCFGFaceNet attribute)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGDeepSORT.model_file">(pyppbox.config.myconfig.TCFGDeepSORT attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOCLS.model_image_size">model_image_size (pyppbox.config.myconfig.DCFGYOLOCLS attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGTorchreid.model_name">model_name (pyppbox.config.myconfig.RCFGTorchreid attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGTorchreid.model_path">model_path (pyppbox.config.myconfig.RCFGTorchreid attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOCLS.model_resolution">model_resolution (pyppbox.config.myconfig.DCFGYOLOCLS attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOCLS.model_weights">model_weights (pyppbox.config.myconfig.DCFGYOLOCLS attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGTorchreid.model_wh">model_wh (pyppbox.config.myconfig.RCFGTorchreid attribute)</a>
+</li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="pyppbox/config.html#module-pyppbox.config.configtools">pyppbox.config.configtools</a>
+</li>
+        <li><a href="pyppbox/config.html#module-pyppbox.config.myconfig">pyppbox.config.myconfig</a>
+</li>
+        <li><a href="pyppbox/config.html#module-pyppbox.config.unifiedstrings">pyppbox.config.unifiedstrings</a>
+</li>
+        <li><a href="pyppbox/config.html#module-pyppbox.gui.guitools">pyppbox.gui.guitools</a>
+</li>
+        <li><a href="pyppbox/modules/detectors.html#module-pyppbox.modules.detectors.yolocls">pyppbox.modules.detectors.yolocls</a>
+</li>
+        <li><a href="pyppbox/modules/detectors.html#module-pyppbox.modules.detectors.yoloult">pyppbox.modules.detectors.yoloult</a>
+</li>
+        <li><a href="pyppbox/modules/reiders.html#module-pyppbox.modules.reiders.facenet">pyppbox.modules.reiders.facenet</a>
+</li>
+        <li><a href="pyppbox/modules/reiders.html#module-pyppbox.modules.reiders.torchreid">pyppbox.modules.reiders.torchreid</a>
+</li>
+        <li><a href="pyppbox/modules/trackers.html#module-pyppbox.modules.trackers.centroid">pyppbox.modules.trackers.centroid</a>
+</li>
+        <li><a href="pyppbox/modules/trackers.html#module-pyppbox.modules.trackers.deepsort">pyppbox.modules.trackers.deepsort</a>
+</li>
+        <li><a href="pyppbox/modules/trackers.html#module-pyppbox.modules.trackers.sort">pyppbox.modules.trackers.sort</a>
+</li>
+        <li><a href="pyppbox/standalone.html#module-pyppbox.ppb.mt">pyppbox.ppb.mt</a>
+</li>
+        <li><a href="pyppbox/standalone.html#module-pyppbox.standalone">pyppbox.standalone</a>
+</li>
+        <li><a href="pyppbox/utils.html#module-pyppbox.utils.evatools">pyppbox.utils.evatools</a>
+</li>
+        <li><a href="pyppbox/utils.html#module-pyppbox.utils.gttools">pyppbox.utils.gttools</a>
+</li>
+        <li><a href="pyppbox/utils.html#module-pyppbox.utils.logtools">pyppbox.utils.logtools</a>
+</li>
+        <li><a href="pyppbox/utils.html#module-pyppbox.utils.mot2pyppbox">pyppbox.utils.mot2pyppbox</a>
+</li>
+        <li><a href="pyppbox/utils.html#module-pyppbox.utils.persontools">pyppbox.utils.persontools</a>
+</li>
+        <li><a href="pyppbox/utils.html#module-pyppbox.utils.restools">pyppbox.utils.restools</a>
+</li>
+        <li><a href="pyppbox/utils.html#module-pyppbox.utils.visualizetools">pyppbox.utils.visualizetools</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/standalone.html#pyppbox.ppb.mt.MT">MT (class in pyppbox.ppb.mt)</a>
+</li>
+      <li><a href="pyppbox/modules/trackers.html#pyppbox.modules.trackers.centroid.MyCentroid">MyCentroid (class in pyppbox.modules.trackers.centroid)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyCFGHeaders">MyCFGHeaders (class in pyppbox.config.myconfig)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator">MyConfigurator (class in pyppbox.config.myconfig)</a>
+</li>
+      <li><a href="pyppbox/modules/trackers.html#pyppbox.modules.trackers.deepsort.MyDeepSORT">MyDeepSORT (class in pyppbox.modules.trackers.deepsort)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA">MyEVA (class in pyppbox.utils.evatools)</a>
+</li>
+      <li><a href="pyppbox/modules/reiders.html#pyppbox.modules.reiders.facenet.MyFaceNet">MyFaceNet (class in pyppbox.modules.reiders.facenet)</a>
+</li>
+      <li><a href="pyppbox/modules/trackers.html#pyppbox.modules.trackers.sort.MySORT">MySORT (class in pyppbox.modules.trackers.sort)</a>
+</li>
+      <li><a href="pyppbox/modules/reiders.html#pyppbox.modules.reiders.torchreid.MyTorchreid">MyTorchreid (class in pyppbox.modules.reiders.torchreid)</a>
+</li>
+      <li><a href="pyppbox/modules/detectors.html#pyppbox.modules.detectors.yolocls.MyYOLOCLS">MyYOLOCLS (class in pyppbox.modules.detectors.yolocls)</a>
+</li>
+      <li><a href="pyppbox/modules/detectors.html#pyppbox.modules.detectors.yoloult.MyYOLOULT">MyYOLOULT (class in pyppbox.modules.detectors.yoloult)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOCLS.nms">nms (pyppbox.config.myconfig.DCFGYOLOCLS attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGDeepSORT.nms_max_overlap">nms_max_overlap (pyppbox.config.myconfig.TCFGDeepSORT attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGDeepSORT.nn_budget">nn_budget (pyppbox.config.myconfig.TCFGDeepSORT attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.none">none (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.NoneCFG">NoneCFG (class in pyppbox.config.myconfig)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.NothingDetecter">NothingDetecter (class in pyppbox.utils.evatools)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.NothingReider">NothingReider (class in pyppbox.utils.evatools)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.NothingTracker">NothingTracker (class in pyppbox.utils.evatools)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.restools.ResIO.people">people (pyppbox.utils.restools.ResIO attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.Person">Person (class in pyppbox.utils.persontools)</a>
+</li>
+      <li>
+    pyppbox.config.configtools
+
+      <ul>
+        <li><a href="pyppbox/config.html#module-pyppbox.config.configtools">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.config.myconfig
+
+      <ul>
+        <li><a href="pyppbox/config.html#module-pyppbox.config.myconfig">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.config.unifiedstrings
+
+      <ul>
+        <li><a href="pyppbox/config.html#module-pyppbox.config.unifiedstrings">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.gui.guitools
+
+      <ul>
+        <li><a href="pyppbox/config.html#module-pyppbox.gui.guitools">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.modules.detectors.yolocls
+
+      <ul>
+        <li><a href="pyppbox/modules/detectors.html#module-pyppbox.modules.detectors.yolocls">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.modules.detectors.yoloult
+
+      <ul>
+        <li><a href="pyppbox/modules/detectors.html#module-pyppbox.modules.detectors.yoloult">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.modules.reiders.facenet
+
+      <ul>
+        <li><a href="pyppbox/modules/reiders.html#module-pyppbox.modules.reiders.facenet">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.modules.reiders.torchreid
+
+      <ul>
+        <li><a href="pyppbox/modules/reiders.html#module-pyppbox.modules.reiders.torchreid">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.modules.trackers.centroid
+
+      <ul>
+        <li><a href="pyppbox/modules/trackers.html#module-pyppbox.modules.trackers.centroid">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.modules.trackers.deepsort
+
+      <ul>
+        <li><a href="pyppbox/modules/trackers.html#module-pyppbox.modules.trackers.deepsort">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    pyppbox.modules.trackers.sort
+
+      <ul>
+        <li><a href="pyppbox/modules/trackers.html#module-pyppbox.modules.trackers.sort">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.ppb.mt
+
+      <ul>
+        <li><a href="pyppbox/standalone.html#module-pyppbox.ppb.mt">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.standalone
+
+      <ul>
+        <li><a href="pyppbox/standalone.html#module-pyppbox.standalone">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.utils.evatools
+
+      <ul>
+        <li><a href="pyppbox/utils.html#module-pyppbox.utils.evatools">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.utils.gttools
+
+      <ul>
+        <li><a href="pyppbox/utils.html#module-pyppbox.utils.gttools">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.utils.logtools
+
+      <ul>
+        <li><a href="pyppbox/utils.html#module-pyppbox.utils.logtools">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.utils.mot2pyppbox
+
+      <ul>
+        <li><a href="pyppbox/utils.html#module-pyppbox.utils.mot2pyppbox">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.utils.persontools
+
+      <ul>
+        <li><a href="pyppbox/utils.html#module-pyppbox.utils.persontools">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.utils.restools
+
+      <ul>
+        <li><a href="pyppbox/utils.html#module-pyppbox.utils.restools">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyppbox.utils.visualizetools
+
+      <ul>
+        <li><a href="pyppbox/utils.html#module-pyppbox.utils.visualizetools">module</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure">PYPPBOXStructure (class in pyppbox.config.configtools)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.rcfg_facenet">rcfg_facenet (pyppbox.config.myconfig.MyConfigurator attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.rcfg_torchreid">rcfg_torchreid (pyppbox.config.myconfig.MyConfigurator attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGFaceNet">RCFGFaceNet (class in pyppbox.config.myconfig)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGTorchreid">RCFGTorchreid (class in pyppbox.config.myconfig)</a>
+</li>
+      <li><a href="pyppbox/modules/reiders.html#pyppbox.modules.reiders.facenet.MyFaceNet.recognize">recognize() (pyppbox.modules.reiders.facenet.MyFaceNet method)</a>
+
+      <ul>
+        <li><a href="pyppbox/modules/reiders.html#pyppbox.modules.reiders.torchreid.MyTorchreid.recognize">(pyppbox.modules.reiders.torchreid.MyTorchreid method)</a>
+</li>
+        <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.NothingReider.recognize">(pyppbox.utils.evatools.NothingReider method)</a>
+</li>
+        <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.TKOReider.recognize">(pyppbox.utils.evatools.TKOReider method)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA.reid_count">reid_count (pyppbox.utils.evatools.MyEVA attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MainCFG.reider">reider (pyppbox.config.myconfig.MainCFG attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.NoneCFG.reider">(pyppbox.config.myconfig.NoneCFG attribute)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.reider">(pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyCFGHeaders.reiderHeader">reiderHeader() (pyppbox.config.myconfig.MyCFGHeaders method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.reiders_yaml">reiders_yaml (pyppbox.config.configtools.PYPPBOXStructure attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/standalone.html#pyppbox.standalone.reidPeople">reidPeople() (in module pyppbox.standalone)</a>
+
+      <ul>
+        <li><a href="pyppbox/standalone.html#pyppbox.ppb.mt.MT.reidPeople">(pyppbox.ppb.mt.MT method)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.relative_to_pyppbox_root">relative_to_pyppbox_root (pyppbox.config.myconfig.MyConfigurator attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.Person.repspoint">repspoint (pyppbox.utils.persontools.Person attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOCLS.repspoint_calibration">repspoint_calibration (pyppbox.config.myconfig.DCFGYOLOCLS attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOULT.repspoint_calibration">(pyppbox.config.myconfig.DCFGYOLOULT attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.gui.guitools.resetInternalConfig">resetInternalConfig() (in module pyppbox.gui.guitools)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.restools.ResIO">ResIO (class in pyppbox.utils.restools)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.ri_map">ri_map (pyppbox.config.myconfig.MyConfigurator attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.NoneCFG.ri_name">ri_name (pyppbox.config.myconfig.NoneCFG attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGFaceNet.ri_name">(pyppbox.config.myconfig.RCFGFaceNet attribute)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGTorchreid.ri_name">(pyppbox.config.myconfig.RCFGTorchreid attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.riname_fn">riname_fn (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.riname_tr">riname_tr (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA.score">score (pyppbox.utils.evatools.MyEVA attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGGT.set">set() (pyppbox.config.myconfig.DCFGGT method)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOCLS.set">(pyppbox.config.myconfig.DCFGYOLOCLS method)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOULT.set">(pyppbox.config.myconfig.DCFGYOLOULT method)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MainCFG.set">(pyppbox.config.myconfig.MainCFG method)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.NoneCFG.set">(pyppbox.config.myconfig.NoneCFG method)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGFaceNet.set">(pyppbox.config.myconfig.RCFGFaceNet method)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGTorchreid.set">(pyppbox.config.myconfig.RCFGTorchreid method)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGCentroid.set">(pyppbox.config.myconfig.TCFGCentroid method)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGDeepSORT.set">(pyppbox.config.myconfig.TCFGDeepSORT method)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGSORT.set">(pyppbox.config.myconfig.TCFGSORT method)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.set">(pyppbox.config.unifiedstrings.UnifiedStrings method)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.logtools.set_file_log_from_env">set_file_log_from_env() (in module pyppbox.utils.logtools)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.logtools.set_terminal_log_from_env">set_terminal_log_from_env() (in module pyppbox.utils.logtools)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.setAllDCFG">setAllDCFG() (pyppbox.config.myconfig.MyConfigurator method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.setAllRCFG">setAllRCFG() (pyppbox.config.myconfig.MyConfigurator method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.setAllTCFG">setAllTCFG() (pyppbox.config.myconfig.MyConfigurator method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.setASupportedModuleCFG">setASupportedModuleCFG() (pyppbox.config.myconfig.MyConfigurator method)</a>
+</li>
+      <li><a href="pyppbox/standalone.html#pyppbox.standalone.setConfigDir">setConfigDir() (in module pyppbox.standalone)</a>
+
+      <ul>
+        <li><a href="pyppbox/standalone.html#pyppbox.ppb.mt.MT.setConfigDir">(pyppbox.ppb.mt.MT method)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.setCustomCFG">setCustomCFG() (pyppbox.config.configtools.PYPPBOXStructure method)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.setCustomCFG">(pyppbox.config.myconfig.MyConfigurator method)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTInterpreter.setDetectOnly">setDetectOnly() (pyppbox.utils.gttools.GTInterpreter method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.setDIR">setDIR() (pyppbox.config.configtools.PYPPBOXStructure method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTInterpreter.setGT">setGT() (pyppbox.utils.gttools.GTInterpreter method)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA.setGTByGTMap">setGTByGTMap() (pyppbox.utils.evatools.MyEVA method)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA.setGTByKnownGTFile">setGTByKnownGTFile() (pyppbox.utils.evatools.MyEVA method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.setGTCFG">setGTCFG() (pyppbox.config.myconfig.MyConfigurator method)</a>
+</li>
+      <li><a href="pyppbox/standalone.html#pyppbox.standalone.setMainDetector">setMainDetector() (in module pyppbox.standalone)</a>
+
+      <ul>
+        <li><a href="pyppbox/standalone.html#pyppbox.ppb.mt.MT.setMainDetector">(pyppbox.ppb.mt.MT method)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/standalone.html#pyppbox.standalone.setMainModules">setMainModules() (in module pyppbox.standalone)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.setMainModules">(pyppbox.config.myconfig.MyConfigurator method)</a>
+</li>
+        <li><a href="pyppbox/standalone.html#pyppbox.ppb.mt.MT.setMainModules">(pyppbox.ppb.mt.MT method)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/standalone.html#pyppbox.standalone.setMainReIDer">setMainReIDer() (in module pyppbox.standalone)</a>
+
+      <ul>
+        <li><a href="pyppbox/standalone.html#pyppbox.ppb.mt.MT.setMainReIDer">(pyppbox.ppb.mt.MT method)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/standalone.html#pyppbox.standalone.setMainTracker">setMainTracker() (in module pyppbox.standalone)</a>
+
+      <ul>
+        <li><a href="pyppbox/standalone.html#pyppbox.ppb.mt.MT.setMainTracker">(pyppbox.ppb.mt.MT method)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.setMCFG">setMCFG() (pyppbox.config.myconfig.MyConfigurator method)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA.setReIDcount">setReIDcount() (pyppbox.utils.evatools.MyEVA method)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.TKOReider.setStaticIDs">setStaticIDs() (pyppbox.utils.evatools.TKOReider method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.setYAMLPath">setYAMLPath() (pyppbox.config.configtools.PYPPBOXStructure method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.DCFGYOLOULT.show_boxes">show_boxes (pyppbox.config.myconfig.DCFGYOLOULT attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.gui.guitools.showAllDTConfig">showAllDTConfig() (in module pyppbox.gui.guitools)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.gui.guitools.showAllRIConfig">showAllRIConfig() (in module pyppbox.gui.guitools)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.gui.guitools.showAllTKConfig">showAllTKConfig() (in module pyppbox.gui.guitools)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.gui.guitools.showMainConfig">showMainConfig() (in module pyppbox.gui.guitools)</a>
+</li>
+      <li><a href="pyppbox/modules/detectors.html#pyppbox.modules.detectors.yoloult.MyYOLOULT.skeleton">skeleton (pyppbox.modules.detectors.yoloult.MyYOLOULT attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.sort">sort (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.restools.ResIO.sorted_people">sorted_people (pyppbox.utils.restools.ResIO attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.tcfg_centroid">tcfg_centroid (pyppbox.config.myconfig.MyConfigurator attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.tcfg_deepsort">tcfg_deepsort (pyppbox.config.myconfig.MyConfigurator attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.tcfg_sort">tcfg_sort (pyppbox.config.myconfig.MyConfigurator attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGCentroid">TCFGCentroid (class in pyppbox.config.myconfig)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGDeepSORT">TCFGDeepSORT (class in pyppbox.config.myconfig)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGSORT">TCFGSORT (class in pyppbox.config.myconfig)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyConfigurator.tk_map">tk_map (pyppbox.config.myconfig.MyConfigurator attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.NoneCFG.tk_name">tk_name (pyppbox.config.myconfig.NoneCFG attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGCentroid.tk_name">(pyppbox.config.myconfig.TCFGCentroid attribute)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGDeepSORT.tk_name">(pyppbox.config.myconfig.TCFGDeepSORT attribute)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.TCFGSORT.tk_name">(pyppbox.config.myconfig.TCFGSORT attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.tkname_ct">tkname_ct (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.tkname_ds">tkname_ds (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.tkname_st">tkname_st (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.TKOReider">TKOReider (class in pyppbox.utils.evatools)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.torchreid">torchreid (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTInterpreter.total_detections">total_detections (pyppbox.utils.gttools.GTInterpreter attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MainCFG.tracker">tracker (pyppbox.config.myconfig.MainCFG attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.NoneCFG.tracker">(pyppbox.config.myconfig.NoneCFG attribute)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.tracker">(pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.MyCFGHeaders.trackerHeader">trackerHeader() (pyppbox.config.myconfig.MyCFGHeaders method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.trackers_yaml">trackers_yaml (pyppbox.config.configtools.PYPPBOXStructure attribute)</a>
+</li>
+      <li><a href="pyppbox/standalone.html#pyppbox.standalone.trackPeople">trackPeople() (in module pyppbox.standalone)</a>
+
+      <ul>
+        <li><a href="pyppbox/standalone.html#pyppbox.ppb.mt.MT.trackPeople">(pyppbox.ppb.mt.MT method)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/modules/reiders.html#pyppbox.modules.reiders.facenet.MyFaceNet.train_classifier">train_classifier() (pyppbox.modules.reiders.facenet.MyFaceNet method)</a>
+
+      <ul>
+        <li><a href="pyppbox/modules/reiders.html#pyppbox.modules.reiders.torchreid.MyTorchreid.train_classifier">(pyppbox.modules.reiders.torchreid.MyTorchreid method)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGFaceNet.train_data">train_data (pyppbox.config.myconfig.RCFGFaceNet attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGTorchreid.train_data">(pyppbox.config.myconfig.RCFGTorchreid attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/standalone.html#pyppbox.standalone.trainReIDClassifier">trainReIDClassifier() (in module pyppbox.standalone)</a>
+
+      <ul>
+        <li><a href="pyppbox/standalone.html#pyppbox.ppb.mt.MT.trainReIDClassifier">(pyppbox.ppb.mt.MT method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.configtools.PYPPBOXStructure.unified_strings">unified_strings (pyppbox.config.configtools.PYPPBOXStructure attribute)</a>
+
+      <ul>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.BaseCGF.unified_strings">(pyppbox.config.myconfig.BaseCGF attribute)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGFaceNet.unified_strings">(pyppbox.config.myconfig.RCFGFaceNet attribute)</a>
+</li>
+        <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGTorchreid.unified_strings">(pyppbox.config.myconfig.RCFGTorchreid attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings">UnifiedStrings (class in pyppbox.config.unifiedstrings)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.unk_did">unk_did (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.unk_fid">unk_fid (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTInterpreter.unknownDID">unknownDID (pyppbox.utils.gttools.GTInterpreter attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.gttools.GTInterpreter.unknownFID">unknownFID (pyppbox.utils.gttools.GTInterpreter attribute)</a>
+</li>
+      <li><a href="pyppbox/modules/trackers.html#pyppbox.modules.trackers.centroid.MyCentroid.update">update() (pyppbox.modules.trackers.centroid.MyCentroid method)</a>
+
+      <ul>
+        <li><a href="pyppbox/modules/trackers.html#pyppbox.modules.trackers.deepsort.MyDeepSORT.update">(pyppbox.modules.trackers.deepsort.MyDeepSORT method)</a>
+</li>
+        <li><a href="pyppbox/modules/trackers.html#pyppbox.modules.trackers.sort.MySORT.update">(pyppbox.modules.trackers.sort.MySORT method)</a>
+</li>
+        <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.NothingTracker.update">(pyppbox.utils.evatools.NothingTracker method)</a>
+</li>
+      </ul></li>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.persontools.Person.updateIDs">updateIDs() (pyppbox.utils.persontools.Person method)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.gui.guitools.useInternalConfigDir">useInternalConfigDir() (in module pyppbox.gui.guitools)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.gui.guitools.useThisConfigDir">useThisConfigDir() (in module pyppbox.gui.guitools)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.evatools.MyEVA.validate">validate() (pyppbox.utils.evatools.MyEVA method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/utils.html#pyppbox.utils.visualizetools.visualizePeople">visualizePeople() (in module pyppbox.utils.visualizetools)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Y">Y</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGFaceNet.yl_h_calibration">yl_h_calibration (pyppbox.config.myconfig.RCFGFaceNet attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.myconfig.RCFGFaceNet.yl_w_calibration">yl_w_calibration (pyppbox.config.myconfig.RCFGFaceNet attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.yolo_cls">yolo_cls (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+      <li><a href="pyppbox/config.html#pyppbox.config.unifiedstrings.UnifiedStrings.yolo_ult">yolo_ult (pyppbox.config.unifiedstrings.UnifiedStrings attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, UMONS-Numediart, Ratha SIV.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

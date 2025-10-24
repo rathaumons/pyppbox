@@ -1,0 +1,650 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyppbox.gui.guitools &#8212; pyppbox 3.13.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/rtd_sphinx_search.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/rtd_search_config.js"></script>
+    <script src="../../../_static/js/rtd_sphinx_search.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyppbox/gui/guitools';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.13.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">🐍📦 pyppbox</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getstarted.html">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/standalone.html">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/structure.html">
+    Structure
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../pyppbox/config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../pyppbox/utils.html">
+    Utilities
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../releasenotes.html">
+    Release Notes
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getstarted.html">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/standalone.html">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/structure.html">
+    Structure
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/utils.html">
+    Utilities
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../releasenotes.html">
+    Release Notes
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pyppbox.gui.guitools</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for pyppbox.gui.guitools</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   pyppbox: Toolbox for people detecting, tracking, and re-identifying.    #</span>
+<span class="c1">#   Copyright (C) 2025 UMONS-Numediart                                      #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   This program is free software: you can redistribute it and/or modify    #</span>
+<span class="c1">#   it under the terms of the GNU General Public License as published by    #</span>
+<span class="c1">#   the Free Software Foundation, either version 3 of the License, or       #</span>
+<span class="c1">#   (at your option) any later version.                                     #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   This program is distributed in the hope that it will be useful,         #</span>
+<span class="c1">#   but WITHOUT ANY WARRANTY; without even the implied warranty of          #</span>
+<span class="c1">#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           #</span>
+<span class="c1">#   GNU General Public License for more details.                            #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#   You should have received a copy of the GNU General Public License       #</span>
+<span class="c1">#   along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.  #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1"># # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #</span>
+
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.utils.logtools</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_info_log</span><span class="p">,</span> <span class="n">add_warning_log</span><span class="p">,</span> <span class="n">add_error_log</span><span class="p">,</span> <span class="n">get_env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.config.configtools</span><span class="w"> </span><span class="kn">import</span> <span class="n">PYPPBOXStructure</span><span class="p">,</span> <span class="n">loadDocument</span><span class="p">,</span> <span class="n">loadDocumentList</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.utils.commontools</span><span class="w"> </span><span class="kn">import</span> <span class="n">getAbsPathFDS</span><span class="p">,</span> <span class="n">joinFPathFull</span><span class="p">,</span> <span class="n">isExist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.gui.guihub</span><span class="w"> </span><span class="kn">import</span> <span class="n">writeUITMP</span>
+
+<span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+<span class="n">pyppbox_struct</span> <span class="o">=</span> <span class="n">PYPPBOXStructure</span><span class="p">()</span>
+<span class="n">__cfgdir__</span> <span class="o">=</span>  <span class="n">pyppbox_struct</span><span class="o">.</span><span class="n">cfg_dir</span>
+
+<div class="viewcode-block" id="useThisConfigDir">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.gui.guitools.useThisConfigDir">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">useThisConfigDir</span><span class="p">(</span><span class="n">cfg_dir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Use your custom config directory where stores 4 required YAML files:</span>
+<span class="sd">        - main.yaml, indicates which detector/tracker/reider is used.</span>
+<span class="sd">        - detectors.yaml, stores all detectors&#39; configurations.</span>
+<span class="sd">        - trackers.yaml, stores all trackers&#39; configurations.</span>
+<span class="sd">        - reiders.yaml, stores all reiders&#39; configurations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config_dir : str</span>
+<span class="sd">        A path of configuration directory.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">pyppbox_struct</span><span class="p">,</span> <span class="n">__cfgdir__</span>
+    <span class="n">__cfgdir__</span> <span class="o">=</span> <span class="n">getAbsPathFDS</span><span class="p">(</span><span class="n">cfg_dir</span><span class="p">)</span>
+    <span class="n">pyppbox_struct</span><span class="o">.</span><span class="n">setCustomCFG</span><span class="p">(</span><span class="n">cfg_dir</span><span class="p">)</span>
+    <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">&quot;FYI: This basic method only serves GUI submodule `pyppbox.gui`.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="useInternalConfigDir">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.gui.guitools.useInternalConfigDir">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">useInternalConfigDir</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Use the internal config directory, :code:`{pyppbox root}/confog/cfg` inside pyppbox package.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">pyppbox_struct</span><span class="p">,</span> <span class="n">__cfgdir__</span>
+    <span class="n">pyppbox_struct</span> <span class="o">=</span> <span class="n">PYPPBOXStructure</span><span class="p">()</span>
+    <span class="n">__cfgdir__</span> <span class="o">=</span>  <span class="n">pyppbox_struct</span><span class="o">.</span><span class="n">cfg_dir</span>
+    <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">&quot;FYI: This basic method only serves GUI submodule `pyppbox.gui`.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="showMainConfig">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.gui.guitools.showMainConfig">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">showMainConfig</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print JSON dictionary of the configurations in main.yaml.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">loadDocument</span><span class="p">(</span><span class="n">pyppbox_struct</span><span class="o">.</span><span class="n">main_yaml</span><span class="p">))</span>
+    <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">&quot;FYI: This basic method only serves GUI submodule `pyppbox.gui`.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="showAllDTConfig">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.gui.guitools.showAllDTConfig">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">showAllDTConfig</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print JSON dictionary of the configurations in detectors.yaml.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">loadDocumentList</span><span class="p">(</span><span class="n">pyppbox_struct</span><span class="o">.</span><span class="n">detectors_yaml</span><span class="p">))</span>
+    <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">&quot;FYI: This basic method only serves GUI submodule `pyppbox.gui`.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="showAllTKConfig">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.gui.guitools.showAllTKConfig">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">showAllTKConfig</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print JSON dictionary of the configurations in trackers.yaml.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">loadDocumentList</span><span class="p">(</span><span class="n">pyppbox_struct</span><span class="o">.</span><span class="n">trackers_yaml</span><span class="p">))</span>
+    <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">&quot;FYI: This basic method only serves GUI submodule `pyppbox.gui`.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="showAllRIConfig">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.gui.guitools.showAllRIConfig">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">showAllRIConfig</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print JSON dictionary of the configurations in reiders.yaml.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">loadDocumentList</span><span class="p">(</span><span class="n">pyppbox_struct</span><span class="o">.</span><span class="n">reiders_yaml</span><span class="p">))</span>
+    <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">&quot;FYI: This basic method only serves GUI submodule `pyppbox.gui`.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="resetInternalConfig">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.gui.guitools.resetInternalConfig">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resetInternalConfig</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reset the internal configurations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">pyppbox_struct</span>
+    <span class="n">pyppbox_struct</span> <span class="o">=</span> <span class="n">PYPPBOXStructure</span><span class="p">()</span>
+    <span class="n">cfg_zip</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pyppbox_struct</span><span class="o">.</span><span class="n">cfg_dir</span><span class="p">,</span> <span class="s1">&#39;cfg.zip&#39;</span><span class="p">)</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">unpack_archive</span><span class="p">(</span><span class="n">cfg_zip</span><span class="p">,</span> <span class="n">pyppbox_struct</span><span class="o">.</span><span class="n">cfg_dir</span><span class="p">)</span>
+    <span class="n">add_info_log</span><span class="p">(</span><span class="s2">&quot;Reset successfully!&quot;</span><span class="p">)</span>
+    <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">&quot;FYI: This basic method only serves GUI submodule `pyppbox.gui`.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="launchGUI">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.gui.guitools.launchGUI">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">launchGUI</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Launch GUI configuration tool of pyppbox.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">writeUITMP</span><span class="p">(</span><span class="n">__cfgdir__</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s1">&#39;ui_launcher.py&#39;</span><span class="p">)],</span> <span class="n">env</span><span class="o">=</span><span class="n">get_env</span><span class="p">())</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="generateConfig">
+<a class="viewcode-back" href="../../../pyppbox/config.html#pyppbox.gui.guitools.generateConfig">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generateConfig</span><span class="p">(</span><span class="n">cfg_dir</span><span class="p">,</span> <span class="n">auto_launch_gui</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the 4 required YAML files to a given :obj:`cfg_dir`:</span>
+<span class="sd">        - main.yaml, indicates which detector/tracker/reider is used.</span>
+<span class="sd">        - detectors.yaml, stores all detectors&#39; configurations.</span>
+<span class="sd">        - trackers.yaml, stores all trackers&#39; configurations.</span>
+<span class="sd">        - reiders.yaml, stores all reiders&#39; configurations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config_dir : str</span>
+<span class="sd">        A path of configuration directory.</span>
+<span class="sd">    auto_launch_gui : bool, default=True</span>
+<span class="sd">        An indication of whether to load and launch GUI from the :obj:`config_dir`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">isExist</span><span class="p">(</span><span class="n">cfg_dir</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">pyppbox_struct</span>
+        <span class="n">abspath</span> <span class="o">=</span> <span class="n">getAbsPathFDS</span><span class="p">(</span><span class="n">cfg_dir</span><span class="p">)</span>
+        <span class="n">cfg_zip</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pyppbox_struct</span><span class="o">.</span><span class="n">cfg_dir</span><span class="p">,</span> <span class="s1">&#39;cfg.zip&#39;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">unpack_archive</span><span class="p">(</span><span class="n">cfg_zip</span><span class="p">,</span> <span class="n">abspath</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">auto_launch_gui</span><span class="p">:</span>
+                <span class="n">useThisConfigDir</span><span class="p">(</span><span class="n">abspath</span><span class="p">)</span>
+                <span class="n">launchGUI</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;generateCFG() -&gt; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="n">add_error_log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, UMONS-Numediart, Ratha SIV.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

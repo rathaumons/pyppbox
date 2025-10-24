@@ -1,0 +1,971 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Standalone Module &#8212; pyppbox 3.13.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/rtd_sphinx_search.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/rtd_search_config.js"></script>
+    <script src="../_static/js/rtd_sphinx_search.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pyppbox/standalone';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Supported Modules" href="modules.html" />
+    <link rel="prev" title="Example 14: Use pyppbox in multithreading application" href="../examples/example_14.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.13.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">🐍📦 pyppbox</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getstarted.html">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="structure.html">
+    Structure
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="utils.html">
+    Utilities
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../releasenotes.html">
+    Release Notes
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getstarted.html">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="structure.html">
+    Structure
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="utils.html">
+    Utilities
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../releasenotes.html">
+    Release Notes
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Standalone Module</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="standalone-module">
+<span id="standalone-page"></span><h1>Standalone Module<a class="headerlink" href="#standalone-module" title="Link to this heading">#</a></h1>
+<section id="pyppbox-standalone">
+<h2>pyppbox.standalone<a class="headerlink" href="#pyppbox-standalone" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="#module-pyppbox.standalone" title="pyppbox.standalone"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyppbox.standalone</span></code></a></p>
+<dl class="py function" id="module-pyppbox.standalone">
+<dt class="sig sig-object py" id="pyppbox.standalone.detectPeople">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.standalone.</span></span><span class="sig-name descname"><span class="pre">detectPeople</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_is_mat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_width_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alt_repspoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alt_repspoint_top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb.html#detectPeople"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.standalone.detectPeople" title="Link to this definition">#</a></dt>
+<dd><p>See <a class="reference internal" href="#pyppbox.ppb.mt.MT.detectPeople" title="pyppbox.ppb.mt.MT.detectPeople"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyppbox.ppb.mt.MT.detectPeople()</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.standalone.forceFullGTMode">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.standalone.</span></span><span class="sig-name descname"><span class="pre">forceFullGTMode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb.html#forceFullGTMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.standalone.forceFullGTMode" title="Link to this definition">#</a></dt>
+<dd><p>See <a class="reference internal" href="#pyppbox.ppb.mt.MT.forceFullGTMode" title="pyppbox.ppb.mt.MT.forceFullGTMode"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyppbox.ppb.mt.MT.forceFullGTMode()</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.standalone.getConfig">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.standalone.</span></span><span class="sig-name descname"><span class="pre">getConfig</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb.html#getConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.standalone.getConfig" title="Link to this definition">#</a></dt>
+<dd><p>See <a class="reference internal" href="#pyppbox.ppb.mt.MT.getConfig" title="pyppbox.ppb.mt.MT.getConfig"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyppbox.ppb.mt.MT.getConfig()</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.standalone.reidPeople">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.standalone.</span></span><span class="sig-name descname"><span class="pre">reidPeople</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">people</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deduplicate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_is_mat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb.html#reidPeople"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.standalone.reidPeople" title="Link to this definition">#</a></dt>
+<dd><p>See <a class="reference internal" href="#pyppbox.ppb.mt.MT.reidPeople" title="pyppbox.ppb.mt.MT.reidPeople"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyppbox.ppb.mt.MT.reidPeople()</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.standalone.setConfigDir">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.standalone.</span></span><span class="sig-name descname"><span class="pre">setConfigDir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb.html#setConfigDir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.standalone.setConfigDir" title="Link to this definition">#</a></dt>
+<dd><p>See <a class="reference internal" href="#pyppbox.ppb.mt.MT.setConfigDir" title="pyppbox.ppb.mt.MT.setConfigDir"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyppbox.ppb.mt.MT.setConfigDir()</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.standalone.setMainDetector">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.standalone.</span></span><span class="sig-name descname"><span class="pre">setMainDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb.html#setMainDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.standalone.setMainDetector" title="Link to this definition">#</a></dt>
+<dd><p>See <a class="reference internal" href="#pyppbox.ppb.mt.MT.setMainDetector" title="pyppbox.ppb.mt.MT.setMainDetector"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyppbox.ppb.mt.MT.setMainDetector()</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.standalone.setMainModules">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.standalone.</span></span><span class="sig-name descname"><span class="pre">setMainModules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_yaml</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb.html#setMainModules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.standalone.setMainModules" title="Link to this definition">#</a></dt>
+<dd><p>See <a class="reference internal" href="#pyppbox.ppb.mt.MT.setMainModules" title="pyppbox.ppb.mt.MT.setMainModules"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyppbox.ppb.mt.MT.setMainModules()</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.standalone.setMainReIDer">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.standalone.</span></span><span class="sig-name descname"><span class="pre">setMainReIDer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reider</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_load</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb.html#setMainReIDer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.standalone.setMainReIDer" title="Link to this definition">#</a></dt>
+<dd><p>See <a class="reference internal" href="#pyppbox.ppb.mt.MT.setMainReIDer" title="pyppbox.ppb.mt.MT.setMainReIDer"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyppbox.ppb.mt.MT.setMainReIDer()</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.standalone.setMainTracker">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.standalone.</span></span><span class="sig-name descname"><span class="pre">setMainTracker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb.html#setMainTracker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.standalone.setMainTracker" title="Link to this definition">#</a></dt>
+<dd><p>See <a class="reference internal" href="#pyppbox.ppb.mt.MT.setMainTracker" title="pyppbox.ppb.mt.MT.setMainTracker"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyppbox.ppb.mt.MT.setMainTracker()</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.standalone.trackPeople">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.standalone.</span></span><span class="sig-name descname"><span class="pre">trackPeople</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">people</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_is_mat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb.html#trackPeople"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.standalone.trackPeople" title="Link to this definition">#</a></dt>
+<dd><p>See <a class="reference internal" href="#pyppbox.ppb.mt.MT.trackPeople" title="pyppbox.ppb.mt.MT.trackPeople"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyppbox.ppb.mt.MT.trackPeople()</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyppbox.standalone.trainReIDClassifier">
+<span class="sig-prename descclassname"><span class="pre">pyppbox.standalone.</span></span><span class="sig-name descname"><span class="pre">trainReIDClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reider</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classifier_pkl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb.html#trainReIDClassifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.standalone.trainReIDClassifier" title="Link to this definition">#</a></dt>
+<dd><p>See <a class="reference internal" href="#pyppbox.ppb.mt.MT.trainReIDClassifier" title="pyppbox.ppb.mt.MT.trainReIDClassifier"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyppbox.ppb.mt.MT.trainReIDClassifier()</span></code></a></p>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="pyppbox-standalone-mt">
+<h2>pyppbox.standalone.MT<a class="headerlink" href="#pyppbox-standalone-mt" title="Link to this heading">#</a></h2>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">MT</span></code> | <a class="reference internal" href="#pyppbox.ppb.mt.MT" title="pyppbox.ppb.mt.MT"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.ppb.mt.MT</span></code></a></p>
+<dl class="py class" id="module-pyppbox.ppb.mt">
+<dt class="sig sig-object py" id="pyppbox.ppb.mt.MT">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyppbox.ppb.mt.</span></span><span class="sig-name descname"><span class="pre">MT</span></span><a class="reference internal" href="../_modules/pyppbox/ppb/mt.html#MT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.ppb.mt.MT" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An all-in-one class designed for easy detect, track, and reid people in a single threading
+or multithreading application.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.utils.visualizetools</span><span class="w"> </span><span class="kn">import</span> <span class="n">visualizePeople</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.standalone</span><span class="w"> </span><span class="kn">import</span> <span class="n">MT</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">ppb_task</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">main_configs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Task&quot;</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">ppbmt</span> <span class="o">=</span> <span class="n">MT</span><span class="p">()</span> <span class="c1"># Use `MT` for multithreading</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">ppbmt</span><span class="o">.</span><span class="n">setMainModules</span><span class="p">(</span><span class="n">main_yaml</span><span class="o">=</span><span class="n">main_configs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">while</span> <span class="n">cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">hasFrame</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">if</span> <span class="n">hasFrame</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="n">detected_people</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ppbmt</span><span class="o">.</span><span class="n">detectPeople</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">img_is_mat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">visual</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="n">tracked_people</span> <span class="o">=</span> <span class="n">ppbmt</span><span class="o">.</span><span class="n">trackPeople</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">detected_people</span><span class="p">,</span> <span class="n">img_is_mat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="n">reidentified_people</span><span class="p">,</span> <span class="n">reid_count</span> <span class="o">=</span> <span class="n">ppbmt</span><span class="o">.</span><span class="n">reidPeople</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">frame</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">tracked_people</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">img_is_mat</span><span class="o">=</span><span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="n">visualized_mat</span> <span class="o">=</span> <span class="n">visualizePeople</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">frame</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">reidentified_people</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">show_reid</span><span class="o">=</span><span class="n">reid_count</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s2">&quot;Multithreading (&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">,</span> <span class="n">visualized_mat</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="k">break</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">else</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="k">break</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">input_one</span> <span class="o">=</span> <span class="s2">&quot;data/gta.mp4&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">input_two</span> <span class="o">=</span> <span class="s2">&quot;data/gta.mp4&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">main_configs_one</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;detector&#39;</span><span class="p">:</span> <span class="s1">&#39;YOLO_Classic&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                        <span class="s1">&#39;tracker&#39;</span><span class="p">:</span> <span class="s1">&#39;SORT&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                        <span class="s1">&#39;reider&#39;</span><span class="p">:</span> <span class="s1">&#39;Torchreid&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">main_configs_two</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;detector&#39;</span><span class="p">:</span> <span class="s1">&#39;YOLO_Classic&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                        <span class="s1">&#39;tracker&#39;</span><span class="p">:</span> <span class="s1">&#39;Centroid&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                        <span class="s1">&#39;reider&#39;</span><span class="p">:</span> <span class="s1">&#39;FaceNet&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">thread_one</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">ppb_task</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">input_one</span><span class="p">,</span> <span class="n">main_configs_one</span><span class="p">,</span> <span class="s2">&quot;Task 1&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">thread_two</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">ppb_task</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">input_two</span><span class="p">,</span> <span class="n">main_configs_two</span><span class="p">,</span> <span class="s2">&quot;Task 2&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">thread_one</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">thread_two</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">thread_one</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">thread_two</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.ppb.mt.MT.detectPeople">
+<span class="sig-name descname"><span class="pre">detectPeople</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_is_mat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_width_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alt_repspoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alt_repspoint_top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb/mt.html#MT.detectPeople"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.ppb.mt.MT.detectPeople" title="Link to this definition">#</a></dt>
+<dd><p>Detect people by giving an image. <a class="reference internal" href="#pyppbox.ppb.mt.MT.setConfigDir" title="pyppbox.ppb.mt.MT.setConfigDir"><code class="xref py py-func docutils literal notranslate"><span class="pre">setConfigDir()</span></code></a> or <a class="reference internal" href="#pyppbox.ppb.mt.MT.setMainDetector" title="pyppbox.ppb.mt.MT.setMainDetector"><code class="xref py py-func docutils literal notranslate"><span class="pre">setMainDetector()</span></code></a> must
+be called in advance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>str</em><em> or </em><em>Mat</em>) – Set an image file or a <code class="xref py py-obj docutils literal notranslate"><span class="pre">Mat</span></code> like image.</p></li>
+<li><p><strong>img_is_mat</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Speed up the function by telling whether the <code class="xref py py-obj docutils literal notranslate"><span class="pre">img</span></code> is <code class="xref py py-obj docutils literal notranslate"><span class="pre">Mat</span></code> like image.</p></li>
+<li><p><strong>visual</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Decide whether to visualize like drawing bounding boxes and keypoints to the
+return <code class="xref py py-obj docutils literal notranslate"><span class="pre">img</span></code>.</p></li>
+<li><p><strong>save</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Decide whether to save the return <code class="xref py py-obj docutils literal notranslate"><span class="pre">img</span></code> to a JPG file.</p></li>
+<li><p><strong>save_file</strong> (<em>str</em><em>, </em><em>default=&quot;&quot;</em>) – Indicate a path of where to save the processed image.</p></li>
+<li><p><strong>min_width_filter</strong> (<em>int</em><em>, </em><em>default=15</em>) – Minimum width filter of a detected person.</p></li>
+<li><p><strong>alt_repspoint</strong> (<em>bool</em><em>, </em><em>default=False</em>) – An indication of whether to use the alternative <code class="xref py py-meth docutils literal notranslate"><span class="pre">findRepspointBB()</span></code>.</p></li>
+<li><p><strong>alt_repspoint_top</strong> (<em>bool</em><em>, </em><em>default=True</em>) – A parameter passed to <code class="xref py py-obj docutils literal notranslate"><span class="pre">prefer_top</span></code> of <code class="xref py py-meth docutils literal notranslate"><span class="pre">findRepspointBB()</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>list[Person, …]</em> – A  list of <a class="reference internal" href="utils.html#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a> object.</p></li>
+<li><p><em>Mat</em> – A <code class="xref py py-obj docutils literal notranslate"><span class="pre">Mat</span></code> like image.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.ppb.mt.MT.forceFullGTMode">
+<span class="sig-name descname"><span class="pre">forceFullGTMode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb/mt.html#MT.forceFullGTMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.ppb.mt.MT.forceFullGTMode" title="Link to this definition">#</a></dt>
+<dd><p>Normally when <code class="code docutils literal notranslate"><span class="pre">DT='GT'</span></code>, pyppbox can automatically decide the GT mode based on the
+name of the tracker and/or the name of reider; however, if the decision is not satisfied
+(Should not happen), calling this <code class="xref py py-func docutils literal notranslate"><span class="pre">forceFUllGTMode()</span></code> will override <code class="code docutils literal notranslate"><span class="pre">detect_only=False</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.ppb.mt.MT.getConfig">
+<span class="sig-name descname"><span class="pre">getConfig</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb/mt.html#MT.getConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.ppb.mt.MT.getConfig" title="Link to this definition">#</a></dt>
+<dd><p>Get the current <code class="xref py py-class docutils literal notranslate"><span class="pre">MyConfigurator</span></code> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">MyConfigurator</span></code> object used to store and manage all the configurations of pyppbox.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="config.html#pyppbox.config.myconfig.MyConfigurator" title="pyppbox.config.myconfig.MyConfigurator">MyConfigurator</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.ppb.mt.MT.getMainConfig">
+<span class="sig-name descname"><span class="pre">getMainConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb/mt.html#MT.getMainConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.ppb.mt.MT.getMainConfig" title="Link to this definition">#</a></dt>
+<dd><p>Get the main configurations which used to identify the main detector/tracker/reider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>current</strong> (<em>bool</em><em>, </em><em>default=True</em>) – When it is True (default), return the most current main configurations; otherwise, return
+the main configurations stored in the <code class="xref py py-obj docutils literal notranslate"><span class="pre">MyConfigurator</span></code> object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A configuration dictionary of the main configurations.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.ppb.mt.MT.reidPeople">
+<span class="sig-name descname"><span class="pre">reidPeople</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">people</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deduplicate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_is_mat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb/mt.html#MT.reidPeople"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.ppb.mt.MT.reidPeople" title="Link to this definition">#</a></dt>
+<dd><p>Re-identify people by giving an image and a list of detected or tracked people.
+<a class="reference internal" href="#pyppbox.ppb.mt.MT.setConfigDir" title="pyppbox.ppb.mt.MT.setConfigDir"><code class="xref py py-func docutils literal notranslate"><span class="pre">setConfigDir()</span></code></a> or <a class="reference internal" href="#pyppbox.ppb.mt.MT.setMainReIDer" title="pyppbox.ppb.mt.MT.setMainReIDer"><code class="xref py py-func docutils literal notranslate"><span class="pre">setMainReIDer()</span></code></a> must be called in advance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>str</em><em> or </em><em>Mat</em>) – Set an image file or a <code class="xref py py-obj docutils literal notranslate"><span class="pre">Mat</span></code> like image.</p></li>
+<li><p><strong>people</strong> (<em>list</em><em>[</em><a class="reference internal" href="utils.html#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><em>Person</em></a><em>, </em><em>...</em><em>]</em>) – Set a list of <a class="reference internal" href="utils.html#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a> object which stores
+the detected or tracked people in the input <code class="xref py py-obj docutils literal notranslate"><span class="pre">img</span></code>.</p></li>
+<li><p><strong>deduplicate</strong> (<em>bool</em><em>, </em><em>default=True</em>) – Indicate whether to re-reid people who have the same face ids or deep ids.</p></li>
+<li><p><strong>img_is_mat</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Speed up the function by telling whether the <code class="xref py py-obj docutils literal notranslate"><span class="pre">img</span></code> is <code class="xref py py-obj docutils literal notranslate"><span class="pre">Mat</span></code> like image.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>list[Person, …]</em> – A list of <a class="reference internal" href="utils.html#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a> object which stores people
+with the updated IDs.</p></li>
+<li><p><em>tuple(int, int)</em> – A tuple of (ReID count, ReID deduplicate count).</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.ppb.mt.MT.setConfigDir">
+<span class="sig-name descname"><span class="pre">setConfigDir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb/mt.html#MT.setConfigDir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.ppb.mt.MT.setConfigDir" title="Link to this definition">#</a></dt>
+<dd><p>Set configurations by a pointing to a config directory <code class="xref py py-obj docutils literal notranslate"><span class="pre">config_dir</span></code>,
+where stores 4 required YAML files:
+(1) main.yaml, tells what main detector/tracker/reider are chosen.
+(2) detectors.yaml, stores all detectors’ configurations.
+(3) trackers.yaml, stores all trackers’ configurations.
+(4) reiders.yaml, stores all reiders’ configurations.</p>
+<p>Note: JSON file (.josn) is also supported.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config_dir</strong> (<em>str</em><em>, </em><em>default=None</em>) – A path of a config directory.
+Set <code class="code docutils literal notranslate"><span class="pre">config_dir=None</span></code> to use the internal config directory
+:code:’{pyppbox root}/config/cfg’.</p></li>
+<li><p><strong>load_all</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Set <code class="code docutils literal notranslate"><span class="pre">load_all=True</span></code> to set and load the selected detector/tracker/reider
+according to the main configurations.
+Set <code class="code docutils literal notranslate"><span class="pre">load_all=False</span></code> to select and load a detector/tracker/reider manually later.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.ppb.mt.MT.setMainDetector">
+<span class="sig-name descname"><span class="pre">setMainDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb/mt.html#MT.setMainDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.ppb.mt.MT.setMainDetector" title="Link to this definition">#</a></dt>
+<dd><p>Set the main detector by a supported name, a raw/ready dictionary, or a YAML/JSON file.
+Calling <a class="reference internal" href="#pyppbox.ppb.mt.MT.setConfigDir" title="pyppbox.ppb.mt.MT.setConfigDir"><code class="xref py py-func docutils literal notranslate"><span class="pre">setConfigDir()</span></code></a> before <a class="reference internal" href="#pyppbox.ppb.mt.MT.setMainTracker" title="pyppbox.ppb.mt.MT.setMainTracker"><code class="xref py py-func docutils literal notranslate"><span class="pre">setMainTracker()</span></code></a> is optional. Different from
+the rest, setting the main detector by its name results in loading the configurations from
+the config directory set by the last <a class="reference internal" href="#pyppbox.ppb.mt.MT.setConfigDir" title="pyppbox.ppb.mt.MT.setConfigDir"><code class="xref py py-func docutils literal notranslate"><span class="pre">setConfigDir()</span></code></a>. If <a class="reference internal" href="#pyppbox.ppb.mt.MT.setConfigDir" title="pyppbox.ppb.mt.MT.setConfigDir"><code class="xref py py-func docutils literal notranslate"><span class="pre">setConfigDir()</span></code></a> has
+not been called before, setting the main detector by a supported name results in referencing
+the internal config directory in order to load the corresponding configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>detector</strong> (<em>str</em><em> or </em><em>dict</em><em>, </em><em>default=&quot;&quot;</em>) – (1) Set <code class="code docutils literal notranslate"><span class="pre">detector=&quot;&quot;</span></code> to set the main detector according to the main configurations
+or main.yaml and load its configurations from the detectors.yaml.
+(2) Set <code class="code docutils literal notranslate"><span class="pre">detector=&quot;YOLO_Classic&quot;</span></code>.etc, to set YOLO Classic as the main detector and
+load its configurations from detectors.yaml.
+(3) Set a raw string or ready dictionary is also possible; for example,
+<code class="code docutils literal notranslate"><span class="pre">detector=&quot;[{'dt_name':</span> <span class="pre">'YOLO_Ultralytics',</span> <span class="pre">'conf':</span> <span class="pre">0.4,</span> <span class="pre">'iou':</span> <span class="pre">0.7,</span> <span class="pre">'imgsz':</span> <span class="pre">1024,</span>
+<span class="pre">'show_boxes':</span> <span class="pre">True,</span> <span class="pre">'device':</span> <span class="pre">0,</span> <span class="pre">'max_det':</span> <span class="pre">100,</span>
+<span class="pre">'model_file':</span> <span class="pre">'data/modules/yolo_ultralytics/yolov8s-pose.pt',</span>
+<span class="pre">'repspoint_calibration':</span> <span class="pre">0.25}]&quot;</span></code>.
+(4) Set <code class="code docutils literal notranslate"><span class="pre">detector=&quot;a_supported_detector.yaml&quot;</span></code> or <code class="code docutils literal notranslate"><span class="pre">detector=&quot;a_supported_detector.json&quot;</span></code>
+to set the main detector and its configuration from a YAML file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.ppb.mt.MT.setMainModules">
+<span class="sig-name descname"><span class="pre">setMainModules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_yaml</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb/mt.html#MT.setMainModules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.ppb.mt.MT.setMainModules" title="Link to this definition">#</a></dt>
+<dd><p>Load and set the main detector, the main tracker, and the main reider all at once
+according to the given main configurations, <code class="xref py py-obj docutils literal notranslate"><span class="pre">main_yaml</span></code>. If the <a class="reference internal" href="#pyppbox.ppb.mt.MT.setConfigDir" title="pyppbox.ppb.mt.MT.setConfigDir"><code class="xref py py-func docutils literal notranslate"><span class="pre">setConfigDir()</span></code></a>
+has not yet been called, internal config directory will be used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>main_yaml</strong> (<em>str</em><em> or </em><em>dict</em><em>, </em><em>default=None</em>) – A YAML/JSON file path, or a raw/ready dictionary of the main configurations or main.yaml.
+This <code class="xref py py-obj docutils literal notranslate"><span class="pre">main_yaml</span></code> helps override the original one configured earlier.
+Leave it as default <code class="xref py py-obj docutils literal notranslate"><span class="pre">main_yaml=None</span></code>, to load and set according to the configurations
+in the config directory.</p></li>
+<li><p><strong>load_all</strong> (<em>bool</em><em>, </em><em>default=True</em>) – Set <code class="code docutils literal notranslate"><span class="pre">load_all=True</span></code> to set and load the selected detector/tracker/reider according
+to the main configurations, which it is meant for using this <a class="reference internal" href="#pyppbox.ppb.mt.MT.setMainModules" title="pyppbox.ppb.mt.MT.setMainModules"><code class="xref py py-func docutils literal notranslate"><span class="pre">setMainModules()</span></code></a> method.
+Set <code class="code docutils literal notranslate"><span class="pre">load_all=False</span></code> to select and load a detector/tracker/reider manually later.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.ppb.mt.MT.setMainReIDer">
+<span class="sig-name descname"><span class="pre">setMainReIDer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reider</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_load</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb/mt.html#MT.setMainReIDer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.ppb.mt.MT.setMainReIDer" title="Link to this definition">#</a></dt>
+<dd><p>Set the main reider by a supported name, a raw/ready dictionary, or a YAML/JSON file.
+Calling <a class="reference internal" href="#pyppbox.ppb.mt.MT.setConfigDir" title="pyppbox.ppb.mt.MT.setConfigDir"><code class="xref py py-func docutils literal notranslate"><span class="pre">setConfigDir()</span></code></a> before <a class="reference internal" href="#pyppbox.ppb.mt.MT.setMainTracker" title="pyppbox.ppb.mt.MT.setMainTracker"><code class="xref py py-func docutils literal notranslate"><span class="pre">setMainTracker()</span></code></a> is optional. Different from
+the rest, setting the main reider by its name results in loading the configurations from the
+config directory set by the last <a class="reference internal" href="#pyppbox.ppb.mt.MT.setConfigDir" title="pyppbox.ppb.mt.MT.setConfigDir"><code class="xref py py-func docutils literal notranslate"><span class="pre">setConfigDir()</span></code></a>. If <a class="reference internal" href="#pyppbox.ppb.mt.MT.setConfigDir" title="pyppbox.ppb.mt.MT.setConfigDir"><code class="xref py py-func docutils literal notranslate"><span class="pre">setConfigDir()</span></code></a> has not
+been called before, setting the main reider by a supported name results in referencing the
+internal config directory in order to load the corresponding configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reider</strong> (<em>str</em><em> or </em><em>dict</em><em>, </em><em>default=&quot;&quot;</em>) – (1) Set <code class="code docutils literal notranslate"><span class="pre">reider=&quot;&quot;</span></code> to set the main reider according to the main configurations
+or main.yaml and load its configurations from the reiders.yaml.
+(2) Set <code class="code docutils literal notranslate"><span class="pre">reider=&quot;FaceNet&quot;</span></code>.etc, to set FaceNet as a reider and load its
+configurations from reiders.yaml.
+(3) Set a raw string or ready dictionary is also possible; for example,
+<code class="code docutils literal notranslate"><span class="pre">reider=&quot;[{'ri_name':</span> <span class="pre">'Torchreid',</span>
+<span class="pre">'classifier_pkl':</span> <span class="pre">'data/modules/torchreid/classifier/gta5_osnet_ain_ms_d_c.pkl',</span>
+<span class="pre">'train_data':</span> <span class="pre">'data/datasets/GTA_V_DATASET/body_128x256',</span> <span class="pre">'model_name':</span> <span class="pre">'osnet_ain_x1_0',</span>
+<span class="pre">'model_path':</span> <span class="pre">'data/modules/torchreid/models/torchreid/osnet_ain_ms_d_c.pth.tar',</span>
+<span class="pre">'min_confidence':</span> <span class="pre">0.35,</span> <span class="pre">'device':</span> <span class="pre">'cuda'}]&quot;</span></code>.
+(4) Set <code class="code docutils literal notranslate"><span class="pre">reider=&quot;a_supported_reider.yaml&quot;</span></code> or <code class="code docutils literal notranslate"><span class="pre">reider=&quot;a_supported_reider.json&quot;</span></code>
+to set a the main reider and its configurations from a YAML file.</p></li>
+<li><p><strong>auto_load</strong> (<em>bool</em><em>, </em><em>default=True</em>) – All supported reiders are Pytorch or Tensorflow based module, thus they need to
+initial and load their models/weights. <code class="xref py py-obj docutils literal notranslate"><span class="pre">auto_load</span></code> is used to decide whether to
+load the reider automatically once the reider is set. Keep the <code class="code docutils literal notranslate"><span class="pre">auto_load=True</span></code>
+if it is meant for using <a class="reference internal" href="#pyppbox.ppb.mt.MT.reidPeople" title="pyppbox.ppb.mt.MT.reidPeople"><code class="xref py py-func docutils literal notranslate"><span class="pre">reidPeople()</span></code></a>; however, even if the <code class="code docutils literal notranslate"><span class="pre">auto_load=False</span></code>,
+the <a class="reference internal" href="#pyppbox.ppb.mt.MT.reidPeople" title="pyppbox.ppb.mt.MT.reidPeople"><code class="xref py py-func docutils literal notranslate"><span class="pre">reidPeople()</span></code></a> will initial and load the reider by itself, but it requires
+some time to do so.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.ppb.mt.MT.setMainTracker">
+<span class="sig-name descname"><span class="pre">setMainTracker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tracker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb/mt.html#MT.setMainTracker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.ppb.mt.MT.setMainTracker" title="Link to this definition">#</a></dt>
+<dd><p>Set the main tracker by a supported name, a raw/ready dictionary, or a YAML/JSON file.
+Calling <a class="reference internal" href="#pyppbox.ppb.mt.MT.setConfigDir" title="pyppbox.ppb.mt.MT.setConfigDir"><code class="xref py py-func docutils literal notranslate"><span class="pre">setConfigDir()</span></code></a> before <a class="reference internal" href="#pyppbox.ppb.mt.MT.setMainTracker" title="pyppbox.ppb.mt.MT.setMainTracker"><code class="xref py py-func docutils literal notranslate"><span class="pre">setMainTracker()</span></code></a> is optional. Different from
+the rest, setting the main tracker by its name results in loading the configurations from
+the config directory set by the last <a class="reference internal" href="#pyppbox.ppb.mt.MT.setConfigDir" title="pyppbox.ppb.mt.MT.setConfigDir"><code class="xref py py-func docutils literal notranslate"><span class="pre">setConfigDir()</span></code></a>. If <a class="reference internal" href="#pyppbox.ppb.mt.MT.setConfigDir" title="pyppbox.ppb.mt.MT.setConfigDir"><code class="xref py py-func docutils literal notranslate"><span class="pre">setConfigDir()</span></code></a> has
+not been called before, setting the main tracker by a supported name results in referencing
+the internal config directory in order to load the corresponding configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tracker</strong> (<em>str</em><em> or </em><em>dict</em><em>, </em><em>default=&quot;&quot;</em>) – (1) Set <code class="code docutils literal notranslate"><span class="pre">tracker=&quot;&quot;</span></code> to set the main tracker according to the main configurations or
+main.yaml and load its configurations from the trackers.yaml.
+(2) Set <code class="code docutils literal notranslate"><span class="pre">tracker=&quot;Centroid&quot;</span></code>.etc, to set Centroid as the main tracker and load its
+configurations from trackers.yaml.
+(3) Set a raw string or ready dictionary is also possible; for example,
+<code class="code docutils literal notranslate"><span class="pre">tracker=&quot;[{'tk_name':</span> <span class="pre">'SORT',</span> <span class="pre">'max_age':</span> <span class="pre">1,</span> <span class="pre">'min_hits':</span> <span class="pre">3,</span> <span class="pre">'iou_threshold':</span> <span class="pre">0.3}]&quot;</span></code>.
+(4) Set <code class="code docutils literal notranslate"><span class="pre">tracker=&quot;a_supported_tracker.yaml&quot;</span></code> or <code class="code docutils literal notranslate"><span class="pre">tracker=&quot;a_supported_tracker.json&quot;</span></code>
+to set the main tracker and its configuration from a YAML file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.ppb.mt.MT.trackPeople">
+<span class="sig-name descname"><span class="pre">trackPeople</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">people</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_is_mat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb/mt.html#MT.trackPeople"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.ppb.mt.MT.trackPeople" title="Link to this definition">#</a></dt>
+<dd><p>Track people by giving an image and a list of detected people. <a class="reference internal" href="#pyppbox.ppb.mt.MT.setConfigDir" title="pyppbox.ppb.mt.MT.setConfigDir"><code class="xref py py-func docutils literal notranslate"><span class="pre">setConfigDir()</span></code></a>
+or <a class="reference internal" href="#pyppbox.ppb.mt.MT.setMainTracker" title="pyppbox.ppb.mt.MT.setMainTracker"><code class="xref py py-func docutils literal notranslate"><span class="pre">setMainTracker()</span></code></a> must be called in advance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>str</em><em> or </em><em>Mat</em>) – Set an image file or a <code class="xref py py-obj docutils literal notranslate"><span class="pre">Mat</span></code> like image.</p></li>
+<li><p><strong>people</strong> (<em>list</em><em>[</em><a class="reference internal" href="utils.html#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><em>Person</em></a><em>, </em><em>...</em><em>]</em>) – Set a list of <a class="reference internal" href="utils.html#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a> object which stores the detected
+people in the input <code class="xref py py-obj docutils literal notranslate"><span class="pre">img</span></code>.</p></li>
+<li><p><strong>img_is_mat</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Speed up the function by telling whether the <code class="xref py py-obj docutils literal notranslate"><span class="pre">img</span></code> is <code class="xref py py-obj docutils literal notranslate"><span class="pre">Mat</span></code> like image.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of <a class="reference internal" href="utils.html#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyppbox.utils.persontools.Person</span></code></a> object which stores people with
+updated IDs.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="utils.html#pyppbox.utils.persontools.Person" title="pyppbox.utils.persontools.Person">Person</a>, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyppbox.ppb.mt.MT.trainReIDClassifier">
+<span class="sig-name descname"><span class="pre">trainReIDClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reider</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classifier_pkl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyppbox/ppb/mt.html#MT.trainReIDClassifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyppbox.ppb.mt.MT.trainReIDClassifier" title="Link to this definition">#</a></dt>
+<dd><p>Train classifier of a reider by pointing to a data directory. Calling
+<a class="reference internal" href="#pyppbox.ppb.mt.MT.setConfigDir" title="pyppbox.ppb.mt.MT.setConfigDir"><code class="xref py py-func docutils literal notranslate"><span class="pre">setConfigDir()</span></code></a> or <a class="reference internal" href="#pyppbox.ppb.mt.MT.setMainReIDer" title="pyppbox.ppb.mt.MT.setMainReIDer"><code class="xref py py-func docutils literal notranslate"><span class="pre">setMainReIDer()</span></code></a> in advance is not required.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reider</strong> (<em>str</em><em> or </em><em>dict</em><em>, </em><em>default=&quot;&quot;</em>) – A supported name, a raw/ready dictionary, or a YAML/JSON file which is passed to
+<a class="reference internal" href="#pyppbox.ppb.mt.MT.setMainReIDer" title="pyppbox.ppb.mt.MT.setMainReIDer"><code class="xref py py-func docutils literal notranslate"><span class="pre">setMainReIDer()</span></code></a>, where <cite>reider=reider</cite>, and <cite>auto_load=False</cite>.</p></li>
+<li><p><strong>train_data</strong> (<em>str</em><em>, </em><em>default=&quot;&quot;</em>) – A path of data used for training, where consists of 2 or more sub-folders which classify
+2 or more people. Set <code class="code docutils literal notranslate"><span class="pre">train_data=&quot;&quot;</span></code> or keep default to use the configured
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">train_data</span></code> as set in the given <code class="code docutils literal notranslate"><span class="pre">reider</span></code>. All images in this sub-folders
+must be 128x256 for Torchreid and 182x182 for FaceNet.</p></li>
+<li><p><strong>classifier_pkl</strong> (<em>str</em><em>, </em><em>default=&quot;&quot;</em>) – A file path for the output classifier PKL file. Set <code class="code docutils literal notranslate"><span class="pre">classifier_pkl=&quot;&quot;</span></code> or keep the
+default to use the configured <code class="xref py py-obj docutils literal notranslate"><span class="pre">classifier_pkl</span></code> as set in the given <code class="xref py py-obj docutils literal notranslate"><span class="pre">reider</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../examples/example_14.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Example 14: Use pyppbox in multithreading application</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="modules.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Supported Modules</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox-standalone">pyppbox.standalone</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.standalone.detectPeople"><code class="docutils literal notranslate"><span class="pre">detectPeople()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.standalone.forceFullGTMode"><code class="docutils literal notranslate"><span class="pre">forceFullGTMode()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.standalone.getConfig"><code class="docutils literal notranslate"><span class="pre">getConfig()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.standalone.reidPeople"><code class="docutils literal notranslate"><span class="pre">reidPeople()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.standalone.setConfigDir"><code class="docutils literal notranslate"><span class="pre">setConfigDir()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.standalone.setMainDetector"><code class="docutils literal notranslate"><span class="pre">setMainDetector()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.standalone.setMainModules"><code class="docutils literal notranslate"><span class="pre">setMainModules()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.standalone.setMainReIDer"><code class="docutils literal notranslate"><span class="pre">setMainReIDer()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.standalone.setMainTracker"><code class="docutils literal notranslate"><span class="pre">setMainTracker()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.standalone.trackPeople"><code class="docutils literal notranslate"><span class="pre">trackPeople()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.standalone.trainReIDClassifier"><code class="docutils literal notranslate"><span class="pre">trainReIDClassifier()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox-standalone-mt">pyppbox.standalone.MT</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.ppb.mt.MT"><code class="docutils literal notranslate"><span class="pre">MT</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.ppb.mt.MT.detectPeople"><code class="docutils literal notranslate"><span class="pre">MT.detectPeople()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.ppb.mt.MT.forceFullGTMode"><code class="docutils literal notranslate"><span class="pre">MT.forceFullGTMode()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.ppb.mt.MT.getConfig"><code class="docutils literal notranslate"><span class="pre">MT.getConfig()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.ppb.mt.MT.getMainConfig"><code class="docutils literal notranslate"><span class="pre">MT.getMainConfig()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.ppb.mt.MT.reidPeople"><code class="docutils literal notranslate"><span class="pre">MT.reidPeople()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.ppb.mt.MT.setConfigDir"><code class="docutils literal notranslate"><span class="pre">MT.setConfigDir()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.ppb.mt.MT.setMainDetector"><code class="docutils literal notranslate"><span class="pre">MT.setMainDetector()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.ppb.mt.MT.setMainModules"><code class="docutils literal notranslate"><span class="pre">MT.setMainModules()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.ppb.mt.MT.setMainReIDer"><code class="docutils literal notranslate"><span class="pre">MT.setMainReIDer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.ppb.mt.MT.setMainTracker"><code class="docutils literal notranslate"><span class="pre">MT.setMainTracker()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.ppb.mt.MT.trackPeople"><code class="docutils literal notranslate"><span class="pre">MT.trackPeople()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pyppbox.ppb.mt.MT.trainReIDClassifier"><code class="docutils literal notranslate"><span class="pre">MT.trainReIDClassifier()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, UMONS-Numediart, Ratha SIV.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
