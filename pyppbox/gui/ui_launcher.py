@@ -23,6 +23,11 @@ import os
 import sys
 import subprocess as sp
 
+from pyppbox.utils.logtools import add_info_log, get_env, set_terminal_log_from_env
+
+# Honor environment variable to disable/enable terminal logs
+set_terminal_log_from_env()
+
 from PyQt6 import QtCore, QtGui, QtWidgets
 from ui_yolocls import Ui_YOLOCLS
 from ui_yoloult import Ui_YOLOULT
@@ -32,7 +37,6 @@ from ui_sort import Ui_SORT
 from ui_deepsort import Ui_DeepSORT
 from ui_facenet import Ui_FaceNet
 from ui_torchreid import Ui_Torchreid
-from pyppbox.utils.logtools import add_info_log
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.gui.guihub import loadUITMP, loadInputTMP, writeInputTMP
 from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, joinFPathFull, 
@@ -359,16 +363,7 @@ class Ui_PYPPBOXLauncher(object):
                         self.input_force_hd_comboBox.currentText())
         
         launcher.hide()
-        # Inherit env and disable pyppbox terminal logs in child process
-        env = os.environ.copy()
-        env["PYPPBOX_DISABLE_TERMINAL_LOG"] = "1"
-        # Optionally drop child's stdout/stderr so nothing prints to terminal
-        p = sp.Popen(
-            [sys.executable, os.path.join(current_dir, 'guidemo.py')],
-            stdout=sp.DEVNULL,
-            stderr=sp.DEVNULL,
-            env=env
-        )
+        p = sp.Popen([sys.executable, os.path.join(current_dir, 'guidemo.py')], env=get_env())
         p.wait()
         self.mycfg.setMCFG()
         launcher.show()
