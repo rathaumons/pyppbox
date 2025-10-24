@@ -28,6 +28,7 @@
       - Enable (default): `pyppbox.enable_terminal_log()` or export/set `PYPPBOX_DISABLE_TERMINAL_LOG=0` in terminal
       - Disable: `pyppbox.disable_terminal_log()` or export/set `PYPPBOX_DISABLE_TERMINAL_LOG=1` in terminal
     - Add enviroment variable adaptation for all GUI modules and related functions
+    - Add more logging functions, see [here](https://rathaumons.github.io/pyppbox/pyppbox/utils.html#module-pyppbox.utils.logtools).
 
 * `pyppbox` [v3.12.0](https://github.com/rathaumons/pyppbox/tree/v3.12.0) - ~~The Last V3~~
 
