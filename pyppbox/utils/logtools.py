@@ -29,41 +29,60 @@ __log_dir__ = os.path.join(__pyppbox_root__, "data/logs").replace(os.sep, '/')
 __log_txt_path__ = os.path.join(__log_dir__, "log_" + __timestamp__ + ".txt")
 __max_age__ = 86400 * 1 # 1 DAY
 
+# Global toggles
+__terminal_log__ = True
+__file_log__ = False
+__logger__ = None
+
 # Remove old logs
-if os.path.exists(__log_dir__):
-    for filename in os.listdir(__log_dir__):
-        if "git" in filename: continue
-        filestamp = os.stat(os.path.join(__log_dir__, filename)).st_mtime
-        if  filestamp < time.time() - __max_age__:
-            os.remove(os.path.join(__log_dir__, filename))
-else: os.makedirs(__log_dir__)
+def cleanup_old_logs():
+    """
+    Clean up old log files in the log directory that are older than the maximum age.
+    Default age is 1 day.
+    """
+    global __log_dir__, __max_age__
+    if os.path.exists(__log_dir__):
+        for filename in os.listdir(__log_dir__):
+            if "git" in filename: continue
+            filestamp = os.stat(os.path.join(__log_dir__, filename)).st_mtime
+            if  filestamp < time.time() - __max_age__:
+                os.remove(os.path.join(__log_dir__, filename))
+    else: os.makedirs(__log_dir__)
+
+cleanup_old_logs()
+
+# follow the enviroment variable to disable file logging
+def set_file_log_from_env():
+    """
+    Set the file logging status according to the environment variable
+    :code:`PYPPBOX_DISABLE_FILE_LOG`.
+    """
+    global __file_log__
+    if os.environ.get("PYPPBOX_DISABLE_FILE_LOG", "").lower() in ("1", "true", "yes", "on"):
+        __file_log__ = False
+    elif os.environ.get("PYPPBOX_DISABLE_FILE_LOG", "").lower() in ("0", "false", "no", "off"):
+        __file_log__ = True
+
+set_file_log_from_env()
 
 # Initial logger
-logging.basicConfig(
-    filename=__log_txt_path__,
-    filemode='a',
-    format='%(asctime)s %(levelname)-3s %(message)-3s',
-    datefmt='%H:%M:%S',
-    level=logging.INFO
-)
-
-# Add header
-with open(__log_txt_path__, 'w+') as log_txt:
-    log_txt.write("-------------------------------------------------")
-    log_txt.write("-------------------------------------------------\n")
-    log_txt.write("#################################################")
-    log_txt.write("#################################################\n")
-    log_txt.write("-------------------------------------------------")
-    log_txt.write("-------------------------------------------------\n")
-
-# Global
-__this_logger__ = logging.getLogger(__name__)
-__this_logger__.info(": Here we go!")
-__TRUE__ = True
-
-# Honor environment variable to disable terminal logs in child processes
-if os.environ.get("PYPPBOX_DISABLE_TERMINAL_LOG", "").lower() in ("1", "true", "yes", "on"):
-    __TRUE__ = False
+if __file_log__:
+    logging.basicConfig(
+        filename=__log_txt_path__,
+        filemode='a',
+        format='%(asctime)s %(levelname)-3s %(message)-3s',
+        datefmt='%H:%M:%S',
+        level=logging.INFO
+    )
+    with open(__log_txt_path__, 'w+') as log_txt:
+        log_txt.write("-------------------------------------------------")
+        log_txt.write("-------------------------------------------------\n")
+        log_txt.write("#################################################")
+        log_txt.write("#################################################\n")
+        log_txt.write("-------------------------------------------------")
+        log_txt.write("-------------------------------------------------\n")
+    __logger__ = logging.getLogger(__name__)
+    __logger__.info(": Here we go!")
 
 
 #############################################################################
@@ -73,41 +92,38 @@ def add_warning_log(msg, terminal_log=None, add_new_line=True):
     """
     :meta private:
     """
-    global __this_logger__, __TRUE__
+    global __logger__, __terminal_log__
     # Respect explicit caller override; otherwise use current global toggle
     if terminal_log is None:
-        terminal_log = __TRUE__
-    if terminal_log:
-        print(msg)
+        terminal_log = __terminal_log__
+    if terminal_log: print(msg)
     if add_new_line: msg = ': \n' + str(msg)
     else: msg = ': ' + str(msg)
-    __this_logger__.warning(msg)
+    if __logger__: __logger__.warning(msg)
 
 def add_info_log(msg, terminal_log=None, add_new_line=False):
     """
     :meta private:
     """
-    global __this_logger__, __TRUE__
+    global __logger__, __terminal_log__
     if terminal_log is None:
-        terminal_log = __TRUE__
-    if terminal_log:
-        print(msg)
+        terminal_log = __terminal_log__
+    if terminal_log: print(msg)
     if add_new_line: msg = ': \n' + str(msg)
     else: msg = ': ' + str(msg)
-    __this_logger__.info(msg)
+    if __logger__: __logger__.info(msg)
 
 def add_error_log(msg, terminal_log=None, add_new_line=True):
     """
     :meta private:
     """
-    global __this_logger__, __TRUE__
+    global __logger__, __terminal_log__
     if terminal_log is None:
-        terminal_log = __TRUE__
-    if terminal_log:
-        print(msg)
+        terminal_log = __terminal_log__
+    if terminal_log: print(msg)
     if add_new_line: msg = ': \n' + str(msg)
     else: msg = ': ' + str(msg)
-    __this_logger__.error(msg)
+    if __logger__: __logger__.error(msg)
 
 def ignore_this_logger(name, level=logging.ERROR):
     """
@@ -138,12 +154,43 @@ def disable_terminal_log():
     """
     Disable all console or terminal logging of pyppbox.
     """
-    global __TRUE__
-    __TRUE__ = False
+    global __terminal_log__
+    __terminal_log__ = False
+    os.environ['PYPPBOX_DISABLE_TERMINAL_LOG'] = "1"
 
 def enable_terminal_log():
     """
     Enable all console or terminal logging of pyppbox.
     """
-    global __TRUE__
-    __TRUE__ = True
+    global __terminal_log__
+    __terminal_log__ = True
+    os.environ['PYPPBOX_DISABLE_TERMINAL_LOG'] = "0"
+
+def get_terminal_log_status():
+    """
+    Get the current status of terminal logging.
+
+    Returns
+    -------
+    bool
+        :code:`True` if terminal logging is enabled, :code:`False` otherwise.
+    """
+    global __terminal_log__
+    return __terminal_log__
+
+def set_terminal_log_from_env():
+    """
+    Set the terminal logging status according to the environment variable
+    :code:`PYPPBOX_DISABLE_TERMINAL_LOG`.
+    """
+    global __terminal_log__
+    if os.environ.get("PYPPBOX_DISABLE_TERMINAL_LOG", "").lower() in ("1", "true", "yes", "on"):
+        __terminal_log__ = False
+    elif os.environ.get("PYPPBOX_DISABLE_TERMINAL_LOG", "").lower() in ("0", "false", "no", "off"):
+        __terminal_log__ = True
+
+def get_env():
+    """
+    Get a copy of the current environment variables.
+    """
+    return os.environ.copy()
