@@ -12,7 +12,24 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.12.0](https://github.com/rathaumons/pyppbox/tree/v3.12.0) - The Last V3
+* `pyppbox` [v3.13.0](https://github.com/rathaumons/pyppbox/tree/v3.13.0) - The Last V3
+
+  - Fix a bug and improve performance of SORT tracker:
+    - Refactor and optimize SORT tracking algorithm
+    - Fix a bug where unmatched tracks are not cleared after timeout
+    - Improve and enhance other internal functions
+    - Switch default assignment solver to the new `lapx`'s [`lapjvxa()`](https://github.com/rathaROG/lapx#3-the-new-function-lapjvxa)
+  - Improve performance of Centroid tracker by using the new `lapx`'s [`lapjvxa()`](https://github.com/rathaROG/lapx#3-the-new-function-lapjvxa)
+  - Improve the internal logging control:
+    - Add environment variable `PYPPBOX_DISABLE_FILE_LOG` to allow users to disable internal temporary text log files in `pyppbox/data/logs` (disabled by default); can be activated as follows:
+      - On Linux terminal: `export PYPPBOX_DISABLE_FILE_LOG=1`
+      - On Windows terminal: `set PYPPBOX_DISABLE_FILE_LOG=1`
+    - Add environment varible `PYPPBOX_DISABLE_TERMINAL_LOG` to allow users to disable the terminal log completely; can be toggled with the built-in functions:
+      - Enable (default): `pyppbox.enable_terminal_log()` or export/set `PYPPBOX_DISABLE_TERMINAL_LOG=0` in terminal
+      - Disable: `pyppbox.disable_terminal_log()` or export/set `PYPPBOX_DISABLE_TERMINAL_LOG=1` in terminal
+    - Add enviroment variable adaptation for all GUI modules and related functions
+
+* `pyppbox` [v3.12.0](https://github.com/rathaumons/pyppbox/tree/v3.12.0) - ~~The Last V3~~
 
   - Add comprehensive type hints across the major codebase
   - Add `getMainConfig(current=True)` to retrieve current main modules
