@@ -24,30 +24,18 @@ All requirements are not strictly limited. However, some specific modules might 
     pip uninstall -y ultralytics
     ```
 
-* Install dependencies/requirements under `pyppbox/requirements/`: 
-  - On ***Windows***, recommend using the `cmd` installer:
-    - For GPU (CUDA): `install_req_py3_cuda121.cmd` (Or `install_req_py3_cuda.cmd` for CUDA 11.8)
-    - For CPU-only: `install_req_py3_cpu.cmd` (Or skip this and go straight to Setup section below)
-  - On ***Linux*** (The latest installation instruction for [TensorFlow](https://www.tensorflow.org/install) and [PyTorch](https://pytorch.org/get-started/locally/)):
-    - For GPU (CUDA):
+* Install dependencies/requirements under [`pyppbox/requirements/`](https://github.com/rathaumons/pyppbox/tree/main/requirements):
+  - For CPU-only on any platform, skip this and go straight to Setup section below.
+  - For GPU (CUDA) on ***Windows***:
+    - Run the `cmd` installer [`install_req_py3_cuda121.cmd`](https://github.com/rathaumons/pyppbox/blob/main/requirements/install_req_py3_cuda121.cmd) (Or [`install_req_py3_cuda.cmd`](https://github.com/rathaumons/pyppbox/blob/main/requirements/install_req_py3_cuda.cmd) for CUDA 11.8)
+  - For GPU (CUDA) on ***Linux***:
+    - Install the CUDA version of [TensorFlow](https://www.tensorflow.org/install) and [PyTorch](https://pytorch.org/get-started/locally/).
+    - Install the [`requirements.txt`](https://github.com/rathaumons/pyppbox/blob/main/requirements/requirements.txt):
       ```
-      pip install tensorflow[and-cuda] # TensorFlow GPU
-      pip install torch torchvision
       pip install -r requirements.txt
       ```
-    - For CPU-only (Or skip this and go straight to Setup section below):
-      ```
-      pip install tensorflow # TensorFlow CPU
-      pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-      pip install -r requirements.txt
-      ```
-  - On ***macOS***:
-    - For GPU (CUDA): Not available
-    - For CPU (Or skip this and go straight to Setup section below):
-      ```
-      pip install torch torchvision
-      pip install -r requirements.txt
-      ```
+  - For GPU (CUDA) on ***macOS***:
+    - Not available
 
 * (Optional) For GPU-Only (CUDA) -> Verify the installed dependencies:
   - Execute the `test_gpu.py`
