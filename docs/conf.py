@@ -26,7 +26,7 @@ sys.path.insert(0, os.path.abspath('..'))
 from pyppbox.utils.commontools import getVersionString
 
 project = 'pyppbox'
-copyright = '2025, UMONS-Numediart, Ratha SIV'
+copyright = '2026, UMONS-Numediart, Ratha SIV'
 author = 'Ratha SIV'
 version = getVersionString()
 release = version
