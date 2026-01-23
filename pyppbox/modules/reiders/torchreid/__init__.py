@@ -75,8 +75,8 @@ class MyTorchreid(object):
         predictions = self.model.predict_proba(emb_array)
         best_class_indices = np.argmax(predictions, axis=1)
         best_class_probabilities = predictions[np.arange(len(best_class_indices)), best_class_indices]
-        best_class = best_class_indices[0]
-        best_proba = float(best_class_probabilities*100)
+        best_class = int(np.asarray(best_class_indices[0]).item())
+        best_proba = float(np.asarray(best_class_probabilities[0]).item() * 100)
         return best_class, best_proba
 
     def recognize(self, img, is_bgr=True):
