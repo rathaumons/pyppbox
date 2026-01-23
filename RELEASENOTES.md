@@ -18,6 +18,7 @@
   - Add proper supports for the new [Ultralytics YOLO26](https://rathaumons.github.io/pyppbox/pyppbox/modules.html#id1)
   - Set `pyppbox-data` [v1.4.0](https://github.com/rathaumons/pyppbox-data/releases/tag/v1.4.0) as default in documentation and workflows
   - Update and improve documentation
+  - Update and improve GitHub workflows
   - **Known issue/limitation**:
     - You tell me :)
 
