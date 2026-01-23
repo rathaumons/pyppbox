@@ -12,7 +12,16 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.13.0](https://github.com/rathaumons/pyppbox/tree/v3.13.0) - The Last V3
+* `pyppbox` [v3.14.0](https://github.com/rathaumons/pyppbox/tree/v3.14.0) - The Last V3
+
+  - Fix a bug in reid `predict()` functions and ensure the compatibility with both NumPy 2.x and 1.x
+  - Add proper supports for the new [Ultralytics YOLO26](https://rathaumons.github.io/pyppbox/pyppbox/modules.html#id1)
+  - Set `pyppbox-data` [v1.4.0](https://github.com/rathaumons/pyppbox-data/releases/tag/v1.4.0) as default in documentation and workflows
+  - Update and improve documentation
+  - **Known issue/limitation**:
+    - You tell me :)
+
+* `pyppbox` [v3.13.0](https://github.com/rathaumons/pyppbox/tree/v3.13.0) - ~~The Last V3~~
 
   - Fix a bug and improve performance of SORT tracker:
     - Refactor and optimize SORT tracking algorithm
