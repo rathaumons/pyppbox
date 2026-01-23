@@ -8,10 +8,7 @@ For example, the supported `YOLO_Classic` / `YOLO` module can only be used as a 
 
 |
 
-Detectors
----------
-
-.. table:: Detectors (Supported)
+.. table:: Supported Detectors
 
    +--------------+------------------+----------------------------------------------------------+
    | General Name | Config Name      | Details                                                  |
@@ -27,10 +24,7 @@ Detectors
 
 |
 
-Trackers
---------
-
-.. table:: Trackers (Supported)
+.. table:: Supported Trackers
 
    +--------------+------------------+----------------------------------------------------------+
    | General Name | Config Name      | Details                                                  |
@@ -49,10 +43,7 @@ Trackers
 
 |
 
-ReIDers
--------
-
-.. table:: ReIDers (Supported)
+.. table:: Supported ReIDers
 
    +--------------+------------------+----------------------------------------------------------+
    | General Name | Config Name      | Details                                                  |
