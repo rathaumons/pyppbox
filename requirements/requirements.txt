@@ -24,13 +24,13 @@ torch
 torchvision
 ### Tracker: SORT
 filterpy
-lapx>=0.6.0
+lapx>=0.9.4
 ### GUI
 PyQt6
 sfps
 ### Customized pyppbox-torchreid
 pyppbox-torchreid
 ### Customized vsensebox-ultralytics (pyppbox-ultralytics is discontinued)
-vsensebox-ultralytics>=8.3.5
+vsensebox-ultralytics>=8.4.7
 ### Unused
 # shapely
