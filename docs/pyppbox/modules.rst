@@ -38,7 +38,7 @@ For example, the supported `YOLO_Classic` / `YOLO` module can only be used as a 
    +--------------+------------------+----------------------------------------------------------+
    | DeepSORT     | DeepSORT         | * Integrated by embedding                                |
    |              |                  | * `DeepSORT repo`_                                       |
-   |              |                  | * Run on: CPU or GPU (Tensorflow)                        |
+   |              |                  | * Run on: CPU or GPU (PyTorch)                           |
    +--------------+------------------+----------------------------------------------------------+
 
 |
