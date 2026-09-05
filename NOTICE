@@ -1,5 +1,5 @@
 pyppbox licensing and bundled third-party notices
-================================================
+=================================================
 
 The pyppbox-owned code in this source tree is licensed under the GNU Affero
 General Public License, version 3 or (at your option) any later version
@@ -27,7 +27,7 @@ https://github.com/nwojke/deep_sort/blob/master/LICENSE
 The license text is included in licenses/GPL-3.0.txt.
 
 FaceNet and MTCNN
-----------------
+-----------------
 Location: pyppbox/modules/reiders/facenet/origin/align_dataset_mtcnn.py,
           pyppbox/modules/reiders/facenet/origin/detect_face.py,
           pyppbox/modules/reiders/facenet/origin/facenet.py

@@ -50,7 +50,9 @@ def check_distributions(directory):
             launcher = read_file(find_file('pyppbox/gui/ui_launcher.py')).decode('utf-8')
             assert 'PYPPBOX (AGPLV3+)' in launcher and 'PYPPBOX (GPLV3+)' not in launcher, artifact
             headers = read_file(find_file('pyppbox/config/myconfig.py')).decode('utf-8')
-            assert 'GNU Affero General Public License' in headers and 'GNU General Public License' not in headers, artifact
+            short_notice = 'Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License'
+            assert headers.startswith('# ' + short_notice), artifact
+            assert ':: ' + short_notice in headers and 'GNU General Public License' not in headers, artifact
 
             for source in (
                 'pyppbox/modules/trackers/sort/origin/sort.py',
