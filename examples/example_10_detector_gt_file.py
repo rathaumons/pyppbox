@@ -22,8 +22,8 @@ setMainReIDer(reider="Torchreid")
 # Set tracker="None" and reider="None" if you want to run full GT mode including 
 # the real ID as in the GT file.
 """
-setTracker(tracker="None")  # FYI, "None" is not None
-setReIDer(reider="None")    # FYI, "None" is not None
+setMainTracker(tracker="None")  # FYI, "None" is not None
+setMainReIDer(reider="None")    # FYI, "None" is not None
 """
 
 input_video = "data/gta.mp4"

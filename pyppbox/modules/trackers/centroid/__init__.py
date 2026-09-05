@@ -24,7 +24,8 @@ from math import hypot
 from typing import List, Tuple
 
 from pyppbox.utils.persontools import Person
-from pyppbox.utils.logtools import add_error_log
+from pyppbox.utils.logtools import add_error_log, add_warning_log
+from scipy.optimize import linear_sum_assignment
 
 try:
     import lap
@@ -33,19 +34,15 @@ except Exception:
 
 
 def _linear_assignment(cost_matrix: np.ndarray):
-    """
-    LAP wrapper mirroring pyppbox/modules/trackers/sort/origin/sort.py behavior.
-    Returns ndarray of shape (k, 2) int32 with [row, col] pairs, or None on failure.
-    """
-    if lap is None:
-        return None
+    """Return one-to-one assignments, falling back to SciPy if LAP is unavailable."""
     cm = np.ascontiguousarray(cost_matrix, dtype=np.float32)
-    extend = (cm.shape[0] != cm.shape[1])
-    try:
-        pairs = lap.lapjvxa(cm, extend_cost=extend, return_cost=False)
-        return pairs  # Expected to be (k, 2) int32
-    except Exception:
-        return None
+    if lap is not None:
+        try:
+            return lap.lapjvxa(cm, extend_cost=cm.shape[0] != cm.shape[1], return_cost=False)
+        except Exception as e:
+            add_warning_log(f"MyCentroid : LAP failed; using SciPy assignment: {e}")
+    rows, cols = linear_sum_assignment(cm)
+    return np.column_stack((rows, cols)).astype(np.int32)
 
 
 def _euclidean_dist_matrix(curr_pts: np.ndarray, prev_pts: np.ndarray) -> np.ndarray:
@@ -54,8 +51,8 @@ def _euclidean_dist_matrix(curr_pts: np.ndarray, prev_pts: np.ndarray) -> np.nda
 
     Parameters
     ----------
-    curr_pts : ndarray (Nc, 2)
-    prev_pts : ndarray (Np, 2)
+    curr_pts : ``ndarray (Nc, 2)``
+    prev_pts : ``ndarray (Np, 2)``
 
     Returns
     -------
@@ -71,7 +68,7 @@ class MyCentroid(object):
     """Class representing a Centroid tracker."""
 
     def __init__(self, cfg):
-        """Initialize according to the given :obj:`cfg`.
+        """Initialize according to the given ``cfg``.
 
         Parameters
         ----------
@@ -118,7 +115,7 @@ class MyCentroid(object):
         ----------
         curr_points : (Nc,2) float32
         prev_points : (Np,2) float32
-        max_spread  : float
+        max_spread : float
 
         Returns
         -------
@@ -166,21 +163,31 @@ class MyCentroid(object):
         return matched, unmatched_curr, unmatched_prev
 
     def update(self, person_list, img=None):
-        """Update the tracker and return the updated list of 
+        """Update the tracker and return the updated list of
         :class:`pyppbox.utils.persontools.Person`.
 
         Parameters
         ----------
         person_list : list[Person, ...]
-            A list of :class:`pyppbox.utils.persontools.Person` object which stores 
-            the detected people in the given :obj:`img`.
-        img : any, default=None
+            A list of :class:`pyppbox.utils.persontools.Person` object which stores
+            the detected people in the given ``img``.
+        img : object
+            Defaults to ``None``.
             Being consistent with other trackers, will be ignored.
 
         Returns
         -------
         list[Person, ...]
             The updated list of :class:`pyppbox.utils.persontools.Person` object.
+
+        Notes
+        -----
+        Call once per input frame and keep one tracker instance per stream. Person IDs,
+        identity metadata, and ``misc`` can be updated in place; returned people are not
+        independent snapshots. Use a result recorder or copy objects for historical data.
+        Matching uses representative-point distances between adjacent frames.
+        An empty frame clears the current detections, so a later detection receives a
+        new CID. This tracker does not keep an age-based cache across empty frames.
         """
         self.previous_list = self.current_list
         self.current_list = []
@@ -212,7 +219,7 @@ class MyCentroid(object):
                 unmatched_cur_all = set(range(len(self.current_list)))
 
                 # Prefer LAP-based matching when available
-                if lap is not None and len(prev_pts) and len(cur_pts):
+                if len(prev_pts) and len(cur_pts):
                     cur_arr = np.asarray(cur_pts, dtype=np.float32)
                     prev_arr = np.asarray(prev_pts, dtype=np.float32)
                     matched, unmatched_cur, _ = self._lap_match(cur_arr, prev_arr, float(self.max_spread))
@@ -229,17 +236,6 @@ class MyCentroid(object):
                     for c_local in unmatched_cur:
                         c_idx = cur_idx_map[int(c_local)]
                         unmatched_cur_all.add(c_idx)
-                else:
-                    # Greedy fallback: original nearest neighbor per current
-                    for c_idx in range(len(self.current_list)):
-                        rp = getattr(self.current_list[c_idx], "repspoint", None)
-                        if rp is None:
-                            continue
-                        pindex = self.__findPID__(rp)
-                        if pindex >= 0:
-                            matched_pairs.append((c_idx, pindex))
-                            if c_idx in unmatched_cur_all:
-                                unmatched_cur_all.remove(c_idx)
 
                 # First pass: apply matches
                 hang_indexes_in_clist = []

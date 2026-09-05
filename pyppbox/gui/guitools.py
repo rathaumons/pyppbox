@@ -41,7 +41,7 @@ def useThisConfigDir(cfg_dir):
 
     Parameters
     ----------
-    config_dir : str
+    cfg_dir : str
         A path of configuration directory.
     """
     global pyppbox_struct, __cfgdir__
@@ -50,7 +50,7 @@ def useThisConfigDir(cfg_dir):
     add_warning_log("FYI: This basic method only serves GUI submodule `pyppbox.gui`.")
 
 def useInternalConfigDir():
-    """Use the internal config directory, :code:`{pyppbox root}/confog/cfg` inside pyppbox package.
+    """Use the internal config directory, :code:`{pyppbox root}/config/cfg` inside pyppbox package.
     """
     global pyppbox_struct, __cfgdir__
     pyppbox_struct = PYPPBOXStructure()
@@ -58,31 +58,47 @@ def useInternalConfigDir():
     add_warning_log("FYI: This basic method only serves GUI submodule `pyppbox.gui`.")
 
 def showMainConfig():
-    """Print JSON dictionary of the configurations in main.yaml.
+    """Print the configuration mapping from main.yaml.
+
+    Uses the GUI's selected config directory and prints Python representations,
+    not serialized JSON. Returns None; this does not change the pipeline configuration.
     """
     print(loadDocument(pyppbox_struct.main_yaml))
     add_warning_log("FYI: This basic method only serves GUI submodule `pyppbox.gui`.")
 
 def showAllDTConfig():
-    """Print JSON dictionary of the configurations in detectors.yaml.
+    """Print the list of configuration mappings from detectors.yaml.
+
+    Uses the GUI's selected config directory and prints Python representations,
+    not serialized JSON. Returns None; this does not change the pipeline configuration.
     """
     print(loadDocumentList(pyppbox_struct.detectors_yaml))
     add_warning_log("FYI: This basic method only serves GUI submodule `pyppbox.gui`.")
 
 def showAllTKConfig():
-    """Print JSON dictionary of the configurations in trackers.yaml.
+    """Print the list of configuration mappings from trackers.yaml.
+
+    Uses the GUI's selected config directory and prints Python representations,
+    not serialized JSON. Returns None; this does not change the pipeline configuration.
     """
     print(loadDocumentList(pyppbox_struct.trackers_yaml))
     add_warning_log("FYI: This basic method only serves GUI submodule `pyppbox.gui`.")
 
 def showAllRIConfig():
-    """Print JSON dictionary of the configurations in reiders.yaml.
+    """Print the list of configuration mappings from reiders.yaml.
+
+    Uses the GUI's selected config directory and prints Python representations,
+    not serialized JSON. Returns None; this does not change the pipeline configuration.
     """
     print(loadDocumentList(pyppbox_struct.reiders_yaml))
     add_warning_log("FYI: This basic method only serves GUI submodule `pyppbox.gui`.")
 
 def resetInternalConfig():
-    """Reset the internal configurations.
+    """Overwrite internal configuration files from the package's bundled ``cfg.zip``.
+
+    This restores the archived defaults on disk, discarding edits to those files.
+    It does not reconstruct existing pipeline/model instances. Returns None;
+    archive/filesystem errors propagate.
     """
     global pyppbox_struct
     pyppbox_struct = PYPPBOXStructure()
@@ -93,25 +109,33 @@ def resetInternalConfig():
     add_warning_log("FYI: This basic method only serves GUI submodule `pyppbox.gui`.")
 
 def launchGUI():
-    """Launch GUI configuration tool of pyppbox.
+    """Launch the GUI in a child Python process and wait for it to close.
+
+    Write the selected GUI config directory to the GUI state file and pass the
+    current process environment to the child. Returns None; no child exit code is
+    returned. This does not initialize the standalone pipeline in the calling process.
     """
     writeUITMP(__cfgdir__)
     p = sp.Popen([sys.executable, os.path.join(current_dir, 'ui_launcher.py')], env=get_env())
     p.wait()
 
 def generateConfig(cfg_dir, auto_launch_gui=True):
-    """Generate the 4 required YAML files to a given :obj:`cfg_dir`:
-        - main.yaml, indicates which detector/tracker/reider is used.
-        - detectors.yaml, stores all detectors' configurations.
-        - trackers.yaml, stores all trackers' configurations.
-        - reiders.yaml, stores all reiders' configurations.
+    """Extract the selected GUI config archive into an existing directory.
 
     Parameters
     ----------
-    config_dir : str
-        A path of configuration directory.
-    auto_launch_gui : bool, default=True
-        An indication of whether to load and launch GUI from the :obj:`config_dir`.
+    cfg_dir : str
+        Destination directory, which must exist. Files with matching names can be
+        overwritten. The archive is ``cfg.zip`` in the GUI's currently selected
+        config directory; a custom source therefore needs that archive too.
+    auto_launch_gui : bool
+        Defaults to ``True``. Select the destination for the GUI, launch it in a
+        child process, and wait for it to close.
+
+    Notes
+    -----
+    Returns None. A missing destination causes no extraction. Archive and filesystem
+    errors propagate. Existing standalone/MT pipeline configurations are not changed.
     """
     if isExist(cfg_dir):
         global pyppbox_struct

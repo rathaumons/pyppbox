@@ -29,21 +29,20 @@ default_model_dict_yaml = joinFPathFull(getGlobalRootDir(), "modules/reiders/tor
 
 class TorchreidModel(object):
 
-    """
-    A class used to represent configurations of a Torchreid model.
+    """Store one model-catalog entry; call ``set()`` to populate its attributes.
 
     Attributes
     ----------
     name : str
-        Name of the model.
+        Catalog model name.
     arch : str
-        Architecture of the model.
+        Feature-extractor architecture name.
     height : int
-        Image height.
+        Expected input height in pixels.
     width : int
-        Image height.
-    model_files : list[str, ...]
-        A list of the all base models and pre-trained model weights.
+        Expected input width in pixels.
+    model_files : list[str]
+        Weight filenames recognized for this entry.
     """
 
     def __init__(self):
@@ -66,15 +65,14 @@ class TorchreidModel(object):
 
 class TorchreidModelDict(object):
 
-    """
-    A class used to store a dictionary for mapping name, arch, height, width, pretrained files, and base files of Torchreid models.
+    """Load the model catalog and look up architectures and image dimensions by filename.
 
     Attributes
     ----------
-    raw_model : Dict[str, Any], auto
-        A configuration dictionary of a single document of the Torchreid model configurations.
-    model_list : list[TorchreidModel, ...], auto
-        A list of all :class:`TorchreidModel` objects.
+    raw_model : object
+        YAML document iterator, consumed during construction.
+    model_list : list[TorchreidModel]
+        Loaded catalog entries, in file order.
     """
 
     def __init__(self, model_dict_yaml=default_model_dict_yaml):
@@ -82,7 +80,8 @@ class TorchreidModelDict(object):
 
         Parameters
         ----------
-        model_dict_yaml : str, default='{pyppbox root}/modules/reiders/torchreid/model_dict.yaml'
+        model_dict_yaml : str
+            Defaults to ``'{pyppbox root}/modules/reiders/torchreid/model_dict.yaml'``.
             A path of a YAML file which stores the dictionary of Torchreid models.
         """
         with open(model_dict_yaml) as input_file:
@@ -94,17 +93,18 @@ class TorchreidModelDict(object):
                 self.model_list.append(m)
     
     def findModelArch(self, model_file):
-        """Find the arch of a Torchreid model based on the given model file.
+        """Look up the architecture for a catalog weight filename.
 
         Parameters
         ----------
         model_file : str
-            A path of a Torchreid model file.
-        
-        Return
-        ------
-        mode_arch : str
-            String arch corresponding to the given model.
+            Filename, not a directory path. Matching is case-insensitive against
+            catalog ``model_files`` entries.
+
+        Returns
+        -------
+        str
+            Architecture name, or an empty string when no entry matches.
         """
         model_arch = ""
         for m in self.model_list:
@@ -115,17 +115,18 @@ class TorchreidModelDict(object):
         return model_arch
 
     def getWH(self, model_file):
-        """Find the input image size (width, height) of a Torchreid model based on the given model file.
+        """Look up input dimensions for a catalog weight filename.
 
         Parameters
         ----------
         model_file : str
-            A path of a Torchreid model file.
-        
-        Return
-        ------
-        (w, h) : tuple(int, int)
-            Size (width, height) corresponding to the given model.
+            Filename, not a directory path. Matching is case-insensitive against
+            catalog ``model_files`` entries.
+
+        Returns
+        -------
+        tuple[int, int]
+            (width, height), or (0, 0) when no entry matches.
         """
         w = 0
         h = 0

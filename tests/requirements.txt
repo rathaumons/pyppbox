@@ -1,0 +1,10 @@
+# Dependencies for deterministic regression tests. Models, CUDA, and GUI are not used.
+numpy
+opencv-contrib-python
+PyYAML
+scipy>=1.10.0
+scikit-image>=0.20.0
+scikit-learn>=1.2.2
+matplotlib
+filterpy
+lapx>=0.9.4

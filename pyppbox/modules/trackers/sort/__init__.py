@@ -33,13 +33,14 @@ class MySORT(object):
     """
 
     def __init__(self, cfg):
-        """Initialize according to the given :obj:`cfg` and :obj:`auto_load`.
+        """Create an independent SORT tracker with an empty identity cache.
 
         Parameters
         ----------
-        cfg : TCFGSORT
-            A :class:`TCFGDeepSORT` object which manages the configurations of tracker SORT.
+        cfg : pyppbox.config.myconfig.TCFGSORT
+            Populated configuration supplying ``max_age``, ``min_hits``, and ``iou_threshold``.
         """
+        self._people_by_cid = {}
         self.st = Sort(cfg.max_age, cfg.min_hits, cfg.iou_threshold)
         self.previous_list = []
         self.current_list = []
@@ -80,40 +81,44 @@ class MySORT(object):
 
 
     def update(self, person_list, img=None):
-        """Update the tracker and return the updated list of 
+        """Update the tracker and return the updated list of
         :class:`pyppbox.utils.persontools.Person`.
 
         Parameters
         ----------
         person_list : list[Person, ...]
-            A list of :class:`pyppbox.utils.persontools.Person` object which stores 
-            the detected people in the given :obj:`img`.
-        img : any, default=None
+            A list of :class:`pyppbox.utils.persontools.Person` object which stores
+            the detected people in the given ``img``.
+        img : object
+            Defaults to ``None``.
             Being consistent with other trackers, will be ignored.
 
         Returns
         -------
         list[Person, ...]
             The updated list of :class:`pyppbox.utils.persontools.Person` object.
+
+        Notes
+        -----
+        Call once per input frame and keep one tracker instance per stream. Person IDs,
+        identity metadata, and ``misc`` can be updated in place; returned people are not
+        independent snapshots. Use a result recorder or copy objects for historical data.
+        An empty input advances track age and returns an empty list. Metadata
+        is retained only while the underlying track remains alive. Returned values
+        represent current detections, not a list of predicted boxes for missing people.
         """
-        self.previous_list = self.current_list
-        self.current_list = []
-
-        if len(person_list) > 0:
-            if isinstance(person_list[0], Person):
-                self.current_list = self.st.update_pyppbox(person_list)
-                for i in range (0, len(self.current_list)):
-                    if len(self.previous_list) > 0:
-                        pindex = self.__getIndexFromPreviousList__(self.current_list[i].cid)
-                        if pindex >= 0:
-                            self.current_list[i].faceid = self.previous_list[pindex].faceid
-                            self.current_list[i].deepid = self.previous_list[pindex].deepid
-                            self.current_list[i].faceid_conf = self.previous_list[pindex].faceid_conf
-                            self.current_list[i].deepid_conf = self.previous_list[pindex].deepid_conf
-                            self.current_list[i].misc = self.previous_list[pindex].misc
-            else:
-                msg = ("MySORT : update() -> The element of input 'person_list' list has unsupported type.")
-                add_error_log(msg)
-                raise ValueError(msg)
-
+        if not all(isinstance(person, Person) for person in person_list):
+            raise ValueError("MySORT : update() -> Expected a list of Person objects.")
+        self.previous_list = list(self._people_by_cid.values())
+        self.current_list = self.st.update_pyppbox(person_list)
+        for person in self.current_list:
+            previous = self._people_by_cid.get(person.cid)
+            if previous is not None:
+                person.updateIDs(person.cid, previous.faceid, previous.deepid,
+                                 previous.faceid_conf, previous.deepid_conf)
+                person.misc = previous.misc
+            self._people_by_cid[person.cid] = person
+        active_ids = {track.id for track in self.st.trackers}
+        self._people_by_cid = {cid: person for cid, person in self._people_by_cid.items()
+                               if cid in active_ids}
         return self.current_list

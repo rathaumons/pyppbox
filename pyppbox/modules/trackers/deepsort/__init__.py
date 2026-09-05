@@ -44,15 +44,16 @@ class MyDeepSORT(object):
     """
 
     def __init__(self, cfg):
-        """Initialize according to the given :obj:`cfg` and :obj:`auto_load`.
+        """Initialize according to the given ``cfg``.
 
         Parameters
         ----------
-        cfg : TCFGDeepSORT
-            A :class:`TCFGDeepSORT` object which manages the configurations of tracker DeepSORT.
+        cfg : pyppbox.config.myconfig.TCFGDeepSORT
+            A :class:`~pyppbox.config.myconfig.TCFGDeepSORT` object which manages the configurations of tracker DeepSORT.
         """
         self.previous_list = []
         self.current_list = []
+        self._people_by_cid = {}
         self.current_frame = 0
         self.nms_max_overlap = cfg.nms_max_overlap
         self.encoder = gdet.create_box_encoder(cfg.model_file, batch_size=16)
@@ -87,27 +88,38 @@ class MyDeepSORT(object):
 
 
     def update(self, person_list, img=None, max_spread=128):
-        """Update the tracker and return the updated list of 
+        """Update the tracker and return the updated list of
         :class:`pyppbox.utils.persontools.Person`.
 
         Parameters
         ----------
         person_list : list[Person, ...]
-            A list of :class:`pyppbox.utils.persontools.Person` object which stores 
-            the detected people in the given :obj:`img`.
-        img : any, default=None
-            A :obj:`Mat` like image.
-        max_spread : int, default=5
-            Max spread or max margin used to decide whether 2 bounding boxes are the same by comparing 
-            the differences between the elements in the bounding box given by the embedded SORT and the 
-            coressponding elements of a person's bounding box in the :obj:`person_list`.
+            A list of :class:`pyppbox.utils.persontools.Person` object which stores
+            the detected people in the given ``img``.
+        img : object
+            Defaults to ``None``.
+            BGR frame array required for appearance encoding when detections are present.
+        max_spread : int
+            Defaults to ``128``.
+            Max spread or max margin used to decide whether 2 bounding boxes are the same by comparing
+            the differences between the elements in the bounding box given by the embedded DeepSORT and the
+            coressponding elements of a person's bounding box in the ``person_list``.
 
         Returns
         -------
         list[Person, ...]
             The updated list of :class:`pyppbox.utils.persontools.Person` object.
+
+        Notes
+        -----
+        Call once per input frame and keep one tracker instance per stream. Person IDs,
+        identity metadata, and ``misc`` can be updated in place; returned people are not
+        independent snapshots. Use a result recorder or copy objects for historical data.
+        An empty input advances track age and returns an empty list. Metadata
+        is retained only while the underlying track remains alive. Returned values
+        represent current detections, not a list of predicted boxes for missing people.
         """
-        self.previous_list = self.current_list
+        self.previous_list = list(self._people_by_cid.values())
         self.current_list = []
 
         if len(person_list) > 0:
@@ -144,16 +156,24 @@ class MyDeepSORT(object):
                     if cindex >= 0:
                         self.current_list[cindex].cid = new_cid
                         pindex = self.__getIndexFromPreviousList__(new_cid)
-                        if pindex >= 0 and self.current_frame > 3:
+                        if pindex >= 0:
                             self.current_list[cindex].faceid = self.previous_list[pindex].faceid
                             self.current_list[cindex].deepid = self.previous_list[pindex].deepid
                             self.current_list[cindex].faceid_conf = self.previous_list[pindex].faceid_conf
                             self.current_list[cindex].deepid_conf = self.previous_list[pindex].deepid_conf
                             self.current_list[cindex].misc = self.previous_list[pindex].misc
+                        self._people_by_cid[new_cid] = self.current_list[cindex]
             else:
                 msg = ("MyDeepSORT : update() -> The element of input 'person_list' list has unsupported type.")
                 add_error_log(msg)
                 raise ValueError(msg)
 
+        else:
+            self.tracker.predict()
+            self.tracker.update([])
+
+        active_ids = {track.track_id for track in self.tracker.tracks}
+        self._people_by_cid = {cid: person for cid, person in self._people_by_cid.items()
+                               if cid in active_ids}
         self.current_frame += 1
         return self.current_list

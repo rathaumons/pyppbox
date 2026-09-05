@@ -47,20 +47,27 @@ class GTIO(object):
         self.map_dict = {}
 
     def loadInputGTMap(self, gt_map_txt, splitter=':'):
-        """Load an input of GT (Ground-truth) map text and set :attr:`map_list`. 
-        A map text must have consistent format with the same splitter in every 
-        line like. The default format is :code:`video_file_name:gt_file_name`; for example, 
-        the first line in the map file looks like :code:`video.mp4:gt.txt`. Most suitable 
-        :obj:`splitter` is colon :code:`:` because it can't be used in a file name. Other 
-        symbol/char like :code:`=` should be fine as long as it is not used in the file 
-        names of both video and GT text file. 
+        """Append video-to-GT filename pairs from a text file.
 
         Parameters
         ----------
         gt_map_txt : str
-            A file path of GT (Ground-truth) map text.
-        splitter : str, default=':'
-            A string with length of :code:`1` used as a splitter of the mapping.
+            Mapping file with one ``video_filename:gt_filename`` pair per line when
+            using the default separator. Use basenames, without blank rows.
+        splitter : str
+            Defaults to ``':'``. One nonempty character absent from both filenames.
+
+        Raises
+        ------
+        ValueError
+            If the separator is invalid or the file cannot be read/processed.
+
+        Notes
+        -----
+        Returns None. Existing mappings are retained, and the last loaded value wins
+        for duplicate video keys in ``map_dict``. Rows with the wrong number of fields
+        are logged and skipped; this is not an atomic load, so earlier rows remain if
+        a later row fails. ``map_list`` retains all successfully parsed pairs.
         """
         if len(str(splitter)) > 1:
             msg = f"GTIO : loadInputGTMap() -> splitter='{splitter}' is not acceptable"
@@ -85,17 +92,18 @@ class GTIO(object):
 
 
     def getGTFileName(self, input_video):
-        """Return the video file name corresponding to the :obj:`input_video`.
+        """Return the mapped GT filename for a video's basename.
 
         Parameters
         ----------
         input_video : str
-            File path of input video.
-        
+            Video path or filename. Only the basename is used for a case-sensitive lookup.
+
         Returns
         -------
         str
-            A file name of the corresponding GT (Ground-truth) text.
+            Mapped GT text filename, or an empty string when no mapping exists.
+            The GT file is not opened or checked by this lookup.
         """
 
         # gt_txt = ""
@@ -108,27 +116,36 @@ class GTIO(object):
         return self.map_dict.get(video_name, "")
 
     def loadGT(self, gt_file_txt):
-        """Read an input of GT (Ground-truth) text file, and return the :obj:`gt_frames`, 
-        :obj:`gt_frames_list`, :obj:`total_detections`, and :obj:`init_frame`.
+        """Read tab-separated GT rows grouped in nondecreasing frame-index order.
 
         Parameters
         ----------
         gt_file_txt : str
-            A file path of GT (Ground-truth) text.
-        
+            Input file with no blank rows. Columns begin with frame index, representative
+            point, identity, xywh box, and xyxy box. Additional columns remain available
+            as text, which also allows the offline evaluator to read result files.
+
         Returns
         -------
-        list[list[list[int, tuple(int, int), str, [int, int, int, int], [int, int, int, int]], ...], ...]
-            A list of GT frames, each frame is a list of GT-format person, and each 
-            GT-format person is a list carrying info of a person in a frame like 
-            :code:`[1, (637, 308), "Franklin", [593 241  89 270], [593 241 682 511]]`.
-        list[int, ...]
-            A list of frame indexes of the GT (Ground-truth).
+        list[list[list]]
+            Groups of rows. In each row, column 0 is an int and column 1 is an (x, y)
+            tuple. All later columns, including box coordinates, remain strings.
+        list[int]
+            Frame indices corresponding to the groups, in file order.
         int
-            Total number of all detection or ID count in all frame(s) in the 
-            GT (Ground-truth).
+            Number of rows read.
         int
-            Initial frame index.
+            First frame index, or 0 for an empty file.
+
+        Raises
+        ------
+        ValueError
+            If the file cannot be read or a row's initial fields cannot be parsed.
+
+        Notes
+        -----
+        This does not sort or validate box columns. Empty input currently returns
+        one empty group with frame-index list ``[0]`` and a row count of zero.
         """
         gt_frames = []
         gt_frames_list = []
@@ -174,8 +191,7 @@ class GTIO(object):
 
 class GTInterpreter(object):
 
-    """
-    A class used for interpreting GT (Ground-truth) of supported datasets.
+    """A class used for interpreting GT (Ground-truth) of supported datasets.
 
     Attributes
     ----------
@@ -184,20 +200,19 @@ class GTInterpreter(object):
     current_frame : int
         Current frame index.
     total_detections : int
-        Total number of all detection or ID count in all frame(s) in the 
+        Total number of all detection or ID count in all frame(s) in the
         GT (Ground-truth).
     detect_only : bool
         Indication of whether using 'Detect Only' mode or full GT mode with real ID.
     gtIO : GTIO
         GT (Ground-truth) IO, :class:`GTIO` object.
     unknownFID : str
-        A string for setting unknown :obj:`faceid` of a :class:`pyppbox.utils.persontools.Person` object.
+        A string for setting unknown ``faceid`` of a :class:`pyppbox.utils.persontools.Person` object.
     unknownDID : str
-        A string for setting unknown :obj:`deepid` of a :class:`pyppbox.utils.persontools.Person` object.
-    gt_frames : list[list[list[int, tuple(int, int), str, [int, int, int, int], [int, int, int, int]], ...], ...]
-        A list of GT frames, each frame is a list of GT-format person, and 
-        each GT-format person is a list carrying info of a person in a frame like 
-        :code:`[1, (637, 308), "Franklin", [593 241  89 270], [593 241 682 511]]`.
+        A string for setting unknown ``deepid`` of a :class:`pyppbox.utils.persontools.Person` object.
+    gt_frames : list[list[list]]
+        Row groups returned by ``GTIO.loadGT()``. Frame IDs and points are parsed;
+        identities and box columns remain strings until ``getPeople()`` converts them.
     gt_frames_list : list[int, ...]
         A list of frame indexes of GT (Ground-truth).
     """
@@ -215,13 +230,16 @@ class GTInterpreter(object):
         
         Parameters
         ----------
-        unknownFID : str, default="Unknown"
+        unknownFID : str
+            Defaults to ``"Unknown"``.
             Set the :attr:`unknownFID`.
-        unknownFID : str, default="Unknown"
-            Set the :attr:`unknownFID`.
-        detect_only : bool, default=True
+        unknownDID : str
+            Defaults to ``"Unknown"``.
+            Set the :attr:`unknownDID`.
+        detect_only : bool
+            Defaults to ``True``.
             Set :code:`detect_only=True` to tell :func:`getPeople()` to return people 
-            with unknown :obj:`faceid` and :obj:`deepid`.
+            with unknown ``faceid`` and ``deepid``.
             Set :code:`detect_only=False` to tell :func:`getPeople()` to return people 
             with real IDs as in the GT (Ground-truth).
         """
@@ -244,12 +262,17 @@ class GTInterpreter(object):
             return -1
 
     def setGT(self, gt_file_txt):
-        """Set a GT (Ground-truth) file.
+        """Load a GT file and replace its row groups and frame metadata.
 
         Parameters
         ----------
         gt_file_txt : str
-            A file path of GT (Ground-truth) text.
+            Input path accepted by ``GTIO.loadGT()``.
+
+        Notes
+        -----
+        Returns None. This does not reset ``current_frame``. Set that cursor explicitly
+        when reusing an interpreter, or to ``init_frame`` to start at a nonzero first GT frame.
         """
         (self.gt_frames, 
          self.gt_frames_list, 
@@ -257,18 +280,18 @@ class GTInterpreter(object):
          self.init_frame) = self.gtIO.loadGT(gt_file_txt=gt_file_txt)
 
     def findGTFrame(self, frame_index):
-        """Return a gt_frame, list of GT-format person in the given :obj:`frame_index`.
+        """Find raw GT rows for an integer frame index without advancing the cursor.
 
         Parameters
         ----------
         frame_index : int
-            A frame index.
-        
+            Requested frame index.
+
         Returns
         -------
-        list[list[str, ...], ...]
-            A list of all GT-format person in the given :obj:`frame_index`; for example, 
-            :code:`[[1, (637, 308), "Franklin", [593 241  89 270], [593 241 682 511]], ...]`.
+        list[list]
+            The stored row group, or an empty list if the frame is absent. Rows are
+            not copied; box columns remain text as returned by ``GTIO.loadGT()``.
         """
         gt_frame = []
         if int(frame_index) in self.gt_frames_list:
@@ -277,22 +300,29 @@ class GTInterpreter(object):
         return gt_frame
 
     def getPeople(self, img, visual=False):
-        """Return a :code:`list[Person, ...]` and a cv :obj:`Mat`, similar to function 
-        :func:`detectPeople()` in :py:mod:`pyppbox.standalone`.
+        """Convert the current GT frame to people and advance the cursor by one.
 
         Parameters
         ----------
-        img : Mat
-            A :obj:`Mat` like image.
-        visual : 
-            An indication of whether to draw bounding boxes on the return :obj:`img`.
+        img : ``numpy.ndarray``
+            BGR frame array. Passed through, and modified in place when drawing.
+        visual : bool
+            Defaults to ``False``. Draw representative points and bounding boxes.
 
         Returns
         -------
-        list[Person, ...]
-            A list of :class:`pyppbox.utils.persontools.Person` object.
-        Mat
-            A :obj:`Mat` like image.
+        list[pyppbox.utils.persontools.Person]
+            Fresh people with integer box arrays. A missing frame returns an empty list.
+            In detection-only mode, IDs start at zero within each frame and identity
+            names are unknown. Full-GT mode copies names to both identity fields; numeric
+            CIDs use the built-in GTA identity mapping and are -1 for other names.
+        ``numpy.ndarray``
+            The input array, with drawings if requested.
+
+        Notes
+        -----
+        Call ``setGT()`` first. Cursor advancement also happens on frames with no rows.
+        This does not infer the frame index from the image or its filename.
         """
         people = []
         tmp_id = 0

@@ -1,9 +1,9 @@
 Example 11: Train a classifier using a supported reider
 =======================================================
 
-- **Description**: Use the standalone :func:`trainReIDClassifier()` to train and save a classifier .PKL file with a supported reider.
+- **Description**: Use the standalone :func:`~pyppbox.standalone.trainReIDClassifier` to train and save a classifier .PKL file with a supported reider.
 - **Featuring**: 
-   - :py:meth:`trainReIDClassifier` | :py:meth:`pyppbox.standalone.trainReIDClassifier`
+   - :py:func:`~pyppbox.standalone.trainReIDClassifier`
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 

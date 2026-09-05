@@ -33,25 +33,25 @@ class MyYOLOULT(object):
 
     Attributes
     ----------
-    cfg : DCFGYOLOULT
-        A :class:`DCFGYOLOULT` object which manages the configurations 
+    cfg : pyppbox.config.myconfig.DCFGYOLOULT
+        A :class:`~pyppbox.config.myconfig.DCFGYOLOULT` object which manages the configurations
         of detector YOLO_Ultralytics.
-    model: ultralytics.yolo.engine.YOLO
+    model : ``ultralytics.YOLO or ultralytics.NAS``
         A detection model object of YOLO_Ultralytics.
-    colors: ultralytics.yolo.utils.Colors
-        A hex color object of YOLO_Ultralytics.
+    colors : ``ultralytics.utils.plotting.Colors``
+        Color palette created for pose models.
     skeleton : list[list[int, int], ...]
         A list used for mapping skeletons of a supported model of YOLO_Ultralytics.
     """
 
     def __init__(self, cfg):
-        """Initialize according to the given configuration :obj:`cfg` 
-        as :class:`DCFGYOLOULT` object.
+        """Initialize according to the given configuration ``cfg``
+        as :class:`~pyppbox.config.myconfig.DCFGYOLOULT` object.
 
         Parameters
         ----------
-        cfg : DCFGYOLOULT
-            A :class:`DCFGYOLOULT` object which manages the configurations 
+        cfg : pyppbox.config.myconfig.DCFGYOLOULT
+            A :class:`~pyppbox.config.myconfig.DCFGYOLOULT` object which manages the configurations
             of detector YOLO_Ultralytics.
         """
         self.cfg = cfg
@@ -111,34 +111,43 @@ class MyYOLOULT(object):
 
 
     def detect(self, img, visual=True, classes=0, min_width_filter=15):
-        """Detect general object with object's class filter :obj:`class_filter` 
-        in a given :obj:`Mat` like image.
+        """Detect general object with object's class filter ``classes``
+        in a given ``numpy.ndarray`` like image.
 
         Parameters
         ----------
-        img : Mat
-            A :obj:`Mat` like image.
-        visual : bool, default=True
+        img : ``numpy.ndarray``
+            BGR image array; the same array is returned, with drawings applied in place.
+        visual : bool
+            Defaults to ``True``.
             An indication of whether to visualize the detected objects.
-        classes : int, default=0
+        classes : int
+            Defaults to ``0``.
             Object's class filter, 0 means person only
-        min_width_filter : int, default=15
+        min_width_filter : int
+            Defaults to ``15``.
             Minimum width filter of a detected object.
 
         Returns
         -------
-        Mat
-            A :obj:`Mat` like image.
-        list[ndarray[int, int, int, int], ...]
+        ``numpy.ndarray``
+            BGR image array; the same array is returned, with drawings applied in place.
+        ``list[ndarray[int, int, int, int], ...]``
             A list of bounding box :code:`ndarray[x, y, width, height]`.
-        list[ndarray[int, int, int, int], ...]
+        ``list[ndarray[int, int, int, int], ...]``
             A list of bounding box :code:`ndarray[x1, y1, x2, y2]`.
         list[tuple(int, int)]
             A list of represented 2D point :code:`(x, y)` of every detected object.
-        list[ndarray[int, ...], ...]
-            A list of :obj:`ndarray` of body keypoints. 
-        float
-            A list of the detection confidence of every detected object.
+        ``list[torch.Tensor]``
+            CPU tensors of body keypoints for pose models; empty for detection-only models.
+        list[float]
+            Detection confidences on a 0-1 scale, in the same order as the boxes.
+
+        Notes
+        -----
+        Pass one frame array, not a filename. Copy it before calling if the original
+        pixels must be preserved with ``visual=True``. The width filter is inclusive
+        and measured in original-image pixels. Model/inference errors propagate.
         """
         numpy_dets = []
         pboxes_xyxy = []
@@ -150,22 +159,20 @@ class MyYOLOULT(object):
             img,
             imgsz=int(self.cfg.imgsz),
             conf=float(self.cfg.conf),
+            iou=float(self.cfg.iou),
             classes=classes,
             show_boxes=self.cfg.show_boxes,
             device=self.cfg.device,
             max_det=int(self.cfg.max_det),
             verbose=False
         )
-        if self.cpu_only:
-            numpy_dets = dets[0].numpy()
-        else:
-            numpy_dets = dets[0].cuda().cpu().to("cpu").numpy()
+        cpu_dets = dets[0].cpu()
+        numpy_dets = cpu_dets.numpy()
         dt_boxes_xyxy = numpy_dets.boxes.xyxy
         dt_confidences = numpy_dets.boxes.conf
-        dt_keypoints = dets[0].keypoints
+        dt_keypoints = cpu_dets.keypoints
         if dt_keypoints is not None:
-            rev_dt_kps = reversed(dt_keypoints)
-            for box_xyxy, conf, kp in zip(dt_boxes_xyxy, dt_confidences, rev_dt_kps):
+            for box_xyxy, conf, kp in zip(dt_boxes_xyxy, dt_confidences, dt_keypoints):
                 box_xyxy = box_xyxy.astype(int)
                 box_xywh = to_xywh(box_xyxy)
                 if box_xywh[2] >= min_width_filter:
@@ -196,27 +203,40 @@ class MyYOLOULT(object):
         return img, pboxes_xywh, pboxes_xyxy, repspoints, keypoints, confs
 
     def detectPeople(self, img, visual=True, min_width_filter=15, alt_repspoint=False, alt_repspoint_top=True):
-        """Detect person(s) in a given :obj:`Mat` like image.
+        """Detect person(s) in a given ``numpy.ndarray`` like image.
 
         Parameters
         ----------
-        img : Mat
-            A :obj:`Mat` like image.
-        visual : bool, default=True
+        img : ``numpy.ndarray``
+            BGR image array; the same array is returned, with drawings applied in place.
+        visual : bool
+            Defaults to ``True``.
             An indication of whether to visualize the detected people.
-        min_width_filter : int, default=15
+        min_width_filter : int
+            Defaults to ``15``.
             Minimum width filter of a detected person.
-        alt_repspoint : bool, default=False
-            An indication of whether to use the alternative :meth:`findRepspointBB`.
-        alt_repspoint_top : bool, default=True
-            A parameter passed to :obj:`prefer_top` of :meth:`findRepspointBB`.
+        alt_repspoint : bool
+            Defaults to ``False``.
+            An indication of whether to use the alternative :func:`~pyppbox.utils.persontools.findRepspointBB`.
+        alt_repspoint_top : bool
+            Defaults to ``True``.
+            A parameter passed to ``prefer_top`` of :func:`~pyppbox.utils.persontools.findRepspointBB`.
 
         Returns
         -------
         list[Person, ...]
             A list of detected :class:`pyppbox.utils.persontools.Person` object.
-        Mat
-            A :obj:`Mat` like image.
+        ``numpy.ndarray``
+            BGR image array; the same array is returned, with drawings applied in place.
+
+        Notes
+        -----
+        Pass one frame array, not a filename. Copy it before calling if the original
+        pixels must be preserved with ``visual=True``. The width filter is inclusive
+        and measured in original-image pixels. Model/inference errors propagate.
+        Initial IDs and CIDs start at zero on each call; persistent tracking
+        IDs are assigned separately by a tracker. Representative points use box
+        calibration unless an alternative box midpoint is requested.
         """
         numpy_dets = []
         people = []
@@ -224,23 +244,21 @@ class MyYOLOULT(object):
             img,
             imgsz=int(self.cfg.imgsz),
             conf=float(self.cfg.conf),
+            iou=float(self.cfg.iou),
             classes=0,
             show_boxes=self.cfg.show_boxes,
             device=self.cfg.device,
             max_det=int(self.cfg.max_det),
             verbose=False
         )
-        if self.cpu_only:
-            numpy_dets = dets[0].numpy()
-        else:
-            numpy_dets = dets[0].cuda().cpu().to("cpu").numpy()
+        cpu_dets = dets[0].cpu()
+        numpy_dets = cpu_dets.numpy()
         dt_boxes_xyxy = numpy_dets.boxes.xyxy
         dt_confidences = numpy_dets.boxes.conf
-        dt_keypoints = dets[0].keypoints
+        dt_keypoints = cpu_dets.keypoints
         if dt_keypoints is not None:
             i = 0
-            rev_dt_kps = reversed(dt_keypoints)
-            for box_xyxy, conf, kp in zip(dt_boxes_xyxy, dt_confidences, rev_dt_kps):
+            for box_xyxy, conf, kp in zip(dt_boxes_xyxy, dt_confidences, dt_keypoints):
                 box_xyxy = box_xyxy.astype(int)
                 box_xywh = to_xywh(box_xyxy)
                 if box_xywh[2] >= min_width_filter:

@@ -20,10 +20,10 @@
 
 
 import json
+import os
+import stat
+import tempfile
 import yaml
-
-from typing import Any, Dict, List
-from yaml.loader import SafeLoader
 
 from .unifiedstrings import UnifiedStrings
 from pyppbox.utils.commontools import joinFPathFull, getAbsPathFDS, getGlobalRootDir, isExist
@@ -41,42 +41,55 @@ class PYPPBOXStructure(object):
 
     Attributes
     ----------
-    cfg_dir : str, default='{pyppbox root}/config/cfg'
+    cfg_dir : str
+        Defaults to ``'{pyppbox root}/config/cfg'``.
         Path of config directory where stores main.yaml, detectors.yaml, 
         trackers.yaml, reiders.yaml.
-    internal_root_dir : str, auto
+    internal_root_dir : str
+        Set automatically.
         Path of pyppbox's root directory.
-    gui_root : str, auto
+    gui_root : str
+        Set automatically.
         Path of GUI's root directory.
-    gui_tmp_dir : str, auto
+    gui_tmp_dir : str
+        Set automatically.
         Path of GUI's tmp directory.
-    data_dir : str, auto
+    data_dir : str
+        Set automatically.
         Internal path of pyppbox's data directory.
-    dataset_dir : str, auto
+    dataset_dir : str
+        Set automatically.
         Path of a supported dataset like 
         :code:`{pyppbox root}/data/datasets/GTA_V_DATASET`, etc.
-    gt_dir : str, auto
+    gt_dir : str
+        Set automatically.
         Path of a dataset's GT (Ground-truth) directory where stores all 
         the ground-truth text files and the mapping text file.
-    main_yaml : str, auto
+    main_yaml : str
+        Set automatically.
         Path of main.yaml.
-    detectors_yaml : str, auto
+    detectors_yaml : str
+        Set automatically.
         Path of detectors.yaml.
-    trackers_yaml : str, auto
+    trackers_yaml : str
+        Set automatically.
         Path of trackers.yaml.
-    reiders_yaml : str, auto
+    reiders_yaml : str
+        Set automatically.
         Path of reiders.yaml.
-    unified_strings : MyStrings, auto
-        A :class:`MyStrings` object used to store unified strings.
+    unified_strings : pyppbox.config.unifiedstrings.UnifiedStrings
+        Set automatically.
+        A :class:`~pyppbox.config.unifiedstrings.UnifiedStrings` object used to store unified strings.
     """
 
     def __init__(self, cfg_dir=internal_cfg_dir):
-        """Initialize according to the input :obj:`cfg_dir` and automatically call 
-        :meth:`setDIR()`, :meth:`setYAMLPath()`, :meth:`setSTR()`, and :meth:`setVP()`.
+        """Initialize paths according to ``cfg_dir`` and automatically call
+        :meth:`setYAMLPath()`.
 
         Parameters
         ----------
-        cfg_dir : str, default='{pyppbox root}/config/cfg'
+        cfg_dir : str
+            Defaults to ``'{pyppbox root}/config/cfg'``.
             A path of the config directory where stores main.yaml, detectors.yaml, 
             trackers.yaml, and reiders.yaml.
         """
@@ -134,245 +147,346 @@ class PYPPBOXStructure(object):
 #########################################################################################
 
 
+def _normalize_documents(value):
+    """Normalize a mapping or list of mappings without changing config values."""
+    if isinstance(value, dict):
+        return [value]
+    if isinstance(value, list) and all(isinstance(doc, dict) for doc in value):
+        return value
+    raise ValueError("Expected a configuration mapping or a list of mappings.")
+
+
+def _single_document(documents):
+    if len(documents) > 1:
+        raise ValueError("Expected one configuration document; received multiple documents.")
+    return documents[0] if documents else {}
+
+
+def _parse_documents(raw_string):
+    documents = []
+    # Consume the generator here so errors in later YAML documents are caught too.
+    for value in yaml.safe_load_all(raw_string):
+        if value is not None:  # Empty YAML documents are harmless separators.
+            documents.extend(_normalize_documents(value))
+    return documents
+
+
 def isDictString(input_string):
-    """Check whether the :obj:`input_string` is a valid raw dictionary.
+    """Check whether a string parses into at least one configuration mapping.
 
     Parameters
     ----------
-    input_string : str
-        An input of raw string.
+    input_string : object
+        Candidate inline YAML/JSON value. Non-strings return False.
 
     Returns
     -------
     bool
-        Validation status.
+        True when at least one mapping is parsed, including an empty mapping
+        (``{}``), list-wrapped mappings, and multiple YAML documents. Invalid
+        input or a stream with no mappings returns False.
     """
-    res = True
-    if (
-        isinstance(input_string, str) and 
-        len(input_string) > 4 and
-        input_string[0] == '[' and
-        input_string[1] == '{' and  
-        input_string[-1] == ']' and 
-        input_string[-2] == '}'
-    ):
-        try:
-            yaml.load(input_string, Loader=SafeLoader)
-        except ValueError as e:
-            res = False
-    else:
-        res = False
-    return res
+    if not isinstance(input_string, str):
+        return False
+    try:
+        return bool(_parse_documents(input_string))
+    except (ValueError, yaml.YAMLError):
+        return False
+
+
+def isConfigInput(value):
+    """Classify a value as custom configuration input rather than a short module name.
+
+    Parameters
+    ----------
+    value : object
+        Candidate module selector or configuration value.
+
+    Returns
+    -------
+    bool
+        True for mappings, lists, path-like objects, and strings resembling inline
+        configs or config filenames. This is a routing heuristic: it does not
+        validate content or check that a file exists.
+    """
+    if isinstance(value, (dict, list, os.PathLike)):
+        return True
+    if not isinstance(value, str):
+        return False
+    stripped = value.strip()
+    return (stripped.startswith(('{', '[', '---')) or ':' in stripped
+            or '\n' in stripped or _is_config_path(stripped))
+
+
+def _is_config_path(value):
+    # Inline config values can themselves end in '.yaml' or '.json'.
+    if value.lstrip().startswith(('{', '[', '---')) or '\n' in value or ': ' in value:
+        return False
+    return os.path.splitext(value)[1].lower() in ('.yaml', '.yml', '.json')
+
 
 def getCFGDict(input):
-    """Get a configuration dictionary of a single document from the given :obj:`input`.
+    """Load one configuration mapping.
 
     Parameters
     ----------
-    input : str or dict
-        A YAML/JSON file path, or a raw/ready dictionary.
+    input : str or dict or list or object
+        A mapping, mapping list, raw YAML/JSON string, or YAML/JSON file path. Path-like objects are accepted.
 
     Returns
     -------
     dict
-        A configuration dictionary of a single document.
+        One mapping, or an empty dictionary for empty input.
+        Empty YAML documents are skipped. Only mappings and lists of mappings
+        are valid document values.
+
+    Raises
+    ------
+    ValueError
+        If input is malformed, contains a non-mapping document, or a requested
+        file cannot be read. Multiple mappings are rejected.
+
+    Notes
+    -----
+    Ready mappings/lists are returned without deep copying. Relative filenames
+    resolve from the working directory. These helpers parse configuration values;
+    they do not select modules or resolve model paths within the mappings.
     """
-    doc = {}
-    if isinstance(input, str):
-        if ".yaml" in input.lower() or ".json" in input.lower():
-            doc = loadDocument(getAbsPathFDS(input))
-        else:
-            doc = loadRawYAMLString(input)
-    elif isinstance(input, dict):
-        doc = input
-    return doc
+    return _single_document(getCFGDictList(input))
+
 
 def getCFGDictList(input):
-    """Get a list of configuration dictionary of document from the given :obj:`input`.
+    """Load a list of configuration mappings.
 
     Parameters
     ----------
-    input : str or dict
-        A YAML/JSON file path, or a raw/ready dictionary.
+    input : str or dict or list or object
+        A mapping, mapping list, raw YAML/JSON string, or YAML/JSON file path. Path-like objects are accepted.
 
     Returns
     -------
-    list[dict, ...]
-        A list of configuration dictionary.
+    list[dict]
+        Mappings in input order, or an empty list for empty input.
+        Empty YAML documents are skipped. Only mappings and lists of mappings
+        are valid document values.
+
+    Raises
+    ------
+    ValueError
+        If input is malformed, contains a non-mapping document, or a requested
+        file cannot be read.
+
+    Notes
+    -----
+    Ready mappings/lists are returned without deep copying. Relative filenames
+    resolve from the working directory. These helpers parse configuration values;
+    they do not select modules or resolve model paths within the mappings.
     """
-    doc_list = []
+    if isinstance(input, os.PathLike):
+        return loadDocumentList(getAbsPathFDS(input))
     if isinstance(input, str):
-        if ".yaml" in input.lower():
-            doc_list = loadDocumentList(getAbsPathFDS(input))
-        else:
-            doc_list = loadRawYAMLStringMT(input)
-    elif isinstance(input, dict):
-        for doc in input:
-            doc_list.append(doc)
-    return doc_list
+        if _is_config_path(input):
+            return loadDocumentList(getAbsPathFDS(input))
+        return loadRawYAMLStringMT(input)
+    return _normalize_documents(input)
+
 
 def loadDocument(yaml_json):
-    """Return a configuration dictionary of a single document from the given file 
-    :obj:`yaml_json`.
+    """Load one configuration mapping.
 
     Parameters
     ----------
-    yaml_json : str
-        A path of a YAML/JSON file.
+    yaml_json : str or object
+        A file path or path-like object. A .json suffix selects the JSON reader; other suffixes use YAML.
 
     Returns
     -------
     dict
-        A configuration dictionary of a single document.
+        One mapping, or an empty dictionary for empty input.
+        Empty YAML documents are skipped. Only mappings and lists of mappings
+        are valid document values.
+
+    Raises
+    ------
+    ValueError
+        If input is malformed, contains a non-mapping document, or a requested
+        file cannot be read. Multiple mappings are rejected.
     """
-    document = {}
-    if isExist(yaml_json):
-        with open(yaml_json, 'rb') as cfg:
-            try:
-                if '.json' in yaml_json.lower():
-                    document = json.load(cfg)
-                elif '.yaml' in yaml_json.lower():
-                    document = yaml.load(cfg, Loader=SafeLoader)
-            except ValueError as e:
-                msg = f'loadDocument() -> {e}'
-                add_error_log(msg)
-                raise ValueError(msg)
-    else:
-        msg = f"loadDocument() -> '{yaml_json}' does not exist!"
-        add_error_log(msg)
-        raise ValueError(msg)
-    return document
+    return _single_document(loadDocumentList(yaml_json))
+
 
 def loadDocumentList(yaml_json):
-    """Return a list of configuration dictionary from the given file :obj:`yaml_json`.
+    """Load a list of configuration mappings.
 
     Parameters
     ----------
-    yaml_json : str
-        A path of a YAML/JSON file.
-    
+    yaml_json : str or object
+        A file path or path-like object. A .json suffix selects the JSON reader; other suffixes use YAML.
+
     Returns
     -------
-    list[dict, ...]
-        A list of configuration dictionary.
+    list[dict]
+        Mappings in input order, or an empty list for empty input.
+        Empty YAML documents are skipped. Only mappings and lists of mappings
+        are valid document values.
+
+    Raises
+    ------
+    ValueError
+        If input is malformed, contains a non-mapping document, or a requested
+        file cannot be read.
     """
-    document_list = []
-    if isExist(yaml_json):
-        with open(yaml_json, 'rb') as cfg:
-            try:
-                if '.json' in yaml_json.lower():
-                    docs = json.load(cfg)
-                elif '.yaml' in yaml_json.lower():
-                    docs = yaml.load_all(cfg, Loader=SafeLoader)
-            except ValueError as e:
-                msg = f'loadDocumentList() -> {e}'
-                add_error_log(msg)
-                raise ValueError(msg)
-            for doc in docs:
-                document_list.append(doc)
-    else:
-        msg = f"loadDocumentList() -> '{yaml_json}' does not exist!"
+    try:
+        with open(yaml_json, 'r', encoding='utf-8-sig') as cfg:
+            if os.path.splitext(os.fspath(yaml_json))[1].lower() == '.json':
+                return _normalize_documents(json.load(cfg))
+            return _parse_documents(cfg)
+    except (OSError, UnicodeError, ValueError, yaml.YAMLError) as e:
+        msg = f"loadDocumentList() -> '{yaml_json}': {e}"
         add_error_log(msg)
-        raise ValueError(msg)
-    return document_list
+        raise ValueError(msg) from e
+
 
 def loadRawYAMLString(raw_string):
-    """Return a configuration dictionary of a single document from the given string 
-    :obj:`raw_string`.
+    """Load one configuration mapping.
 
     Parameters
     ----------
     raw_string : str
-        A raw string of JSON or YAML; for example, 
-        :code:`raw_string="[{'tk_name': 'SORT'}]"`.
-    
+        Inline YAML/JSON mapping text or a legacy list containing one mapping.
+
     Returns
     -------
     dict
-        A configuration dictionary of a single document.
+        One mapping, or an empty dictionary for empty input.
+        Empty YAML documents are skipped. Only mappings and lists of mappings
+        are valid document values.
+
+    Raises
+    ------
+    ValueError
+        If input is malformed, contains a non-mapping document, or a requested
+        file cannot be read. Multiple mappings are rejected.
     """
-    document = {}
-    try:
-        d = yaml.load(raw_string, Loader=SafeLoader)
-        document = next(iter(d))
-    except ValueError as e:
-        msg = f'loadRawYAMLString() -> {e}'
-        add_error_log(msg)
-        raise ValueError(msg)
-    return document
+    return _single_document(loadRawYAMLStringMT(raw_string))
+
 
 def loadRawYAMLStringMT(raw_string):
-    """Return a list of multiple YAML dictionary from the given string :obj:`raw_string`.
+    """Load a list of configuration mappings.
 
     Parameters
     ----------
     raw_string : str
-        A raw string of JSON or YAML; for example, 
-        :code:`raw_string="[{'tk_name': 'SORT'}, {'tk_name': 'DeepSORT'}]"`.
-    
+        Inline YAML/JSON mappings, mapping lists, or a multi-document YAML stream.
+
     Returns
     -------
-    list[dict, ...]
-        A list of configuration dictionary.
+    list[dict]
+        Mappings in input order, or an empty list for empty input.
+        Empty YAML documents are skipped. Only mappings and lists of mappings
+        are valid document values.
+
+    Raises
+    ------
+    ValueError
+        If input is malformed, contains a non-mapping document, or a requested
+        file cannot be read.
     """
-    document_list = []
     try:
-        ds = yaml.load_all(raw_string, Loader=SafeLoader)
-        for d in ds:
-            document_list.append(d)
-    except ValueError as e:
+        return _parse_documents(raw_string)
+    except (ValueError, yaml.YAMLError) as e:
         msg = f'loadRawYAMLStringMT() -> {e}'
         add_error_log(msg)
-        raise ValueError(msg)
-    return document_list
+        raise ValueError(msg) from e
+
+
+def _dump_documents(output_file, documents, header, single):
+    temporary = None
+    try:
+        documents = _normalize_documents(documents)
+        if os.path.splitext(os.fspath(output_file))[1].lower() == '.json':
+            value = _single_document(documents) if single else documents
+            content = json.dumps(value, ensure_ascii=False, indent=2) + '\n'
+        else:
+            content = yaml.safe_dump_all(documents, sort_keys=False, allow_unicode=True)
+            if header:
+                content = header + ('' if header.endswith('\n') else '\n') + content
+        # Serialize before opening anything, then replace only a fully written file.
+        destination = os.path.realpath(os.path.abspath(output_file))
+        with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', newline='\n',
+                                         dir=os.path.dirname(destination),
+                                         prefix='.' + os.path.basename(destination) + '.',
+                                         suffix='.tmp', delete=False) as dumping:
+            temporary = dumping.name
+            dumping.write(content)
+            dumping.flush()
+            os.fsync(dumping.fileno())
+        if os.name != 'nt' and os.path.exists(destination):
+            os.chmod(temporary, stat.S_IMODE(os.stat(destination).st_mode))
+        os.replace(temporary, destination)
+        temporary = None
+    except (OSError, TypeError, ValueError, yaml.YAMLError) as e:
+        msg = f"dumpDocDict() -> '{output_file}': {e}"
+        add_error_log(msg)
+        raise ValueError(msg) from e
+    finally:
+        if temporary is not None:
+            os.unlink(temporary)
+
 
 def dumpDocDict(output_file, doc, header):
-    """Dump a configuration dictionary of a single document into a YAML file 
-    with simple format.
+    """Save one mapping with atomic replacement of one file.
 
     Parameters
     ----------
-    output_file : str
-        A path file to dump.
-    doc : Dict[str, Any]
-        A configuration dictionary of a single document.
+    output_file : str or object
+        Output filename or path-like object. The parent directory must exist.
+        A .json suffix selects JSON; other suffixes select YAML.
+    doc : dict or list
+        One mapping or a legacy list containing one mapping.
     header : str
-        A file header description.
+        YAML prefix inserted verbatim; use valid YAML comment text or an empty
+        string. Ignored for JSON output.
+
+    Raises
+    ------
+    ValueError
+        If documents cannot be normalized/serialized or the file cannot be written.
+
+    Notes
+    -----
+    Returns None. YAML contains one document;
+    JSON contains an object. Serialization finishes
+    before replacement. Existing symlinks are followed and the resolved target is
+    replaced. This is atomic for this file only, not a transaction across config files.
     """
-    try:
-        with open(output_file, 'w') as dumping:
-            dumping.write(header)
-            for key, value in doc.items():
-                dumping.write('%s: %s\n' % (key, value))
-    except ValueError as e:
-        msg = f'dumpDocDict() -> {e}'
-        add_error_log(msg)
-        raise ValueError(msg)
+    _dump_documents(output_file, [_single_document(_normalize_documents(doc))], header, single=True)
+
 
 def dumpDocDictList(output_file, doc_list, header):
-    """Dump a list of YAML dictionary into a YAML file with simple format.
+    """Save configuration mappings with atomic replacement of one file.
 
     Parameters
     ----------
-    output_file : str
-        A path file to dump.
-    doc_list : list[dict, ...]
-        A list of configuration dictionary.
+    output_file : str or object
+        Output filename or path-like object. The parent directory must exist.
+        A .json suffix selects JSON; other suffixes select YAML.
+    doc_list : list[dict] or dict
+        Mappings to save, preserving their order.
     header : str
-        A file header description.
-    """
-    try: 
-        with open(output_file, 'w') as dumping:
-            dumping.write(header)
-            sep_index = 1
-            for d in doc_list:
-                for key, value in d.items():
-                    dumping.write('%s: %s\n' % (key, value))
-                if sep_index < len(doc_list):
-                    dumping.write("---\n")
-                    sep_index += 1
-    except ValueError as e:
-        msg = f'dumpDocDictList() -> {e}'
-        add_error_log(msg)
-        raise ValueError(msg)
+        YAML prefix inserted verbatim; use valid YAML comment text or an empty
+        string. Ignored for JSON output.
 
+    Raises
+    ------
+    ValueError
+        If documents cannot be normalized/serialized or the file cannot be written.
+
+    Notes
+    -----
+    Returns None. YAML uses separate documents;
+    JSON contains a list. Serialization finishes
+    before replacement. Existing symlinks are followed and the resolved target is
+    replaced. This is atomic for this file only, not a transaction across config files.
+    """
+    _dump_documents(output_file, doc_list, header, single=False)

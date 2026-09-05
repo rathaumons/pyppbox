@@ -53,32 +53,46 @@ class ResIO(object):
         self.people = []
 
     def addPerson(self, frame, person):
-        """Add a :obj:`frame` index and a :class:`pyppbox.utils.persontools.Person` 
-        object in that :attr:`frame` index into :attr:`frames` and :attr:`people`.
-        
+        """Add a ``frame`` index and a :class:`pyppbox.utils.persontools.Person`
+        object in that ``frame`` index into :attr:`frames` and :attr:`people`.
+
         Parameters
         ----------
         frame : int
             A frame index.
         person : Person
             An object of :class:`pyppbox.utils.persontools.Person` class.
+
+        Notes
+        -----
+        Stores deep copies, so later mutations of the supplied people do not
+        change saved frames. Add frames in nondecreasing order and keep each frame's
+        people together; dumping sorts people within these frame groups, not the
+        global frame sequence. Returns None.
         """
         if isinstance(person, Person):
             self.frames.append(str(frame))
-            self.people.append(person)
+            self.people.append(deepcopy(person))
         else:
             raise ValueError("RESIO : addPerson() -> Input 'person' is not valid.")
 
     def addPeople(self, frame, people):
-        """Add a frame index and a list of :class:`pyppbox.utils.persontools.Person` 
-        object in that :obj:`frame` index into :attr:`frames` and :attr:`people`.
-        
+        """Add a frame index and a list of :class:`pyppbox.utils.persontools.Person`
+        object in that ``frame`` index into :attr:`frames` and :attr:`people`.
+
         Parameters
         ----------
         frame : int
             A frame index.
         people : list[Person, ...]
             A list of object :class:`pyppbox.utils.persontools.Person`.
+
+        Notes
+        -----
+        Stores deep copies, so later mutations of the supplied people do not
+        change saved frames. Add frames in nondecreasing order and keep each frame's
+        people together; dumping sorts people within these frame groups, not the
+        global frame sequence. Returns None.
         """
         if isinstance(people, list):
             if len(people) > 0:
@@ -90,23 +104,37 @@ class ResIO(object):
                     raise ValueError("RESIO : addPeople() -> Input 'people' is not valid.")
 
     def dump(self, dump_dir=default_dump_dir, dump_mode=3, id_mode="deepid", include_misc=False, max_misc=5):
-        """Dump the result as a text file in a directory with a choice of :code:`"deepid"` or 
-        :code:`"faceid"`. Each line represents frame index and a person's details separated by '\\t'.
+        """Dump the result as a text file in a directory with a choice of :code:`"deepid"` or
+        :code:`"faceid"`. Each line represents frame index and a person's details separated by '\t'.
 
         Parameters
         ----------
-        dump_dir : str, default='{pyppbox root}/data/res'
+        dump_dir : str
+            Defaults to ``'{pyppbox root}/data/res'``.
             A directory where to dump the result text file.
-        dump_mode : int, default=3
+        dump_mode : int
+            Defaults to ``3``.
             Set 1 to dump: frame index, repspoint, deepid/faceid.
             Set 2 to dump: frame index, repspoint, deepid/faceid, box_xywh.
             Set 3 to dump: frame index, repspoint, deepid/faceid, box_xywh, box_xyxy.
-        id_mode : str, default="deepid"
+        id_mode : str
+            Defaults to ``"deepid"``.
             Set choice between :code:`"deepid"` and :code:`"faceid"`.
-        include_misc : bool, default=False
+        include_misc : bool
+            Defaults to ``False``.
             Set whether to include misc (Miscellaneous items).
-        max_misc : int, default=5
+        max_misc : int
+            Defaults to ``5``.
             Set the maximum number of miscellaneous items to include.
+
+        Notes
+        -----
+        Writes a timestamped ``res_<timestamp>_full.txt`` and returns None;
+        the path is reported through logging. The directory must already exist; a
+        missing requested directory falls back to the package's ``data/res`` directory.
+        People are sorted by representative-point x within each consecutive frame group.
+        Stored records are retained after writing. Calls within the same timestamp
+        second can overwrite the same output file.
         """
         dump_file = self.__generateFileName__(dump_dir)
         if id_mode != "deepid":
@@ -158,21 +186,34 @@ class ResIO(object):
         add_info_log(f"-----RESIO : Successfully dump to '{dump_file}'")
 
     def dumpAll(self, dump_dir=default_dump_dir, dump_mode=3, include_misc=False, max_misc=5):
-        """Dump the result as a text file in a directory with both :code:`"deepid"` and :code:`"faceid"`. 
-        Each line represents frame index and a person's details separated by '\\t'.
+        """Dump the result as a text file in a directory with both :code:`"deepid"` and :code:`"faceid"`.
+        Each line represents frame index and a person's details separated by '\t'.
 
         Parameters
         ----------
-        dump_dir : str, default='{pyppbox root}/data/res'
+        dump_dir : str
+            Defaults to ``'{pyppbox root}/data/res'``.
             A directory of where to dump the result text file.
-        dump_mode : int, default=3
+        dump_mode : int
+            Defaults to ``3``.
             Set 1 to dump: frame index, repspoint, deepid, faceid.
             Set 2 to dump: frame index, repspoint, deepid, faceid, box_xywh.
             Set 3 to dump: frame index, repspoint, deepid, faceid, box_xywh, box_xyxy.
-        include_misc : bool, default=False
+        include_misc : bool
+            Defaults to ``False``.
             Set whether to include misc (Miscellaneous items).
-        max_misc : int, default=5
+        max_misc : int
+            Defaults to ``5``.
             Set the maximum number of miscellaneous items to include.
+
+        Notes
+        -----
+        Writes a timestamped ``res_<timestamp>_full.txt`` and returns None;
+        the path is reported through logging. The directory must already exist; a
+        missing requested directory falls back to the package's ``data/res`` directory.
+        People are sorted by representative-point x within each consecutive frame group.
+        Stored records are retained after writing. Calls within the same timestamp
+        second can overwrite the same output file.
         """
         dump_file = self.__generateFileName__(dump_dir)
         dump_mode = int(dump_mode)

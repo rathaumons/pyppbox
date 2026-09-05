@@ -20,10 +20,12 @@
 
 
 import os
-import sys
 import cv2
 import numpy as np
 from pathlib import Path 
+from contextlib import redirect_stdout
+from functools import wraps
+from threading import RLock
 
 
 def getVersionString():
@@ -44,31 +46,20 @@ def getCVMat(img, to_rgb=False):
     """
     :meta private:
     """
-    if isinstance(img, str):
-        if isExist(img):
-            try:
-                img = cv2.imread(getAbsPathFDS(img))
-                if to_rgb:
-                    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            except Exception as e:
-                msg = "getCVMat() -> " + str(e)
-                raise ValueError(msg)
-        else:
-            print("getCVMat() -> The input 'img' does not exit.")
-    elif isinstance(img, np.ndarray):
-        if len(img.shape) == 3:
-            if to_rgb:
-                try:
-                    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-                except Exception as e:
-                    msg = "getCVMat() -> " + str(e)
-                    raise ValueError(msg)
-        else:
-            msg = "getCVMat() -> The input 'img' is not valid."
-            raise ValueError(msg)
-    else:
-        msg = "getCVMat() -> Can't determine the format of the given 'img'."
-        raise ValueError(msg)
+    if isinstance(img, (str, os.PathLike)):
+        path = getAbsPathFDS(img)
+        if not os.path.isfile(path):
+            raise ValueError(f"getCVMat() -> Image file does not exist: '{path}'")
+        img = cv2.imread(path)
+        if img is None:
+            raise ValueError(f"getCVMat() -> Cannot decode image: '{path}'")
+    if not isinstance(img, np.ndarray) or img.ndim != 3 or img.size == 0:
+        raise ValueError("getCVMat() -> Expected a non-empty HWC image array.")
+    if to_rgb:
+        try:
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        except cv2.error as e:
+            raise ValueError(f"getCVMat() -> Cannot convert image to RGB: {e}") from e
     return img
 
 def replaceLine(file_name, line_num, text):
@@ -227,15 +218,19 @@ def to_xyxy(box_xywh):
     ret[2:] += ret[:2]
     return ret
 
+_silencer_lock = RLock()
+
+
 def silencer(func):
     """
     :meta private:
     """
+    @wraps(func)
     def func_wrapper(*args, **kwargs):
-        sys.stdout = open(os.devnull, 'w')
-        value = func(*args, **kwargs)
-        sys.stdout = sys.__stdout__
-        return value
+        # Serialize nested/decorated calls; stdout redirection is still process-wide.
+        # Inference code should use backend verbosity controls instead.
+        with _silencer_lock, open(os.devnull, 'w') as quiet, redirect_stdout(quiet):
+            return func(*args, **kwargs)
     return func_wrapper
 
 def github():

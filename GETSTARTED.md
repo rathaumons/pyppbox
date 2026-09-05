@@ -8,12 +8,13 @@ Installing `pyppbox` is very easy and straightforward. You can install it from [
 All requirements are not strictly limited. However, some specific modules might need some special dependencies. For example, `YOLO_Classic` (With `.weights` model) relies on [OpenCV DNN](https://docs.opencv.org/4.x/d2/d58/tutorial_table_of_content_dnn.html) in order to make use of GPU (CUDA) power. In this case, you might need to build OpenCV from source by yourself or use our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) instead of the official `opencv-contrib-python` which does not include GPU (CUDA) support.
 
 * Prerequisite: 
-  - Python [[3.9-3.12]](https://www.python.org/downloads/) (For ***macOS*** -> Use Python 3.11 for bug-free GUI)
+  - Python [[3.9-3.12]](https://www.python.org/downloads/) (For ***macOS*** GUI troubleshooting, try Python 3.11)
   - Local pyppbox repo: `git clone https://github.com/rathaumons/pyppbox.git`
 
 * Before you install dependencies/requirements:
   - For Linux, recommend changing `python3` to `python`: `sudo apt install python-is-python3`
   - If you prefer conda + Python [3.9-3.12]: `conda create --name pyppbox_env python=3.11`
+    Then activate it with `conda activate pyppbox_env` before installing packages.
   - Upgrade `pip` and `setuptools`:
     ```
     python -m pip install --upgrade pip
@@ -28,19 +29,20 @@ All requirements are not strictly limited. However, some specific modules might 
   - For CPU-only on any platform, skip this and go straight to Setup section below.
   - For GPU (CUDA) on ***Windows***:
     - Run the `cmd` installer [`install_req_py3_cuda121.cmd`](https://github.com/rathaumons/pyppbox/blob/main/requirements/install_req_py3_cuda121.cmd) (Or [`install_req_py3_cuda.cmd`](https://github.com/rathaumons/pyppbox/blob/main/requirements/install_req_py3_cuda.cmd) for CUDA 11.8)
+    - These scripts install CUDA-enabled **PyTorch**. FaceNet and DeepSORT use **TensorFlow**: native Windows GPU support ended with TensorFlow 2.10. For newer TensorFlow GPU builds, follow the [official Linux/WSL2 instructions](https://www.tensorflow.org/install/pip); installing CUDA-enabled PyTorch does not enable TensorFlow GPU support.
   - For GPU (CUDA) on ***Linux***:
     - Install the CUDA version of [TensorFlow](https://www.tensorflow.org/install) and [PyTorch](https://pytorch.org/get-started/locally/).
     - Install the [`requirements.txt`](https://github.com/rathaumons/pyppbox/blob/main/requirements/requirements.txt):
       ```
-      pip install -r requirements.txt
+      python -m pip install -r requirements/requirements.txt
       ```
   - For GPU (CUDA) on ***macOS***:
     - Not available
 
 * (Optional) For GPU-Only (CUDA) -> Verify the installed dependencies:
   - Execute the `test_gpu.py`
-    - On Windows -> `test_gpu.cmd`
-    - On Linux -> `python test_gpu.py`
+    - From the repository root on Windows -> `requirements\test_gpu.cmd`
+    - From the repository root on Linux -> `python requirements/test_gpu.py`
   - If there is no error, then you are all good and ready to go.
   - For OpenCV, the official `opencv-contrib-python` (No GPU support) is set in the `requirements.txt` file. If you need GPU support, check our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) or build one from source by yourself.
 
@@ -63,6 +65,7 @@ You need to install the main package which is `pyppbox` and the data for the mod
     pip install setuptools wheel build PyYAML
     python -m build --wheel --skip-dependency-check --no-isolation
     ```
+    Run these commands from the repository root, then install the generated wheel in `dist/` with `python -m pip install` followed by its path.
 
 * Install [`pyppbox-data-xxx`](https://github.com/rathaumons/pyppbox-data/)
   - Download the latest from [releases](https://github.com/rathaumons/pyppbox-data/releases) or install the ones you need directly:
@@ -95,6 +98,7 @@ You need to install the main package which is `pyppbox` and the data for the mod
     * The same for ***Torchreid*** without GPU/CUDA, you must set `cpu` as string for the parameter `device` in its configuration.
 
 * Troubleshooting
+  - If loading a ReID classifier reports `InconsistentVersionWarning`, recreate the environment used to train it or retrain it in the current environment. [Scikit-learn does not support loading models across different versions](https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations). [Example 12](https://rathaumons.github.io/pyppbox/examples/example_12.html) retrains the bundled GTA V classifiers and overwrites their configured `.pkl` files.
   - For ***macOS***, if the GUI does not work, you may try Python 3.11 as suggested in Prerequisite section above.
   - For ***Linux***, if the GUI does not work, you might need to install these:
     ```
@@ -117,6 +121,6 @@ Similar to [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox),
 
 ### 3️⃣ Customized Ultralytics
 
-Also, similar to `pyppbox_torchreid`, our custom `ultralytics` is changed to [`pyppbox-ultralytics`](https://github.com/rathaumons/ultralytics-for-pyppbox), but this time, the module name is still the same `ultralytics` and it is the main reason why the official `ultralytics` must be removed. Find out more why `pyppbox` needs the customized `pyppbox-ultralytics` -> [[Repo]](https://github.com/rathaumons/ultralytics-for-pyppbox) [[PyPI]](https://pypi.org/project/pyppbox-ultralytics/)
+The current [requirements file](https://github.com/rathaumons/pyppbox/blob/main/requirements/requirements.txt) installs [`vsensebox-ultralytics`](https://github.com/numediart/ultralytics-for-vsensebox), which provides the `ultralytics` import used by pyppbox. It shares that import namespace with the official `ultralytics` distribution, so avoid installing both in the same environment.
 
-*Note: [`pyppbox-ultralytics`](https://github.com/rathaumons/ultralytics-for-pyppbox) is discontinued, and `pyppbox` now uses [`vsensebox-ultralytics`](https://github.com/numediart/ultralytics-for-vsensebox).*
+[`pyppbox-ultralytics`](https://github.com/rathaumons/ultralytics-for-pyppbox) was the earlier distribution. Use the dependency specified by the requirements file for your pyppbox release. Using the current Ultralytics fork does not require the vsensebox framework.

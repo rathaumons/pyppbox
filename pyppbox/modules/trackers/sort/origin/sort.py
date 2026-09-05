@@ -32,7 +32,6 @@ from filterpy.kalman import KalmanFilter
 
 import lap
 
-np.random.seed(0)
 
 
 def linear_assignment(cost_matrix):
@@ -377,6 +376,7 @@ def parse_args():
 
 
 if __name__ == '__main__':
+  np.random.seed(0)
   # all train
   args = parse_args()
   display = args.display

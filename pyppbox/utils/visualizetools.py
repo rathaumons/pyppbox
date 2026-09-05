@@ -99,40 +99,55 @@ def __addSKL__(img, kpts, radius=5, kpt_line=True):
 
 def visualizePeople(img, people, show_box=True, show_skl=(True,True,5), show_ids=(True,True,True), 
                     show_reid=(0,0), show_repspoint=True, show_footnote=True, img_is_mat=True):
-    """Visualize people in the image by the given people. 
+    """Visualize people in the image by the given people.
 
     Parameters
     ----------
-    img : str or Mat
-        An image file or a :obj:`Mat` like image.
+    img : ``str or numpy.ndarray``
+        An image file or a ``numpy.ndarray`` like image.
     people : list[Person, ...]
-        Set a list of :class:`pyppbox.utils.persontools.Person` object found in the input :obj:`img`.
-    show_box : bool, default=True
+        Set a list of :class:`pyppbox.utils.persontools.Person` object found in the input ``img``.
+    show_box : bool
+        Defaults to ``True``.
         Indicate whether to visualize bounding boxes.
-    show_skl : tuple(bool, bool, int), default=(True,True,5)
-        Set how to visualize the keypoints and skeletons. 
+    show_skl : tuple(bool, bool, int)
+        Defaults to ``(True,True,5)``.
+        Set how to visualize the keypoints and skeletons.
         Set the first element to :code:`True` to visualize the keypoints.
         Set the second element to :code:`True` to visualize the skeletons.
-        The third element is the size of skeleton lines.
-    show_ids : tuple(bool, bool, bool), default=(True,True,True)
+        The third element is the keypoint-circle radius in pixels. Skeleton lines
+        use a fixed thickness of 2 pixels and are drawn only when the first element
+        also enables keypoint rendering and a supported pose skeleton is available.
+    show_ids : tuple(bool, bool, bool)
+        Defaults to ``(True,True,True)``.
         Set whether to visualize the IDs.
         Set the first element to :code:`True` to visualize the cid.
         Set the second element to :code:`True` to visualize the deepid.
         Set the third element to :code:`True` to visualize the faceid.
-    show_reid : tuple(int, int), default=(0,0)
-        :obj:`show_reid` is corresponding to :obj:`reid_count` in :func:`reidPeople()`
+    show_reid : tuple(int, int)
+        Defaults to ``(0,0)``.
+        ``show_reid`` is corresponding to ``reid_count`` in :func:`~pyppbox.standalone.reidPeople`
         Tuple of (ReID count, ReID deduplicate count)
-    show_repspoint : bool, default=True
-        Indicate whether to show the :obj:`repspoint` of :class:`pyppbox.utils.persontools.Person` object.
-    show_footnote : bool, default=True
+    show_repspoint : bool
+        Defaults to ``True``.
+        Indicate whether to show the ``repspoint`` of :class:`pyppbox.utils.persontools.Person` object.
+    show_footnote : bool
+        Defaults to ``True``.
         Indicate whether to show the foot note.
-    img_is_mat : bool, default=True
-        Speed up the function by specifying whether the :obj:`img` is :obj:`Mat` like image.
-    
+    img_is_mat : bool
+        Defaults to ``True``.
+        Speed up the function by specifying whether the ``img`` is ``numpy.ndarray`` like image.
+
     Returns
     -------
-    Mat
-        A visualized :obj:`Mat` like image.
+    ``numpy.ndarray``
+        The input array with drawings applied in place, or a newly loaded image
+        when a filename was supplied. An empty people list leaves the image unchanged.
+
+    Notes
+    -----
+    String filenames trigger image loading even when ``img_is_mat=True``.
+    Copy an input array first if the original pixels must be preserved.
     """
     # Override `img_is_mat` to False when `img` is a file.
     if img_is_mat and isinstance(img, str): img_is_mat = False

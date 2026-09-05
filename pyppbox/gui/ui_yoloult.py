@@ -24,7 +24,7 @@ from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, 
                                        getGlobalRootDir, getAncestorDir, 
-                                       getFloat, getInt)
+                                       getFloat, getInt, getBool)
 
 unified_strings = UnifiedStrings()
 root_dir = getGlobalRootDir()
@@ -195,7 +195,7 @@ class Ui_YOLOULT(object):
             "conf": getFloat(self.conf_lineEdit.text(), default_val=0.4),
             "iou": getFloat(self.iou_lineEdit.text(), default_val=0.7),
             "imgsz": getInt(self.imgsz_lineEdit.text(), default_val=1024),
-            "show_boxes": self.boxes_comboBox.currentText(),
+            "show_boxes": getBool(self.boxes_comboBox.currentText()),
             "device": device,
             "max_det": getInt(self.max_det_lineEdit.text(), default_val=100),
             "model_file": normalizePathFDS(root_dir, self.model_file_lineEdit.text()),

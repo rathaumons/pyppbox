@@ -28,7 +28,7 @@ from collections import Counter
 from typing import Any, Dict, List, Union, Optional
 
 # Configurations
-from pyppbox.config.configtools import isDictString, getCFGDict
+from pyppbox.config.configtools import isConfigInput, getCFGDict
 from pyppbox.config.myconfig import (
     MyConfigurator, NoneCFG,
     DCFGYOLOCLS, DCFGYOLOULT, DCFGGT, 
@@ -50,9 +50,7 @@ class MT(object):
     """An all-in-one class designed for easy detect, track, and reid people in a single threading 
     or multithreading application.
 
-    Example:
-    
-    >>> import cv2
+    Example : >>> import cv2
     >>> import threading
     >>> from pyppbox.utils.visualizetools import visualizePeople
     >>> from pyppbox.standalone import MT
@@ -139,25 +137,31 @@ class MT(object):
             self.__loadDefaultReIDer__()
 
     def setConfigDir(self, config_dir: Optional[str] = None, load_all: bool = False):
-        """Set configurations by a pointing to a config directory :obj:`config_dir`, 
-        where stores 4 required YAML files:
-        (1) main.yaml, tells what main detector/tracker/reider are chosen.
-        (2) detectors.yaml, stores all detectors' configurations.
-        (3) trackers.yaml, stores all trackers' configurations.
-        (4) reiders.yaml, stores all reiders' configurations.
-
-        Note: JSON file (.josn) is also supported.
+        """Select a directory containing the four configuration files.
 
         Parameters
         ----------
-        config_dir : str, default=None
-            A path of a config directory.
-            Set :code:`config_dir=None` to use the internal config directory 
-            :code:'{pyppbox root}/config/cfg'.
-        load_all : bool, default=False
-            Set :code:`load_all=True` to set and load the selected detector/tracker/reider 
-            according to the main configurations. 
-            Set :code:`load_all=False` to select and load a detector/tracker/reider manually later.
+        config_dir : str or None
+            Defaults to ``None``. Use the internal configuration directory when
+            omitted. A custom directory must contain ``main.yaml``, ``detectors.yaml``,
+            ``trackers.yaml``, and ``reiders.yaml``. A nonexistent directory triggers
+            a warning and falls back to the internal directory.
+        load_all : bool
+            Defaults to ``False``. If True, construct the selected detector, tracker,
+            and reider, including their models/classifiers. If False, load configuration
+            values only; any existing active module instances remain in place.
+
+        Raises
+        ------
+        ValueError
+            If the directory argument has an unsupported type or a config cannot be read.
+
+        Notes
+        -----
+        Paths within internal configs resolve relative to the package directory.
+        Paths within custom configs resolve relative to the working directory.
+        The directory loader uses the four YAML filenames above; individual module
+        setters additionally accept JSON files.
         """
         self.__cfg_is_set__ = False
         if config_dir == None:
@@ -188,21 +192,23 @@ class MT(object):
             raise ValueError(msg)
 
     def setMainModules(self, main_yaml: Optional[Union[str, Dict[str, Any]]] = None, load_all: bool = True):
-        """Load and set the main detector, the main tracker, and the main reider all at once 
-        according to the given main configurations, :obj:`main_yaml`. If the :func:`setConfigDir()` 
-        has not yet been called, internal config directory will be used.
+        """Select the main detector, tracker, and reider from one configuration mapping.
 
         Parameters
         ----------
-        main_yaml : str or dict, default=None
-            A YAML/JSON file path, or a raw/ready dictionary of the main configurations or main.yaml. 
-            This :obj:`main_yaml` helps override the original one configured earlier. 
-            Leave it as default :obj:`main_yaml=None`, to load and set according to the configurations 
-            in the config directory.
-        load_all : bool, default=True
-            Set :code:`load_all=True` to set and load the selected detector/tracker/reider according 
-            to the main configurations, which it is meant for using this :func:`setMainModules()` method.
-            Set :code:`load_all=False` to select and load a detector/tracker/reider manually later.
+        main_yaml : str or dict or list or None
+            Defaults to ``None``. Read ``main.yaml`` from the selected config directory
+            when omitted. Otherwise accept a YAML/JSON path, inline mapping, ready
+            dictionary, or a legacy list containing one mapping. The keys are
+            ``detector``, ``tracker``, and ``reider``.
+        load_all : bool
+            Defaults to ``True``. Construct all selected modules when True. When False,
+            update configuration objects only; existing active instances are unchanged.
+
+        Notes
+        -----
+        The internal config directory is selected if none has been configured.
+        Constructing models can load weights and classifiers and reset tracking state.
         """
         if not self.__cfg_is_set__: self.setConfigDir()
         self.__cfg__.setMainModules(main_yaml=main_yaml)
@@ -215,29 +221,33 @@ class MT(object):
             self.__loadDefaultReIDer__()
 
     def getConfig(self):
-        """
-        Get the current :class:`MyConfigurator` object.
-        
+        """Return the live configurator used by this pipeline.
+
         Returns
         -------
-        MyConfigurator
-            A :class:`MyConfigurator` object used to store and manage all the configurations of pyppbox.
+        pyppbox.config.myconfig.MyConfigurator
+            The existing mutable object, not a copy. Changing it does not automatically
+            rebuild active modules or save its configuration files.
         """
         return self.__cfg__
 
     def getMainConfig(self, current=True):
-        """Get the main configurations which used to identify the main detector/tracker/reider.
+        """Return the names of the active or configured pipeline stages.
 
         Parameters
         ----------
-        current : bool, default=True
-            When it is True (default), return the most current main configurations; otherwise, return 
-            the main configurations stored in the :obj:`MyConfigurator` object.
+        current : bool
+            Defaults to ``True``. Use the active module configurations when True.
+            When False, use the main configuration stored in the configurator; load
+            it with ``setConfigDir()`` or ``setMainModules()`` first.
 
         Returns
         -------
         dict
-            A configuration dictionary of the main configurations.
+            A fresh mapping with ``detector``, ``tracker``, and ``reider`` keys.
+            Uninitialized active stages are named ``"None"``. Configured names can
+            differ from active names after selection with ``load_all=False`` or
+            after setting an individual stage.
         """
         if current:
             return {
@@ -253,35 +263,20 @@ class MT(object):
     # Detector
     ###########################################
 
-    def __setGTDTOnly__(self):
-        if self.__dt_is_set__:
-            if self.__dt_cfg__.dt_name.lower() == self.__unistrings__.gt:
-                if self.__tk_is_set__ or self.__ri_is_set__:
-                    self.__dt__.setDetectOnly(self.__unistrings__.unk_fid, self.__unistrings__.unk_did)
-                    msg = ("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
-                           "---PYPPBOX : For DT='GT', if (TK!='None' or RI!='None')\n"
-                           "---PYPPBOX : -> Set detect_only=True for GT, DETECT ONLY mode.\n"
-                           "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
-                    add_info_log(msg, add_new_line=True)
-
-    def __revokeGTDTOnly__(self):
-        if self.__dt_is_set__:
-            if self.__dt_cfg__.dt_name.lower() == self.__unistrings__.gt:
-                if self.__tk_is_set__ and self.__ri_is_set__:
-                    if (self.__tk_cfg__.tk_name.lower() == self.__unistrings__.none and 
-                        self.__ri_cfg__.ri_name.lower() == self.__unistrings__.none):
-                        self.__dt__.setDetectOnly(self.__unistrings__.unk_fid, self.__unistrings__.unk_did, 
-                                                  detect_only=False)
-                        msg = ("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
-                               "---PYPPBOX : TK='None' & RI='None'\n"
-                               "---PYPPBOX : -> Override detect_only=False for GT, FULL GT mode."
-                               "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
-                        add_info_log(msg, add_new_line=True)
+    def __syncGTMode__(self):
+        if self.__dt_is_set__ and self.__dt_cfg__.dt_name.lower() == self.__unistrings__.gt:
+            detect_only = (
+                (self.__tk_is_set__ and self.__tk_cfg__.tk_name.lower() != self.__unistrings__.none)
+                or (self.__ri_is_set__ and self.__ri_cfg__.ri_name.lower() != self.__unistrings__.none)
+            )
+            self.__dt__.setDetectOnly(self.__unistrings__.unk_fid, self.__unistrings__.unk_did,
+                                     detect_only=detect_only)
 
     def forceFullGTMode(self):
         """Normally when :code:`DT='GT'`, pyppbox can automatically decide the GT mode based on the 
         name of the tracker and/or the name of reider; however, if the decision is not satisfied 
-        (Should not happen), calling this :func:`forceFUllGTMode()` will override :code:`detect_only=False`.
+        calling this :func:`forceFullGTMode()` sets :code:`detect_only=False` until the next
+        detector, tracker, or reider selection. Normal frame processing preserves the override.
         """
         success = False
         if self.__dt_is_set__:
@@ -327,6 +322,8 @@ class MT(object):
                 self.__dt_is_set__ = False
         else:
             add_warning_log("---PYPPBOX : The config is not set.")
+        self.__syncGTMode__()
+
 
     def __setCustomDetector__(self, detector_dict):
         if detector_dict:
@@ -361,36 +358,30 @@ class MT(object):
                 add_warning_log(f"---PYPPBOX : detector='{detector_dict['dt_name']}' is not recognized.")
 
     def setMainDetector(self, detector: Union[str, Dict[str, Any]] = ""):
-        """Set the main detector by a supported name, a raw/ready dictionary, or a YAML/JSON file. 
-        Calling :func:`setConfigDir()` before :func:`setMainTracker()` is optional. Different from 
-        the rest, setting the main detector by its name results in loading the configurations from 
-        the config directory set by the last :func:`setConfigDir()`. If :func:`setConfigDir()` has 
-        not been called before, setting the main detector by a supported name results in referencing 
-        the internal config directory in order to load the corresponding configurations. 
+        """Select and initialize the main detector.
 
         Parameters
         ----------
-        detector : str or dict, default=""
-            (1) Set :code:`detector=""` to set the main detector according to the main configurations 
-            or main.yaml and load its configurations from the detectors.yaml. 
-            (2) Set :code:`detector="YOLO_Classic"`.etc, to set YOLO Classic as the main detector and 
-            load its configurations from detectors.yaml.
-            (3) Set a raw string or ready dictionary is also possible; for example, 
-            :code:`detector="[{'dt_name': 'YOLO_Ultralytics', 'conf': 0.4, 'iou': 0.7, 'imgsz': 1024, 
-            'show_boxes': True, 'device': 0, 'max_det': 100, 
-            'model_file': 'data/modules/yolo_ultralytics/yolov8s-pose.pt', 
-            'repspoint_calibration': 0.25}]"`.
-            (4) Set :code:`detector="a_supported_detector.yaml"` or :code:`detector="a_supported_detector.json"` 
-            to set the main detector and its configuration from a YAML file. 
+        detector : str or dict or list
+            Defaults to ``""``. An empty string uses the selected main configuration.
+            A supported name (YOLO_Classic, YOLO_Ultralytics, GT, or "None") loads settings from ``detectors.yaml`` in the
+            selected directory, defaulting to the internal directory. Alternatively,
+            provide a complete dictionary, inline YAML/JSON mapping, YAML/JSON file path,
+            or legacy list containing one mapping. Custom paths within a mapping resolve
+            relative to the working directory, not the configuration file's directory.
+
+        Notes
+        -----
+        This replaces the existing stage, so retained model/tracking state is discarded.
+        The name ``"None"`` is a string. Selection also recomputes GT detection-only
+        mode, replacing any earlier ``forceFullGTMode()`` override. Config files are not saved.
         """
         self.__dt_is_set__ = False
         self.__dt__ = None
-        if isinstance(detector, dict):
-            self.__setCustomDetector__(detector)
+        if isConfigInput(detector):
+            self.__setCustomDetector__(getCFGDict(detector))
         elif isinstance(detector, str):
-            if (isDictString(detector) or "yaml" in detector.lower() or "json" in detector.lower()):
-                self.__setCustomDetector__(getCFGDict(detector))
-            elif detector == "":
+            if detector == "":
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__loadDefaultDetector__()
                 add_info_log('---PYPPBOX : Use detector according to the "main.yaml"')
@@ -427,6 +418,8 @@ class MT(object):
                 add_info_log(f"---PYPPBOX : Set detector='{detector}'")
         else:
             add_warning_log(f"---PYPPBOX : detector='{detector}' is not recognized.")
+        self.__syncGTMode__()
+
 
     def detectPeople(self, 
                      img, 
@@ -437,40 +430,57 @@ class MT(object):
                      min_width_filter=15,
                      alt_repspoint=False, 
                      alt_repspoint_top=True): 
-        """Detect people by giving an image. :func:`setConfigDir()` or :func:`setMainDetector()` must 
-        be called in advance.
+        """Detect people with the active detector, optionally drawing and saving the image.
 
         Parameters
         ----------
-        img : str or Mat
-            Set an image file or a :obj:`Mat` like image.
-        img_is_mat : bool, default=False
-            Speed up the function by telling whether the :obj:`img` is :obj:`Mat` like image.
-        visual : bool, default=False
-            Decide whether to visualize like drawing bounding boxes and keypoints to the 
-            return :obj:`img`.
-        save : bool, default=False
-            Decide whether to save the return :obj:`img` to a JPG file.
-        save_file : str, default=""
-            Indicate a path of where to save the processed image.
-        min_width_filter : int, default=15
-            Minimum width filter of a detected person.
-        alt_repspoint : bool, default=False
-            An indication of whether to use the alternative :meth:`findRepspointBB`.
-        alt_repspoint_top : bool, default=True
-            A parameter passed to :obj:`prefer_top` of :meth:`findRepspointBB`.
-        
+        img : ``str or numpy.ndarray``
+            Image filename or nonempty BGR image array.
+        img_is_mat : bool
+            Defaults to ``False``. Retained for API compatibility. The detector path
+            currently validates and accepts both filenames and arrays regardless of this flag.
+        visual : bool
+            Defaults to ``False``. Draw detections on the returned image. An input
+            array is modified in place when drawing is enabled.
+        save : bool
+            Defaults to ``False``. Save the returned image using OpenCV. Its format
+            is selected by the extension of ``save_file``.
+        save_file : str
+            Defaults to ``""``. Output filename when saving; the parent directory
+            must already exist. Saving can overwrite an existing image.
+        min_width_filter : int
+            Defaults to ``15``. Minimum detection-box width in pixels for YOLO detectors.
+        alt_repspoint : bool
+            Defaults to ``False``. For YOLO person detections, choose the top/bottom
+            box midpoint instead of the configured calibration or pose-based point.
+        alt_repspoint_top : bool
+            Defaults to ``True``. Choose the top midpoint when the alternative is enabled;
+            False chooses the bottom midpoint.
+
         Returns
         -------
-        list[Person, ...]
-            A  list of :class:`pyppbox.utils.persontools.Person` object.
-        Mat
-            A :obj:`Mat` like image.
-        """ 
+        list[pyppbox.utils.persontools.Person]
+            Detected people. GT detection reads the current GT frame and advances its cursor.
+        ``numpy.ndarray or str``
+            Loaded image, with drawings if requested. If no detector is active or
+            the detector is ``"None"``, return an empty people list and the original
+            input unchanged; loading and saving are skipped.
+
+        Raises
+        ------
+        ValueError
+            If an active detector receives an invalid image or the requested save fails.
+
+        Notes
+        -----
+        Initialize a detector first with ``setMainDetector()``, ``setMainModules()``,
+        or ``setConfigDir(load_all=True)``. The default ``setConfigDir()`` alone only
+        loads configuration. Detection filters and alternative points do not alter GT rows.
+        """
         people = []
         if self.__dt_is_set__: 
             if not isinstance(self.__dt__, NothingDetecter):
-                if not img_is_mat: img = getCVMat(img)
+                img = getCVMat(img)
                 if (self.__dt_cfg__.dt_name.lower() == self.__unistrings__.yolo_cls or 
                     self.__dt_cfg__.dt_name.lower() == self.__unistrings__.yolo_ult):
                     people, img = self.__dt__.detectPeople(img, 
@@ -483,7 +493,11 @@ class MT(object):
                 if save:
                     if isExist(getAncestorDir(str(save_file))):
                         filename = getAbsPathFDS(str(save_file))
-                        cv2.imwrite(filename=filename, img=img)
+                        try:
+                            if not cv2.imwrite(filename=filename, img=img):
+                                raise ValueError(f"PYPPBOX : detectPeople() -> Cannot save image: '{filename}'")
+                        except cv2.error as e:
+                            raise ValueError(f"PYPPBOX : detectPeople() -> Cannot save image: '{filename}': {e}") from e
                     else:
                         msg = (f"PYPPBOX : detectPeople() -> save_file='{save_file}' is not valid.")
                         add_error_log(msg)
@@ -504,19 +518,16 @@ class MT(object):
                 self.__tk_cfg__ = self.__cfg__.tcfg_centroid
                 self.__tk__ = MyCentroid(self.__tk_cfg__)
                 self.__tk_is_set__ = True
-                self.__setGTDTOnly__()
             elif self.__cfg__.mcfg.tracker.lower() == self.__unistrings__.sort:
                 from pyppbox.modules.trackers.sort import MySORT
                 self.__tk_cfg__ = self.__cfg__.tcfg_sort
                 self.__tk__ = MySORT(self.__tk_cfg__)
                 self.__tk_is_set__ = True
-                self.__setGTDTOnly__()
             elif self.__cfg__.mcfg.tracker.lower() == self.__unistrings__.deepsort:
                 from pyppbox.modules.trackers.deepsort import MyDeepSORT
                 self.__tk_cfg__ = self.__cfg__.tcfg_deepsort
                 self.__tk__ = MyDeepSORT(self.__tk_cfg__)
                 self.__tk_is_set__ = True
-                self.__setGTDTOnly__()
             elif self.__cfg__.mcfg.tracker.lower() == self.__unistrings__.none:
                 self.__tk_cfg__ = __none_cfg__
                 self.__tk__ = NothingTracker()
@@ -526,6 +537,8 @@ class MT(object):
                 self.__tk_is_set__ = False
         else:
             add_warning_log("---PYPPBOX : The config is not set.")
+        self.__syncGTMode__()
+
 
     def __setCustomTracker__(self, tracker_dict):
         if tracker_dict:
@@ -535,7 +548,6 @@ class MT(object):
                 self.__tk_cfg__.set(tracker_dict)
                 self.__tk__ = MyCentroid(self.__tk_cfg__)
                 self.__tk_is_set__ = True
-                self.__setGTDTOnly__()
                 add_info_log(f"---PYPPBOX : Set tracker='{self.__tk_cfg__.tk_name}'")
             elif tracker_dict['tk_name'].lower() == self.__unistrings__.sort:
                 from pyppbox.modules.trackers.sort import MySORT
@@ -543,7 +555,6 @@ class MT(object):
                 self.__tk_cfg__.set(tracker_dict)
                 self.__tk__ = MySORT(self.__tk_cfg__)
                 self.__tk_is_set__ = True
-                self.__setGTDTOnly__()
                 add_info_log(f"---PYPPBOX : Set tracker='{self.__tk_cfg__.tk_name}'")
             elif tracker_dict['tk_name'].lower() == self.__unistrings__.deepsort:
                 from pyppbox.modules.trackers.deepsort import MyDeepSORT
@@ -551,7 +562,6 @@ class MT(object):
                 self.__tk_cfg__.set(tracker_dict)
                 self.__tk__ = MyDeepSORT(self.__tk_cfg__)
                 self.__tk_is_set__ = True
-                self.__setGTDTOnly__()
                 add_info_log(f"---PYPPBOX : Set tracker='{self.__tk_cfg__.tk_name}'")
             elif tracker_dict['tk_name'].lower() == self.__unistrings__.none:
                 self.__tk_cfg__ = __none_cfg__
@@ -563,33 +573,30 @@ class MT(object):
                 add_warning_log(f"---PYPPBOX : tracker='{tracker_dict['tk_name']}' is not recognized.")
 
     def setMainTracker(self, tracker: Union[str, Dict[str, Any]] = ""):
-        """Set the main tracker by a supported name, a raw/ready dictionary, or a YAML/JSON file. 
-        Calling :func:`setConfigDir()` before :func:`setMainTracker()` is optional. Different from 
-        the rest, setting the main tracker by its name results in loading the configurations from 
-        the config directory set by the last :func:`setConfigDir()`. If :func:`setConfigDir()` has 
-        not been called before, setting the main tracker by a supported name results in referencing 
-        the internal config directory in order to load the corresponding configurations. 
+        """Select and initialize the main tracker.
 
         Parameters
         ----------
-        tracker : str or dict, default=""
-            (1) Set :code:`tracker=""` to set the main tracker according to the main configurations or 
-            main.yaml and load its configurations from the trackers.yaml. 
-            (2) Set :code:`tracker="Centroid"`.etc, to set Centroid as the main tracker and load its 
-            configurations from trackers.yaml.
-            (3) Set a raw string or ready dictionary is also possible; for example, 
-            :code:`tracker="[{'tk_name': 'SORT', 'max_age': 1, 'min_hits': 3, 'iou_threshold': 0.3}]"`.
-            (4) Set :code:`tracker="a_supported_tracker.yaml"` or :code:`tracker="a_supported_tracker.json"` 
-            to set the main tracker and its configuration from a YAML file. 
+        tracker : str or dict or list
+            Defaults to ``""``. An empty string uses the selected main configuration.
+            A supported name (Centroid, SORT, DeepSORT, or "None") loads settings from ``trackers.yaml`` in the
+            selected directory, defaulting to the internal directory. Alternatively,
+            provide a complete dictionary, inline YAML/JSON mapping, YAML/JSON file path,
+            or legacy list containing one mapping. Custom paths within a mapping resolve
+            relative to the working directory, not the configuration file's directory.
+
+        Notes
+        -----
+        This replaces the existing stage, so retained model/tracking state is discarded.
+        The name ``"None"`` is a string. Selection also recomputes GT detection-only
+        mode, replacing any earlier ``forceFullGTMode()`` override. Config files are not saved.
         """
         self.__tk_is_set__ = False
         self.__tk__ = None
-        if isinstance(tracker, dict):
-            self.__setCustomTracker__(tracker)
+        if isConfigInput(tracker):
+            self.__setCustomTracker__(getCFGDict(tracker))
         elif isinstance(tracker, str):
-            if (isDictString(tracker) or "yaml" in tracker.lower() or "json" in tracker.lower()):
-                self.__setCustomTracker__(getCFGDict(tracker))
-            elif tracker == "":
+            if tracker == "":
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__loadDefaultTracker__()
                 add_info_log('---PYPPBOX : Use tracker according to the "main.yaml"')
@@ -600,7 +607,6 @@ class MT(object):
                 self.__tk_cfg__ = self.__cfg__.tcfg_centroid
                 self.__tk__ = MyCentroid(self.__tk_cfg__)
                 self.__tk_is_set__ = True
-                self.__setGTDTOnly__()
                 add_info_log(f"---PYPPBOX : Set tracker='{tracker}'")
             elif tracker.lower() == self.__unistrings__.sort:
                 from pyppbox.modules.trackers.sort import MySORT
@@ -609,7 +615,6 @@ class MT(object):
                 self.__tk_cfg__ = self.__cfg__.tcfg_sort
                 self.__tk__ = MySORT(self.__tk_cfg__)
                 self.__tk_is_set__ = True
-                self.__setGTDTOnly__()
                 add_info_log(f"---PYPPBOX : Set tracker='{tracker}'")
             elif tracker.lower() == self.__unistrings__.deepsort:
                 from pyppbox.modules.trackers.deepsort import MyDeepSORT
@@ -618,7 +623,6 @@ class MT(object):
                 self.__tk_cfg__ = self.__cfg__.tcfg_deepsort
                 self.__tk__ = MyDeepSORT(self.__tk_cfg__)
                 self.__tk_is_set__ = True
-                self.__setGTDTOnly__()
                 add_info_log(f"---PYPPBOX : Set tracker='{tracker}'")
             elif tracker.lower() == self.__unistrings__.none:
                 if not self.__cfg_is_set__: self.setConfigDir()
@@ -629,26 +633,39 @@ class MT(object):
                 add_info_log(f"---PYPPBOX : Set tracker='{tracker}'")
         else:
             add_warning_log(f"---PYPPBOX : tracker='{tracker}' is not recognized.")
+        self.__syncGTMode__()
+
 
     def trackPeople(self, img, people, img_is_mat=False):
-        """Track people by giving an image and a list of detected people. :func:`setConfigDir()` 
-        or :func:`setMainTracker()` must be called in advance.
+        """Update the active tracker once for a frame, including frames without detections.
 
         Parameters
         ----------
-        img : str or Mat
-            Set an image file or a :obj:`Mat` like image.
-        people : list[Person, ...]
-            Set a list of :class:`pyppbox.utils.persontools.Person` object which stores the detected 
-            people in the input :obj:`img`.
-        img_is_mat : bool, default=False
-            Speed up the function by telling whether the :obj:`img` is :obj:`Mat` like image.
-        
+        img : ``str or numpy.ndarray``
+            Frame filename or BGR image array. DeepSORT uses pixels for appearance features.
+        people : list[pyppbox.utils.persontools.Person]
+            Detections in this frame. Pass an empty list for a missed-detection frame
+            so SORT/DeepSORT tracks age and can expire.
+        img_is_mat : bool
+            Defaults to ``False``. If True, pass the array to the tracker without
+            loading or validating it with the image helper.
+
         Returns
         -------
-        list[Person, ...]
-            A list of :class:`pyppbox.utils.persontools.Person` object which stores people with 
-            updated IDs.
+        list[pyppbox.utils.persontools.Person]
+            Current detections with updated tracking and identity metadata. Trackers
+            mutate person objects and may return fewer people than were supplied.
+            An unset tracker returns an empty list; tracker ``"None"`` passes detections through.
+
+        Raises
+        ------
+        ValueError
+            If an active tracker receives a non-list input or image conversion fails.
+
+        Notes
+        -----
+        Initialize the tracker first, for example with ``setMainTracker()`` or
+        ``setConfigDir(load_all=True)``. Keep one pipeline per independent stream.
         """
         res = []
         if self.__tk_is_set__: 
@@ -675,13 +692,11 @@ class MT(object):
                 self.__ri_cfg__ = self.__cfg__.rcfg_facenet
                 self.__ri__ = MyFaceNet(self.__ri_cfg__, auto_load=auto_load)
                 self.__ri_is_set__ = True
-                self.__setGTDTOnly__()
             elif self.__cfg__.mcfg.reider.lower() == self.__unistrings__.torchreid:
                 from pyppbox.modules.reiders.torchreid import MyTorchreid
                 self.__ri_cfg__ = self.__cfg__.rcfg_torchreid
                 self.__ri__ = MyTorchreid(self.__ri_cfg__, auto_load=auto_load)
                 self.__ri_is_set__ = True
-                self.__setGTDTOnly__()
             elif self.__cfg__.mcfg.reider.lower() == self.__unistrings__.none:
                 if (self.__dt_cfg__.dt_name.lower() != self.__unistrings__.none and 
                     self.__tk_cfg__.tk_name.lower() != self.__unistrings__.none):
@@ -690,12 +705,13 @@ class MT(object):
                     self.__ri__ = NothingReider()
                 self.__ri_cfg__ = __none_cfg__
                 self.__ri_is_set__ = True
-                self.__revokeGTDTOnly__()
             else:
                 add_warning_log("---PYPPBOX : The input reider is not recognized.")
                 self.__ri_is_set__ = False
         else:
             add_warning_log("---PYPPBOX : The config is not set.")
+        self.__syncGTMode__()
+
 
     def __setCustomReIDer__(self, reider_dict, auto_load=True):
         if reider_dict:
@@ -706,7 +722,6 @@ class MT(object):
                 self.__ri__ = MyFaceNet(self.__ri_cfg__, auto_load=auto_load)
                 self.__ri_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set reider='{self.__ri_cfg__.ri_name}'")
-                self.__setGTDTOnly__()
             elif reider_dict['ri_name'].lower() == self.__unistrings__.torchreid:
                 from pyppbox.modules.reiders.torchreid import MyTorchreid
                 self.__ri_cfg__ = RCFGTorchreid()
@@ -714,7 +729,6 @@ class MT(object):
                 self.__ri__ = MyTorchreid(self.__ri_cfg__, auto_load=auto_load)
                 self.__ri_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set reider='{self.__ri_cfg__.ri_name}'")
-                self.__setGTDTOnly__()
             elif reider_dict['ri_name'].lower() == self.__unistrings__.none:
                 if (self.__dt_cfg__.dt_name.lower() != self.__unistrings__.none and 
                     self.__tk_cfg__.tk_name.lower() != self.__unistrings__.none):
@@ -724,50 +738,42 @@ class MT(object):
                 self.__ri_cfg__ = __none_cfg__
                 self.__ri_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set reider='{self.__ri_cfg__.ri_name}'")
-                self.__revokeGTDTOnly__()
             else:
                 self.__ri_is_set__ = False
                 add_warning_log(f"---PYPPBOX : reider='{reider_dict['ri_name']}' is not recognized.")
 
     def setMainReIDer(self, reider: Union[str, Dict[str, Any]] = "", auto_load: bool = True):
-        """Set the main reider by a supported name, a raw/ready dictionary, or a YAML/JSON file. 
-        Calling :func:`setConfigDir()` before :func:`setMainTracker()` is optional. Different from 
-        the rest, setting the main reider by its name results in loading the configurations from the 
-        config directory set by the last :func:`setConfigDir()`. If :func:`setConfigDir()` has not 
-        been called before, setting the main reider by a supported name results in referencing the 
-        internal config directory in order to load the corresponding configurations. 
+        """Select and initialize the main reider.
 
         Parameters
         ----------
-        reider : str or dict, default=""
-            (1) Set :code:`reider=""` to set the main reider according to the main configurations 
-            or main.yaml and load its configurations from the reiders.yaml. 
-            (2) Set :code:`reider="FaceNet"`.etc, to set FaceNet as a reider and load its 
-            configurations from reiders.yaml.
-            (3) Set a raw string or ready dictionary is also possible; for example, 
-            :code:`reider="[{'ri_name': 'Torchreid', 
-            'classifier_pkl': 'data/modules/torchreid/classifier/gta5_osnet_ain_ms_d_c.pkl', 
-            'train_data': 'data/datasets/GTA_V_DATASET/body_128x256', 'model_name': 'osnet_ain_x1_0', 
-            'model_path': 'data/modules/torchreid/models/torchreid/osnet_ain_ms_d_c.pth.tar', 
-            'min_confidence': 0.35, 'device': 'cuda'}]"`.
-            (4) Set :code:`reider="a_supported_reider.yaml"` or :code:`reider="a_supported_reider.json"` 
-            to set a the main reider and its configurations from a YAML file. 
-        auto_load : bool, default=True
-            All supported reiders are Pytorch or Tensorflow based module, thus they need to 
-            initial and load their models/weights. :obj:`auto_load` is used to decide whether to 
-            load the reider automatically once the reider is set. Keep the :code:`auto_load=True` 
-            if it is meant for using :func:`reidPeople()`; however, even if the :code:`auto_load=False`, 
-            the :func:`reidPeople()` will initial and load the reider by itself, but it requires 
-            some time to do so.
+        reider : str or dict or list
+            Defaults to ``""``. An empty string uses the selected main configuration.
+            A supported name (FaceNet, Torchreid, or "None") loads settings from ``reiders.yaml`` in the
+            selected directory, defaulting to the internal directory. Alternatively,
+            provide a complete dictionary, inline YAML/JSON mapping, YAML/JSON file path,
+            or legacy list containing one mapping. Custom paths within a mapping resolve
+            relative to the working directory, not the configuration file's directory.
+        auto_load : bool
+            Defaults to ``True``. Load the identity classifier immediately when True.
+            False defers classifier loading until ``reidPeople()`` first uses the stage.
+            Torchreid still constructs its feature extractor and loads its weights during
+            initialization. Direct reider constructors default this option to False.
+
+        Notes
+        -----
+        This replaces the existing stage, so retained model/tracking state is discarded.
+        The name ``"None"`` is a string. Selection also recomputes GT detection-only
+        mode, replacing any earlier ``forceFullGTMode()`` override. Config files are not saved.
+        With detector and tracker enabled, reider ``"None"`` uses static
+        fallback identities. In other combinations it passes existing identities through.
         """
         self.__ri_is_set__ = False
         self.__ri__ = None
-        if isinstance(reider, dict):
-            self.__setCustomReIDer__(reider, auto_load)
+        if isConfigInput(reider):
+            self.__setCustomReIDer__(getCFGDict(reider), auto_load)
         elif isinstance(reider, str):
-            if (isDictString(reider) or "yaml" in reider.lower() or "json" in reider.lower()):
-                self.__setCustomReIDer__(getCFGDict(reider), auto_load)
-            elif reider == "":
+            if reider == "":
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__loadDefaultReIDer__(auto_load=auto_load)
                 add_info_log('---PYPPBOX : Use reider according to the "main.yaml"')
@@ -779,7 +785,6 @@ class MT(object):
                 self.__ri__ = MyFaceNet(self.__ri_cfg__, auto_load=auto_load)
                 self.__ri_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set reider='{reider}'")
-                self.__setGTDTOnly__()
             elif reider.lower() == self.__unistrings__.torchreid:
                 from pyppbox.modules.reiders.torchreid import MyTorchreid
                 if not self.__cfg_is_set__: self.setConfigDir()
@@ -788,7 +793,6 @@ class MT(object):
                 self.__ri__ = MyTorchreid(self.__ri_cfg__, auto_load=auto_load)
                 self.__ri_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set reider='{reider}'")
-                self.__setGTDTOnly__()
             elif reider.lower() == self.__unistrings__.none:
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__cfg__.setAllRCFG()
@@ -800,33 +804,49 @@ class MT(object):
                 self.__ri_cfg__ = __none_cfg__
                 self.__ri_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set reider='{reider}'")
-                self.__revokeGTDTOnly__()
         else:
             add_warning_log(f"---PYPPBOX : reider='{reider}' is not recognized.")
+        self.__syncGTMode__()
+
 
     def reidPeople(self, img, people, deduplicate=True, img_is_mat=False):
-        """Re-identify people by giving an image and a list of detected or tracked people. 
-        :func:`setConfigDir()` or :func:`setMainReIDer()` must be called in advance.
+        """Update unknown/error identities using the active reider.
 
         Parameters
         ----------
-        img : str or Mat
-            Set an image file or a :obj:`Mat` like image.
-        people : list[Person, ...]
-            Set a list of :class:`pyppbox.utils.persontools.Person` object which stores 
-            the detected or tracked people in the input :obj:`img`.
-        deduplicate : bool, default=True
-            Indicate whether to re-reid people who have the same face ids or deep ids.
-        img_is_mat : bool, default=False
-            Speed up the function by telling whether the :obj:`img` is :obj:`Mat` like image.
-        
+        img : ``str or numpy.ndarray``
+            Frame filename or BGR image array used for person/face crops.
+        people : list[pyppbox.utils.persontools.Person]
+            People whose identity fields are updated in place. Existing recognized
+            identities are retained unless duplicate re-inference is requested.
+        deduplicate : bool
+            Defaults to ``True``. Re-run recognition for repeated identities. This
+            does not remove people or guarantee that the final identities are unique.
+        img_is_mat : bool
+            Defaults to ``False``. If True, use the array without image-helper conversion.
+
         Returns
         -------
-        list[Person, ...]
-            A list of :class:`pyppbox.utils.persontools.Person` object which stores people 
-            with the updated IDs.
-        tuple(int, int)
-            A tuple of (ReID count, ReID deduplicate count).
+        list[pyppbox.utils.persontools.Person]
+            People with updated identity and confidence fields. Empty when the input
+            list is empty or no reider has been initialized.
+        tuple[int, int]
+            Counts of completed initial and duplicate recognition calls, including
+            unknown/error-ID results. Calls raising exceptions are not counted.
+            Both counts are zero for a disabled reider.
+
+        Raises
+        ------
+        ValueError
+            If an active reider receives a non-list, an unsupported first element,
+            or an image that cannot be converted.
+
+        Notes
+        -----
+        Initialize the stage first with ``setMainReIDer()`` or an all-module loader.
+        Deferred classifier loading happens before processing the people list and can
+        therefore occur on an empty frame. Classifier/model loading errors propagate.
+        Per-person crop or recognition exceptions are logged and the person is retained.
         """
         res = []
         reid_count = [0, 0]
@@ -896,7 +916,7 @@ class MT(object):
                     reid_count += 1
                 except Exception as e:
                     add_warning_log(f"---PYPPBOX : __reidDeepNormal__() -> {e}")
-            self.__deepidlistTMP__.append(deepid)
+            self.__deepidlistTMP__.append(people[index].deepid)
             index += 1
         return people, reid_count
 
@@ -933,10 +953,10 @@ class MT(object):
                 miniframe = img.copy()
                 try:
                     miniframe = miniframe[
-                        y + int(self.__cfg__.rcfg_facenet.yl_h_calibration[0]):
-                        y + int(self.__cfg__.rcfg_facenet.yl_h_calibration[1]), 
-                        x + int(self.__cfg__.rcfg_facenet.yl_w_calibration[0]):
-                        x + int(self.__cfg__.rcfg_facenet.yl_w_calibration[1])
+                        y + int(self.__ri_cfg__.yl_h_calibration[0]):
+                        y + int(self.__ri_cfg__.yl_h_calibration[1]),
+                        x + int(self.__ri_cfg__.yl_w_calibration[0]):
+                        x + int(self.__ri_cfg__.yl_w_calibration[1])
                     ]
                     people[index].faceid, people[index].faceid_conf = self.__ri__.recognize(
                         miniframe, 
@@ -945,7 +965,7 @@ class MT(object):
                     reid_count += 1
                 except Exception as e:
                     add_warning_log(f"---PYPPBOX : __reidFaceNormal__() -> {e}")
-            self.__faceidlistTMP__.append(faceid)
+            self.__faceidlistTMP__.append(people[index].faceid)
             index += 1
         return people, reid_count
 
@@ -961,10 +981,10 @@ class MT(object):
                             (x, y) = person.repspoint
                             miniframe = img.copy()
                             miniframe = miniframe[
-                                y + int(self.__cfg__.rcfg_facenet.yl_h_calibration[0]):
-                                y + int(self.__cfg__.rcfg_facenet.yl_h_calibration[1]), 
-                                x + int(self.__cfg__.rcfg_facenet.yl_w_calibration[0]):
-                                x + int(self.__cfg__.rcfg_facenet.yl_w_calibration[1])
+                                y + int(self.__ri_cfg__.yl_h_calibration[0]):
+                                y + int(self.__ri_cfg__.yl_h_calibration[1]),
+                                x + int(self.__ri_cfg__.yl_w_calibration[0]):
+                                x + int(self.__ri_cfg__.yl_w_calibration[1])
                             ]
                             people[index].faceid, people[index].faceid_conf = self.__ri__.recognize(
                                 miniframe, 
@@ -982,22 +1002,31 @@ class MT(object):
         train_data: str = "", 
         classifier_pkl: str = ""
     ):
-        """Train classifier of a reider by pointing to a data directory. Calling 
-        :func:`setConfigDir()` or :func:`setMainReIDer()` in advance is not required.
+        """Train and save an identity SVM using a supported reider's pretrained embeddings.
 
         Parameters
         ----------
-        reider : str or dict, default="" 
-            A supported name, a raw/ready dictionary, or a YAML/JSON file which is passed to 
-            :func:`setMainReIDer()`, where `reider=reider`, and `auto_load=False`.
-        train_data : str, default=""
-            A path of data used for training, where consists of 2 or more sub-folders which classify 
-            2 or more people. Set :code:`train_data=""` or keep default to use the configured 
-            :obj:`train_data` as set in the given :code:`reider`. All images in this sub-folders 
-            must be 128x256 for Torchreid and 182x182 for FaceNet.
-        classifier_pkl : str, default=""
-            A file path for the output classifier PKL file. Set :code:`classifier_pkl=""` or keep the 
-            default to use the configured :obj:`classifier_pkl` as set in the given :obj:`reider`.
+        reider : str or dict or list
+            Defaults to ``""``. Select the configured reider, a supported name, or a
+            complete YAML/JSON configuration as for ``setMainReIDer()``. The classifier
+            is not loaded before training, but required feature-extraction weights are.
+        train_data : str
+            Defaults to ``""``. Use the configured training directory when empty.
+            Otherwise specify an existing directory with one image-only subdirectory
+            per identity and at least two identities. The bundled examples use 128x256
+            body images and 182x182 face images (width x height). Torchreid resizes through
+            its extractor; FaceNet training uses 160x160 crops of prepared face images.
+        classifier_pkl : str
+            Defaults to ``""``. Use the configured output path when empty. An override's
+            parent directory must exist. Training overwrites the pickle and companion
+            ``.txt`` class-name file.
+
+        Notes
+        -----
+        This replaces the pipeline's active reider and returns None. Invalid explicit
+        input/output directories are logged and training is skipped. Backend training
+        errors propagate. Config files are not saved. Load the written classifier before
+        subsequent recognition; the pipeline does this on its next ``reidPeople()`` call.
         """
         self.setMainReIDer(reider=reider, auto_load=False)
         if self.__ri_is_set__:

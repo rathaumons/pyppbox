@@ -32,21 +32,21 @@ class MyYOLOCLS(object):
     
     Attributes
     ----------
-    cfg : DCFGYOLOCLS
-        A :class:`DCFGYOLOCLS` object which manages the configurations of detector 
+    cfg : pyppbox.config.myconfig.DCFGYOLOCLS
+        A :class:`~pyppbox.config.myconfig.DCFGYOLOCLS` object which manages the configurations of detector
         YOLO_Classic.
-    model: cv::dnn::DetectionModel
+    model : ``cv::dnn::DetectionModel``
         A detection model object of OpenCV's deep learning network.
     """
 
     def __init__(self, cfg):
-        """Initialize according to the given configuration :obj:`cfg` 
-        as :class:`DCFGYOLOCLS` object.
+        """Initialize according to the given configuration ``cfg``
+        as :class:`~pyppbox.config.myconfig.DCFGYOLOCLS` object.
 
         Parameters
         ----------
-        cfg : DCFGYOLOCLS
-            A :class:`DCFGYOLOCLS` object which manages the configurations of detector 
+        cfg : pyppbox.config.myconfig.DCFGYOLOCLS
+            A :class:`~pyppbox.config.myconfig.DCFGYOLOCLS` object which manages the configurations of detector
             YOLO_Classic.
         """
         self.cfg = cfg
@@ -58,32 +58,41 @@ class MyYOLOCLS(object):
         self.model.setInputParams(size=cfg.model_resolution, scale=1/255.0)
 
     def detect(self, img, visual=True, class_filter=[0], min_width_filter=15):
-        """Detect general object with object's class filter :obj:`class_filter` in a 
-        given :obj:`Mat` like image.
+        """Detect general object with object's class filter ``class_filter`` in a
+        given ``numpy.ndarray`` like image.
 
         Parameters
         ----------
-        img : Mat
-            A :obj:`Mat` like image.
-        visual : bool, default=True
+        img : ``numpy.ndarray``
+            BGR image array; the same array is returned, with drawings applied in place.
+        visual : bool
+            Defaults to ``True``.
             An indication of whether to visualize the detected objects.
-        class_filter : list[int, ...], default=0
+        class_filter : list[int, ...]
+            Defaults to ``[0]``.
             Object's class filter, [0] = Person only.
-        min_width_filter : int, default=15
+        min_width_filter : int
+            Defaults to ``15``.
             Minimum width filter of a detected object.
 
         Returns
         -------
-        Mat
-            A :obj:`Mat` like image.
-        list[ndarray[int, int, int, int], ...]
+        ``numpy.ndarray``
+            BGR image array; the same array is returned, with drawings applied in place.
+        ``list[ndarray[int, int, int, int], ...]``
             A list of bounding box :code:`ndarray[x, y, width, height]`.
-        list[ndarray[int, int, int, int], ...]
+        ``list[ndarray[int, int, int, int], ...]``
             A list of bounding box :code:`ndarray[x1, y1, x2, y2]`.
         list[tuple(int, int)]
             A list of represented 2D point :code:`(x, y)` of every detected object.
-        float
-            A list of the detection confidence of every detected object.
+        list[float]
+            Detection confidences on a 0-1 scale, in the same order as the boxes.
+
+        Notes
+        -----
+        Pass one frame array, not a filename. Copy it before calling if the original
+        pixels must be preserved with ``visual=True``. The width filter is inclusive
+        and measured in original-image pixels. Model/inference errors propagate.
         """
         pboxes_xywh = []
         pboxes_xyxy = []
@@ -108,27 +117,40 @@ class MyYOLOCLS(object):
         return img, pboxes_xywh, pboxes_xyxy, repspoints, confs
 
     def detectPeople(self, img, visual=True, min_width_filter=15, alt_repspoint=False, alt_repspoint_top=True):
-        """Detect person(s) in a given :obj:`Mat` like image.
+        """Detect person(s) in a given ``numpy.ndarray`` like image.
 
         Parameters
         ----------
-        img : Mat
-            A :obj:`Mat` like image.
-        visual : bool, default=True
+        img : ``numpy.ndarray``
+            BGR image array; the same array is returned, with drawings applied in place.
+        visual : bool
+            Defaults to ``True``.
             An indication of whether to visualize the detected people.
-        min_width_filter : int, default=15
+        min_width_filter : int
+            Defaults to ``15``.
             Minimum width filter of a detected person.
-        alt_repspoint : bool, default=False
-            An indication of whether to use the alternative :meth:`findRepspointBB`.
-        alt_repspoint_top : bool, default=True
-            A parameter passed to :obj:`prefer_top` of :meth:`findRepspointBB`.
+        alt_repspoint : bool
+            Defaults to ``False``.
+            An indication of whether to use the alternative :func:`~pyppbox.utils.persontools.findRepspointBB`.
+        alt_repspoint_top : bool
+            Defaults to ``True``.
+            A parameter passed to ``prefer_top`` of :func:`~pyppbox.utils.persontools.findRepspointBB`.
 
         Returns
         -------
         list[Person, ...]
             A list of detected :class:`pyppbox.utils.persontools.Person` object.
-        Mat
-            A :obj:`Mat` like image.
+        ``numpy.ndarray``
+            BGR image array; the same array is returned, with drawings applied in place.
+
+        Notes
+        -----
+        Pass one frame array, not a filename. Copy it before calling if the original
+        pixels must be preserved with ``visual=True``. The width filter is inclusive
+        and measured in original-image pixels. Model/inference errors propagate.
+        Initial IDs and CIDs start at zero on each call; persistent tracking
+        IDs are assigned separately by a tracker. Representative points use box
+        calibration unless an alternative box midpoint is requested.
         """
         people = []
         classes, confidences, boxes = self.model.detect(

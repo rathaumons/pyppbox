@@ -1,18 +1,42 @@
 # Release Notes 
 
-## **pyppbox V4 - Even Smaller**
+## **pyppbox V4 - Performance and Stability**
 
-* `pyppbox` v4.0b1 (COMING SOON 🚀)
+* `pyppbox` V4 (planned, after V3.15)
 
-  - `pyppbox` will leverage [`vsensebox`](https://github.com/rathaumons/vsensebox) for detection and tracking
-  - `pyppbox.utils.persontools` will change to adapt [`vsensebox`](https://github.com/rathaumons/vsensebox)
-  - `pyppbox.ppb` will replace `pyppbox.standalone`
-  - All configuration files will also change
-  - More changes will be added here! Stay tuned!
+  - Improve performance and stability in the existing pyppbox pipeline
+  - Preserve working V3 configurations and public interfaces, including `pyppbox.standalone`
+  - Measure optimizations against the V3.15 correctness baseline
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.14.0](https://github.com/rathaumons/pyppbox/tree/v3.14.0) - The Last V3
+* `pyppbox` v3.15.0 (unreleased)
+
+  - Additional V3 maintenance release before V4, preserving existing configuration keys, paths, and APIs
+  - Advance SORT and DeepSORT on empty frames; retain identity metadata while a track survives a short gap
+  - Align YOLO pose keypoints with boxes and confidence scores, forward the configured IoU threshold, and convert results directly to CPU
+  - Use active FaceNet crop calibration and updated identities in duplicate re-inference; return actual below-threshold ReID confidence and `0.0` when no prediction is available
+  - Normalize existing YAML/JSON config input forms and safely serialize values; save each config file through atomic replacement
+  - Save YOLO's GUI `show_boxes` choice as a boolean and accept existing quoted `True`/`False` values on load, fixing a GUI-launch regression exposed by the safer YAML writer
+  - Restore the original output stream after silenced calls, including failures; use backend verbosity controls in ReID code
+  - Isolate `Person` defaults and stored result snapshots; consume static fallback IDs in order, retaining `EoR<index>` after an explicit list is exhausted
+  - Recompute GT mode after module selections; `forceFullGTMode()` lasts until the next detector, tracker, or reider selection
+  - Match evaluation detections one-to-one, count unmatched predictions and references independently, and return score `0.0` for empty GT. Offline evaluation covers frame IDs in either input. Historical counts can differ; summary tuples and the existing score formula are preserved
+  - Fall back to SciPy assignment if Centroid's LAP solver is unavailable or fails
+  - Reject missing/undecodable image inputs and report failed image saves
+  - Respect terminal logging environment settings at import, restrict log cleanup to pyppbox log files when file logging is enabled, and preserve NumPy's random state when importing SORT
+  - Recover evaluation after selecting a valid GT file following a missing file, and correctly switch the evaluation ID mode back to `deepid`
+  - Exclude local planning documents from source distributions and remove the obsolete V4 migration announcement
+  - Add a `tests/` regression suite covering detection, tracking, ReID, configuration, evaluation, and utilities, with separate test dependencies in `tests/requirements.txt`
+  - Include optional GUI integration and CPU/CUDA result-adapter tests
+  - Configure regression CI for Linux, macOS, and Windows with Python 3.9–3.12 and NumPy 1.x/2.x, checking both the checkout and the installed wheel as a baseline for V4
+  - Correct example snippets, documented defaults and parameter names, DeepSORT backend information, and configuration/install guidance; include the missing `getMainConfig()` and GT documentation
+  - Correct API docstrings for model initialization, return values, confidence scales, object mutation, GT frame cursors, configuration I/O, and classifier training
+  - Validate documentation API references in strict Sphinx builds on pull requests, with a pinned set of documentation build tools
+  - **Fixes pending:** preserve FaceNet classifier label order for custom identity names containing underscores, and correct mixed-case ReID name normalization
+  - **Release preparation pending:** remote CI, remaining model inference and downstream validation, the final version bump, and the approved AGPLv3-or-later license transition. V3.15.0 is intended to be the first AGPL release; the license files have not yet been changed
+
+* `pyppbox` [v3.14.0](https://github.com/rathaumons/pyppbox/tree/v3.14.0) - ~~The Last V3~~
 
   - Fix a bug in reid `predict()` functions and ensure the compatibility with both NumPy 2.x and 1.x
   - Add proper supports for the new [Ultralytics YOLO26](https://rathaumons.github.io/pyppbox/pyppbox/modules.html#id1)

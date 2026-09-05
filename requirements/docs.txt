@@ -1,0 +1,5 @@
+# Documentation build tools, verified together on Python 3.11.
+sphinx==9.0.4
+myst-parser==5.1.0
+pydata-sphinx-theme==0.21.0
+readthedocs-sphinx-search==0.3.2

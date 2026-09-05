@@ -30,7 +30,8 @@ Base Structure of ``pyppbox``
    │   └───reiders  ......................  All supported reiders
    │       ├───facenet  ..................  Reider FaceNet
    │       └───torchreid  ................  Reider Torchreid
-   ├───standalone  .......................  Standalone module
+   ├───ppb  ..............................  Pipeline API and per-instance MT class
+   ├───standalone  .......................  Public facade for the shared pipeline
    └───utils  ............................  Utilities including visualization, evaluation, etc.
 
 

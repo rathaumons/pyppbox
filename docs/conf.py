@@ -22,7 +22,7 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from pyppbox.utils.commontools import getVersionString
 
 project = 'pyppbox'
@@ -53,14 +53,13 @@ source_suffix = {
 }
 
 pygments_style = 'sphinx'
-source_parsers = {'.md': 'recommonmark.parser.CommonMarkParser'}
 master_doc = 'index'
 
 man_pages = [
     (master_doc, 'pyppbox', u'pyppbox Documentation', [author], 1)
 ]
 
-# pip install sphinx myst-parser pydata-sphinx-theme readthedocs-sphinx-search
+# Install documentation tools with: python -m pip install -r requirements/docs.txt
 
 htmlhelp_basename = 'pyppboxdocs'
 html_theme = "pydata_sphinx_theme"
@@ -78,7 +77,7 @@ html_theme_options = {
     ],
     "secondary_sidebar_items": ["page-toc", "edit-this-page"],
     "show_toc_level": 3,
-    "navigation_with_keys": 'False',
+    "navigation_with_keys": False,
 }
 
 # remove some primary sidebar

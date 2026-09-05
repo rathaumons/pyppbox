@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
     branches:
       - main
@@ -24,11 +27,10 @@ jobs:
         pip install wheel build
         pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
         pip install -r requirements.txt
-        pip install sphinx myst-parser pydata-sphinx-theme readthedocs-sphinx-search
-        pip install --upgrade sphinx
+        pip install -r docs.txt
         pip freeze
     - name: Sphinx build
-      run: sphinx-build docs _build
+      run: python -m sphinx -b html -n -W --keep-going docs _build
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}

@@ -43,17 +43,25 @@ unified_strings = UnifiedStrings()
 
 class BaseCGF(object):
 
-    """
-    An base CFG class used to store the necessary configurations of a module.
+    """An base CFG class used to store the necessary configurations of a module.
 
     Attributes
     ----------
-    unified_strings : MyStrings, auto
-        A :class:`MyStrings` object used to store unified strings.
-    config : Dict[str, Any], default={}
+    unified_strings : pyppbox.config.unifiedstrings.UnifiedStrings
+        Set automatically.
+        A :class:`~pyppbox.config.unifiedstrings.UnifiedStrings` object used to store unified strings.
+    config : Dict[str, Any]
+        Defaults to ``{}``.
         A configuration dictionary of a single document of the configuration.
-    configs : List[Dict[str, Any]], default=[]
+    configs : List[Dict[str, Any]]
+        Defaults to ``[]``.
         A list of multiple documents of the configurations.
+
+    Notes
+    -----
+    Ready mappings/lists are held by reference, not deep-copied. Loading a
+    single document and a document list updates ``config`` and ``configs`` separately.
+    Dump methods select JSON for a .json output suffix and YAML otherwise.
     """
 
     def __init__(self):
@@ -82,26 +90,38 @@ class BaseCGF(object):
         self.configs = getCFGDictList(input)
     
     def dumpDoc(self, output: str, header: str = ""):
-        """Dump the :attr:`config` into a YAML file with simple format.
+        """Save the current ``config`` as YAML or JSON.
 
         Parameters
         ----------
         output : str
-            A path file to dump.
+            Output filename. A .json suffix selects JSON; other suffixes select YAML.
+            The parent directory must exist.
         header : str
-            A file header description.
+            Defaults to ``""``. Prefix inserted verbatim for YAML; supply YAML comments
+            if a description is needed. Ignored for JSON.
+
+        Notes
+        -----
+        Returns None. Replaces one file atomically without reloading live modules.
         """
         dumpDocDict(output_file=output, doc=self.config, header=header)
     
     def dumpDocs(self, output: str, header: str = ""):
-        """Dump the :attr:`configs` into a YAML file with simple format.
+        """Save the current ``configs`` as YAML or JSON.
 
         Parameters
         ----------
         output : str
-            A path file to dump.
+            Output filename. A .json suffix selects JSON; other suffixes select YAML.
+            The parent directory must exist.
         header : str
-            A file header description.
+            Defaults to ``""``. Prefix inserted verbatim for YAML; supply YAML comments
+            if a description is needed. Ignored for JSON.
+
+        Notes
+        -----
+        Returns None. Replaces one file atomically without reloading live modules.
         """
         dumpDocDictList(output_file=output, doc_list=self.configs, header=header)
 
@@ -128,7 +148,13 @@ class NoneCFG(BaseCGF):
     """
 
     def __init__(self, name: Any) -> None:
-        """Initialize every attribute with a unified string of "None" regardless the :obj:`name`."""
+        """Initialize each stage name to the canonical string ``"None"``.
+
+        Parameters
+        ----------
+        name : Any
+            Ignored; retained for compatibility with config construction calls.
+        """
         super().__init__()
         name = self.unified_strings.getUnifiedFormat("None")
         self.dt_name = name
@@ -140,11 +166,11 @@ class NoneCFG(BaseCGF):
 
     def set(self, name: Any) -> "NoneCFG":
         """
-        Set every attribute with a unified string of "None" regardless the :obj:`Any`.
+        Return this already initialized "None" configuration; the name is ignored.
 
         Parameters
         ----------
-        input : Any
+        name : Any
             A parameter to be overridden with a unified string of :code:`"None"`.
         """
         return self
@@ -170,7 +196,7 @@ class MainCFG(BaseCGF):
 
     def set(self, input: Union[str, Dict[str, Any]]):
         """
-        Set main configurations according to :obj:`input`.
+        Set main configurations according to ``input``.
 
         Parameters
         ----------
@@ -210,8 +236,7 @@ class MainCFG(BaseCGF):
 
 class DCFGYOLOCLS(BaseCGF):
 
-    """
-    A class used to store the necessary configurations of detector YOLO Classic which 
+    """A class used to store the necessary configurations of detector YOLO Classic which
     use :code:`.weights` model.
 
     Attributes
@@ -233,11 +258,18 @@ class DCFGYOLOCLS(BaseCGF):
     model_resolution : tuple(int, int)
         Input image resolution of YOLO Classic.
     repspoint_calibration : float
-        Internal parameter, weight for calibatrating the repspoint of a 
-        :class:`pyppbox.utils.persontools.Person` object. Check :func:`findRepspoint()` in 
-        :py:mod:`pyppbox.persontools` for more details.
+        Internal parameter, weight for calibatrating the repspoint of a
+        :class:`pyppbox.utils.persontools.Person` object. Check :func:`~pyppbox.utils.persontools.findRepspoint` in
+        :py:mod:`pyppbox.utils.persontools` for more details.
     from_dir : str
         Path of the root directory, relative to path of :attr:`model_weights`.
+
+    Notes
+    -----
+    Call ``set()`` with a complete configuration before reading derived attributes
+    or passing this object to a runtime module. Construction alone does not supply
+    the values from the bundled YAML files. ``set()`` returns None; it is not a
+    partial-update or fluent-builder API.
     """
 
     def __init__(self, relative_to_pyppbox_root=False):
@@ -248,7 +280,8 @@ class DCFGYOLOCLS(BaseCGF):
 
         Parameters
         ----------
-        relative_to_pyppbox_root : bool, default=False
+        relative_to_pyppbox_root : bool
+            Defaults to ``False``.
             (1) Set :code:`relative_to_pyppbox_root=False` to use your current working directory 
             as where all the paths in your configuration file are relative to; for example, 
             the path of :attr:`model_weights` inside your configuration file is set relatively 
@@ -263,7 +296,7 @@ class DCFGYOLOCLS(BaseCGF):
 
     def set(self, input: Union[str, Dict[str, Any]]):
         """
-        Set configurations according to :obj:`input`.
+        Set configurations according to ``input``.
 
         Parameters
         ----------
@@ -314,8 +347,7 @@ class DCFGYOLOCLS(BaseCGF):
 
 class DCFGYOLOULT(BaseCGF):
 
-    """
-    A class used to store the necessary configurations of detector YOLO_Ultralytics.
+    """A class used to store the necessary configurations of detector YOLO_Ultralytics.
 
     Attributes
     ----------
@@ -336,10 +368,17 @@ class DCFGYOLOULT(BaseCGF):
     model_file : str
         Path of :attr:`model_file` for YOLO_Ultralytics.
     repspoint_calibration : float
-        Weight for calibatrating the repspoint of a :class:`pyppbox.utils.persontools.Person` 
-        object. Check :func:`findRepspoint()` in :py:mod:`pyppbox.persontools` for more details.
+        Weight for calibatrating the repspoint of a :class:`pyppbox.utils.persontools.Person`
+        object. Check :func:`~pyppbox.utils.persontools.findRepspoint` in :py:mod:`pyppbox.utils.persontools` for more details.
     from_dir : str
         Path of the root directory, relative to path of :attr:`model_file`.
+
+    Notes
+    -----
+    Call ``set()`` with a complete configuration before reading derived attributes
+    or passing this object to a runtime module. Construction alone does not supply
+    the values from the bundled YAML files. ``set()`` returns None; it is not a
+    partial-update or fluent-builder API.
     """
 
     def __init__(self, relative_to_pyppbox_root=False):
@@ -350,7 +389,8 @@ class DCFGYOLOULT(BaseCGF):
 
         Parameters
         ----------
-        relative_to_pyppbox_root : bool, default=False
+        relative_to_pyppbox_root : bool
+            Defaults to ``False``.
             (1) Set :code:`relative_to_pyppbox_root=False` to use your current working 
             directory as where all the paths in your configuration file are relative to; 
             for example, the path of :attr:`model_file` inside your configuration file is 
@@ -365,7 +405,7 @@ class DCFGYOLOULT(BaseCGF):
 
     def set(self, input: Union[str, Dict[str, Any]]):
         """
-        Set configurations according to :obj:`input`.
+        Set configurations according to ``input``.
 
         Parameters
         ----------
@@ -379,7 +419,14 @@ class DCFGYOLOULT(BaseCGF):
                 self.conf = self.config['conf']
                 self.iou = self.config['iou']
                 self.imgsz = self.config['imgsz']
-                self.show_boxes = self.config['show_boxes']
+                show_boxes = self.config['show_boxes']
+                # Older GUI saves can contain quoted boolean strings. Normalize
+                # this known boolean field without changing general YAML values.
+                if isinstance(show_boxes, str) and show_boxes.strip().lower() in ('true', 'false'):
+                    show_boxes = show_boxes.strip().lower() == 'true'
+                if not isinstance(show_boxes, bool):
+                    raise ValueError("show_boxes must be a boolean or the string 'True'/'False'.")
+                self.show_boxes = show_boxes
                 self.device = self.config['device']
                 self.max_det = self.config['max_det']
                 self.model_file = getAdaptiveAbsPathFDS(self.from_dir, self.config['model_file'])
@@ -417,8 +464,7 @@ class DCFGYOLOULT(BaseCGF):
 
 class DCFGGT(BaseCGF):
 
-    """
-    A class used to store the necessary configurations of detector GT (Ground-truth).
+    """A class used to store the necessary configurations of detector GT (Ground-truth).
 
     Attributes
     ----------
@@ -429,7 +475,14 @@ class DCFGGT(BaseCGF):
     gt_map_file : str
         Path of GT map text file.
     from_dir : str
-        Path of the root directory, relative to path of :obj:`model_file`.
+        Path of the root directory, relative to path of ``model_file``.
+
+    Notes
+    -----
+    Call ``set()`` with a complete configuration before reading derived attributes
+    or passing this object to a runtime module. Construction alone does not supply
+    the values from the bundled YAML files. ``set()`` returns None; it is not a
+    partial-update or fluent-builder API.
     """
 
     def __init__(self, relative_to_pyppbox_root=False):
@@ -440,7 +493,8 @@ class DCFGGT(BaseCGF):
 
         Parameters
         ----------
-        relative_to_pyppbox_root : bool, default=False
+        relative_to_pyppbox_root : bool
+            Defaults to ``False``.
             (1) Set :code:`relative_to_pyppbox_root=False` to use your current working directory 
             as where all the paths in your configuration file are relative to; for example, 
             the path of :attr:`gt_file` inside your configuration file is set relatively to your 
@@ -456,7 +510,7 @@ class DCFGGT(BaseCGF):
 
     def set(self, input: Union[str, Dict[str, Any]]):
         """
-        Set configurations according to :obj:`input`.
+        Set configurations according to ``input``.
 
         Parameters
         ----------
@@ -496,16 +550,22 @@ class DCFGGT(BaseCGF):
 
 class TCFGCentroid(BaseCGF):
 
-    """
-    A class used to store the necessary configurations of tracker Centroid.
+    """A class used to store the necessary configurations of tracker Centroid.
 
     Attributes
     ----------
     tk_name : str
         Configured name of tracker Centroid.
     max_spread : int
-        Maximum distance of the being tracked :class:`pyppbox.utils.persontools.Person` 
+        Maximum distance of the being tracked :class:`pyppbox.utils.persontools.Person`
         object of previous and current state.
+
+    Notes
+    -----
+    Call ``set()`` with a complete configuration before reading derived attributes
+    or passing this object to a runtime module. Construction alone does not supply
+    the values from the bundled YAML files. ``set()`` returns None; it is not a
+    partial-update or fluent-builder API.
     """
 
     def __init__(self) -> None:
@@ -513,7 +573,7 @@ class TCFGCentroid(BaseCGF):
 
     def set(self, input):
         """
-        Set configurations according to :obj:`input`.
+        Set configurations according to ``input``.
 
         Parameters
         ----------
@@ -551,8 +611,7 @@ class TCFGCentroid(BaseCGF):
 
 class TCFGSORT(BaseCGF):
 
-    """
-    A class used to store the necessary configurations of tracker SORT.
+    """A class used to store the necessary configurations of tracker SORT.
 
     Attributes
     ----------
@@ -564,6 +623,13 @@ class TCFGSORT(BaseCGF):
         Parameter :obj:`min_hits` of tracker SORT.
     iou_threshold : float
         Parameter :obj:`iou_threshold` of tracker SORT.
+
+    Notes
+    -----
+    Call ``set()`` with a complete configuration before reading derived attributes
+    or passing this object to a runtime module. Construction alone does not supply
+    the values from the bundled YAML files. ``set()`` returns None; it is not a
+    partial-update or fluent-builder API.
     """
 
     def __init__(self) -> None:
@@ -571,7 +637,7 @@ class TCFGSORT(BaseCGF):
 
     def set(self, input: Union[str, Dict[str, Any]]):
         """
-        Set configurations according to :obj:`input`.
+        Set configurations according to ``input``.
 
         Parameters
         ----------
@@ -614,8 +680,7 @@ class TCFGSORT(BaseCGF):
 
 class TCFGDeepSORT(BaseCGF):
 
-    """
-    A class used to store the necessary configurations of tracker DeepSORT.
+    """A class used to store the necessary configurations of tracker DeepSORT.
 
     Attributes
     ----------
@@ -631,6 +696,13 @@ class TCFGDeepSORT(BaseCGF):
         Path of model file for tracker DeepSORT.
     from_dir : str
         Path of the root directory, relative to path of :attr:`model_file`.
+
+    Notes
+    -----
+    Call ``set()`` with a complete configuration before reading derived attributes
+    or passing this object to a runtime module. Construction alone does not supply
+    the values from the bundled YAML files. ``set()`` returns None; it is not a
+    partial-update or fluent-builder API.
     """
 
     def __init__(self, relative_to_pyppbox_root=False):
@@ -641,7 +713,8 @@ class TCFGDeepSORT(BaseCGF):
 
         Parameters
         ----------
-        relative_to_pyppbox_root : bool, default=False
+        relative_to_pyppbox_root : bool
+            Defaults to ``False``.
             (1) Set :code:`relative_to_pyppbox_root=False` to use your current working directory 
             as where all the paths in your configuration file are relative to; for example, 
             the path of :attr:`model_file` inside your configuration file is set relatively to 
@@ -656,7 +729,7 @@ class TCFGDeepSORT(BaseCGF):
 
     def set(self, input: Union[str, Dict[str, Any]]):
         """
-        Set configurations according to :obj:`input`.
+        Set configurations according to ``input``.
 
         Parameters
         ----------
@@ -700,17 +773,17 @@ class TCFGDeepSORT(BaseCGF):
 
 class RCFGFaceNet(BaseCGF):
 
-    """
-    A class used to store the necessary configurations of reider FaceNet.
+    """A class used to store the necessary configurations of reider FaceNet.
 
     Attributes
     ----------
-    unified_strings : MyStrings, auto
-        A :class:`MyStrings` object used to store unified strings.
+    unified_strings : pyppbox.config.unifiedstrings.UnifiedStrings
+        Set automatically.
+        A :class:`~pyppbox.config.unifiedstrings.UnifiedStrings` object used to store unified strings.
     ri_name : str
         Configured name of reider FaceNet.
     gpu_mem : float
-        Limit GPU memory usage.
+        Fraction of GPU memory supplied to the TensorFlow session.
     model_det : str
         Path of the det directory where stores .npy files.
     model_file : str
@@ -718,22 +791,32 @@ class RCFGFaceNet(BaseCGF):
     classifier_pkl : str
         Path of classifier PKL file.
     train_data : str
-        Path of a data directory where there must be 2 or more sub-folders which 
+        Path of a data directory where there must be 2 or more sub-folders which
         classify different people.
     batch_size : int
         Parameter :obj:`batch_size` of reider FaceNet.
     min_confidence : float
-        Minimum confidence of the prediction.
-    yl_h_calibration : list[int, int], default=[-125, 75]
-        When YOLO is used as the detector, this list of :code:`[val_1, val_2]` and a 
-        :class:`pyppbox.utils.persontools.Person`'s respoint :code:`(X, Y)` are used to find 
+        Configured confidence fraction on a 0-1 scale. Reider instances convert
+        this to an integer percentage threshold.
+    yl_h_calibration : list[int, int]
+        Defaults to ``[-125, 75]``.
+        When YOLO is used as the detector, this list of :code:`[val_1, val_2]` and a
+        :class:`pyppbox.utils.persontools.Person`'s respoint :code:`(X, Y)` are used to find
         the from-to :code:`Y` for cropping the face: :code:`[Y + val_1 : Y + val_2, ...]`.
-    yl_w_calibration : list[int, int], default=[-55, 55]
-        When YOLO is used as the detector, this list of :code:`[val_1, val_2]` and a 
-        :class:`pyppbox.utils.persontools.Person`'s respoint :code:`(X, Y)` are used to find 
+    yl_w_calibration : list[int, int]
+        Defaults to ``[-55, 55]``.
+        When YOLO is used as the detector, this list of :code:`[val_1, val_2]` and a
+        :class:`pyppbox.utils.persontools.Person`'s respoint :code:`(X, Y)` are used to find
         the from-to :code:`X` for cropping the face: :code:`[..., X + val_1 : X + val_2]`.
     from_dir : str
         Path of the root directory, relative to path of :attr:`model_file`.
+
+    Notes
+    -----
+    Call ``set()`` with a complete configuration before reading derived attributes
+    or passing this object to a runtime module. Construction alone does not supply
+    the values from the bundled YAML files. ``set()`` returns None; it is not a
+    partial-update or fluent-builder API.
     """
 
     def __init__(self, relative_to_pyppbox_root=False):
@@ -744,7 +827,8 @@ class RCFGFaceNet(BaseCGF):
 
         Parameters
         ----------
-        relative_to_pyppbox_root : bool, default=False
+        relative_to_pyppbox_root : bool
+            Defaults to ``False``.
             (1) Set :code:`relative_to_pyppbox_root=False` to use your current working directory 
             as where all the paths in your configuration file are relative to; for example, 
             the path of :attr:`model_file` inside your configuration file is set relatively to 
@@ -760,7 +844,7 @@ class RCFGFaceNet(BaseCGF):
 
     def set(self, input: Union[str, Dict[str, Any]]):
         """
-        Set configurations according to :obj:`input`.
+        Set configurations according to ``input``.
 
         Parameters
         ----------
@@ -814,37 +898,47 @@ class RCFGFaceNet(BaseCGF):
 
 class RCFGTorchreid(BaseCGF):
 
-    """
-    A class used to store the necessary configurations of reider Torchreid.
+    """A class used to store the necessary configurations of reider Torchreid.
 
     Attributes
     ----------
-    unified_strings : MyStrings, auto
-        A :class:`MyStrings` object used to store unified strings.
+    unified_strings : pyppbox.config.unifiedstrings.UnifiedStrings
+        Set automatically.
+        A :class:`~pyppbox.config.unifiedstrings.UnifiedStrings` object used to store unified strings.
     ri_name : str
         Configured name of reider Torchreid.
     classifier_pkl : str
         Path of classifier PKL file.
     train_data : str
-        Path of a data directory where there must be 2 or more sub-folders which classify 
+        Path of a data directory where there must be 2 or more sub-folders which classify
         different people.
     model_name : str
         Name of a model corresponding to the pretrained model.
     model_path : str
         Path of a pretrained model file for reider Torchreid.
     min_confidence : float
-        Minimum confidence of the prediction.
+        Configured confidence fraction on a 0-1 scale. Reider instances convert
+        this to an integer percentage threshold.
     device : str
         Parameter device for specifying a computing device.
     base_model_path : str
-        Path of a base model corresponding to the pretrained model or :attr:`model_name`. 
-    model_dict : TorchreidModelDict, auto
-        A :class:`TorchreidModelDict` object used to store the dictionary of a Torchreid model.
-    model_wh : tuple(int, int), auto
-        A tuple used to store the input image size :code:`(width, height)` for a corresponding 
+        Path of a base model corresponding to the pretrained model or :attr:`model_name`.
+    model_dict : ``TorchreidModelDict``
+        Set automatically.
+        A ``TorchreidModelDict`` object used to store the dictionary of a Torchreid model.
+    model_wh : tuple(int, int)
+        Set automatically.
+        A tuple used to store the input image size :code:`(width, height)` for a corresponding
         Torchreid model.
     from_dir : str
         Path of the root directory, relative to path of :attr:`model_path`.
+
+    Notes
+    -----
+    Call ``set()`` with a complete configuration before reading derived attributes
+    or passing this object to a runtime module. Construction alone does not supply
+    the values from the bundled YAML files. ``set()`` returns None; it is not a
+    partial-update or fluent-builder API.
     """
 
     def __init__(self, relative_to_pyppbox_root=False):
@@ -855,7 +949,8 @@ class RCFGTorchreid(BaseCGF):
 
         Parameters
         ----------
-        relative_to_pyppbox_root : bool, default=False
+        relative_to_pyppbox_root : bool
+            Defaults to ``False``.
             (1) Set :code:`relative_to_pyppbox_root=False` to use your current working directory 
             as where all the paths in your configuration file are relative to; for example, 
             the path of :attr:`model_path` inside your configuration file is set relatively to your 
@@ -871,7 +966,7 @@ class RCFGTorchreid(BaseCGF):
 
     def set(self, input: Union[str, Dict[str, Any]]):
         """
-        Set configurations according to :obj:`input`.
+        Set configurations according to ``input``.
 
         Parameters
         ----------
@@ -1079,44 +1174,63 @@ class MyCFGHeaders(object):
 
 class MyConfigurator(PYPPBOXStructure):
 
-    """
-    A class used to store and manage all the configurations of pyppbox.
+    """A class used to store and manage all the configurations of pyppbox.
 
     Attributes
     ----------
-    mcfg : MainCFG, auto
+    mcfg : MainCFG
+        Set automatically.
         A :class:`MainCFG` object used to identify the main detector/tracker/reider.
-    dcfg_yolocs : DCFGYOLOCLS, auto
-        A :class:`DCFGYOLOCLS` object used to store the configurations of detector 
+    dcfg_yolocs : pyppbox.config.myconfig.DCFGYOLOCLS
+        Set automatically.
+        A :class:`~pyppbox.config.myconfig.DCFGYOLOCLS` object used to store the configurations of detector
         YOLO Classic.
-    dcfg_yolout : DCFGYOLOULT, auto
-        A :class:`DCFGYOLOULT` object used to store the configurations of detector 
+    dcfg_yolout : pyppbox.config.myconfig.DCFGYOLOULT
+        Set automatically.
+        A :class:`~pyppbox.config.myconfig.DCFGYOLOULT` object used to store the configurations of detector
         YOLO_Ultralytics.
-    dcfg_gt : DCFGGT, auto
+    dcfg_gt : DCFGGT
+        Set automatically.
         A :class:`DCFGGT` object used to store the configurations of detector GT (Ground-truth).
-    tcfg_centroid : TCFGCentroid, auto
+    tcfg_centroid : TCFGCentroid
+        Set automatically.
         A :class:`TCFGCentroid` object used to store the configurations of tracker Centroid.
-    tcfg_sort : TCFGSORT, auto
+    tcfg_sort : TCFGSORT
+        Set automatically.
         A :class:`TCFGSORT` object used to store the configurations of tracker SORT.
-    tcfg_deepsort : TCFGDeepSORT, auto
-        A :class:`TCFGDeepSORT` object used to store the configurations of tracker DeepSORT.
-    rcfg_facenet : RCFGFaceNet, auto
-        A :class:`RCFGFaceNet` object used to store the configurations of reider FaceNet.
-    rcfg_torchreid : RCFGTorchreid, auto
-        A :class:`RCFGTorchreid` object used to store the configurations of reider Torchreid.
-    dt_map : list[str, ...], auto
+    tcfg_deepsort : pyppbox.config.myconfig.TCFGDeepSORT
+        Set automatically.
+        A :class:`~pyppbox.config.myconfig.TCFGDeepSORT` object used to store the configurations of tracker DeepSORT.
+    rcfg_facenet : pyppbox.config.myconfig.RCFGFaceNet
+        Set automatically.
+        A :class:`~pyppbox.config.myconfig.RCFGFaceNet` object used to store the configurations of reider FaceNet.
+    rcfg_torchreid : pyppbox.config.myconfig.RCFGTorchreid
+        Set automatically.
+        A :class:`~pyppbox.config.myconfig.RCFGTorchreid` object used to store the configurations of reider Torchreid.
+    dt_map : list[str, ...]
+        Set automatically.
         A list used to store all detectors' names loaded from the configuration file.
-    tk_map : list[str, ...], auto
+    tk_map : list[str, ...]
+        Set automatically.
         A list used to store all trackers' names loaded from the configuration file.
-    ri_map : list[str, ...], auto
+    ri_map : list[str, ...]
+        Set automatically.
         A list used to store all reiders' names loaded from the configuration file.
     cfg_headers : MyCFGHeaders
         A :class:`MyCFGHeaders` object used to store the headers of configuration.
-    relative_to_pyppbox_root: bool, auto
-        An indication of whether the paths inside all configuration files are relative 
-        to :code:`{pyppbox root}` or not. 
-    abstractCFGs: list
+    relative_to_pyppbox_root : bool
+        Set automatically.
+        An indication of whether the paths inside all configuration files are relative
+        to :code:`{pyppbox root}` or not.
+    abstractCFGs : list
         A list used to store abstract or unsupported :class:`BaseCGF` objects.
+
+    Notes
+    -----
+    This class manages configuration data only; it does not construct detector,
+    tracker, or reider models. With the default ``set_all_modules=False``, call the
+    appropriate loading methods before accessing their config attributes. Dump
+    methods save supplied mappings but do not reload live pipeline instances.
     """
 
     def __init__(self, cfg_dir: str = internal_cfg_dir, set_all_modules: bool = False):
@@ -1124,10 +1238,12 @@ class MyConfigurator(PYPPBOXStructure):
 
         Parameters
         ----------
-        cfg_dir : str, default='{pyppbox root}/config/cfg'
+        cfg_dir : str
+            Defaults to ``'{pyppbox root}/config/cfg'``.
             A path of the config directory where stores main.yaml, detectors.yaml, 
             trackers.yaml, and reiders.yaml.
-        set_all_modules : bool, default=False
+        set_all_modules : bool
+            Defaults to ``False``.
             An indication of whether to load and set all configurations of all supported 
             modules. :code:`set_all_modules=True` will trigger :meth:`setMCFG()`, 
             :meth:`setAllDCFG()`, :meth:`setAllTCFG()`, and :meth:`setAllRCFG()`.
@@ -1173,12 +1289,13 @@ class MyConfigurator(PYPPBOXStructure):
 
         Parameters
         ----------
-        main_yaml : str or dict, default=None
+        main_yaml : str or dict
+            Defaults to ``None``.
             A YAML/JSON file path, or a raw/ready dictionary of the main configurations 
-            or main.yaml. This :obj:`main_yaml` helps override the original one configured 
-            during the :meth:`__init__()`.
+            or main.yaml. This ``main_yaml`` helps override the original one configured
+            during the ``__init__()``.
             Leave it as default :code:`main_yaml=None`, to load and set according to the 
-            configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
+            configurations inside config directory :attr:`~pyppbox.config.configtools.PYPPBOXStructure.cfg_dir` set in the ``__init__()``.
         """
         self.mcfg = MainCFG()
         if main_yaml is None:
@@ -1187,16 +1304,19 @@ class MyConfigurator(PYPPBOXStructure):
             self.mcfg.set(main_yaml)
     
     def setMainModules(self, main_yaml: Optional[Union[str, Dict[str, Any]]] = None):
-        """Call :meth:`setMCFG()` and then load and set the main detector/tracker/reider accordingly.
+        """Call :meth:`setMCFG()` and load the selected stages' configuration objects.
+
+        This does not construct detector, tracker, or reider runtime instances.
 
         Parameters
         ----------
-        main_yaml : str or dict, default=None
+        main_yaml : str or dict
+            Defaults to ``None``.
             A YAML/JSON file path, or a raw/ready dictionary of the main configurations 
-            or main.yaml. This :obj:`main_yaml` helps override the original one configured 
-            during the :meth:`__init__()`.
+            or main.yaml. This ``main_yaml`` helps override the original one configured
+            during the ``__init__()``.
             Leave it as default :code:`main_yaml=None`, to load and set according to the 
-            configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
+            configurations inside config directory :attr:`~pyppbox.config.configtools.PYPPBOXStructure.cfg_dir` set in the ``__init__()``.
         """
         self.setMCFG(main_yaml=main_yaml)
         selected_dt = self.mcfg.config['detector']
@@ -1227,17 +1347,19 @@ class MyConfigurator(PYPPBOXStructure):
 
         Parameters
         ----------
-        detectors_yaml : str or dict, default=None
+        detectors_yaml : str or dict
+            Defaults to ``None``.
             A YAML/JSON file path, or a raw/ready dictionary of the detectors' configurations 
-            or detectors.yaml. This :obj:`detectors_yaml` helps override the original one 
-            configured during the :meth:`__init__()`. 
+            or detectors.yaml. This ``detectors_yaml`` helps override the original one
+            configured during the ``__init__()``.
             Leave it as default :code:`detectors_yaml=None`, to load and set according to the 
-            configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
-        relative_to_pyppbox_root : bool, default=None
+            configurations inside config directory :attr:`~pyppbox.config.configtools.PYPPBOXStructure.cfg_dir` set in the ``__init__()``.
+        relative_to_pyppbox_root : bool
+            Defaults to ``None``.
             An indication of whether the paths inside your configuration file are relative 
             to :code:`{pyppbox root}` or not. This indication or behavior was automatically 
-            decided during the :meth:`__init__()`, and you don't need to set or change it 
-            unless you set :obj:`detectors_yaml` to override the original configurations. If 
+            decided during the ``__init__()``, and you don't need to set or change it
+            unless you set ``detectors_yaml`` to override the original configurations. If
             all the paths inside your configuration file have full absolute paths, setting 
             :obj:`relative_to_pyppbox_root` is optional.
         """
@@ -1272,17 +1394,19 @@ class MyConfigurator(PYPPBOXStructure):
 
         Parameters
         ----------
-        detectors_yaml : str or dict, default=None
+        detectors_yaml : str or dict
+            Defaults to ``None``.
             A YAML/JSON file path, or a raw/ready dictionary of the detectors' configurations 
-            or detectors.yaml. This :obj:`detectors_yaml` helps override the original one 
-            configured during the :meth:`__init__()`. 
+            or detectors.yaml. This ``detectors_yaml`` helps override the original one
+            configured during the ``__init__()``.
             Leave it as default :code:`detectors_yaml=None`, to load and set according to the 
-            configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
-        relative_to_pyppbox_root : bool, default=None
+            configurations inside config directory :attr:`~pyppbox.config.configtools.PYPPBOXStructure.cfg_dir` set in the ``__init__()``.
+        relative_to_pyppbox_root : bool
+            Defaults to ``None``.
             An indication of whether the paths inside your configuration file are relative 
             to :code:`{pyppbox root}` or not. This indication or behavior was automatically 
-            decided during the :meth:`__init__()`, and you don't need to set or change it 
-            unless you set :obj:`detectors_yaml` to override the original configurations. If 
+            decided during the ``__init__()``, and you don't need to set or change it
+            unless you set ``detectors_yaml`` to override the original configurations. If
             all the paths inside your configuration file have full absolute paths, setting 
             :obj:`relative_to_pyppbox_root` is optional.
         """
@@ -1332,17 +1456,19 @@ class MyConfigurator(PYPPBOXStructure):
 
         Parameters
         ----------
-        trackers_yaml : str or dict, default=None
+        trackers_yaml : str or dict
+            Defaults to ``None``.
             A YAML/JSON file path, or a raw/ready dictionary of the trackers' configurations 
-            or trackers.yaml. This :obj:`trackers_yaml` helps override the original one 
-            configured during the :meth:`__init__()`. 
+            or trackers.yaml. This ``trackers_yaml`` helps override the original one
+            configured during the ``__init__()``.
             Leave it as default :code:`trackers_yaml=None`, to load and set according to the 
-            configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
-        relative_to_pyppbox_root : bool, default=None
+            configurations inside config directory :attr:`~pyppbox.config.configtools.PYPPBOXStructure.cfg_dir` set in the ``__init__()``.
+        relative_to_pyppbox_root : bool
+            Defaults to ``None``.
             An indication of whether the paths inside your configuration file are relative 
             to :code:`{pyppbox root}` or not. This indication or behavior was automatically 
-            decided during the :meth:`__init__()`, and you don't need to set or change it 
-            unless you set :obj:`trackers_yaml` to override the original configurations. If 
+            decided during the ``__init__()``, and you don't need to set or change it
+            unless you set ``trackers_yaml`` to override the original configurations. If
             all the paths inside your configuration file have full absolute paths, setting 
             :obj:`relative_to_pyppbox_root` is optional.
         """
@@ -1391,17 +1517,19 @@ class MyConfigurator(PYPPBOXStructure):
 
         Parameters
         ----------
-        reiders_yaml : str or dict, default=None
+        reiders_yaml : str or dict
+            Defaults to ``None``.
             A YAML/JSON file path, or a raw/ready dictionary of the reiders' configurations or 
-            reiders.yaml. This :obj:`reiders_yaml` helps override the original one configured 
-            during the :meth:`__init__()`. 
+            reiders.yaml. This ``reiders_yaml`` helps override the original one configured
+            during the ``__init__()``.
             Leave it as default :code:`reiders_yaml=None`, to load and set according to the 
-            configurations inside config directory :attr:`cfg_dir` set in the :meth:`__init__()`.
-        relative_to_pyppbox_root : bool, default=None
+            configurations inside config directory :attr:`~pyppbox.config.configtools.PYPPBOXStructure.cfg_dir` set in the ``__init__()``.
+        relative_to_pyppbox_root : bool
+            Defaults to ``None``.
             An indication of whether the paths inside your configuration file are relative 
             to :code:`{pyppbox root}` or not. This indication or behavior was automatically 
-            decided during the :meth:`__init__()`, and you don't need to set or change it 
-            unless you set :obj:`reiders_yaml` to override the original configurations. If 
+            decided during the ``__init__()``, and you don't need to set or change it
+            unless you set ``reiders_yaml`` to override the original configurations. If
             all the paths inside your configuration file have full absolute paths, setting 
             :obj:`relative_to_pyppbox_root` is optional.
         """
@@ -1445,11 +1573,12 @@ class MyConfigurator(PYPPBOXStructure):
 
         Parameters
         ----------
-        input_cfg: str or dict
+        input_cfg : str or dict
             A YAML/JSON file path, or a raw/ready dictionary of the configurations 
             of a supported module.
-        relative_to_pyppbox_root : bool, default=False
-            An indication of whether the paths inside the given :obj:`input_cfg` are 
+        relative_to_pyppbox_root : bool
+            Defaults to ``False``.
+            An indication of whether the paths inside the given ``input_cfg`` are
             relative to :code:`{pyppbox root}` or not. 
         """
         cfg = getCFGDict(input_cfg)

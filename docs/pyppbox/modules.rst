@@ -22,6 +22,12 @@ For example, the supported `YOLO_Classic` / `YOLO` module can only be used as a 
    |              |                  | * Run on: CPU or GPU (PyTorch)                           |
    +--------------+------------------+----------------------------------------------------------+
 
+``GT`` is also a supported detector name. It reads detections from a ground-truth
+text file; see :doc:`../examples/example_10`. Set both tracker and reider to
+``"None"`` to preserve the GT identities automatically. With other stages enabled,
+:meth:`pyppbox.ppb.mt.MT.forceFullGTMode` overrides detection-only GT behavior until
+the next module selection.
+
 |
 
 .. table:: Supported Trackers
@@ -38,7 +44,7 @@ For example, the supported `YOLO_Classic` / `YOLO` module can only be used as a 
    +--------------+------------------+----------------------------------------------------------+
    | DeepSORT     | DeepSORT         | * Integrated by embedding                                |
    |              |                  | * `DeepSORT repo`_                                       |
-   |              |                  | * Run on: CPU or GPU (PyTorch)                           |
+   |              |                  | * Appearance encoder: TensorFlow; assignment: CPU        |
    +--------------+------------------+----------------------------------------------------------+
 
 |

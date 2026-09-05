@@ -33,53 +33,77 @@ class UnifiedStrings(object):
 
     Attributes
     ----------
-    data : Dict[str, Any], auto
+    data : Dict[str, Any]
+        Set automatically.
         Data or documents read from strings.yaml.
-    none : str, auto
+    none : str
+        Set automatically.
         Unified string of word 'None'.
-    detector : str, auto
+    detector : str
+        Set automatically.
         Unified string of word 'Detector'.
-    tracker : str, auto
+    tracker : str
+        Set automatically.
         Unified string of word 'Tracker'.
-    reider : str, auto
+    reider : str
+        Set automatically.
         Unified string of word 'ReIDer'.
-    gt : str, auto
+    gt : str
+        Set automatically.
         Unified string of words 'Ground-truth'.
-    yolo_cls : str, auto
+    yolo_cls : str
+        Set automatically.
         Unified string of words 'Yolo Classic'.
-    yolo_ult : str, auto
+    yolo_ult : str
+        Set automatically.
         Unified string of words 'Yolo Ultralytics'.
-    sort : str, auto
+    sort : str
+        Set automatically.
         Unified string of word 'SORT'.
-    deepsort : str, auto
+    deepsort : str
+        Set automatically.
         Unified string of word 'DeepSORT'.
-    centroid : str, auto
+    centroid : str
+        Set automatically.
         Unified string of word 'Centroid'.
-    facenet : str, auto
+    facenet : str
+        Set automatically.
         Unified string of word 'FaceNet'.
-    torchreid : str, auto
+    torchreid : str
+        Set automatically.
         Unified string of word 'Torchreid'.
-    dtname_yl : str, auto
+    dtname_yl : str
+        Set automatically.
         Unified string of words 'Detector YOLO'.
-    dtname_gt : str, auto
+    dtname_gt : str
+        Set automatically.
         Unified string of words 'Detector GT'.
-    tkname_ct : str, auto
+    tkname_ct : str
+        Set automatically.
         Unified string of words 'Tracker Centroid'.
-    tkname_st : str, auto
+    tkname_st : str
+        Set automatically.
         Unified string of words 'Tracker SORT'.
-    tkname_ds : str, auto
+    tkname_ds : str
+        Set automatically.
         Unified string of words 'Tracker DeepSORT'.
-    riname_fn : str, auto
+    riname_fn : str
+        Set automatically.
         Unified string of words 'ReIDer FaceNet'.
-    riname_tr : str, auto
+    riname_tr : str
+        Set automatically.
         Unified string of words 'ReIDer Torchreid'.
-    unk_did : str, auto
+    unk_did : str
+        Set automatically.
         Unified string of words 'Unknown deep ID'.
-    unk_fid : str, auto
+    unk_fid : str
+        Set automatically.
         Unified string of words 'Unknown face ID'.
-    err_did : str, auto
+    err_did : str
+        Set automatically.
         Unified string of words 'Error deep ID'.
-    err_fid : str, auto
+    err_fid : str
+        Set automatically.
         Unified string of words 'Error face ID'.
     """
 
@@ -88,14 +112,15 @@ class UnifiedStrings(object):
 
         Parameters
         ----------
-        strings_yaml : str, default='{pyppbox root}/config/strings/strings.yaml'
+        strings_yaml : str
+            Defaults to ``'{pyppbox root}/config/strings/strings.yaml'``.
             A path of a YAML file which stores the unified strings.
         """
         self.load(strings_yaml=strings_yaml)
 
     def load(self, strings_yaml): 
         """Load a configuration dictionary of a single document as a dictionary from 
-        a :obj:`strings_yaml` file and automatically pass to :meth:`set()`.
+        a ``strings_yaml`` file and automatically pass to :meth:`set()`.
 
         Parameters
         ----------

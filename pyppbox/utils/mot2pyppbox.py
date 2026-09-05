@@ -98,23 +98,32 @@ def convert(input_file="gt.txt",
 
     Parameters
     ----------
-    input_file : str, default="gt.txt"
+    input_file : str
+        Defaults to ``"gt.txt"``.
         Input MOT Challenge text file.
-    output_file : str, default="gt_pyppbox.txt"
+    output_file : str
+        Defaults to ``"gt_pyppbox.txt"``.
         Output pyppbox text file.
-    splitter : str, default=','
+    splitter : str
+        Defaults to ``','``.
         Column or data splitter.
-    use_numid : bool, default=False
+    use_numid : bool
+        Defaults to ``True``.
         Whether to use number id as real id.
-    min_conf : float, default=0.0
+    min_conf : float
+        Defaults to ``0.0``.
         Filter for minimum conf.
-    max_conf : float, default=1.0
+    max_conf : float
+        Defaults to ``1.0``.
         Filter for maximum conf.
-    find_repspoint : bool, default=True
+    find_repspoint : bool
+        Defaults to ``True``.
         Whether to calculate repspoint.
-    alt_repspoint : bool, default=False
+    alt_repspoint : bool
+        Defaults to ``False``.
         Whether to use alternative repspoint.
-    alt_repspoint_top : bool, default=True
+    alt_repspoint_top : bool
+        Defaults to ``True``.
         Whether y is the top for alternative repspoint.
     """
     

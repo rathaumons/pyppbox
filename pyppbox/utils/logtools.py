@@ -20,6 +20,7 @@
 
 
 import os
+import re
 import time
 import logging
 
@@ -36,25 +37,34 @@ __logger__ = None
 
 # Remove old logs
 def cleanup_old_logs():
-    """
-    Clean up old log files in the log directory that are older than 1 day.
+    """Delete pyppbox-named regular log files whose modification time is over one day old.
+
+    Only ``log_YYYYMMDD_HHMMSS.txt`` names in the internal log directory are eligible;
+    symlinks and other filenames are skipped. Create the directory if absent.
+    Returns None. Called automatically at import only when file logging is enabled;
+    calling this function directly performs cleanup regardless of that toggle.
     """
     global __log_dir__, __max_age__
     if os.path.exists(__log_dir__):
         for filename in os.listdir(__log_dir__):
-            if "git" in filename: continue
-            filestamp = os.stat(os.path.join(__log_dir__, filename)).st_mtime
+            if not re.fullmatch(r"log_\d{8}_\d{6}\.txt", filename):
+                continue
+            path = os.path.join(__log_dir__, filename)
+            if not os.path.isfile(path) or os.path.islink(path):
+                continue
+            filestamp = os.stat(path).st_mtime
             if  filestamp < time.time() - __max_age__:
-                os.remove(os.path.join(__log_dir__, filename))
+                os.remove(path)
     else: os.makedirs(__log_dir__)
-
-cleanup_old_logs()
 
 # follow the enviroment variable to disable file logging
 def set_file_log_from_env():
-    """
-    Set the file logging status according to the environment variable
-    :code:`PYPPBOX_DISABLE_FILE_LOG`.
+    """Refresh the file-log flag from ``PYPPBOX_DISABLE_FILE_LOG``.
+
+    Values 1/true/yes/on disable it and 0/false/no/off enable it, case-insensitively.
+    Missing or unrecognized values leave the flag unchanged. Returns None. Logger
+    creation happens at module import; changing this flag later does not create or
+    remove a file handler.
     """
     global __file_log__
     if os.environ.get("PYPPBOX_DISABLE_FILE_LOG", "").lower() in ("1", "true", "yes", "on"):
@@ -66,6 +76,7 @@ set_file_log_from_env()
 
 # Initial logger
 if __file_log__:
+    cleanup_old_logs()
     logging.basicConfig(
         filename=__log_txt_path__,
         filemode='a',
@@ -150,29 +161,34 @@ def disable_other_loggers():
             disable_this_logger(name=name, level=logging.ERROR)
 
 def disable_terminal_log():
-    """
-    Disable all console or terminal logging of pyppbox.
+    """Disable pyppbox's terminal-log default and update the process environment.
+
+    Set ``PYPPBOX_DISABLE_TERMINAL_LOG=1`` so subsequently launched children
+    inherit the choice. Returns None. Explicit per-call terminal-log overrides,
+    ordinary print calls, and messages from third-party libraries are unaffected.
     """
     global __terminal_log__
     __terminal_log__ = False
     os.environ['PYPPBOX_DISABLE_TERMINAL_LOG'] = "1"
 
 def enable_terminal_log():
-    """
-    Enable all console or terminal logging of pyppbox.
+    """Enable pyppbox's terminal-log default and update the process environment.
+
+    Set ``PYPPBOX_DISABLE_TERMINAL_LOG=0`` so subsequently launched children
+    inherit the choice. Returns None. Explicit per-call terminal-log overrides,
+    ordinary print calls, and messages from third-party libraries are unaffected.
     """
     global __terminal_log__
     __terminal_log__ = True
     os.environ['PYPPBOX_DISABLE_TERMINAL_LOG'] = "0"
 
 def get_terminal_log_status():
-    """
-    Get the current status of terminal logging.
+    """Return the current default for pyppbox terminal logging.
 
     Returns
     -------
     bool
-        :code:`True` if terminal logging is enabled, :code:`False` otherwise.
+        True when enabled; False when disabled.
     """
     global __terminal_log__
     return __terminal_log__
@@ -189,7 +205,14 @@ def set_terminal_log_from_env():
         __terminal_log__ = True
 
 def get_env():
-    """
-    Get a copy of the current environment variables.
+    """Return a copy of the current process environment.
+
+    Returns
+    -------
+    dict[str, str]
+        Independent environment mapping suitable for a child process.
     """
     return os.environ.copy()
+
+
+set_terminal_log_from_env()

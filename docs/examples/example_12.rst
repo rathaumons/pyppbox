@@ -1,9 +1,9 @@
 Example 12: Train all the internal reider classifiers for GTA V dataset
 =======================================================================
 
-- **Description**: Use the standalone :func:`trainReIDClassifier()` to train and save a classifier .PKL files for GTA V dataset.
+- **Description**: Use the standalone :func:`~pyppbox.standalone.trainReIDClassifier` to train and save a classifier .PKL files for GTA V dataset.
 - **Featuring**: 
-   - :py:meth:`trainReIDClassifier` | :py:meth:`pyppbox.standalone.trainReIDClassifier`
+   - :py:func:`~pyppbox.standalone.trainReIDClassifier`
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 

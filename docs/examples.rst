@@ -7,6 +7,11 @@ The examples below will help you make the most use of **pyppbox**. Before you tr
 
 .. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
 
+Run scripts with the repository's ``examples/`` directory as the working directory.
+Examples 3, 4, 5, 11, and 13 contain ``C:/pyppbox_v3/`` placeholders in their scripts
+or custom configs; replace these with your installed ``pyppbox`` directory. Find it
+with ``python -c "import os, pyppbox; print(os.path.dirname(pyppbox.__file__))"``.
+
 .. toctree::
    :maxdepth: 1
 

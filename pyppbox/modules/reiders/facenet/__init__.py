@@ -25,7 +25,7 @@ import cv2
 import skimage.transform
 import numpy as np
 
-from pyppbox.utils.commontools import getFileName, silencer
+from pyppbox.utils.commontools import getFileName
 from pyppbox.utils.logtools import add_info_log, add_warning_log, ignore_this_logger
 
 ignore_this_logger("tensorflow")
@@ -46,15 +46,37 @@ from .origin import detect_face as df
 
 class MyFaceNet(object):
 
+    """Identify the first detected face using MTCNN, FaceNet embeddings, and an SVM.
+
+    For direct use, call ``load_classifier()`` before ``recognize()`` or construct
+    with ``auto_load=True``. Loading creates a TensorFlow session and loads MTCNN,
+    FaceNet weights, the classifier pickle, and its companion class-name text file.
+
+    Attributes
+    ----------
+    sess : object
+        TensorFlow inference session, created by ``load_classifier()``.
+    model : object
+        Identity classifier, available after ``load_classifier()``.
+    pnames : list[str]
+        Sorted labels read from the companion ``.txt`` file during loading.
+    min_confidence : int
+        Threshold on a 0-100 scale, computed as ``int(100 * cfg.min_confidence)``.
+    auto_load : bool
+        Constructor choice to load models/classifier. Direct ``recognize()`` does
+        not perform deferred loading; the pipeline API handles that separately.
+    """
     def __init__(self, cfg, auto_load=False):
-        """Initialize according to the given :obj:`cfg` and :obj:`auto_load`.
+        """Initialize a reider from a populated configuration object.
 
         Parameters
         ----------
-        cfg : RCFGFaceNet
-            A :class:`RCFGFaceNet` object which manages the configurations of reidier FaceNet.
-        auto_load : bool, optional
-            An indication of whether to automatically call :meth:`load_classifier()`.
+        cfg : pyppbox.config.myconfig.RCFGFaceNet
+            Configuration after calling its ``set()`` method, including model paths,
+            classifier path, and confidence threshold.
+        auto_load : bool
+            Defaults to ``False``. Call ``load_classifier()`` during construction when
+            True. Otherwise call it explicitly before direct recognition.
         """
         self.unk = cfg.unified_strings.unk_fid
         self.err = cfg.unified_strings.err_fid
@@ -76,6 +98,13 @@ class MyFaceNet(object):
             self.load_classifier()
 
     def load_classifier(self):
+        """Load or replace the instance's identity classifier and supporting state.
+
+        Read the configured pickle and labels. FaceNet additionally creates its
+        TensorFlow session, MTCNN networks, and FaceNet graph; Torchreid's feature
+        extractor is already initialized by its constructor. Returns None.
+        File, pickle, and model-loading errors propagate to the caller.
+        """
         with tf.Graph().as_default():
             gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=float(self.gpu_mem))
             self.sess = tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_options, allow_soft_placement=True))
@@ -114,36 +143,45 @@ class MyFaceNet(object):
         return best_class, best_proba
 
     def recognize(self, img, is_bgr=True):
-        """Recognize or re-identify a person in the given :obj:`img`.
+        """Recognize the first MTCNN-detected face in an image.
 
         Parameters
         ----------
-        img : Mat
-            A :obj:`Mat` like image.
-        is_bgr : bool, default=True
-            An indication of whether the color channel of given :obj:`img` is BGR.
+        img : ``numpy.ndarray``
+            Nonempty three-channel image crop. Initialize the classifier before calling
+            this method directly. The first face box is cropped and resized for the embedding network.
+        is_bgr : bool
+            Defaults to ``True``. Convert OpenCV BGR input to RGB when True; False
+            means the crop is already RGB.
 
         Returns
         -------
         str
-            A class name.
-        float 
-            Confidence of the result.
+            Identity label at or above the threshold, the configured unknown ID below
+            it, or the configured error ID when no prediction is available.
+        float
+            Classifier confidence on a 0-100 scale, including below-threshold results;
+            0.0 when no prediction is available.
+
+        Notes
+        -----
+        This method does not catch image-processing or inference exceptions. The
+        returned error ID is not a substitute for handling exceptions in direct use.
         """
-        result = ""
-        conf = 100.0
+        result = self.err
+        conf = 0.0
         img = self.prepare_image(img, is_bgr=is_bgr)
         bboxes, _ = df.detect_face(img, self.minsize, self.pnet, self.rnet, self.onet, self.threshold, self.factor)
         if bboxes.shape[0] > 0:
             scaled_reshape_img = self.make_facenet_image(bboxes, img)
             best_class, best_proba = self.predict(scaled_reshape_img)
             if best_class != -1 and best_proba != -1:
+                conf = best_proba
                 if best_proba < self.min_confidence:
                     result = self.unk
                     # add_info_log("--------RI : Result is below required confidence! -> Return " + str(self.unk))
                 else:
                     result = self.pnames[best_class]
-                    conf = best_proba
                     # add_info_log('--------RI : Result -> "%s"' % result)
         else:
             # add_warning_log("--------RI : Can't find any face! -> Return " + str(self.err))
@@ -168,7 +206,6 @@ class MyFaceNet(object):
             img = img[:, :, 0:3]
         return img
 
-    @silencer
     def make_facenet_image(self, bboxes, img):
         """
         :meta private:
@@ -187,21 +224,34 @@ class MyFaceNet(object):
         return scaled_reshape_img
 
     def train_classifier(self, C=1.0, kernel='rbf', probability=True, decision_function_shape='ovr'):
-        """Train a classifier and dump into pickle .pkl file.
+        """Train an identity SVM from pretrained embeddings and write its files.
 
         Parameters
         ----------
-        C : float, default=1.0
+        C : float
+            Defaults to ``1.0``.
             Regularization parameter, passed to sklearn's :code:`SVC(C=C, ...)`.
-        kernel : str, default='rbf'
-            Choice of kernel type: :code:`'linear'`, :code:`'poly'`, :code:`'rbf'`, :code:`'sigmoid'`, 
-            or :code:`'precomputed'`, passed to sklearn's :code:`SVC(kernel=kernel, ...)`.
-        probability : bool, default=True
-            Whether to use probability estimates, passed to sklearn's 
+        kernel : str
+            Defaults to ``'rbf'``.
+            Embedding-feature kernel, for example ``'linear'``, ``'poly'``, ``'rbf'``, or
+            ``'sigmoid'``. This method supplies feature vectors, not a precomputed kernel matrix.
+        probability : bool
+            Defaults to ``True``.
+            Whether to use probability estimates, passed to sklearn's
             :code:`SVC(probability=probability, ...)`.
-        decision_function_shape : str, default='ovr'
-            Choice of function: :code:`'ovo'` or :code:`'ovr'`, passed to sklearn's 
+        decision_function_shape : str
+            Defaults to ``'ovr'``.
+            Choice of function: :code:`'ovo'` or :code:`'ovr'`, passed to sklearn's
             :code:`SVC(decision_function_shape=decision_function_shape, ...)`.
+
+        Notes
+        -----
+        The training directory must contain image-only identity subdirectories, with
+        at least two identities. This trains the SVM, not the embedding network. It
+        overwrites the configured ``.pkl`` and companion ``.txt`` label file and returns
+        None. Output directories must exist. Keep ``probability=True`` for classifiers
+        used by ``recognize()``, which calls ``predict_proba()``. Call ``load_classifier()``
+        after training to use the written classifier in this existing instance.
         """
         import math
         from sklearn.svm import SVC
