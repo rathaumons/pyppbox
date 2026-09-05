@@ -11,8 +11,8 @@ jobs:
     name: Build wheel
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
-    - uses: actions/setup-python@v5
+    - uses: actions/checkout@v7
+    - uses: actions/setup-python@v7
       with:
         python-version: '3.11'
     - name: Install requirements
@@ -23,7 +23,7 @@ jobs:
     - name: Build .whl
       run: python -m build --wheel --skip-dependency-check
     - name: Archive wheels
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: pypi-wheels
         path: dist/*.whl
@@ -32,8 +32,8 @@ jobs:
     name: Build source
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
-    - uses: actions/setup-python@v5
+    - uses: actions/checkout@v7
+    - uses: actions/setup-python@v7
       with:
         python-version: '3.11'
     - name: Install requirements
@@ -44,7 +44,7 @@ jobs:
     - name: Build .tar.gz
       run: python -m build --sdist --skip-dependency-check
     - name: Archive wheels
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: pypi-source-dist
         path: dist/*.tar.gz
@@ -58,7 +58,7 @@ jobs:
       id-token: write
     steps:
     - name: Collect and extract artifact
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
       with:
         path: dist
         pattern: pypi-*

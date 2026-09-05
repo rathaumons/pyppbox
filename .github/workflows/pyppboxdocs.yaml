@@ -15,8 +15,8 @@ jobs:
   build_docs:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
-    - uses: actions/setup-python@v5
+    - uses: actions/checkout@v7
+    - uses: actions/setup-python@v7
       with:
         python-version: '3.11'
     - name: Install base requirements
@@ -32,7 +32,7 @@ jobs:
     - name: Sphinx build
       run: python -m sphinx -b html -n -W --keep-going docs _build
     - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v4
       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       with:
         publish_branch: gh-pages
