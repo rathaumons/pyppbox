@@ -176,9 +176,9 @@ class UnifiedStrings(object):
             res = input_str.upper()
         elif self.deepsort.lower() == input_str.lower():
             res = input_str.title().replace("Deepsort", "DeepSORT")
-        elif self.facenet.lower() == self.reider.lower():
+        elif self.facenet.lower() == input_str.lower():
             res= input_str.title().replace("Facenet", "FaceNet")
-        elif self.torchreid.lower() == self.reider.lower():
+        elif self.torchreid.lower() == input_str.lower():
             res = input_str.title()
         elif self.none.lower() == input_str.lower():
             res = input_str.title()

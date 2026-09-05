@@ -34,7 +34,7 @@
   - Correct example snippets, documented defaults and parameter names, DeepSORT backend information, and configuration/install guidance; include the missing `getMainConfig()` and GT documentation
   - Correct API docstrings for model initialization, return values, confidence scales, object mutation, GT frame cursors, configuration I/O, and classifier training
   - Validate documentation API references in strict Sphinx builds on pull requests, with a pinned set of documentation build tools
-  - **Fixes pending:** preserve FaceNet classifier label order for custom identity names containing underscores, and correct mixed-case ReID name normalization
+  - Preserve FaceNet identity labels in classifier-pickle order, fixing swapped identities for custom names containing underscores; normalize mixed-case FaceNet and Torchreid configuration names
   - **Release preparation pending:** remote CI, remaining model inference and downstream validation, and the final version bump
 
 * `pyppbox` [v3.14.0](https://github.com/rathaumons/pyppbox/tree/v3.14.0) - ~~The Last V3~~

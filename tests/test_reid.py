@@ -1,7 +1,9 @@
-"""ReID confidence, active config, and duplicate-pass regressions B05/B06/B11."""
+"""ReID confidence, config, duplicate-pass, and classifier-label regressions."""
+from contextlib import nullcontext
 import importlib
 import json
 from pathlib import Path
+import pickle
 import sys
 import tempfile
 from types import SimpleNamespace
@@ -11,9 +13,19 @@ from unittest.mock import Mock, patch
 import numpy as np
 
 from pyppbox.config.configtools import internal_cfg_dir, loadDocumentList
+from pyppbox.config.myconfig import RCFGFaceNet
 from pyppbox.modules.reiders.torchreid import MyTorchreid
 from pyppbox.ppb.mt import MT
 from pyppbox.utils.persontools import Person
+
+
+class FixedProbabilities:
+    """Pickleable classifier double with a known probability-column order."""
+    def __init__(self, count):
+        self.probabilities = [.97] + [.03 / (count - 1)] * (count - 1)
+
+    def predict_proba(self, embeddings):
+        return np.tile(self.probabilities, (len(embeddings), 1))
 
 
 class ReIDTests(unittest.TestCase):
@@ -26,6 +38,67 @@ class ReIDTests(unittest.TestCase):
                                      name + '.origin.facenet': Mock(),
                                      name + '.origin.detect_face': Mock()}):
             cls.face_module = importlib.import_module(name)
+
+    def check_facenet_labels(self, labels, via_pipeline=False, with_text=True):
+        # Run the actual loader, pickle I/O, predict(), and recognition path.
+        # Replace TensorFlow/face-network execution with deterministic embeddings.
+        embeddings = Mock()
+        embeddings.get_shape.return_value = (None, 2)
+        graph = Mock()
+        graph.as_default.return_value = nullcontext()
+        graph.get_tensor_by_name.side_effect = lambda name: embeddings if name == 'embeddings:0' else name
+        session = Mock()
+        session.as_default.return_value = nullcontext()
+        session.run.return_value = np.zeros(2)
+        tensorflow = SimpleNamespace(Graph=Mock(return_value=graph), compat=SimpleNamespace(v1=SimpleNamespace(
+            GPUOptions=Mock(), ConfigProto=Mock(), Session=Mock(return_value=session),
+            get_default_graph=Mock(return_value=graph))))
+        values = dict(next(doc for doc in loadDocumentList(Path(internal_cfg_dir) / 'reiders.yaml')
+                           if doc['ri_name'] == 'FaceNet'))
+        with tempfile.TemporaryDirectory() as directory, \
+                patch.object(self.face_module, 'tf', tensorflow), \
+                patch.object(self.face_module.df, 'create_mtcnn', return_value=(None, None, None)), \
+                patch.object(self.face_module.fn, 'load_model'), \
+                patch.object(self.face_module.df, 'detect_face',
+                             return_value=(np.array([[0, 0, 10, 10, 1.]]), None)), \
+                patch.dict(sys.modules, {'pyppbox.modules.reiders.facenet': self.face_module}):
+            path = Path(directory) / 'classifier.pkl'
+            with path.open('wb') as output:
+                pickle.dump((FixedProbabilities(len(labels)), labels), output)
+            if with_text:
+                path.with_suffix('.txt').write_text('\n'.join(reversed(labels)) + '\n', encoding='utf-8')
+            values.update(classifier_pkl=str(path), yl_h_calibration=[-2, 2], yl_w_calibration=[-3, 3])
+            if via_pipeline:
+                pipeline = MT()
+                pipeline.setMainReIDer(values)
+                reider = pipeline.__ri__
+            else:
+                config = RCFGFaceNet()
+                config.set(values)
+                reider = self.face_module.MyFaceNet(config, auto_load=True)
+            reider.make_facenet_image = Mock(return_value=np.zeros((1, 160, 160, 3)))
+            image = np.zeros((40, 40, 3), dtype=np.uint8)
+            if via_pipeline:
+                person = Person(0, 0, repspoint=(10, 10))
+                people, counts = pipeline.reidPeople(image, [person], deduplicate=False, img_is_mat=True)
+                self.assertEqual(counts, (1, 0))
+                label, confidence = people[0].faceid, people[0].faceid_conf
+            else:
+                label, confidence = reider.recognize(image)
+            self.assertEqual(label, labels[0])
+            self.assertAlmostEqual(confidence, 97.)
+            self.assertEqual(reider.pnames, labels)
+
+    def test_facenet_classifier_label_order(self):
+        # Training folders AA/A_Z produce labels AA/A Z in that order.
+        # Sorting those display labels again incorrectly swaps their classes.
+        for labels in (['AA', 'A Z'], sorted(['Lester', 'Michael', 'Franklin', 'Trevor', 'Amanda'])):
+            for via_pipeline in (False, True):
+                with self.subTest(labels=labels, pipeline=via_pipeline):
+                    self.check_facenet_labels(labels, via_pipeline=via_pipeline)
+
+    def test_facenet_classifier_does_not_require_text_labels(self):
+        self.check_facenet_labels(['AA', 'A Z'], with_text=False)
 
     def test_confidence_including_unknown_and_unavailable(self):
         for backend in (MyTorchreid, self.face_module.MyFaceNet):

@@ -32,7 +32,7 @@ class MyFaceNet(object):
 
     For direct use, call ``load_classifier()`` before ``recognize()`` or construct
     with ``auto_load=True``. Loading creates a TensorFlow session and loads MTCNN,
-    FaceNet weights, the classifier pickle, and its companion class-name text file.
+    FaceNet weights, and the classifier pickle with its ordered class names.
 
     Attributes
     ----------
@@ -41,7 +41,7 @@ class MyFaceNet(object):
     model : object
         Identity classifier, available after ``load_classifier()``.
     pnames : list[str]
-        Sorted labels read from the companion ``.txt`` file during loading.
+        Labels in the classifier pickle's original class order.
     min_confidence : int
         Threshold on a 0-100 scale, computed as ``int(100 * cfg.min_confidence)``.
     auto_load : bool
@@ -82,9 +82,10 @@ class MyFaceNet(object):
     def load_classifier(self):
         """Load or replace the instance's identity classifier and supporting state.
 
-        Read the configured pickle and labels. FaceNet additionally creates its
-        TensorFlow session, MTCNN networks, and FaceNet graph; Torchreid's feature
-        extractor is already initialized by its constructor. Returns None.
+        Read the classifier and ordered labels from the configured pickle.
+        The companion ``.txt`` file is a readable training output; it is not
+        required or used for recognition. Create the TensorFlow session, MTCNN
+        networks, and FaceNet graph. Returns None.
         File, pickle, and model-loading errors propagate to the caller.
         """
         with tf.Graph().as_default():
@@ -93,11 +94,6 @@ class MyFaceNet(object):
             with self.sess.as_default():
                 self.pnet, self.rnet, self.onet = df.create_mtcnn(self.sess, self.model_det)
                 self.labels_names_file = os.path.splitext(self.classifier_file)[0] + ".txt"
-                with open(self.labels_names_file, 'r') as fp:
-                    self.pnames = fp.readlines()
-                    self.pnames = [line.rstrip('\n') for line in self.pnames]
-                self.pnames = sorted(self.pnames)
-                # add_info_log("--------RI : " + str(self.pnames))
                 fn.load_model(self.model_file)
                 self.images_placeholder = tf.compat.v1.get_default_graph().get_tensor_by_name("input:0")
                 self.embeddings = tf.compat.v1.get_default_graph().get_tensor_by_name("embeddings:0")
@@ -106,6 +102,7 @@ class MyFaceNet(object):
                 self.classifier_file_exp = os.path.expanduser(self.classifier_file)
                 with open(self.classifier_file_exp, 'rb') as infile:
                     (self.model, class_names) = pickle.load(infile)
+                self.pnames = list(class_names)
                 add_info_log(f"--------RI : Classifier loaded! <- {getFileName(self.classifier_file)}")
 
     def predict(self, scaled_reshape_img):

@@ -9,11 +9,27 @@ from unittest.mock import patch
 import yaml
 
 from pyppbox.config import configtools as cfg
-from pyppbox.config.myconfig import MyConfigurator, TCFGSORT, DCFGYOLOULT
+from pyppbox.config.myconfig import MyConfigurator, MainCFG, TCFGSORT, DCFGYOLOULT
+from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.ppb.mt import MT
 
 
 class ConfigTests(unittest.TestCase):
+    def test_case_insensitive_module_name_normalization(self):
+        strings = UnifiedStrings()
+        for expected in ('FaceNet', 'Torchreid', 'GT', 'Centroid', 'SORT', 'DeepSORT',
+                         'YOLO_Classic', 'YOLO_Ultralytics', 'None'):
+            for value in (expected.lower(), expected.upper(), expected.swapcase()):
+                with self.subTest(value=value):
+                    self.assertEqual(strings.getUnifiedFormat(value), expected)
+        for value in ('CustomReID', 'FaceNetV2', 17):
+            self.assertEqual(strings.getUnifiedFormat(value), str(value))
+        for value, expected in (('fAcEnEt', 'FaceNet'), ('tOrChReId', 'Torchreid')):
+            with self.subTest(main_reider=value):
+                config = MainCFG()
+                config.set({'detector': 'none', 'tracker': 'sort', 'reider': value})
+                self.assertEqual(config.reider, expected)
+
     def test_single_document_forms(self):
         expected = {'tk_name': 'SORT'}
         for value in (expected, [expected], json.dumps(expected), str([expected]),
