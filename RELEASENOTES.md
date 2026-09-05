@@ -13,6 +13,7 @@
 * `pyppbox` v3.15.0 (unreleased)
 
   - Additional V3 maintenance release before V4, preserving existing configuration keys, paths, and APIs
+  - Adopt **AGPLv3 or later** (`AGPL-3.0-or-later`) for pyppbox starting with V3.15.0; update the license text, package metadata, and first-party notices, and retain bundled third-party licenses in release packages
   - Advance SORT and DeepSORT on empty frames; retain identity metadata while a track survives a short gap
   - Align YOLO pose keypoints with boxes and confidence scores, forward the configured IoU threshold, and convert results directly to CPU
   - Use active FaceNet crop calibration and updated identities in duplicate re-inference; return actual below-threshold ReID confidence and `0.0` when no prediction is available
@@ -34,7 +35,7 @@
   - Correct API docstrings for model initialization, return values, confidence scales, object mutation, GT frame cursors, configuration I/O, and classifier training
   - Validate documentation API references in strict Sphinx builds on pull requests, with a pinned set of documentation build tools
   - **Fixes pending:** preserve FaceNet classifier label order for custom identity names containing underscores, and correct mixed-case ReID name normalization
-  - **Release preparation pending:** remote CI, remaining model inference and downstream validation, the final version bump, and the approved AGPLv3-or-later license transition. V3.15.0 is intended to be the first AGPL release; the license files have not yet been changed
+  - **Release preparation pending:** remote CI, remaining model inference and downstream validation, and the final version bump
 
 * `pyppbox` [v3.14.0](https://github.com/rathaumons/pyppbox/tree/v3.14.0) - ~~The Last V3~~
 

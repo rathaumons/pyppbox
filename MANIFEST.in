@@ -1,4 +1,5 @@
-include *.md *.in *.toml *.yaml LICENSE
+include *.md *.in *.toml *.yaml LICENSE NOTICE
+recursive-include licenses *.txt
 global-include pyppbox *.*
 exclude .gitignore
 recursive-exclude .git *.*

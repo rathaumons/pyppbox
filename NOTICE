@@ -1,0 +1,41 @@
+pyppbox licensing and bundled third-party notices
+================================================
+
+The pyppbox-owned code in this source tree is licensed under the GNU Affero
+General Public License, version 3 or (at your option) any later version
+(AGPL-3.0-or-later). The complete license text is in LICENSE.
+V3.15.0 is the first planned release with this license. Copyright holders
+and notices in individual files are retained.
+
+The following bundled components retain their upstream licenses. This
+notice does not replace the license and copyright notices in those files.
+
+SORT
+----
+Location: pyppbox/modules/trackers/sort/origin/sort.py
+Copyright (C) 2016-2020 Alex Bewley alex@bewley.ai
+Upstream: https://github.com/abewley/sort
+License: GNU General Public License, version 3 or later, as stated in the
+source-file header. The license text is included in licenses/GPL-3.0.txt.
+
+DeepSORT
+--------
+Location: pyppbox/modules/trackers/deepsort/origin/
+Upstream: https://github.com/nwojke/deep_sort
+License: GNU General Public License, version 3, as distributed by upstream:
+https://github.com/nwojke/deep_sort/blob/master/LICENSE
+The license text is included in licenses/GPL-3.0.txt.
+
+FaceNet and MTCNN
+----------------
+Location: pyppbox/modules/reiders/facenet/origin/align_dataset_mtcnn.py,
+          pyppbox/modules/reiders/facenet/origin/detect_face.py,
+          pyppbox/modules/reiders/facenet/origin/facenet.py
+Copyright (c) 2016 David Sandberg
+Upstream: https://github.com/davidsandberg/facenet
+License: MIT. The full copyright, permission, and warranty notices remain
+in each source file. The pyppbox-owned align.cmd helper in the same
+directory is covered by pyppbox's AGPL notice.
+
+External dependencies, model weights, and datasets are governed by their
+own licenses. pyppbox's license change does not alter those licenses.

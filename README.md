@@ -21,3 +21,9 @@
 * Support [[GTA_V_Dataset]](https://github.com/rathaumons/PoseTReID_DATASET) -> Real-time online and offline evaluation.
 * Check our papers: 1 [[IEEE]](https://ieeexplore.ieee.org/document/9271712) | 2 [[IEEE]](https://ieeexplore.ieee.org/document/9946587) [[arxiv]](https://doi.org/10.48550/arxiv.2205.10086)
 
+## License
+
+pyppbox is licensed under the **GNU Affero General Public License, version 3 or later** (`AGPL-3.0-or-later`). See [LICENSE](https://github.com/rathaumons/pyppbox/blob/main/LICENSE) for the complete terms. V3.15.0 will be the first release under this license; earlier releases retain the license notices distributed with them.
+
+Bundled third-party code retains its own licenses and copyright notices. See [NOTICE](https://github.com/rathaumons/pyppbox/blob/main/NOTICE) for the included SORT, DeepSORT, and FaceNet components. Dependencies, model weights, and datasets remain subject to their respective licenses.
+

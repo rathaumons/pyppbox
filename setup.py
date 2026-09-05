@@ -4,16 +4,16 @@
 #   Copyright (C) 2025 UMONS-Numediart                                      #
 #                                                                           #
 #   This program is free software: you can redistribute it and/or modify    #
-#   it under the terms of the GNU General Public License as published by    #
-#   the Free Software Foundation, either version 3 of the License, or       #
-#   (at your option) any later version.                                     #
+#   it under the terms of the GNU Affero General Public License as          #
+#   published by the Free Software Foundation, either version 3 of the      #
+#   License, or (at your option) any later version.                         #
 #                                                                           #
 #   This program is distributed in the hope that it will be useful,         #
 #   but WITHOUT ANY WARRANTY; without even the implied warranty of          #
 #   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           #
-#   GNU General Public License for more details.                            #
+#   GNU Affero General Public License for more details.                     #
 #                                                                           #
-#   You should have received a copy of the GNU General Public License       #
+#   You should have received a copy of the GNU Affero General Public License#
 #   along with this program.  If not, see <https://www.gnu.org/licenses/>.  #
 #                                                                           #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -53,7 +53,8 @@ def main_setup():
         name="pyppbox",
         version=get_version_string(),
         url="https://github.com/rathaumons/pyppbox",
-        license="GPL-3.0-or-later",
+        license="AGPL-3.0-or-later",
+        license_files=["LICENSE", "NOTICE", "licenses/GPL-3.0.txt"],
         description="Toolbox for people detecting, tracking, and re-identifying.",
         long_description=long_description,
         long_description_content_type="text/markdown",
