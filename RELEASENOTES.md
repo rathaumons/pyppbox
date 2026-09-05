@@ -10,7 +10,7 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` v3.15.0 (unreleased)
+* `pyppbox` v3.15.0 - Maintenance and Stability
 
   - Additional V3 maintenance release before V4, preserving existing configuration keys, paths, and APIs
   - Adopt **AGPLv3 or later** (`AGPL-3.0-or-later`) for pyppbox starting with V3.15.0; update the license text, package metadata, and first-party notices, and retain bundled third-party licenses in release packages
@@ -36,7 +36,6 @@
   - Correct API docstrings for model initialization, return values, confidence scales, object mutation, GT frame cursors, configuration I/O, and classifier training
   - Validate documentation API references in strict Sphinx builds on pull requests, with a pinned set of documentation build tools
   - Preserve FaceNet identity labels in classifier-pickle order, fixing swapped identities for custom names containing underscores; normalize mixed-case FaceNet and Torchreid configuration names
-  - **Release preparation pending:** remote CI, remaining model inference and downstream validation, and the final version bump
 
 * `pyppbox` [v3.14.0](https://github.com/rathaumons/pyppbox/tree/v3.14.0) - ~~The Last V3~~
 
