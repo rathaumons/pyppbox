@@ -1,6 +1,7 @@
 # Dependencies for deterministic regression tests. Models, CUDA, and GUI are not used.
 numpy
-opencv-contrib-python
+# Match the runtime bound: YOLO_Classic requires the Darknet importer.
+opencv-contrib-python<5
 PyYAML
 scipy>=1.10.0
 scikit-image>=0.20.0

@@ -1,9 +1,11 @@
-"""Check package contents, AGPL metadata, and retained third-party notices."""
+"""Check package contents, dependency bounds, and retained license notices."""
 import argparse
 from email.parser import BytesParser
 from pathlib import Path, PurePosixPath
 import tarfile
 import zipfile
+
+from packaging.requirements import Requirement
 
 
 def check_distributions(directory):
@@ -43,6 +45,14 @@ def check_distributions(directory):
                 name for name in names if len(PurePosixPath(name).parts) == 2 and name.endswith('/PKG-INFO')
             )
             metadata = BytesParser().parsebytes(read_file(metadata_name))
+            requirements = [Requirement(value) for value in metadata.get_all('Requires-Dist', [])]
+            opencv = [requirement for requirement in requirements if requirement.name == 'opencv-contrib-python']
+            assert len(opencv) == 1, (artifact, opencv)
+            # Installation must retain Darknet support, including on future major releases.
+            for version in ('4.11.0', '4.13.0'):
+                assert version in opencv[0].specifier, (artifact, opencv[0], version)
+            for version in ('5.0.0', '5.1.0', '6.0.0'):
+                assert version not in opencv[0].specifier, (artifact, opencv[0], version)
             assert (metadata['License-Expression'] or metadata['License']) == 'AGPL-3.0-or-later', artifact
             license_files = metadata.get_all('License-File', [])
             assert {PurePosixPath(name).name for name in license_files} == {'LICENSE', 'NOTICE', 'GPL-3.0.txt'}, (artifact, license_files)
@@ -63,7 +73,7 @@ def check_distributions(directory):
                 packaged = read_file(find_file(source)).decode('utf-8')
                 assert packaged.replace('\r\n', '\n') == (repo / source).read_text(encoding='utf-8'), (artifact, source)
 
-        print(f'{artifact.name}: code/configs, AGPL metadata, and third-party notices verified; local plans excluded')
+        print(f'{artifact.name}: code/configs, OpenCV bound, AGPL metadata, and third-party notices verified; local plans excluded')
 
 
 if __name__ == '__main__':

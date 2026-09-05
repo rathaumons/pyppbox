@@ -4,7 +4,8 @@ numpy
 ### OpenCV
 # For GPU support, check:
 # https://github.com/rathaumons/opencv-for-pyppbox
-opencv-contrib-python
+# OpenCV 5 removed the Darknet importer used by YOLO_Classic (.cfg/.weights).
+opencv-contrib-python<5
 ### Common
 scikit-image>=0.20.0
 scikit-learn>=1.2.2

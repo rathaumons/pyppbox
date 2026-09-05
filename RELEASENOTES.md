@@ -16,6 +16,7 @@
   - Adopt **AGPLv3 or later** (`AGPL-3.0-or-later`) for pyppbox starting with V3.15.0; update the license text, package metadata, and first-party notices, and retain bundled third-party licenses in release packages
   - Advance SORT and DeepSORT on empty frames; retain identity metadata while a track survives a short gap
   - Align YOLO pose keypoints with boxes and confidence scores, forward the configured IoU threshold, and convert results directly to CPU
+  - Require `opencv-contrib-python<5` to keep YOLO_Classic's existing Darknet `.cfg`/`.weights` models working; OpenCV 5 removed the Darknet importer
   - Use active FaceNet crop calibration and updated identities in duplicate re-inference; return actual below-threshold ReID confidence and `0.0` when no prediction is available
   - Normalize existing YAML/JSON config input forms and safely serialize values; save each config file through atomic replacement
   - Save YOLO's GUI `show_boxes` choice as a boolean and accept existing quoted `True`/`False` values on load, fixing a GUI-launch regression exposed by the safer YAML writer

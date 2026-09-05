@@ -5,7 +5,7 @@ Installing `pyppbox` is very easy and straightforward. You can install it from [
 
 ## ⚙️ Requirements
 
-All requirements are not strictly limited. However, some specific modules might need some special dependencies. For example, `YOLO_Classic` (With `.weights` model) relies on [OpenCV DNN](https://docs.opencv.org/4.x/d2/d58/tutorial_table_of_content_dnn.html) in order to make use of GPU (CUDA) power. In this case, you might need to build OpenCV from source by yourself or use our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox) instead of the official `opencv-contrib-python` which does not include GPU (CUDA) support.
+`YOLO_Classic` uses [OpenCV DNN](https://docs.opencv.org/4.x/d2/d58/tutorial_table_of_content_dnn.html) to load Darknet `.cfg`/`.weights` models and requires OpenCV 4.x. OpenCV 5 removed the Darknet importer, so pyppbox requires `opencv-contrib-python<5` to preserve existing models and configurations. For GPU (CUDA) support, use a compatible OpenCV 4.x build from source or our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox); the official `opencv-contrib-python` wheels provide CPU support only.
 
 * Prerequisite: 
   - Python [[3.9-3.12]](https://www.python.org/downloads/) (For ***macOS*** GUI troubleshooting, try Python 3.11)
