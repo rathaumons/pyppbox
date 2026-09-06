@@ -1,0 +1,1589 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyppbox.ppb.mt &#8212; pyppbox 3.15.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/rtd_sphinx_search.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../../../_static/documentation_options.js?v=9521fbd0"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/rtd_search_config.js"></script>
+    <script src="../../../_static/js/rtd_sphinx_search.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyppbox/ppb/mt';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.15.0" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">🐍📦 pyppbox</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getstarted.html">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/standalone.html">
+    Standalone Module
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../pyppbox/modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../pyppbox/structure.html">
+    Structure
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../pyppbox/config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../pyppbox/utils.html">
+    Utilities
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../releasenotes.html">
+    Release Notes
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getstarted.html">
+    🚀 Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples.html">
+    💡 Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/standalone.html">
+    Standalone Module
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/modules.html">
+    Supported Modules
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/structure.html">
+    Structure
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/config.html">
+    Configurations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../pyppbox/utils.html">
+    Utilities
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../releasenotes.html">
+    Release Notes
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/rathaumons/pyppbox" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../ppb.html" class="nav-link">pyppbox.ppb</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pyppbox.ppb.mt</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for pyppbox.ppb.mt</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License</span>
+
+
+<span class="c1"># Logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.utils.logtools</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_info_log</span><span class="p">,</span> <span class="n">add_warning_log</span><span class="p">,</span> <span class="n">add_error_log</span>
+
+<span class="c1"># Common</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="c1"># Configurations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.config.configtools</span><span class="w"> </span><span class="kn">import</span> <span class="n">isConfigInput</span><span class="p">,</span> <span class="n">getCFGDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.config.myconfig</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MyConfigurator</span><span class="p">,</span> <span class="n">NoneCFG</span><span class="p">,</span>
+    <span class="n">DCFGYOLOCLS</span><span class="p">,</span> <span class="n">DCFGYOLOULT</span><span class="p">,</span> <span class="n">DCFGGT</span><span class="p">,</span> 
+    <span class="n">TCFGCentroid</span><span class="p">,</span> <span class="n">TCFGSORT</span><span class="p">,</span> <span class="n">TCFGDeepSORT</span><span class="p">,</span> 
+    <span class="n">RCFGFaceNet</span><span class="p">,</span> <span class="n">RCFGTorchreid</span><span class="p">,</span> 
+<span class="p">)</span>
+
+<span class="c1"># Classes &amp; tools</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.utils.persontools</span><span class="w"> </span><span class="kn">import</span> <span class="n">Person</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.utils.gttools</span><span class="w"> </span><span class="kn">import</span> <span class="n">GTInterpreter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.utils.evatools</span><span class="w"> </span><span class="kn">import</span> <span class="n">NothingDetecter</span><span class="p">,</span> <span class="n">NothingTracker</span><span class="p">,</span> <span class="n">NothingReider</span><span class="p">,</span> <span class="n">TKOReider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.utils.commontools</span><span class="w"> </span><span class="kn">import</span> <span class="n">getAbsPathFDS</span><span class="p">,</span> <span class="n">isExist</span><span class="p">,</span> <span class="n">getCVMat</span><span class="p">,</span> <span class="n">getAncestorDir</span>
+
+
+<span class="n">__none_cfg__</span> <span class="o">=</span> <span class="n">NoneCFG</span><span class="p">(</span><span class="s2">"Fiat Moneey"</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MT">
+<a class="viewcode-back" href="../../../pyppbox/standalone.html#pyppbox.ppb.mt.MT">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MT</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">"""An all-in-one class designed for easy detect, track, and reid people in a single threading </span>
+<span class="sd">    or multithreading application.</span>
+
+<span class="sd">    Example : &gt;&gt;&gt; import cv2</span>
+<span class="sd">    &gt;&gt;&gt; import threading</span>
+<span class="sd">    &gt;&gt;&gt; from pyppbox.utils.visualizetools import visualizePeople</span>
+<span class="sd">    &gt;&gt;&gt; from pyppbox.standalone import MT</span>
+<span class="sd">    &gt;&gt;&gt; </span>
+<span class="sd">    &gt;&gt;&gt; def ppb_task(input, main_configs, name="Task"):</span>
+<span class="sd">    &gt;&gt;&gt;     ppbmt = MT() # Use `MT` for multithreading</span>
+<span class="sd">    &gt;&gt;&gt;     ppbmt.setMainModules(main_yaml=main_configs)</span>
+<span class="sd">    &gt;&gt;&gt;     cap = cv2.VideoCapture(input)</span>
+<span class="sd">    &gt;&gt;&gt;     while cap.isOpened():</span>
+<span class="sd">    &gt;&gt;&gt;         hasFrame, frame = cap.read()</span>
+<span class="sd">    &gt;&gt;&gt;         if hasFrame:</span>
+<span class="sd">    &gt;&gt;&gt;             detected_people, _ = ppbmt.detectPeople(frame, img_is_mat=True, visual=False)</span>
+<span class="sd">    &gt;&gt;&gt;             tracked_people = ppbmt.trackPeople(frame, detected_people, img_is_mat=True)</span>
+<span class="sd">    &gt;&gt;&gt;             reidentified_people, reid_count = ppbmt.reidPeople(</span>
+<span class="sd">    &gt;&gt;&gt;                 frame,</span>
+<span class="sd">    &gt;&gt;&gt;                 tracked_people,</span>
+<span class="sd">    &gt;&gt;&gt;                 img_is_mat=True</span>
+<span class="sd">    &gt;&gt;&gt;             )</span>
+<span class="sd">    &gt;&gt;&gt;             visualized_mat = visualizePeople(</span>
+<span class="sd">    &gt;&gt;&gt;                 frame,</span>
+<span class="sd">    &gt;&gt;&gt;                 reidentified_people,</span>
+<span class="sd">    &gt;&gt;&gt;                 show_reid=reid_count</span>
+<span class="sd">    &gt;&gt;&gt;             )</span>
+<span class="sd">    &gt;&gt;&gt;             cv2.imshow("Multithreading (" + name + ")", visualized_mat)</span>
+<span class="sd">    &gt;&gt;&gt;             if cv2.waitKey(1) &amp; 0xFF == ord('q'):</span>
+<span class="sd">    &gt;&gt;&gt;                 break</span>
+<span class="sd">    &gt;&gt;&gt;         else:</span>
+<span class="sd">    &gt;&gt;&gt;             break</span>
+<span class="sd">    &gt;&gt;&gt;     cap.release()</span>
+<span class="sd">    &gt;&gt;&gt; </span>
+<span class="sd">    &gt;&gt;&gt; if __name__ == '__main__':</span>
+<span class="sd">    &gt;&gt;&gt;     input_one = "data/gta.mp4"</span>
+<span class="sd">    &gt;&gt;&gt;     input_two = "data/gta.mp4"</span>
+<span class="sd">    &gt;&gt;&gt;     main_configs_one = {'detector': 'YOLO_Classic',</span>
+<span class="sd">    &gt;&gt;&gt;                         'tracker': 'SORT',</span>
+<span class="sd">    &gt;&gt;&gt;                         'reider': 'Torchreid'}</span>
+<span class="sd">    &gt;&gt;&gt;     main_configs_two = {'detector': 'YOLO_Classic',</span>
+<span class="sd">    &gt;&gt;&gt;                         'tracker': 'Centroid',</span>
+<span class="sd">    &gt;&gt;&gt;                         'reider': 'FaceNet'}</span>
+<span class="sd">    &gt;&gt;&gt;     thread_one = threading.Thread(target=ppb_task, args=(input_one, main_configs_one, "Task 1"))</span>
+<span class="sd">    &gt;&gt;&gt;     thread_two = threading.Thread(target=ppb_task, args=(input_two, main_configs_two, "Task 2"))</span>
+<span class="sd">    &gt;&gt;&gt;     thread_one.start()</span>
+<span class="sd">    &gt;&gt;&gt;     thread_two.start()</span>
+<span class="sd">    &gt;&gt;&gt;     thread_one.join()</span>
+<span class="sd">    &gt;&gt;&gt;     thread_two.join()</span>
+<span class="sd">    &gt;&gt;&gt; </span>
+
+<span class="sd">    """</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span> <span class="o">=</span> <span class="n">MyConfigurator</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">unified_strings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># detector</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span> <span class="o">=</span> <span class="n">__none_cfg__</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># tracker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span> <span class="o">=</span> <span class="n">__none_cfg__</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tk__</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># reider</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ri_is_set__</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span> <span class="o">=</span> <span class="n">__none_cfg__</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__deepidlistTMP__</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__faceidlistTMP__</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+    <span class="c1">###########################################</span>
+    <span class="c1"># Configurator</span>
+    <span class="c1">###########################################</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__setInternalCFGDir__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">load_all</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">setMainModules</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">load_all</span><span class="p">:</span>
+            <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : DT='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">detector</span><span class="si">}</span><span class="s2">', "</span>
+                         <span class="sa">f</span><span class="s2">"TK='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">tracker</span><span class="si">}</span><span class="s2">', "</span>
+                         <span class="sa">f</span><span class="s2">"RI='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">reider</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__loadDefaultDetector__</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__loadDefaultTracker__</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__loadDefaultReIDer__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="MT.setConfigDir">
+<a class="viewcode-back" href="../../../pyppbox/standalone.html#pyppbox.ppb.mt.MT.setConfigDir">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setConfigDir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">load_all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Select a directory containing the four configuration files.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        config_dir : str or None</span>
+<span class="sd">            Defaults to ``None``. Use the internal configuration directory when</span>
+<span class="sd">            omitted. A custom directory must contain ``main.yaml``, ``detectors.yaml``,</span>
+<span class="sd">            ``trackers.yaml``, and ``reiders.yaml``. A nonexistent directory triggers</span>
+<span class="sd">            a warning and falls back to the internal directory.</span>
+<span class="sd">        load_all : bool</span>
+<span class="sd">            Defaults to ``False``. If True, construct the selected detector, tracker,</span>
+<span class="sd">            and reider, including their models/classifiers. If False, load configuration</span>
+<span class="sd">            values only; any existing active module instances remain in place.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the directory argument has an unsupported type or a config cannot be read.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Paths within internal configs resolve relative to the package directory.</span>
+<span class="sd">        Paths within custom configs resolve relative to the working directory.</span>
+<span class="sd">        The directory loader uses the four YAML filenames above; individual module</span>
+<span class="sd">        setters additionally accept JSON files.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">config_dir</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">add_info_log</span><span class="p">(</span><span class="s2">"---PYPPBOX : Now use the internal config directory"</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__setInternalCFGDir__</span><span class="p">(</span><span class="n">load_all</span><span class="o">=</span><span class="n">load_all</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config_dir</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">isExist</span><span class="p">(</span><span class="n">config_dir</span><span class="p">):</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Now use custom config dir, config_dir='</span><span class="si">{</span><span class="n">config_dir</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">setCustomCFG</span><span class="p">(</span><span class="n">cfg_dir</span><span class="o">=</span><span class="n">config_dir</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">setMainModules</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="n">load_all</span><span class="p">:</span>
+                    <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : DT='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">detector</span><span class="si">}</span><span class="s2">', "</span>
+                                 <span class="sa">f</span><span class="s2">"TK='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">tracker</span><span class="si">}</span><span class="s2">', "</span>
+                                 <span class="sa">f</span><span class="s2">"RI='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">reider</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__loadDefaultDetector__</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__loadDefaultTracker__</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__loadDefaultReIDer__</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">add_warning_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : config_dir='</span><span class="si">{</span><span class="n">config_dir</span><span class="si">}</span><span class="s2">' does not exist"</span><span class="p">)</span>
+                <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">"---PYPPBOX : Switched to internal config directory"</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__setInternalCFGDir__</span><span class="p">(</span><span class="n">load_all</span><span class="o">=</span><span class="n">load_all</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"PYPPBOX : setConfigDir() -&gt; config_dir='</span><span class="si">{</span><span class="n">config_dir</span><span class="si">}</span><span class="s2">' is not valid."</span>
+            <span class="n">add_error_log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MT.setMainModules">
+<a class="viewcode-back" href="../../../pyppbox/standalone.html#pyppbox.ppb.mt.MT.setMainModules">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setMainModules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">main_yaml</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">load_all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Select the main detector, tracker, and reider from one configuration mapping.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        main_yaml : str or dict or list or None</span>
+<span class="sd">            Defaults to ``None``. Read ``main.yaml`` from the selected config directory</span>
+<span class="sd">            when omitted. Otherwise accept a YAML/JSON path, inline mapping, ready</span>
+<span class="sd">            dictionary, or a legacy list containing one mapping. The keys are</span>
+<span class="sd">            ``detector``, ``tracker``, and ``reider``.</span>
+<span class="sd">        load_all : bool</span>
+<span class="sd">            Defaults to ``True``. Construct all selected modules when True. When False,</span>
+<span class="sd">            update configuration objects only; existing active instances are unchanged.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The internal config directory is selected if none has been configured.</span>
+<span class="sd">        Constructing models can load weights and classifiers and reset tracking state.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setConfigDir</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">setMainModules</span><span class="p">(</span><span class="n">main_yaml</span><span class="o">=</span><span class="n">main_yaml</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">load_all</span><span class="p">:</span> 
+            <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : DT='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">detector</span><span class="si">}</span><span class="s2">', "</span>
+                         <span class="sa">f</span><span class="s2">"TK='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">tracker</span><span class="si">}</span><span class="s2">', "</span>
+                         <span class="sa">f</span><span class="s2">"RI='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">reider</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__loadDefaultDetector__</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__loadDefaultTracker__</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__loadDefaultReIDer__</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="MT.getConfig">
+<a class="viewcode-back" href="../../../pyppbox/standalone.html#pyppbox.ppb.mt.MT.getConfig">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getConfig</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Return the live configurator used by this pipeline.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyppbox.config.myconfig.MyConfigurator</span>
+<span class="sd">            The existing mutable object, not a copy. Changing it does not automatically</span>
+<span class="sd">            rebuild active modules or save its configuration files.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span></div>
+
+
+<div class="viewcode-block" id="MT.getMainConfig">
+<a class="viewcode-back" href="../../../pyppbox/standalone.html#pyppbox.ppb.mt.MT.getMainConfig">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getMainConfig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Return the names of the active or configured pipeline stages.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        current : bool</span>
+<span class="sd">            Defaults to ``True``. Use the active module configurations when True.</span>
+<span class="sd">            When False, use the main configuration stored in the configurator; load</span>
+<span class="sd">            it with ``setConfigDir()`` or ``setMainModules()`` first.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            A fresh mapping with ``detector``, ``tracker``, and ``reider`` keys.</span>
+<span class="sd">            Uninitialized active stages are named ``"None"``. Configured names can</span>
+<span class="sd">            differ from active names after selection with ``load_all=False`` or</span>
+<span class="sd">            after setting an individual stage.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">current</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"detector"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">dt_name</span><span class="p">,</span>
+                <span class="s2">"tracker"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="o">.</span><span class="n">tk_name</span><span class="p">,</span>
+                <span class="s2">"reider"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">ri_name</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">getMCFG</span><span class="p">()</span></div>
+
+
+
+    <span class="c1">###########################################</span>
+    <span class="c1"># Detector</span>
+    <span class="c1">###########################################</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__syncGTMode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">dt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">gt</span><span class="p">:</span>
+            <span class="n">detect_only</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="o">.</span><span class="n">tk_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span><span class="p">)</span>
+                <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_is_set__</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">ri_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span><span class="o">.</span><span class="n">setDetectOnly</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">unk_fid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">unk_did</span><span class="p">,</span>
+                                     <span class="n">detect_only</span><span class="o">=</span><span class="n">detect_only</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MT.forceFullGTMode">
+<a class="viewcode-back" href="../../../pyppbox/standalone.html#pyppbox.ppb.mt.MT.forceFullGTMode">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forceFullGTMode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Normally when :code:`DT='GT'`, pyppbox can automatically decide the GT mode based on the </span>
+<span class="sd">        name of the tracker and/or the name of reider; however, if the decision is not satisfied </span>
+<span class="sd">        calling this :func:`forceFullGTMode()` sets :code:`detect_only=False` until the next</span>
+<span class="sd">        detector, tracker, or reider selection. Normal frame processing preserves the override.</span>
+<span class="sd">        """</span>
+        <span class="n">success</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">dt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">gt</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span><span class="o">.</span><span class="n">setDetectOnly</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">unk_fid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">unk_did</span><span class="p">,</span> 
+                                          <span class="n">detect_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span><span class="se">\n</span><span class="s2">"</span>
+                       <span class="s2">"---PYPPBOX : Override detect_only=False for GT, FULL GT mode."</span>
+                       <span class="s2">"</span><span class="se">\n</span><span class="s2">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">add_new_line</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span><span class="se">\n</span><span class="s2">"</span>
+                   <span class="s2">"---PYPPBOX : DT!='GT' -&gt; Failed to override detect_only=False"</span>
+                   <span class="s2">"</span><span class="se">\n</span><span class="s2">!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+            <span class="n">add_warning_log</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">add_new_line</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+            
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__loadDefaultDetector__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">detector</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">yolo_cls</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.detectors.yolocls</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyYOLOCLS</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">dcfg_yolocs</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span> <span class="o">=</span> <span class="n">MyYOLOCLS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">detector</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">yolo_ult</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.detectors.yoloult</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyYOLOULT</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">dcfg_yolout</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span> <span class="o">=</span> <span class="n">MyYOLOULT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">detector</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">gt</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">dcfg_gt</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span> <span class="o">=</span> <span class="n">GTInterpreter</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span><span class="o">.</span><span class="n">setGT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">gt_file</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">detector</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span> <span class="o">=</span> <span class="n">__none_cfg__</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span> <span class="o">=</span> <span class="n">NothingDetecter</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span> 
+                <span class="n">add_info_log</span><span class="p">(</span><span class="s2">"---PYPPBOX : The input detecor is not recognized."</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">"---PYPPBOX : The config is not set."</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__syncGTMode__</span><span class="p">()</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__setCustomDetector__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">detector_dict</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">detector_dict</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">detector_dict</span><span class="p">[</span><span class="s1">'dt_name'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">yolo_cls</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.detectors.yolocls</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyYOLOCLS</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span> <span class="o">=</span> <span class="n">DCFGYOLOCLS</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">detector_dict</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span> <span class="o">=</span> <span class="n">MyYOLOCLS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set detector='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">dt_name</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">detector_dict</span><span class="p">[</span><span class="s1">'dt_name'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">yolo_ult</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.detectors.yoloult</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyYOLOULT</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span> <span class="o">=</span> <span class="n">DCFGYOLOULT</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">detector_dict</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span> <span class="o">=</span> <span class="n">MyYOLOULT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set detector='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">dt_name</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">detector_dict</span><span class="p">[</span><span class="s1">'dt_name'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">gt</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span> <span class="o">=</span> <span class="n">DCFGGT</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">detector_dict</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span> <span class="o">=</span> <span class="n">GTInterpreter</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span><span class="o">.</span><span class="n">setGT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">gt_file</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set detector='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">dt_name</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">detector_dict</span><span class="p">[</span><span class="s1">'dt_name'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span> <span class="o">=</span> <span class="n">__none_cfg__</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span> <span class="o">=</span> <span class="n">NothingDetecter</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set detector='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">dt_name</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> 
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">add_warning_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : detector='</span><span class="si">{</span><span class="n">detector_dict</span><span class="p">[</span><span class="s1">'dt_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">' is not recognized."</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MT.setMainDetector">
+<a class="viewcode-back" href="../../../pyppbox/standalone.html#pyppbox.ppb.mt.MT.setMainDetector">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setMainDetector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">detector</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">""</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Select and initialize the main detector.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        detector : str or dict or list</span>
+<span class="sd">            Defaults to ``""``. An empty string uses the selected main configuration.</span>
+<span class="sd">            A supported name (YOLO_Classic, YOLO_Ultralytics, GT, or "None") loads settings from ``detectors.yaml`` in the</span>
+<span class="sd">            selected directory, defaulting to the internal directory. Alternatively,</span>
+<span class="sd">            provide a complete dictionary, inline YAML/JSON mapping, YAML/JSON file path,</span>
+<span class="sd">            or legacy list containing one mapping. Custom paths within a mapping resolve</span>
+<span class="sd">            relative to the working directory, not the configuration file's directory.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This replaces the existing stage, so retained model/tracking state is discarded.</span>
+<span class="sd">        The name ``"None"`` is a string. Selection also recomputes GT detection-only</span>
+<span class="sd">        mode, replacing any earlier ``forceFullGTMode()`` override. Config files are not saved.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">isConfigInput</span><span class="p">(</span><span class="n">detector</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__setCustomDetector__</span><span class="p">(</span><span class="n">getCFGDict</span><span class="p">(</span><span class="n">detector</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">detector</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">detector</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setConfigDir</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__loadDefaultDetector__</span><span class="p">()</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="s1">'---PYPPBOX : Use detector according to the "main.yaml"'</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">detector</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">yolo_cls</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.detectors.yolocls</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyYOLOCLS</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setConfigDir</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">setAllDCFG</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">dcfg_yolocs</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span> <span class="o">=</span> <span class="n">MyYOLOCLS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set detector='</span><span class="si">{</span><span class="n">detector</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">detector</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">yolo_ult</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.detectors.yoloult</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyYOLOULT</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setConfigDir</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">setAllDCFG</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">dcfg_yolout</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span> <span class="o">=</span> <span class="n">MyYOLOULT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set detector='</span><span class="si">{</span><span class="n">detector</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">detector</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">gt</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setConfigDir</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">setAllDCFG</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">dcfg_gt</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span> <span class="o">=</span> <span class="n">GTInterpreter</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span><span class="o">.</span><span class="n">setGT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">gt_file</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set detector='</span><span class="si">{</span><span class="n">detector</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">detector</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setConfigDir</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">setAllDCFG</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span> <span class="o">=</span> <span class="n">__none_cfg__</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span> <span class="o">=</span> <span class="n">NothingDetecter</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set detector='</span><span class="si">{</span><span class="n">detector</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">add_warning_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : detector='</span><span class="si">{</span><span class="n">detector</span><span class="si">}</span><span class="s2">' is not recognized."</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__syncGTMode__</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="MT.detectPeople">
+<a class="viewcode-back" href="../../../pyppbox/standalone.html#pyppbox.ppb.mt.MT.detectPeople">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">detectPeople</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                     <span class="n">img</span><span class="p">,</span> 
+                     <span class="n">img_is_mat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                     <span class="n">visual</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                     <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                     <span class="n">save_file</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> 
+                     <span class="n">min_width_filter</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+                     <span class="n">alt_repspoint</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                     <span class="n">alt_repspoint_top</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> 
+<span class="w">        </span><span class="sd">"""Detect people with the active detector, optionally drawing and saving the image.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        img : ``str or numpy.ndarray``</span>
+<span class="sd">            Image filename or nonempty BGR image array.</span>
+<span class="sd">        img_is_mat : bool</span>
+<span class="sd">            Defaults to ``False``. Retained for API compatibility. The detector path</span>
+<span class="sd">            currently validates and accepts both filenames and arrays regardless of this flag.</span>
+<span class="sd">        visual : bool</span>
+<span class="sd">            Defaults to ``False``. Draw detections on the returned image. An input</span>
+<span class="sd">            array is modified in place when drawing is enabled.</span>
+<span class="sd">        save : bool</span>
+<span class="sd">            Defaults to ``False``. Save the returned image using OpenCV. Its format</span>
+<span class="sd">            is selected by the extension of ``save_file``.</span>
+<span class="sd">        save_file : str</span>
+<span class="sd">            Defaults to ``""``. Output filename when saving; the parent directory</span>
+<span class="sd">            must already exist. Saving can overwrite an existing image.</span>
+<span class="sd">        min_width_filter : int</span>
+<span class="sd">            Defaults to ``15``. Minimum detection-box width in pixels for YOLO detectors.</span>
+<span class="sd">        alt_repspoint : bool</span>
+<span class="sd">            Defaults to ``False``. For YOLO person detections, choose the top/bottom</span>
+<span class="sd">            box midpoint instead of the configured calibration or pose-based point.</span>
+<span class="sd">        alt_repspoint_top : bool</span>
+<span class="sd">            Defaults to ``True``. Choose the top midpoint when the alternative is enabled;</span>
+<span class="sd">            False chooses the bottom midpoint.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list[pyppbox.utils.persontools.Person]</span>
+<span class="sd">            Detected people. GT detection reads the current GT frame and advances its cursor.</span>
+<span class="sd">        ``numpy.ndarray or str``</span>
+<span class="sd">            Loaded image, with drawings if requested. If no detector is active or</span>
+<span class="sd">            the detector is ``"None"``, return an empty people list and the original</span>
+<span class="sd">            input unchanged; loading and saving are skipped.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If an active detector receives an invalid image or the requested save fails.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Initialize a detector first with ``setMainDetector()``, ``setMainModules()``,</span>
+<span class="sd">        or ``setConfigDir(load_all=True)``. The default ``setConfigDir()`` alone only</span>
+<span class="sd">        loads configuration. Detection filters and alternative points do not alter GT rows.</span>
+<span class="sd">        """</span>
+        <span class="n">people</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dt_is_set__</span><span class="p">:</span> 
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span><span class="p">,</span> <span class="n">NothingDetecter</span><span class="p">):</span>
+                <span class="n">img</span> <span class="o">=</span> <span class="n">getCVMat</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">dt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">yolo_cls</span> <span class="ow">or</span> 
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">dt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">yolo_ult</span><span class="p">):</span>
+                    <span class="n">people</span><span class="p">,</span> <span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span><span class="o">.</span><span class="n">detectPeople</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> 
+                                                           <span class="n">visual</span><span class="o">=</span><span class="n">visual</span><span class="p">,</span> 
+                                                           <span class="n">min_width_filter</span><span class="o">=</span><span class="n">min_width_filter</span><span class="p">,</span> 
+                                                           <span class="n">alt_repspoint</span><span class="o">=</span><span class="n">alt_repspoint</span><span class="p">,</span> 
+                                                           <span class="n">alt_repspoint_top</span><span class="o">=</span><span class="n">alt_repspoint_top</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">dt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">gt</span><span class="p">:</span>
+                    <span class="n">people</span><span class="p">,</span> <span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dt__</span><span class="o">.</span><span class="n">getPeople</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">visual</span><span class="o">=</span><span class="n">visual</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">isExist</span><span class="p">(</span><span class="n">getAncestorDir</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">save_file</span><span class="p">))):</span>
+                        <span class="n">filename</span> <span class="o">=</span> <span class="n">getAbsPathFDS</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">save_file</span><span class="p">))</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">img</span><span class="o">=</span><span class="n">img</span><span class="p">):</span>
+                                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"PYPPBOX : detectPeople() -&gt; Cannot save image: '</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+                        <span class="k">except</span> <span class="n">cv2</span><span class="o">.</span><span class="n">error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"PYPPBOX : detectPeople() -&gt; Cannot save image: '</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">': </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"PYPPBOX : detectPeople() -&gt; save_file='</span><span class="si">{</span><span class="n">save_file</span><span class="si">}</span><span class="s2">' is not valid."</span><span class="p">)</span>
+                        <span class="n">add_error_log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">"---PYPPBOX : detectPeople() -&gt; The main detector is not set."</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">people</span><span class="p">,</span> <span class="n">img</span></div>
+
+
+
+    <span class="c1">###########################################</span>
+    <span class="c1"># Tracker</span>
+    <span class="c1">###########################################</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__loadDefaultTracker__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">tracker</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">centroid</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.trackers.centroid</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyCentroid</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">tcfg_centroid</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk__</span> <span class="o">=</span> <span class="n">MyCentroid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">tracker</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">sort</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.trackers.sort</span><span class="w"> </span><span class="kn">import</span> <span class="n">MySORT</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">tcfg_sort</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk__</span> <span class="o">=</span> <span class="n">MySORT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">tracker</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">deepsort</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.trackers.deepsort</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyDeepSORT</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">tcfg_deepsort</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk__</span> <span class="o">=</span> <span class="n">MyDeepSORT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">tracker</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span> <span class="o">=</span> <span class="n">__none_cfg__</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk__</span> <span class="o">=</span> <span class="n">NothingTracker</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span> 
+                <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">"---PYPPBOX : The input tracker is not recognized."</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">"---PYPPBOX : The config is not set."</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__syncGTMode__</span><span class="p">()</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__setCustomTracker__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracker_dict</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">tracker_dict</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">tracker_dict</span><span class="p">[</span><span class="s1">'tk_name'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">centroid</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.trackers.centroid</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyCentroid</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span> <span class="o">=</span> <span class="n">TCFGCentroid</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">tracker_dict</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk__</span> <span class="o">=</span> <span class="n">MyCentroid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set tracker='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="o">.</span><span class="n">tk_name</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">tracker_dict</span><span class="p">[</span><span class="s1">'tk_name'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">sort</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.trackers.sort</span><span class="w"> </span><span class="kn">import</span> <span class="n">MySORT</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span> <span class="o">=</span> <span class="n">TCFGSORT</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">tracker_dict</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk__</span> <span class="o">=</span> <span class="n">MySORT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set tracker='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="o">.</span><span class="n">tk_name</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">tracker_dict</span><span class="p">[</span><span class="s1">'tk_name'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">deepsort</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.trackers.deepsort</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyDeepSORT</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span> <span class="o">=</span> <span class="n">TCFGDeepSORT</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">tracker_dict</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk__</span> <span class="o">=</span> <span class="n">MyDeepSORT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set tracker='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="o">.</span><span class="n">tk_name</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">tracker_dict</span><span class="p">[</span><span class="s1">'tk_name'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span> <span class="o">=</span> <span class="n">__none_cfg__</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk__</span> <span class="o">=</span> <span class="n">NothingTracker</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set tracker='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="o">.</span><span class="n">tk_name</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">add_warning_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : tracker='</span><span class="si">{</span><span class="n">tracker_dict</span><span class="p">[</span><span class="s1">'tk_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">' is not recognized."</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MT.setMainTracker">
+<a class="viewcode-back" href="../../../pyppbox/standalone.html#pyppbox.ppb.mt.MT.setMainTracker">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setMainTracker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracker</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">""</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Select and initialize the main tracker.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tracker : str or dict or list</span>
+<span class="sd">            Defaults to ``""``. An empty string uses the selected main configuration.</span>
+<span class="sd">            A supported name (Centroid, SORT, DeepSORT, or "None") loads settings from ``trackers.yaml`` in the</span>
+<span class="sd">            selected directory, defaulting to the internal directory. Alternatively,</span>
+<span class="sd">            provide a complete dictionary, inline YAML/JSON mapping, YAML/JSON file path,</span>
+<span class="sd">            or legacy list containing one mapping. Custom paths within a mapping resolve</span>
+<span class="sd">            relative to the working directory, not the configuration file's directory.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This replaces the existing stage, so retained model/tracking state is discarded.</span>
+<span class="sd">        The name ``"None"`` is a string. Selection also recomputes GT detection-only</span>
+<span class="sd">        mode, replacing any earlier ``forceFullGTMode()`` override. Config files are not saved.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tk__</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">isConfigInput</span><span class="p">(</span><span class="n">tracker</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__setCustomTracker__</span><span class="p">(</span><span class="n">getCFGDict</span><span class="p">(</span><span class="n">tracker</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tracker</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">tracker</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setConfigDir</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__loadDefaultTracker__</span><span class="p">()</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="s1">'---PYPPBOX : Use tracker according to the "main.yaml"'</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">tracker</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">centroid</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.trackers.centroid</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyCentroid</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setConfigDir</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">setAllTCFG</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">tcfg_centroid</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk__</span> <span class="o">=</span> <span class="n">MyCentroid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set tracker='</span><span class="si">{</span><span class="n">tracker</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">tracker</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">sort</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.trackers.sort</span><span class="w"> </span><span class="kn">import</span> <span class="n">MySORT</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setConfigDir</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">setAllTCFG</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">tcfg_sort</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk__</span> <span class="o">=</span> <span class="n">MySORT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set tracker='</span><span class="si">{</span><span class="n">tracker</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">tracker</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">deepsort</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.trackers.deepsort</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyDeepSORT</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setConfigDir</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">setAllTCFG</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">tcfg_deepsort</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk__</span> <span class="o">=</span> <span class="n">MyDeepSORT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set tracker='</span><span class="si">{</span><span class="n">tracker</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">tracker</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setConfigDir</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">setAllTCFG</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span> <span class="o">=</span> <span class="n">__none_cfg__</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk__</span> <span class="o">=</span> <span class="n">NothingTracker</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set tracker='</span><span class="si">{</span><span class="n">tracker</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">add_warning_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : tracker='</span><span class="si">{</span><span class="n">tracker</span><span class="si">}</span><span class="s2">' is not recognized."</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__syncGTMode__</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="MT.trackPeople">
+<a class="viewcode-back" href="../../../pyppbox/standalone.html#pyppbox.ppb.mt.MT.trackPeople">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">trackPeople</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">people</span><span class="p">,</span> <span class="n">img_is_mat</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Update the active tracker once for a frame, including frames without detections.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        img : ``str or numpy.ndarray``</span>
+<span class="sd">            Frame filename or BGR image array. DeepSORT uses pixels for appearance features.</span>
+<span class="sd">        people : list[pyppbox.utils.persontools.Person]</span>
+<span class="sd">            Detections in this frame. Pass an empty list for a missed-detection frame</span>
+<span class="sd">            so SORT/DeepSORT tracks age and can expire.</span>
+<span class="sd">        img_is_mat : bool</span>
+<span class="sd">            Defaults to ``False``. If True, pass the array to the tracker without</span>
+<span class="sd">            loading or validating it with the image helper.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list[pyppbox.utils.persontools.Person]</span>
+<span class="sd">            Current detections with updated tracking and identity metadata. Trackers</span>
+<span class="sd">            mutate person objects and may return fewer people than were supplied.</span>
+<span class="sd">            An unset tracker returns an empty list; tracker ``"None"`` passes detections through.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If an active tracker receives a non-list input or image conversion fails.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Initialize the tracker first, for example with ``setMainTracker()`` or</span>
+<span class="sd">        ``setConfigDir(load_all=True)``. Keep one pipeline per independent stream.</span>
+<span class="sd">        """</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tk_is_set__</span><span class="p">:</span> 
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">people</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">img_is_mat</span><span class="p">:</span> <span class="n">img</span> <span class="o">=</span> <span class="n">getCVMat</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tk__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">people</span><span class="p">,</span> <span class="n">img</span><span class="o">=</span><span class="n">img</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s2">"PYPPBOX : trackPeople() -&gt; Input 'people' is not correct."</span>
+                <span class="n">add_error_log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">"---PYPPBOX : trackPeople() -&gt; The main tracker is not set."</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+    <span class="c1">###########################################</span>
+    <span class="c1"># REIDer</span>
+    <span class="c1">###########################################</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__loadDefaultReIDer__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auto_load</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">reider</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">facenet</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.reiders.facenet</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyFaceNet</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">rcfg_facenet</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span> <span class="o">=</span> <span class="n">MyFaceNet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="p">,</span> <span class="n">auto_load</span><span class="o">=</span><span class="n">auto_load</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">reider</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">torchreid</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.reiders.torchreid</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyTorchreid</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">rcfg_torchreid</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span> <span class="o">=</span> <span class="n">MyTorchreid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="p">,</span> <span class="n">auto_load</span><span class="o">=</span><span class="n">auto_load</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">mcfg</span><span class="o">.</span><span class="n">reider</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">dt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span> <span class="ow">and</span> 
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="o">.</span><span class="n">tk_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span> <span class="o">=</span> <span class="n">TKOReider</span><span class="p">(</span><span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span> <span class="o">=</span> <span class="n">NothingReider</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span> <span class="o">=</span> <span class="n">__none_cfg__</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">"---PYPPBOX : The input reider is not recognized."</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_is_set__</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">"---PYPPBOX : The config is not set."</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__syncGTMode__</span><span class="p">()</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__setCustomReIDer__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reider_dict</span><span class="p">,</span> <span class="n">auto_load</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">reider_dict</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">reider_dict</span><span class="p">[</span><span class="s1">'ri_name'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">facenet</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.reiders.facenet</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyFaceNet</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span> <span class="o">=</span> <span class="n">RCFGFaceNet</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">reider_dict</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span> <span class="o">=</span> <span class="n">MyFaceNet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="p">,</span> <span class="n">auto_load</span><span class="o">=</span><span class="n">auto_load</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set reider='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">ri_name</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">reider_dict</span><span class="p">[</span><span class="s1">'ri_name'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">torchreid</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.reiders.torchreid</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyTorchreid</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span> <span class="o">=</span> <span class="n">RCFGTorchreid</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">reider_dict</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span> <span class="o">=</span> <span class="n">MyTorchreid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="p">,</span> <span class="n">auto_load</span><span class="o">=</span><span class="n">auto_load</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set reider='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">ri_name</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">reider_dict</span><span class="p">[</span><span class="s1">'ri_name'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">dt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span> <span class="ow">and</span> 
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="o">.</span><span class="n">tk_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span> <span class="o">=</span> <span class="n">TKOReider</span><span class="p">(</span><span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span> <span class="o">=</span> <span class="n">NothingReider</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span> <span class="o">=</span> <span class="n">__none_cfg__</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set reider='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">ri_name</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_is_set__</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">add_warning_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : reider='</span><span class="si">{</span><span class="n">reider_dict</span><span class="p">[</span><span class="s1">'ri_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">' is not recognized."</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MT.setMainReIDer">
+<a class="viewcode-back" href="../../../pyppbox/standalone.html#pyppbox.ppb.mt.MT.setMainReIDer">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setMainReIDer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reider</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span> <span class="n">auto_load</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Select and initialize the main reider.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        reider : str or dict or list</span>
+<span class="sd">            Defaults to ``""``. An empty string uses the selected main configuration.</span>
+<span class="sd">            A supported name (FaceNet, Torchreid, or "None") loads settings from ``reiders.yaml`` in the</span>
+<span class="sd">            selected directory, defaulting to the internal directory. Alternatively,</span>
+<span class="sd">            provide a complete dictionary, inline YAML/JSON mapping, YAML/JSON file path,</span>
+<span class="sd">            or legacy list containing one mapping. Custom paths within a mapping resolve</span>
+<span class="sd">            relative to the working directory, not the configuration file's directory.</span>
+<span class="sd">        auto_load : bool</span>
+<span class="sd">            Defaults to ``True``. Load the identity classifier immediately when True.</span>
+<span class="sd">            False defers classifier loading until ``reidPeople()`` first uses the stage.</span>
+<span class="sd">            Torchreid still constructs its feature extractor and loads its weights during</span>
+<span class="sd">            initialization. Direct reider constructors default this option to False.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This replaces the existing stage, so retained model/tracking state is discarded.</span>
+<span class="sd">        The name ``"None"`` is a string. Selection also recomputes GT detection-only</span>
+<span class="sd">        mode, replacing any earlier ``forceFullGTMode()`` override. Config files are not saved.</span>
+<span class="sd">        With detector and tracker enabled, reider ``"None"`` uses static</span>
+<span class="sd">        fallback identities. In other combinations it passes existing identities through.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ri_is_set__</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">isConfigInput</span><span class="p">(</span><span class="n">reider</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__setCustomReIDer__</span><span class="p">(</span><span class="n">getCFGDict</span><span class="p">(</span><span class="n">reider</span><span class="p">),</span> <span class="n">auto_load</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reider</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">reider</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setConfigDir</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__loadDefaultReIDer__</span><span class="p">(</span><span class="n">auto_load</span><span class="o">=</span><span class="n">auto_load</span><span class="p">)</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="s1">'---PYPPBOX : Use reider according to the "main.yaml"'</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">reider</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">facenet</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.reiders.facenet</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyFaceNet</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setConfigDir</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">setAllRCFG</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">rcfg_facenet</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span> <span class="o">=</span> <span class="n">MyFaceNet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="p">,</span> <span class="n">auto_load</span><span class="o">=</span><span class="n">auto_load</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set reider='</span><span class="si">{</span><span class="n">reider</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">reider</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">torchreid</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.reiders.torchreid</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyTorchreid</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setConfigDir</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">setAllRCFG</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">rcfg_torchreid</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span> <span class="o">=</span> <span class="n">MyTorchreid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="p">,</span> <span class="n">auto_load</span><span class="o">=</span><span class="n">auto_load</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set reider='</span><span class="si">{</span><span class="n">reider</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">reider</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cfg_is_set__</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setConfigDir</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__cfg__</span><span class="o">.</span><span class="n">setAllRCFG</span><span class="p">()</span>
+                <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dt_cfg__</span><span class="o">.</span><span class="n">dt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span> <span class="ow">and</span> 
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__tk_cfg__</span><span class="o">.</span><span class="n">tk_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span> <span class="o">=</span> <span class="n">TKOReider</span><span class="p">(</span><span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span> <span class="o">=</span> <span class="n">NothingReider</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span> <span class="o">=</span> <span class="n">__none_cfg__</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri_is_set__</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : Set reider='</span><span class="si">{</span><span class="n">reider</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">add_warning_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : reider='</span><span class="si">{</span><span class="n">reider</span><span class="si">}</span><span class="s2">' is not recognized."</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__syncGTMode__</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="MT.reidPeople">
+<a class="viewcode-back" href="../../../pyppbox/standalone.html#pyppbox.ppb.mt.MT.reidPeople">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reidPeople</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">people</span><span class="p">,</span> <span class="n">deduplicate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">img_is_mat</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Update unknown/error identities using the active reider.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        img : ``str or numpy.ndarray``</span>
+<span class="sd">            Frame filename or BGR image array used for person/face crops.</span>
+<span class="sd">        people : list[pyppbox.utils.persontools.Person]</span>
+<span class="sd">            People whose identity fields are updated in place. Existing recognized</span>
+<span class="sd">            identities are retained unless duplicate re-inference is requested.</span>
+<span class="sd">        deduplicate : bool</span>
+<span class="sd">            Defaults to ``True``. Re-run recognition for repeated identities. This</span>
+<span class="sd">            does not remove people or guarantee that the final identities are unique.</span>
+<span class="sd">        img_is_mat : bool</span>
+<span class="sd">            Defaults to ``False``. If True, use the array without image-helper conversion.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list[pyppbox.utils.persontools.Person]</span>
+<span class="sd">            People with updated identity and confidence fields. Empty when the input</span>
+<span class="sd">            list is empty or no reider has been initialized.</span>
+<span class="sd">        tuple[int, int]</span>
+<span class="sd">            Counts of completed initial and duplicate recognition calls, including</span>
+<span class="sd">            unknown/error-ID results. Calls raising exceptions are not counted.</span>
+<span class="sd">            Both counts are zero for a disabled reider.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If an active reider receives a non-list, an unsupported first element,</span>
+<span class="sd">            or an image that cannot be converted.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Initialize the stage first with ``setMainReIDer()`` or an all-module loader.</span>
+<span class="sd">        Deferred classifier loading happens before processing the people list and can</span>
+<span class="sd">        therefore occur on an empty frame. Classifier/model loading errors propagate.</span>
+<span class="sd">        Per-person crop or recognition exceptions are logged and the person is retained.</span>
+<span class="sd">        """</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">reid_count</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri_is_set__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">ri_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">none</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span><span class="o">.</span><span class="n">auto_load</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span><span class="o">.</span><span class="n">load_classifier</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span><span class="o">.</span><span class="n">auto_load</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">people</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">people</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">people</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Person</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">img_is_mat</span><span class="p">:</span> <span class="n">img</span> <span class="o">=</span> <span class="n">getCVMat</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+                        <span class="n">res</span><span class="p">,</span> <span class="n">reid_count</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__reidNormal__</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">people</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">deduplicate</span><span class="p">:</span> <span class="n">res</span><span class="p">,</span> <span class="n">reid_count</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__reidDupkiller__</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">msg</span> <span class="o">=</span> <span class="s2">"PYPPBOX : reidPeople() -&gt; Input 'people' has unsupported element."</span>
+                        <span class="n">add_error_log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s2">"PYPPBOX : reidPeople() -&gt; The input 'people' is invalid."</span>
+                <span class="n">add_error_log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">add_warning_log</span><span class="p">(</span><span class="s2">"---PYPPBOX : reidPeople() -&gt; The main ReIDer is not set."</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">reid_count</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__reidNormal__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">people</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">ri_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">facenet</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__reidFaceNormal__</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">people</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">ri_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">torchreid</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__reidDeepNormal__</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">people</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__reidEmpty__</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">people</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__reidDupkiller__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">people</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">ri_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">facenet</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__reidDupFacekiller__</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">people</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">ri_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">torchreid</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__reidDupDeepkiller__</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">people</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__reidEmpty__</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">people</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__reidEmpty__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">people</span><span class="p">):</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
+            <span class="n">deepid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">person</span><span class="o">.</span><span class="n">deepid</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">err_did</span> <span class="ow">in</span> <span class="n">deepid</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">unk_did</span> <span class="ow">in</span> <span class="n">deepid</span><span class="p">:</span>
+                <span class="n">people</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">deepid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span><span class="o">.</span><span class="n">recognize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">unk_did</span><span class="p">)</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">people</span><span class="p">,</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__reidDeepNormal__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">people</span><span class="p">):</span>
+        <span class="n">reid_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__deepidlistTMP__</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
+            <span class="n">deepid</span> <span class="o">=</span> <span class="n">person</span><span class="o">.</span><span class="n">deepid</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">err_did</span> <span class="ow">in</span> <span class="n">deepid</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">unk_did</span> <span class="ow">in</span> <span class="n">deepid</span><span class="p">:</span>
+                <span class="n">miniframe</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">]</span> <span class="o">=</span> <span class="n">person</span><span class="o">.</span><span class="n">box_xyxy</span>
+                    <span class="n">miniframe</span> <span class="o">=</span> <span class="n">miniframe</span><span class="p">[</span><span class="n">y1</span><span class="p">:</span><span class="n">y2</span><span class="p">,</span> <span class="n">x1</span><span class="p">:</span><span class="n">x2</span><span class="p">]</span>
+                    <span class="n">people</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">deepid</span><span class="p">,</span> <span class="n">people</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">deepid_conf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span><span class="o">.</span><span class="n">recognize</span><span class="p">(</span>
+                        <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">miniframe</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">model_wh</span><span class="p">),</span> 
+                        <span class="n">is_bgr</span><span class="o">=</span><span class="kc">True</span>
+                    <span class="p">)</span>
+                    <span class="n">reid_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">add_warning_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : __reidDeepNormal__() -&gt; </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__deepidlistTMP__</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">people</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">deepid</span><span class="p">)</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">people</span><span class="p">,</span> <span class="n">reid_count</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__reidDupDeepkiller__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">people</span><span class="p">):</span>
+        <span class="n">reid_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__deepidlistTMP__</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__deepidlistTMP__</span><span class="p">)):</span>
+            <span class="n">ddeepids</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Counter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__deepidlistTMP__</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">ddeepid</span> <span class="ow">in</span> <span class="n">ddeepids</span><span class="p">:</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">person</span><span class="o">.</span><span class="n">deepid</span> <span class="o">==</span> <span class="n">ddeepid</span><span class="p">:</span>
+                            <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">]</span> <span class="o">=</span> <span class="n">person</span><span class="o">.</span><span class="n">box_xyxy</span>
+                            <span class="n">miniframe</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                            <span class="n">miniframe</span> <span class="o">=</span> <span class="n">miniframe</span><span class="p">[</span><span class="n">y1</span><span class="p">:</span><span class="n">y2</span><span class="p">,</span> <span class="n">x1</span><span class="p">:</span><span class="n">x2</span><span class="p">]</span>
+                            <span class="n">people</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">deepid</span><span class="p">,</span> <span class="n">people</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">deepid_conf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span><span class="o">.</span><span class="n">recognize</span><span class="p">(</span>
+                                <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">miniframe</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">model_wh</span><span class="p">),</span> 
+                                <span class="n">is_bgr</span><span class="o">=</span><span class="kc">True</span>
+                            <span class="p">)</span>
+                            <span class="n">reid_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                        <span class="n">add_warning_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : __reidDupDeepkiller__() -&gt; </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                    <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">people</span><span class="p">,</span> <span class="n">reid_count</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__reidFaceNormal__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">people</span><span class="p">):</span>
+        <span class="n">reid_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__faceidlistTMP__</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
+            <span class="n">faceid</span> <span class="o">=</span> <span class="n">person</span><span class="o">.</span><span class="n">faceid</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">err_fid</span> <span class="ow">in</span> <span class="n">faceid</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unistrings__</span><span class="o">.</span><span class="n">unk_fid</span> <span class="ow">in</span> <span class="n">faceid</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">person</span><span class="o">.</span><span class="n">repspoint</span>
+                <span class="n">miniframe</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">miniframe</span> <span class="o">=</span> <span class="n">miniframe</span><span class="p">[</span>
+                        <span class="n">y</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">yl_h_calibration</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                        <span class="n">y</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">yl_h_calibration</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                        <span class="n">x</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">yl_w_calibration</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                        <span class="n">x</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">yl_w_calibration</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="p">]</span>
+                    <span class="n">people</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">faceid</span><span class="p">,</span> <span class="n">people</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">faceid_conf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span><span class="o">.</span><span class="n">recognize</span><span class="p">(</span>
+                        <span class="n">miniframe</span><span class="p">,</span> 
+                        <span class="n">is_bgr</span><span class="o">=</span><span class="kc">True</span>
+                    <span class="p">)</span>
+                    <span class="n">reid_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">add_warning_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : __reidFaceNormal__() -&gt; </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__faceidlistTMP__</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">people</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">faceid</span><span class="p">)</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">people</span><span class="p">,</span> <span class="n">reid_count</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__reidDupFacekiller__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">people</span><span class="p">):</span>
+        <span class="n">reid_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__faceidlistTMP__</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__faceidlistTMP__</span><span class="p">)):</span>
+            <span class="n">dfaceids</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Counter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__faceidlistTMP__</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">dfaceid</span> <span class="ow">in</span> <span class="n">dfaceids</span><span class="p">:</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">person</span><span class="o">.</span><span class="n">faceid</span> <span class="o">==</span> <span class="n">dfaceid</span><span class="p">:</span>
+                            <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">person</span><span class="o">.</span><span class="n">repspoint</span>
+                            <span class="n">miniframe</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                            <span class="n">miniframe</span> <span class="o">=</span> <span class="n">miniframe</span><span class="p">[</span>
+                                <span class="n">y</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">yl_h_calibration</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                                <span class="n">y</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">yl_h_calibration</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                                <span class="n">x</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">yl_w_calibration</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                                <span class="n">x</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">yl_w_calibration</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                            <span class="p">]</span>
+                            <span class="n">people</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">faceid</span><span class="p">,</span> <span class="n">people</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">faceid_conf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span><span class="o">.</span><span class="n">recognize</span><span class="p">(</span>
+                                <span class="n">miniframe</span><span class="p">,</span> 
+                                <span class="n">is_bgr</span><span class="o">=</span><span class="kc">True</span>
+                            <span class="p">)</span>
+                            <span class="n">reid_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                        <span class="n">add_warning_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : __reidDupFacekiller__() -&gt; </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                    <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">people</span><span class="p">,</span> <span class="n">reid_count</span>
+
+<div class="viewcode-block" id="MT.trainReIDClassifier">
+<a class="viewcode-back" href="../../../pyppbox/standalone.html#pyppbox.ppb.mt.MT.trainReIDClassifier">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">trainReIDClassifier</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> 
+        <span class="n">reider</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span> 
+        <span class="n">train_data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span> 
+        <span class="n">classifier_pkl</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Train and save an identity SVM using a supported reider's pretrained embeddings.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        reider : str or dict or list</span>
+<span class="sd">            Defaults to ``""``. Select the configured reider, a supported name, or a</span>
+<span class="sd">            complete YAML/JSON configuration as for ``setMainReIDer()``. The classifier</span>
+<span class="sd">            is not loaded before training, but required feature-extraction weights are.</span>
+<span class="sd">        train_data : str</span>
+<span class="sd">            Defaults to ``""``. Use the configured training directory when empty.</span>
+<span class="sd">            Otherwise specify an existing directory with one image-only subdirectory</span>
+<span class="sd">            per identity and at least two identities. The bundled examples use 128x256</span>
+<span class="sd">            body images and 182x182 face images (width x height). Torchreid resizes through</span>
+<span class="sd">            its extractor; FaceNet training uses 160x160 crops of prepared face images.</span>
+<span class="sd">        classifier_pkl : str</span>
+<span class="sd">            Defaults to ``""``. Use the configured output path when empty. An override's</span>
+<span class="sd">            parent directory must exist. Training overwrites the pickle and companion</span>
+<span class="sd">            ``.txt`` class-name file.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This replaces the pipeline's active reider and returns None. Invalid explicit</span>
+<span class="sd">        input/output directories are logged and training is skipped. Backend training</span>
+<span class="sd">        errors propagate. Config files are not saved. Load the written classifier before</span>
+<span class="sd">        subsequent recognition; the pipeline does this on its next ``reidPeople()`` call.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setMainReIDer</span><span class="p">(</span><span class="n">reider</span><span class="o">=</span><span class="n">reider</span><span class="p">,</span> <span class="n">auto_load</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri_is_set__</span><span class="p">:</span>
+            <span class="n">valid_train_data</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">valid_pkl</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">train_data</span> <span class="o">!=</span> <span class="s2">""</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">isExist</span><span class="p">(</span><span class="n">train_data</span><span class="p">):</span> 
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">train_data</span> <span class="o">=</span> <span class="n">getAbsPathFDS</span><span class="p">(</span><span class="n">train_data</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span> 
+                    <span class="n">valid_train_data</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">add_error_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : train_data='</span><span class="si">{</span><span class="n">train_data</span><span class="si">}</span><span class="s2">' does not exist."</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">classifier_pkl</span> <span class="o">!=</span> <span class="s2">""</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">isExist</span><span class="p">(</span><span class="n">getAncestorDir</span><span class="p">(</span><span class="n">classifier_pkl</span><span class="p">)):</span>
+                    <span class="n">valid_pkl</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">add_error_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---PYPPBOX : classifier_pkl='</span><span class="si">{</span><span class="n">classifier_pkl</span><span class="si">}</span><span class="s2">' is not valid."</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">valid_pkl</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">classifier_pkl</span> <span class="o">=</span> <span class="n">getAbsPathFDS</span><span class="p">(</span><span class="n">classifier_pkl</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">valid_train_data</span> <span class="ow">and</span> <span class="n">valid_pkl</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.reiders.facenet</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyFaceNet</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pyppbox.modules.reiders.torchreid</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyTorchreid</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span><span class="p">,</span> <span class="n">MyFaceNet</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span> <span class="o">=</span> <span class="n">MyFaceNet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="p">,</span> <span class="n">auto_load</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">add_info_log</span><span class="p">(</span><span class="s2">"------------- FaceNet --------------"</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span><span class="p">,</span> <span class="n">MyTorchreid</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span> <span class="o">=</span> <span class="n">MyTorchreid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="p">,</span> <span class="n">auto_load</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">add_info_log</span><span class="p">(</span><span class="s2">"------------ Torchreid -------------"</span><span class="p">)</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="s2">"---PYPPBOX : train_data='"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">train_data</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"'"</span><span class="p">)</span>
+                <span class="n">add_info_log</span><span class="p">(</span><span class="s2">"---PYPPBOX : classifier_pkl='"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ri_cfg__</span><span class="o">.</span><span class="n">classifier_pkl</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"'"</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ri__</span><span class="o">.</span><span class="n">train_classifier</span><span class="p">()</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, UMONS-Numediart, Ratha SIV.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
