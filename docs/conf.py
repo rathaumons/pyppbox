@@ -49,6 +49,10 @@ html_theme_options = {
     "logo": {
         "text": "🐍📦 pyppbox",
     },
+    # Keep the header compact on laptop screens; remaining sections go in More.
+    "header_links_before_dropdown": 3,
+    "navbar_align": "left",
+    "navbar_persistent": ["search-button"],
     "icon_links": [
         {
             "name": "GitHub",
