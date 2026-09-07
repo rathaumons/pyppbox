@@ -11,8 +11,6 @@ A toolbox for people detecting, tracking, and re-identifying
 
 """
 
-
-
 import importlib
 
 _exports = {
@@ -42,7 +40,6 @@ def __getattr__(name):
         globals()[name] = obj
         return obj
     raise AttributeError(f"---PYPPBOX : Couldn't find attribute '{name}'")
-
 
 __version__ = '3.15.0'
 __author__ = 'Ratha SIV'
