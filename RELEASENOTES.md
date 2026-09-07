@@ -10,32 +10,20 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` v3.15.0 - Maintenance and Stability
+* `pyppbox` [v3.15.0](https://github.com/rathaumons/pyppbox/tree/v3.15.0) - The Last V3
 
-  - Additional V3 maintenance release before V4, preserving existing configuration keys, paths, and APIs
-  - Adopt **AGPLv3 or later** (`AGPL-3.0-or-later`) for pyppbox starting with V3.15.0; update the license text, package metadata, and first-party notices, and retain bundled third-party licenses in release packages
-  - Advance SORT and DeepSORT on empty frames; retain identity metadata while a track survives a short gap
-  - Align YOLO pose keypoints with boxes and confidence scores, forward the configured IoU threshold, and convert results directly to CPU
-  - Require `opencv-contrib-python<5` to keep YOLO_Classic's existing Darknet `.cfg`/`.weights` models working; OpenCV 5 removed the Darknet importer
-  - Use active FaceNet crop calibration and updated identities in duplicate re-inference; return actual below-threshold ReID confidence and `0.0` when no prediction is available
-  - Normalize existing YAML/JSON config input forms and safely serialize values; save each config file through atomic replacement
-  - Save YOLO's GUI `show_boxes` choice as a boolean and accept existing quoted `True`/`False` values on load, fixing a GUI-launch regression exposed by the safer YAML writer
-  - Restore the original output stream after silenced calls, including failures; use backend verbosity controls in ReID code
-  - Isolate `Person` defaults and stored result snapshots; consume static fallback IDs in order, retaining `EoR<index>` after an explicit list is exhausted
-  - Recompute GT mode after module selections; `forceFullGTMode()` lasts until the next detector, tracker, or reider selection
-  - Match evaluation detections one-to-one, count unmatched predictions and references independently, and return score `0.0` for empty GT. Offline evaluation covers frame IDs in either input. Historical counts can differ; summary tuples and the existing score formula are preserved
-  - Fall back to SciPy assignment if Centroid's LAP solver is unavailable or fails
-  - Reject missing/undecodable image inputs and report failed image saves
-  - Respect terminal logging environment settings at import, restrict log cleanup to pyppbox log files when file logging is enabled, and preserve NumPy's random state when importing SORT
-  - Recover evaluation after selecting a valid GT file following a missing file, and correctly switch the evaluation ID mode back to `deepid`
-  - Exclude local planning documents from source distributions and remove the obsolete V4 migration announcement
-  - Add a `tests/` regression suite covering detection, tracking, ReID, configuration, evaluation, and utilities, with separate test dependencies in `tests/requirements.txt`
-  - Include optional GUI integration and CPU/CUDA result-adapter tests
-  - Configure regression CI for Linux, macOS, and Windows with Python 3.9–3.12 and NumPy 1.x/2.x, checking both the checkout and the installed wheel as a baseline for V4
-  - Correct example snippets, documented defaults and parameter names, DeepSORT backend information, and configuration/install guidance; include the missing `getMainConfig()` and GT documentation
-  - Correct API docstrings for model initialization, return values, confidence scales, object mutation, GT frame cursors, configuration I/O, and classifier training
-  - Validate documentation API references in strict Sphinx builds on pull requests, with a pinned set of documentation build tools
-  - Preserve FaceNet identity labels in classifier-pickle order, fixing swapped identities for custom names containing underscores; normalize mixed-case FaceNet and Torchreid configuration names
+  Maintenance release before V4, preserving existing configuration keys, paths, and APIs:
+  - Adopt **AGPLv3 or later** (`AGPL-3.0-or-later`), retaining bundled third-party licenses
+  - Fix SORT and DeepSORT handling of empty frames and short tracking gaps; add a fallback solver for Centroid
+  - Prefer [lapx](https://github.com/rathaROG/lapx) for DeepSORT and evaluation matching, with SciPy as a fallback
+  - Fix YOLO pose alignment, IoU settings, and saving the GUI's `show_boxes` option
+  - Require `opencv-contrib-python<5` to keep YOLO_Classic's Darknet models working
+  - Fix FaceNet identity mix-ups, crop calibration, and ReID confidence reporting
+  - Make YAML/JSON configuration loading and saving safer; accept mixed-case FaceNet and Torchreid names
+  - Correct evaluation matching, missing or empty ground truth (GT) handling, and GT/ID mode switching. Evaluation counts may change; the score formula and summary format stay the same
+  - Improve image error messages, logging, fallback IDs, and stored results
+  - Add regression tests and CI across Linux, macOS, and Windows with Python 3.9–3.12 and NumPy 1.x/2.x, plus optional GUI and CPU/CUDA checks
+  - Improve examples, installation guidance, and API documentation; check documentation references in CI
 
 * `pyppbox` [v3.14.0](https://github.com/rathaumons/pyppbox/tree/v3.14.0) - ~~The Last V3~~
 
