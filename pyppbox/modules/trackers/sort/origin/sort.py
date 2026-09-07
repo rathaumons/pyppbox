@@ -30,6 +30,8 @@ from skimage import io
 
 from filterpy.kalman import KalmanFilter
 
+# lapx (https://github.com/rathaROG/lapx) uses the "lap" import name.
+# The original gatagat/lap package does not provide lapjvx/lapjvxa.
 import lap
 
 

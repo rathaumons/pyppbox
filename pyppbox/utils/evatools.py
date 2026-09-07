@@ -8,6 +8,13 @@ from .gttools import GTInterpreter, convertStringToNPL
 from .commontools import joinFPathFull, getAbsPathFDS, isExist, getAncestorDir
 from .logtools import add_info_log, add_warning_log, add_error_log
 
+try:
+    # lapx (https://github.com/rathaROG/lapx) uses the "lap" import name.
+    # The original gatagat/lap package does not provide lapjvx/lapjvxa.
+    import lap
+except Exception:
+    lap = None
+
 
 class MyEVA(object):
 
@@ -469,6 +476,18 @@ class TKOReider(object):
 ###############################################################################################
 
 
+def _linear_assignment(cost_matrix):
+    """Prefer lapx, with SciPy as a fallback for unavailable or failed LAP solves."""
+    # LAP does not validate non-finite costs; let SciPy handle those safely.
+    if lap is not None and np.isfinite(cost_matrix).all():
+        try:
+            return lap.lapjvx(cost_matrix, extend_cost=cost_matrix.shape[0] != cost_matrix.shape[1],
+                             return_cost=False)
+        except Exception as exc:
+            add_warning_log(f"Evaluation : LAP failed; using SciPy assignment: {exc}")
+    return linear_sum_assignment(cost_matrix)
+
+
 def _compare_detections(ref_boxes, ref_ids, predicted_boxes, predicted_ids, max_spread):
     """Match geometry one-to-one before comparing identities; never reuse a reference."""
     nr, npred = len(ref_boxes), len(predicted_boxes)
@@ -480,7 +499,7 @@ def _compare_detections(ref_boxes, ref_ids, predicted_boxes, predicted_ids, max_
     # An invalid edge costs more than all possible valid edges combined, so the
     # assignment maximizes valid matches first and minimizes their distance second.
     invalid_cost = (min(nr, npred) + 1) * (float(max_spread) + 1)
-    rows, cols = linear_sum_assignment(np.where(distances <= max_spread, distances, invalid_cost))
+    rows, cols = _linear_assignment(np.where(distances <= max_spread, distances, invalid_cost))
     pairs = [(r, c) for r, c in zip(rows, cols) if distances[r, c] <= max_spread]
     wrong = 0
     for r, c in pairs:

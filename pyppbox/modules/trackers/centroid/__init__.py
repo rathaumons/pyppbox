@@ -10,6 +10,8 @@ from pyppbox.utils.logtools import add_error_log, add_warning_log
 from scipy.optimize import linear_sum_assignment
 
 try:
+    # lapx (https://github.com/rathaROG/lapx) uses the "lap" import name.
+    # The original gatagat/lap package does not provide lapjvx/lapjvxa.
     import lap
 except Exception:
     lap = None

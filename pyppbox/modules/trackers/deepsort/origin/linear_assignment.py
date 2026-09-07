@@ -1,9 +1,30 @@
 import numpy as np
 from . import kalman_filter
 from scipy.optimize import linear_sum_assignment
+from pyppbox.utils.logtools import add_warning_log
+
+try:
+    # lapx (https://github.com/rathaROG/lapx) uses the "lap" import name.
+    # The original gatagat/lap package does not provide lapjvx/lapjvxa.
+    import lap
+except Exception:
+    lap = None
 
 
 INFTY_COST = 1e+5
+
+
+def _linear_assignment(cost_matrix):
+    """Return assignment pairs using lapx, falling back to SciPy if needed."""
+    # Keep the input precision and let SciPy validate any non-finite costs.
+    if lap is not None and np.isfinite(cost_matrix).all():
+        try:
+            return lap.lapjvxa(cost_matrix, extend_cost=cost_matrix.shape[0] != cost_matrix.shape[1],
+                              return_cost=False)
+        except Exception as exc:
+            add_warning_log(f"DeepSORT : LAP failed; using SciPy assignment: {exc}")
+    rows, cols = linear_sum_assignment(cost_matrix)
+    return np.column_stack((rows, cols))
 
 
 def min_cost_matching(
@@ -53,9 +74,7 @@ def min_cost_matching(
     cost_matrix = distance_metric(
         tracks, detections, track_indices, detection_indices)
     cost_matrix[cost_matrix > max_distance] = max_distance + 1e-5
-    indices = linear_sum_assignment(cost_matrix)
-    indices = np.asarray(indices)
-    indices = np.transpose(indices)
+    indices = _linear_assignment(cost_matrix)
 
     matches, unmatched_tracks, unmatched_detections = [], [], []
     for col, detection_idx in enumerate(detection_indices):

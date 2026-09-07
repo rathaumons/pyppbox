@@ -41,6 +41,12 @@ class TrackingTests(unittest.TestCase):
         tracker.tracker.n_init = 2
         return tracker
 
+    def load_deepsort_assignment(self):
+        module_name = 'pyppbox.modules.trackers.deepsort.origin'
+        with patch.dict(sys.modules, {module_name + '.generate_detections':
+                                     SimpleNamespace(create_box_encoder=Mock())}):
+            return importlib.import_module(module_name + '.linear_assignment')
+
     def test_expiry_empty_frames_and_metadata_through_facade(self):
         for factory in (self.make_sort, self.make_deepsort):
             with self.subTest(tracker=factory.__name__):
@@ -98,6 +104,60 @@ class TrackingTests(unittest.TestCase):
         tracker = centroid.MyCentroid(SimpleNamespace(max_spread=5))
         cid = tracker.update([person()])[0].cid
         self.assertNotEqual(tracker.update([person(100)])[0].cid, cid)
+
+    def test_deepsort_assignment_backends_preserve_matches_and_gating(self):
+        assignment = self.load_deepsort_assignment()
+        lap_solver = Mock(wraps=assignment.lap.lapjvxa)
+        backends = [('lapx', SimpleNamespace(lapjvxa=lap_solver)),
+                    ('unavailable', None), ('missing_api', SimpleNamespace()),
+                    ('failed', SimpleNamespace(lapjvxa=Mock(side_effect=RuntimeError('LAP failure'))))]
+        wide = np.array([[.3, .1, .8], [.05, .4, .9]], dtype=np.float32)
+        cases = [(wide[:, :2], ([(0, 1), (1, 0)], [], [])),
+                 (wide, ([(0, 1), (1, 0)], [], [2])),
+                 (wide.T, ([(0, 1), (1, 0)], [2], [])),
+                 (np.array([[.6, .7], [.8, np.inf]]), ([], [0, 1], [0, 1])),
+                 (np.array([[.5]]), ([(0, 0)], [], [])),
+                 (np.empty((0, 2)), ([], [], [0, 1])),
+                 (np.empty((2, 0)), ([], [0, 1], [])),
+                 (np.empty((0, 0)), ([], [], []))]
+        for name, backend in backends:
+            for costs, expected in cases:
+                with self.subTest(backend=name, costs=costs), \
+                        patch.object(assignment, 'lap', backend), \
+                        patch.object(assignment, 'linear_sum_assignment',
+                                     wraps=assignment.linear_sum_assignment) as fallback:
+                    lap_solver.reset_mock()
+                    metric = Mock(return_value=costs.copy(order='K'))
+                    result = assignment.min_cost_matching(
+                        metric, .5, [None] * costs.shape[0], [None] * costs.shape[1])
+                    self.assertEqual(tuple(sorted(part) for part in result), expected)
+                    has_costs = bool(costs.size)
+                    self.assertEqual(metric.call_count, int(has_costs))
+                    self.assertEqual(lap_solver.call_count, int(name == 'lapx' and has_costs))
+                    self.assertEqual(fallback.call_count, int(name != 'lapx' and has_costs))
+
+    def test_deepsort_assignment_preserves_precision_and_index_mapping(self):
+        assignment = self.load_deepsort_assignment()
+        costs = np.array([[1., 1. + 1e-9, 3.], [1., 1., 3.]])
+        for backend in (assignment.lap, None):
+            with self.subTest(backend=backend), patch.object(assignment, 'lap', backend):
+                result = assignment.min_cost_matching(
+                    Mock(return_value=costs.copy()), 2., [None] * 5, [None] * 9,
+                    track_indices=[4, 2], detection_indices=[8, 1, 6])
+                self.assertEqual(result, ([(4, 8), (2, 1)], [], [6]))
+
+    def test_deepsort_invalid_costs_use_scipy_validation(self):
+        assignment = self.load_deepsort_assignment()
+        backend = SimpleNamespace(lapjvxa=Mock())
+        for invalid in (np.nan, -np.inf):
+            with self.subTest(cost=invalid), patch.object(assignment, 'lap', backend), \
+                    patch.object(assignment, 'linear_sum_assignment',
+                                 wraps=assignment.linear_sum_assignment) as fallback:
+                with self.assertRaises(ValueError):
+                    assignment.min_cost_matching(
+                        Mock(return_value=np.array([[invalid]])), .5, [None], [None])
+                fallback.assert_called_once()
+        backend.lapjvxa.assert_not_called()
 
     def test_gt_mode_setter_order_and_override(self):
         with tempfile.TemporaryDirectory() as directory:
