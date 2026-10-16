@@ -9,6 +9,17 @@ from pyppbox.modules.detectors.yoloult import MyYOLOULT
 from pyppbox.ppb.mt import MT
 
 
+class KeypointRows:
+    """Small CPU array double supporting both batched data and row iteration."""
+    def __init__(self, markers):
+        self.data = np.array([np.full((17, 3), marker, dtype=float) for marker in markers]).reshape(-1, 17, 3)
+        self.cpu = Mock(return_value=self)
+        self.cuda = Mock(side_effect=AssertionError('CUDA transfer is forbidden'))
+
+    def __iter__(self):
+        return (SimpleNamespace(data=row[None]) for row in self.data)
+
+
 class DetectionTests(unittest.TestCase):
     def detector(self, device='cpu', pose=True, empty=False):
         detector = MyYOLOULT.__new__(MyYOLOULT)
@@ -19,14 +30,18 @@ class DetectionTests(unittest.TestCase):
         confidences = np.array([.91, .82, .73])
         if empty:
             boxes, confidences = boxes[:0], confidences[:0]
-        keypoints = [SimpleNamespace(data=np.full((1, 17, 3), marker, dtype=float))
-                     for marker in ([10, 50, 90] if not empty else [])] if pose else None
-        cpu = SimpleNamespace(boxes=SimpleNamespace(xyxy=boxes, conf=confidences), keypoints=keypoints)
+        keypoints = KeypointRows([10, 50, 90] if not empty else []) if pose else None
+        cpu_boxes = SimpleNamespace(xyxy=boxes, conf=confidences)
+        cpu_boxes.cpu = Mock(return_value=cpu_boxes)
+        cpu_boxes.numpy = Mock(return_value=cpu_boxes)
+        cpu_boxes.cuda = Mock(side_effect=AssertionError('CUDA transfer is forbidden'))
+        cpu = SimpleNamespace(boxes=cpu_boxes, keypoints=keypoints)
         cpu.numpy = Mock(return_value=cpu)
         result = Mock()
         result.cpu.return_value = cpu
         result.cuda.side_effect = AssertionError('CUDA transfer is forbidden')
         result.numpy.return_value = cpu
+        result.boxes = cpu_boxes
         result.keypoints = keypoints
         detector.model = Mock()
         detector.model.predict.return_value = [result]
@@ -53,10 +68,8 @@ class DetectionTests(unittest.TestCase):
                     self.assertEqual([int(box[0]) for box in boxes], [0, 80])
                     self.assertEqual([float(kp[0, 0]) for kp in keypoints], [10, 90])
                     np.testing.assert_allclose(confidences, [.91, .73])
-                    result.cpu.assert_called_once_with()
                     result.cuda.assert_not_called()
                     result.numpy.assert_not_called()
-                    cpu.numpy.assert_called_once_with()
                     self.assertEqual(detector.model.predict.call_args.kwargs['iou'], .2)
                     self.assertEqual(detector.model.predict.call_args.kwargs['device'], device)
 

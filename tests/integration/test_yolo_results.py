@@ -14,7 +14,7 @@ from pyppbox.modules.detectors.yoloult import MyYOLOULT
 
 
 class RealResultsTests(unittest.TestCase):
-    def check_device(self, device):
+    def check_device(self, device, numpy_results=False):
         frame = np.zeros((60, 120, 3), dtype=np.uint8)
         for pose, empty in ((True, False), (False, False), (True, True), (False, True)):
             boxes = torch.tensor([[0, 0, 20, 40, .9, 0], [80, 0, 100, 40, .8, 0]], device=device)
@@ -24,6 +24,8 @@ class RealResultsTests(unittest.TestCase):
                 boxes, keypoints = boxes[:0], keypoints[:0]
             result = Results(frame, path='synthetic.png', names={0: 'person'}, boxes=boxes,
                              keypoints=keypoints if pose else None)
+            if numpy_results:
+                result = result.numpy()
             cfg = SimpleNamespace(imgsz=640, conf=.4, iou=.2, show_boxes=True,
                                   device=device, max_det=50, repspoint_calibration=.25,
                                   model_file='synthetic-pose.pt' if pose else 'synthetic.pt')
@@ -43,12 +45,18 @@ class RealResultsTests(unittest.TestCase):
                     self.assertTrue(all(isinstance(box, np.ndarray) for box in boxes_out))
                     if pose:
                         self.assertEqual([float(kp[0, 0]) for kp in keypoints_out], [] if empty else [10, 40])
-                        self.assertTrue(all(isinstance(kp, torch.Tensor) and kp.device.type == 'cpu'
-                                            for kp in keypoints_out))
+                        if numpy_results:
+                            self.assertTrue(all(isinstance(kp, np.ndarray) for kp in keypoints_out))
+                        else:
+                            self.assertTrue(all(isinstance(kp, torch.Tensor) and kp.device.type == 'cpu'
+                                                for kp in keypoints_out))
                     self.assertEqual(predictor.predict.call_args.kwargs['iou'], .2)
 
     def test_cpu_results(self):
         self.check_device('cpu')
+
+    def test_numpy_results(self):
+        self.check_device('cpu', numpy_results=True)
 
     @unittest.skipUnless(torch.cuda.is_available(), 'CUDA device unavailable')
     def test_cuda_results(self):
