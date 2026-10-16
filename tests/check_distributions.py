@@ -31,7 +31,7 @@ def check_distributions(directory):
 
             assert not any('plans' in PurePosixPath(name).parts for name in names), artifact
             for required in ('pyppbox/config/cfg/main.yaml', 'pyppbox/config/torchreidmodels.py',
-                             'pyppbox/config/validation.py',
+                             'pyppbox/config/validation.py', 'pyppbox/utils/batching.py',
                              'pyppbox/modules/reiders/torchreid/model_dict.py', 'pyppbox/ppb/mt.py',
                              'pyppbox/modules/detectors/rfdetr/__init__.py'):
                 find_file(required)

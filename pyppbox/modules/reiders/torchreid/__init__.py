@@ -8,6 +8,7 @@ from sklearn.svm import SVC
 
 from pyppbox.utils.commontools import getFileName
 from pyppbox.utils.logtools import add_info_log
+from pyppbox.utils.batching import _batch_size, _batches
 
 from .utils import deepreid_extractor, get_dataset, get_image_paths_and_labels
 
@@ -153,6 +154,73 @@ class MyTorchreid(object):
         """
         img = cv2.imread(img_path)
         return self.recognize(img)
+
+    def recognize_batch(self, images, is_bgr=True, batch_size=16):
+        """Recognize cropped people in bounded, ordered inference batches.
+
+        Parameters
+        ----------
+        images : object
+            Iterable of nonempty three-channel image arrays, in result order.
+            May be a generator.
+            Initialize the classifier first, as for recognize(). Each image receives
+            the same BGR conversion and extractor preprocessing as the scalar path.
+        is_bgr : bool
+            Defaults to True. False means the supplied crops are already RGB.
+        batch_size : int
+            Positive maximum crops per extractor/classifier call; defaults to 16.
+            A value of one, or a final singleton, uses scalar recognize(). Only one
+            chunk of temporary images/features is prepared at a time.
+
+        Returns
+        -------
+        list[tuple[str, float]]
+            One identity/confidence pair per input, in order. Confidence remains on
+            the 0-100 scale, including unknown results. Empty input returns [].
+
+        Notes
+        -----
+        Batch arithmetic can slightly change confidence values. Results within 0.1
+        percentage points of the configured threshold, or with a winner margin at
+        most 0.2 points, are rechecked using scalar recognition. This protects nearby
+        decisions; it is not a universal numerical-error bound for custom models.
+        Invalid images, backend errors, or inconsistent outputs raise without a
+        partial result. The pipeline handles those failures per person. Result-list
+        storage grows with input length; temporary inference storage is chunk-bounded.
+        """
+        if getattr(self, '_closed', False):
+            raise RuntimeError('This reider is closed; create a new instance.')
+        size = _batch_size(batch_size)
+        results = []
+        for chunk in _batches(images, size):
+            if len(chunk) == 1:
+                results.append(self.recognize(chunk[0], is_bgr=is_bgr))
+                chunk.clear()
+                continue
+            prepared = [self.prepare_image(image, is_bgr=is_bgr) for image in chunk]
+            embeddings = self.extractor(prepared).cpu().numpy()
+            if embeddings.ndim != 2 or embeddings.shape[0] != len(chunk):
+                raise ValueError('Torchreid returned an inconsistent embedding batch.')
+            probabilities = np.asarray(self.model.predict_proba(embeddings))
+            if (probabilities.shape != (len(chunk), len(self.class_names)) or
+                    not len(self.class_names) or not np.isfinite(probabilities).all()):
+                raise ValueError('Torchreid classifier returned an inconsistent probability batch.')
+            winners = probabilities.argmax(axis=1)
+            for row, (image, column) in enumerate(zip(chunk, winners)):
+                confidence = float(probabilities[row, column] * 100)
+                if len(self.class_names) > 1:
+                    highest = np.partition(probabilities[row], -2)[-2:]
+                    gap = float((highest.max() - highest.min()) * 100)
+                else:
+                    gap = float('inf')
+                if abs(confidence - self.min_confidence) <= 0.1 or gap <= 0.2:
+                    results.append(self.recognize(image, is_bgr=is_bgr))
+                else:
+                    identity = self.unk if confidence < self.min_confidence else self.class_names[column]
+                    results.append((identity, confidence))
+            chunk.clear()
+            del prepared, embeddings, probabilities, winners
+        return results
 
     def prepare_image(self, img, is_bgr=True):
         """

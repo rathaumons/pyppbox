@@ -69,6 +69,46 @@ written by the existing training code; they are not part of a pipeline-state
 transaction. FaceNet training sessions are closed on completion or failure, and
 failed classifier reloads retain the prior working classifier/session.
 
+Opt-in Torchreid inference batches
+----------------------------------
+
+``reidPeople()`` retains scalar inference by default. For a Torchreid pipeline,
+enable bounded batches per call::
+
+    people, counts = pipeline.reidPeople(
+        frame, people, img_is_mat=True, batch_size=8
+    )
+
+The same keyword works through ``pyppbox.standalone.reidPeople()``. It is a positive
+integer maximum per model/classifier call, not a minimum or an across-frame queue.
+Only the current chunk's crops are prepared; no frames are delayed or dropped.
+No YAML changes are required. Existing configurations, scalar ``recognize()``, and
+FaceNet inference/training settings retain their behavior. The option applies to
+Torchreid; other reiders continue their existing scalar processing.
+
+Known identities are retained during the normal pass. Duplicate groups are processed
+in their original order, including identities moved into a later group by an earlier
+recognition. ReID counts remain completed person recognitions for the initial and
+duplicate passes, including unknown/error-ID results. Batch calls, numerical decision
+rechecks, and retries do not inflate those counts. Invalid crops or failed scalar
+recognition do not count. A failed batch retries its people individually. Repeated
+references to one Person object use the scalar path to retain mutation order.
+
+Batch floating-point arithmetic can slightly change confidence values. Results near
+the configured threshold or with nearly tied winning classes are rechecked using
+scalar inference (0.1 percentage points around the threshold; 0.2 points between
+the top two classes). These guards protect nearby decisions but are not a universal
+error bound for custom models/devices. Validate identity, confidence, and count
+equivalence for your models before enabling batches. Keep ``batch_size=1`` when
+requiring the original scalar execution. Speed and temporary memory depend on the
+device, model, person count, and selected limit; larger batches are not always faster.
+
+Direct reider users can call ``MyTorchreid.recognize_batch(images, batch_size=8)``.
+It accepts an iterable, processes bounded chunks, and returns identity/confidence
+pairs in input order. Confidence stays on the 0-100 scale. Unlike the pipeline,
+the direct method propagates errors without returning a partial result. It retains
+the complete returned result list; its temporary inference inputs are chunk-bounded.
+
 pyppbox.standalone
 ------------------
 

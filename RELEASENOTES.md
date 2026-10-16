@@ -23,6 +23,8 @@
   - Add pipeline close/context-manager support and stream reset while retaining loaded models; release owned TensorFlow sessions and tracking metadata
   - Construct replacement stages before publishing them, retaining the working pipeline on initialization failure and cleaning up unsuccessful candidates
   - Preserve working FaceNet sessions/classifiers on failed reloads, close training sessions on success or failure, and avoid constructing the training reider twice
+  - Add bounded, opt-in Torchreid inference batches through `reidPeople(batch_size=...)` and direct `recognize_batch()`, retaining scalar defaults and existing configs
+  - Preserve per-person ReID counts, crop preprocessing, and duplicate-group order; retry failed batches per person and recheck numerically close identity decisions using scalar inference
 
 ## **pyppbox V3 - Make Simpler and Faster**
 

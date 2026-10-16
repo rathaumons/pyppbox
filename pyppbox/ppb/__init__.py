@@ -133,9 +133,10 @@ def setMainReIDer(reider="", auto_load=True):
     """See :func:`pyppbox.ppb.mt.MT.setMainReIDer`"""
     _get_mt().setMainReIDer(reider=reider, auto_load=auto_load)
 
-def reidPeople(img, people, deduplicate=True, img_is_mat=False):
+def reidPeople(img, people, deduplicate=True, img_is_mat=False, *, batch_size=1):
     """See :func:`pyppbox.ppb.mt.MT.reidPeople`"""
-    return _get_mt().reidPeople(img, people, deduplicate=deduplicate, img_is_mat=img_is_mat)
+    return _get_mt().reidPeople(img, people, deduplicate=deduplicate, img_is_mat=img_is_mat,
+                                batch_size=batch_size)
 
 def trainReIDClassifier(reider="", train_data="", classifier_pkl=""):
     """See :func:`pyppbox.ppb.mt.MT.trainReIDClassifier`"""

@@ -25,6 +25,7 @@ from pyppbox.utils.persontools import Person
 from pyppbox.utils.gttools import GTInterpreter
 from pyppbox.utils.evatools import NothingDetecter, NothingTracker, NothingReider, TKOReider
 from pyppbox.utils.commontools import getAbsPathFDS, isExist, getCVMat, getAncestorDir
+from pyppbox.utils.batching import _batch_size, _batches
 
 
 __none_cfg__ = NoneCFG("Fiat Moneey")
@@ -712,7 +713,7 @@ class MT(object):
         self._replace_stage('ri', reider, auto_load=auto_load)
 
 
-    def reidPeople(self, img, people, deduplicate=True, img_is_mat=False):
+    def reidPeople(self, img, people, deduplicate=True, img_is_mat=False, *, batch_size=1):
         """Update unknown/error identities using the active reider.
 
         Parameters
@@ -727,6 +728,10 @@ class MT(object):
             does not remove people or guarantee that the final identities are unique.
         img_is_mat : bool
             Defaults to ``False``. If True, use the array without image-helper conversion.
+        batch_size : int
+            Defaults to one, retaining scalar behavior. Values above one opt into
+            bounded Torchreid inference batches. This call-time option does not
+            change YAML files or FaceNet's scalar inference/training settings.
 
         Returns
         -------
@@ -734,7 +739,7 @@ class MT(object):
             People with updated identity and confidence fields. Empty when the input
             list is empty or no reider has been initialized.
         tuple[int, int]
-            Counts of completed initial and duplicate recognition calls, including
+            Counts of completed initial and duplicate person recognitions, including
             unknown/error-ID results. Calls raising exceptions are not counted.
             Both counts are zero for a disabled reider.
 
@@ -753,8 +758,13 @@ class MT(object):
         Integer crop bounds are clipped to the image; malformed or entirely invisible
         crops are skipped without counting a recognition call. Valid crops keep the
         existing resizing/preprocessing. Recognition does not modify the input frame.
+        Opt-in Torchreid batches retain group order and per-person counts. Failed
+        batches retry scalar recognition per person. Aliased Person objects use the
+        scalar path. Floating-point confidence can vary; close decisions are rechecked
+        with scalar recognition. Batch calls/rechecks do not add to the counts.
         """
         self._ensure_open()
+        size = _batch_size(batch_size)
         res = []
         reid_count = [0, 0]
         if self.__ri_is_set__:
@@ -767,8 +777,14 @@ class MT(object):
                 if len(people) > 0:
                     if isinstance(people[0], Person):
                         if not img_is_mat: img = getCVMat(img)
-                        res, reid_count[0] = self.__reidNormal__(img, people)
-                        if deduplicate: res, reid_count[1] = self.__reidDupkiller__(img, res)
+                        if (size > 1 and self.__ri_cfg__.ri_name.lower() == self.__unistrings__.torchreid
+                                and len({id(person) for person in people}) == len(people)):
+                            res, reid_count[0] = self._reid_deep_batch(img, people, size)
+                            if deduplicate:
+                                res, reid_count[1] = self._reid_deep_batch_duplicates(img, res, size)
+                        else:
+                            res, reid_count[0] = self.__reidNormal__(img, people)
+                            if deduplicate: res, reid_count[1] = self.__reidDupkiller__(img, res)
                     else:
                         msg = "PYPPBOX : reidPeople() -> Input 'people' has unsupported element."
                         add_error_log(msg)
@@ -825,6 +841,61 @@ class MT(object):
             self.__deepidlistTMP__.append(people[index].deepid)
             index += 1
         return people, reid_count
+
+    def _deep_batch_jobs(self, img, people, selected):
+        for index, person in enumerate(people):
+            if selected(person.deepid):
+                try:
+                    crop = cv2.resize(_crop_reid_image(img, person.box_xyxy), self.__ri_cfg__.model_wh)
+                except Exception as error:
+                    add_warning_log(f'---PYPPBOX : Torchreid crop skipped: {error}')
+                    continue
+                yield index, crop
+
+    def _run_deep_batches(self, people, jobs, size):
+        completed = 0
+        for chunk in _batches(jobs, size):
+            results = None
+            try:
+                results = self.__ri__.recognize_batch([crop for _, crop in chunk],
+                                                     is_bgr=True, batch_size=size)
+                if len(results) != len(chunk) or any(len(result) != 2 for result in results):
+                    raise ValueError('Torchreid returned an inconsistent recognition batch.')
+            except Exception as error:
+                # Leave the exception scope before retrying, releasing its inference
+                # traceback/temporary tensor references (including failed CUDA batches).
+                results = None
+                add_warning_log(f'---PYPPBOX : Torchreid batch failed; retrying per person: {error}')
+            if results is None:
+                for index, crop in chunk:
+                    try:
+                        people[index].deepid, people[index].deepid_conf = self.__ri__.recognize(crop, is_bgr=True)
+                        completed += 1
+                    except Exception as error:
+                        add_warning_log(f'---PYPPBOX : Torchreid recognition skipped: {error}')
+            else:
+                for (index, _), (identity, confidence) in zip(chunk, results):
+                    people[index].deepid, people[index].deepid_conf = identity, confidence
+                    completed += 1
+            chunk.clear()
+        return completed
+
+    def _reid_deep_batch(self, img, people, size):
+        jobs = self._deep_batch_jobs(img, people, lambda value:
+            self.__unistrings__.err_did in value or self.__unistrings__.unk_did in value)
+        completed = self._run_deep_batches(people, jobs, size)
+        self.__deepidlistTMP__ = [person.deepid for person in people]
+        return people, completed
+
+    def _reid_deep_batch_duplicates(self, img, people, size):
+        completed = 0
+        duplicate_ids = [identity for identity, count in Counter(self.__deepidlistTMP__).items() if count > 1]
+        # Build each group's jobs only after the preceding group has completed.
+        # Earlier re-recognition can move a person into a later duplicate group.
+        for identity in duplicate_ids:
+            jobs = self._deep_batch_jobs(img, people, lambda value: value == identity)
+            completed += self._run_deep_batches(people, jobs, size)
+        return people, completed
 
     def __reidDupDeepkiller__(self, img, people):
         reid_count = 0
