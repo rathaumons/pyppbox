@@ -25,6 +25,8 @@
   - Preserve working FaceNet sessions/classifiers on failed reloads, close training sessions on success or failure, and avoid constructing the training reider twice
   - Add bounded, opt-in Torchreid inference batches through `reidPeople(batch_size=...)` and direct `recognize_batch()`, retaining scalar defaults and existing configs
   - Preserve per-person ReID counts, crop preprocessing, and duplicate-group order; retry failed batches per person and recheck numerically close identity decisions using scalar inference
+  - Use the named pyppbox logger without configuring application root logging; open unique user log files lazily and tolerate log I/O failures
+  - Isolate GUI launch handoffs per session, store remembered state outside the package with atomic writes, and retain read-only legacy-state readers without changing YAML configs
 
 ## **pyppbox V3 - Make Simpler and Faster**
 

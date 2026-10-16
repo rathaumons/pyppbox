@@ -8,7 +8,7 @@ import subprocess as sp
 from pyppbox.utils.logtools import add_info_log, add_warning_log, add_error_log, get_env
 from pyppbox.config.configtools import PYPPBOXStructure, loadDocument, loadDocumentList
 from pyppbox.utils.commontools import getAbsPathFDS, joinFPathFull, isExist
-from pyppbox.gui.guihub import writeUITMP
+from pyppbox.gui.guihub import _gui_session
 
 current_dir = os.path.dirname(__file__)
 pyppbox_struct = PYPPBOXStructure()
@@ -93,13 +93,27 @@ def resetInternalConfig():
 def launchGUI():
     """Launch the GUI in a child Python process and wait for it to close.
 
-    Write the selected GUI config directory to the GUI state file and pass the
-    current process environment to the child. Returns None; no child exit code is
+    Give each launch its own writable state directory, pass the current environment
+    plus its session path to the child, and remove owned state after the child exits.
+    Config directories/formats are unchanged. Returns None; no child exit code is
     returned. This does not initialize the standalone pipeline in the calling process.
     """
-    writeUITMP(__cfgdir__)
-    p = sp.Popen([sys.executable, os.path.join(current_dir, 'ui_launcher.py')], env=get_env())
-    p.wait()
+    with _gui_session(__cfgdir__, env=get_env()) as child_env:
+        p = sp.Popen([sys.executable, os.path.join(current_dir, 'ui_launcher.py')], env=child_env)
+        try:
+            p.wait()
+        except BaseException:
+            # Do not remove the handoff while the directly owned launcher runs.
+            try:
+                p.terminate()
+                try:
+                    p.wait(timeout=5)
+                except sp.TimeoutExpired:
+                    p.kill()
+                    p.wait(timeout=5)
+            except (OSError, sp.TimeoutExpired):
+                pass
+            raise
 
 def generateConfig(cfg_dir, auto_launch_gui=True):
     """Extract the selected GUI config archive into an existing directory.

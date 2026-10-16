@@ -22,7 +22,7 @@ from ui_deepsort import Ui_DeepSORT
 from ui_facenet import Ui_FaceNet
 from ui_torchreid import Ui_Torchreid
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
-from pyppbox.gui.guihub import loadUITMP, loadInputTMP, writeInputTMP
+from pyppbox.gui.guihub import loadUITMP, loadInputTMP, writeInputTMP, _gui_session
 from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, joinFPathFull, 
                                        getBool, getGlobalRootDir, getAncestorDir, getVersionString)
 
@@ -340,11 +340,15 @@ class Ui_PYPPBOXLauncher(object):
             self.input_video_file_lineEdit.setText(source_file)
 
     def launchNow(self):
-        self.updateMCFG(self.detector_comboBox.currentText(), 
-                        self.tracker_comboBox.currentText(), 
-                        self.reider_comboBox.currentText(), 
-                        self.input_video_file_lineEdit.text(), 
-                        self.input_force_hd_comboBox.currentText())
+        try:
+            self.updateMCFG(self.detector_comboBox.currentText(),
+                            self.tracker_comboBox.currentText(),
+                            self.reider_comboBox.currentText(),
+                            self.input_video_file_lineEdit.text(),
+                            self.input_force_hd_comboBox.currentText())
+        except (OSError, ValueError) as error:
+            QtWidgets.QMessageBox.critical(launcher, 'Cannot save launch settings', str(error))
+            return
         
         launcher.hide()
         error_output = ''
@@ -471,16 +475,16 @@ if __name__ == "__main__":
     cfg_dir = args.cfgdir
     '''
     
-    # Option 1: Use ui.tmp file
-    cfg_dir = loadUITMP()
-    cfg_mode = 0
-    if cfg_dir != None:
-        cfg_mode = 1
+    # API launches inherit an owned session; direct script launches create one.
+    with _gui_session(env=get_env(), reuse=True) as child_env:
+        os.environ['PYPPBOX_GUI_SESSION_DIR'] = child_env['PYPPBOX_GUI_SESSION_DIR']
+        cfg_dir = loadUITMP()
+        cfg_mode = 0 if cfg_dir is None else 1
 
-    app = QtWidgets.QApplication(sys.argv)
-    launcher = QtWidgets.QMainWindow()
-    launcher.setWindowIcon(QtGui.QIcon(joinFPathFull(current_dir, "assets/settings.ico")))
-    ui = Ui_PYPPBOXLauncher(cfg_mode=cfg_mode, cfg_dir=cfg_dir)
-    ui.setupUi(launcher)
-    launcher.show()
-    sys.exit(app.exec())
+        app = QtWidgets.QApplication(sys.argv)
+        launcher = QtWidgets.QMainWindow()
+        launcher.setWindowIcon(QtGui.QIcon(joinFPathFull(current_dir, "assets/settings.ico")))
+        ui = Ui_PYPPBOXLauncher(cfg_mode=cfg_mode, cfg_dir=cfg_dir)
+        ui.setupUi(launcher)
+        launcher.show()
+        sys.exit(app.exec())

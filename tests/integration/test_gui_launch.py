@@ -44,6 +44,17 @@ class GUILaunchTests(unittest.TestCase):
             window.show.assert_called_once()
             message.assert_not_called()
 
+    def test_state_or_config_save_failure_is_visible_without_starting_demo(self):
+        ui = self.launcher()
+        ui.updateMCFG.side_effect = OSError('Settings directory is read-only')
+        with patch.object(launcher_module, 'launcher', create=True) as window, \
+             patch.object(launcher_module.sp, 'Popen') as popen, \
+             patch.object(launcher_module.QtWidgets, 'QMessageBox') as message:
+            ui.launchNow()
+            window.hide.assert_not_called(); popen.assert_not_called()
+            message.critical.assert_called_once_with(window, 'Cannot save launch settings',
+                                                     'Settings directory is read-only')
+
     def test_process_start_failure_restores_launcher_and_shows_error(self):
         ui = self.launcher()
         with patch.object(launcher_module, 'launcher', create=True) as window, \

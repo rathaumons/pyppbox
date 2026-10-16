@@ -11,6 +11,7 @@ import yaml
 from .unifiedstrings import UnifiedStrings
 from pyppbox.utils.commontools import joinFPathFull, getAbsPathFDS, getGlobalRootDir, isExist
 from pyppbox.utils.logtools import add_warning_log, add_error_log
+from pyppbox.utils.runtime import get_gui_state_dir
 
 
 internal_root_dir = getGlobalRootDir()
@@ -36,7 +37,8 @@ class PYPPBOXStructure(object):
         Path of GUI's root directory.
     gui_tmp_dir : str
         Set automatically.
-        Path of GUI's tmp directory.
+        Writable active-session or remembered user GUI state directory. Installed
+        gui/tmp files are read-only compatibility defaults, not the write target.
     data_dir : str
         Set automatically.
         Internal path of pyppbox's data directory.
@@ -94,7 +96,7 @@ class PYPPBOXStructure(object):
         """
         # GUI 
         self.gui_root = joinFPathFull(self.internal_root_dir, 'gui')
-        self.gui_tmp_dir = joinFPathFull(self.gui_root, 'tmp')
+        self.gui_tmp_dir = get_gui_state_dir().replace(os.sep, '/')
         # Dataset
         self.data_dir = joinFPathFull(self.internal_root_dir, 'data')
         self.dataset_dir = joinFPathFull(self.data_dir, 'datasets/GTA_V_DATASET')

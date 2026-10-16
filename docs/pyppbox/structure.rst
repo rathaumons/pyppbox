@@ -72,7 +72,7 @@ Data: ``pyppbox-data`` and ``pyppbox-data-gta5``
        │       │       *.csv  ............  Ground-truth  .csv file
        │       └───videos
        │               *.mp4
-       ├───logs  .........................  Log directory, part of pyppbox-data module
+       ├───logs  .........................  Legacy logs, retained for compatibility
        ├───modules  ......................  Data directory, part of pyppbox-data module
        │   ├───deepsort  .................  Directory, consists of all data for DeepSORT
        │   │       mars-small128.pb
@@ -102,3 +102,12 @@ Data: ``pyppbox-data`` and ``pyppbox-data-gta5``
        │   └───yolo_ultralytics  .........  Directory, consists of all data for YOLO_Ultralytics
        │           *.pt
        └───res
+
+Mutable runtime files
+---------------------
+
+New logs and GUI state are written outside the installed package, under the
+per-user directory described in :doc:`utils`. Set ``PYPPBOX_RUNTIME_DIR`` to choose
+another writable location. GUI launch handoffs are isolated per launch; installed
+``gui/tmp`` files serve only as legacy defaults. Configuration, asset, and explicit
+result-export paths retain their existing behavior.
