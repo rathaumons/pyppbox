@@ -115,6 +115,8 @@ class ResIO(object):
         the path is reported through logging. The directory must already exist; a
         missing requested directory falls back to the package's ``data/res`` directory.
         People are sorted by representative-point x within each consecutive frame group.
+        Frame indexes must be nondecreasing and ``frames``/``people`` must have equal
+        lengths; invalid ordering or alignment raises ValueError before writing.
         Stored records are retained after writing. Calls within the same timestamp
         second can overwrite the same output file.
         """
@@ -194,6 +196,8 @@ class ResIO(object):
         the path is reported through logging. The directory must already exist; a
         missing requested directory falls back to the package's ``data/res`` directory.
         People are sorted by representative-point x within each consecutive frame group.
+        Frame indexes must be nondecreasing and ``frames``/``people`` must have equal
+        lengths; invalid ordering or alignment raises ValueError before writing.
         Stored records are retained after writing. Calls within the same timestamp
         second can overwrite the same output file.
         """
@@ -235,28 +239,24 @@ class ResIO(object):
         return dump_file_name
 
     def __sort_people_by_x__(self):
-        self.sorted_people = []
+        if len(self.frames) != len(self.people):
+            raise ValueError('RESIO : frames and people must have the same length.')
+        sorted_people = []
         tmp_x = []
         tmp_pp = []
-        len_frames = len(self.frames)
-        if len_frames > 0:
-            current_frame = int(self.frames[0])
-            previous_frame = int(self.frames[0])
-            for frame, person in zip(self.frames, self.people):
-                (x, _) = person.repspoint
-                current_frame = int(frame)
-                if current_frame == previous_frame:
-                    tmp_pp.append(person)
-                    tmp_x.append(x)
-                elif current_frame > previous_frame:
-                    previous_frame = current_frame
-                    sorted_idx = np.argsort(tmp_x)
-                    tmp_pp_np = np.array(tmp_pp)[sorted_idx]
-                    self.sorted_people = self.sorted_people + tmp_pp_np.tolist()
-                    tmp_pp = []
-                    tmp_x = []
-                    tmp_pp.append(person)
-                    tmp_x.append(x)
-            sorted_idx = np.argsort(tmp_x)
-            tmp_pp_np = np.array(tmp_pp)[sorted_idx]
-            self.sorted_people = self.sorted_people + tmp_pp_np.tolist()
+        previous_frame = None
+        for frame, person in zip(self.frames, self.people):
+            (x, _) = person.repspoint
+            current_frame = int(frame)
+            if previous_frame is not None and current_frame < previous_frame:
+                raise ValueError('RESIO : frame indexes must be in nondecreasing order.')
+            if tmp_pp and current_frame != previous_frame:
+                sorted_people.extend(tmp_pp[i] for i in np.argsort(tmp_x))
+                tmp_pp = []
+                tmp_x = []
+            tmp_pp.append(person)
+            tmp_x.append(x)
+            previous_frame = current_frame
+        if tmp_pp:
+            sorted_people.extend(tmp_pp[i] for i in np.argsort(tmp_x))
+        self.sorted_people = sorted_people

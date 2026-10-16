@@ -196,7 +196,8 @@ class GTInterpreter(object):
         Row groups returned by ``GTIO.loadGT()``. Frame IDs and points are parsed;
         identities and box columns remain strings until ``getPeople()`` converts them.
     gt_frames_list : list[int, ...]
-        A list of frame indexes of GT (Ground-truth).
+        Loaded GT frame indexes. Use ``setGT()`` to replace frame membership;
+        rows in ``gt_frames`` remain available by reference.
     """
 
     def __init__(self):
@@ -256,10 +257,14 @@ class GTInterpreter(object):
         Returns None. This does not reset ``current_frame``. Set that cursor explicitly
         when reusing an interpreter, or to ``init_frame`` to start at a nonzero first GT frame.
         """
-        (self.gt_frames, 
-         self.gt_frames_list, 
-         self.total_detections, 
-         self.init_frame) = self.gtIO.loadGT(gt_file_txt=gt_file_txt)
+        frames, frame_ids, total, initial = self.gtIO.loadGT(gt_file_txt=gt_file_txt)
+        positions = {}
+        for position, frame in enumerate(frame_ids):
+            # Match list.index(): retain the first group if IDs are repeated.
+            positions.setdefault(frame, position)
+        self.gt_frames, self.gt_frames_list = frames, frame_ids
+        self.total_detections, self.init_frame = total, initial
+        self._gt_frame_positions = positions
 
     def findGTFrame(self, frame_index):
         """Find raw GT rows for an integer frame index without advancing the cursor.
@@ -274,12 +279,19 @@ class GTInterpreter(object):
         list[list]
             The stored row group, or an empty list if the frame is absent. Rows are
             not copied; box columns remain text as returned by ``GTIO.loadGT()``.
+
+        Notes
+        -----
+        ``setGT()`` builds the frame index once per load. Lookup does not advance
+        ``current_frame`` or copy row groups; edits to a stored group remain visible.
         """
-        gt_frame = []
-        if int(frame_index) in self.gt_frames_list:
-            found_index = self.gt_frames_list.index(frame_index)
-            gt_frame = self.gt_frames[found_index]
-        return gt_frame
+        position = self._gt_frame_positions.get(int(frame_index))
+        if position is None:
+            return []
+        # Preserve the old integer-membership/exact-equality input semantics.
+        if self.gt_frames_list[position] != frame_index:
+            raise ValueError(f'{frame_index!r} is not in list')
+        return self.gt_frames[position]
 
     def getPeople(self, img, visual=False):
         """Convert the current GT frame to people and advance the cursor by one.

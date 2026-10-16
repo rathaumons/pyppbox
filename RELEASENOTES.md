@@ -10,6 +10,8 @@
   - Reduce ReID crop allocations: resize body regions directly and copy only face regions in both normal and duplicate recognition passes
   - Clip ReID crop bounds to the frame; skip malformed or entirely invisible regions while retaining the person's existing identity and confidence
   - Add a reproducible ReID crop benchmark with output fingerprints, latency samples, and allocation measurements
+  - Index loaded GT frames for direct lookup while retaining row references and refreshing the index on reload
+  - Avoid rebuilding the accumulated result list during frame-local sorting; reject out-of-order or misaligned result records before writing
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
