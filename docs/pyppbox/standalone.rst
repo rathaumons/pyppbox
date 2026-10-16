@@ -7,6 +7,12 @@ The functions in ``pyppbox.standalone`` share one pipeline instance. Use them fo
 a single stream. For independent streams, create one :class:`pyppbox.ppb.mt.MT`
 instance per stream. Both ``pyppbox.standalone`` and ``pyppbox.ppb`` remain supported.
 
+Importing the facade functions defers pipeline imports and shared-instance
+construction until the first function call. That first call pays the deferred
+setup cost. Importing ``MT`` explicitly loads the class for direct construction;
+each ``MT()`` instance remains independent of the shared facade state.
+Wildcard imports include ``MT`` and therefore also load the pipeline class.
+
 pyppbox.standalone
 ------------------
 

@@ -28,6 +28,15 @@ quoted ``"True"``/``"False"`` values for that field. Config saves preserve gener
 string values and replace each file atomically; saving several files is not a single
 transaction.
 
+Torchreid model metadata
+------------------------
+
+Configuration loading and the Torchreid settings panel read the model catalog
+through ``pyppbox.config.torchreidmodels`` without importing the ReID runtime
+package. The catalog YAML file, custom catalog paths, filename matching, and
+image dimensions retain their existing behavior. Imports from
+``pyppbox.modules.reiders.torchreid.model_dict`` remain supported.
+
 pyppbox.gui.guitools
 --------------------
 
@@ -56,6 +65,14 @@ pyppbox.config.unifiedstrings
 -----------------------------
 
 .. automodule:: pyppbox.config.unifiedstrings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyppbox.config.torchreidmodels
+------------------------------
+
+.. automodule:: pyppbox.config.torchreidmodels
    :members:
    :undoc-members:
    :show-inheritance:

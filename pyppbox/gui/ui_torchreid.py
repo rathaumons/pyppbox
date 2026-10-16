@@ -5,7 +5,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from pyppbox.gui.numericwidgets import FloatSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
-from pyppbox.modules.reiders.torchreid.model_dict import TorchreidModelDict
+from pyppbox.config.torchreidmodels import TorchreidModelDict
 from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, getFileName, getGlobalRootDir, getAncestorDir, joinFPathFull, getInt)
 
 

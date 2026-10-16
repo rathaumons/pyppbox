@@ -1102,7 +1102,7 @@ class RCFGTorchreid(BaseCGF):
         super().loadDoc(input)
         if self.config:
             try:
-                from pyppbox.modules.reiders.torchreid.model_dict import TorchreidModelDict
+                from .torchreidmodels import TorchreidModelDict
                 self.ri_name = self.unified_strings.getUnifiedFormat(self.config['ri_name'])
                 self.classifier_pkl = getAdaptiveAbsPathFDS(self.from_dir, self.config['classifier_pkl'])
                 self.train_data = getAdaptiveAbsPathFDS(self.from_dir, self.config['train_data'])

@@ -15,6 +15,8 @@
   - Share YOLO prediction, conversion, filtering, and drawing paths while preserving detection order and box/pose/confidence alignment; transfer only the result fields in use
   - Initialize YOLO pose drawing from model task metadata, including custom checkpoint names, with the legacy filename fallback retained
   - Use indexed DeepSORT metadata lookup and carry actual detection associations through NMS; prevent repeated boxes or unmatched predicted tracks from overwriting another person's ID and metadata
+  - Read Torchreid configuration/model metadata without importing its runtime package, retaining the legacy catalog imports and YAML format
+  - Load SORT's plotting/image dependencies only for its display demo; defer standalone pipeline imports and shared-instance creation until first use
 
 ## **pyppbox V3 - Make Simpler and Faster**
 

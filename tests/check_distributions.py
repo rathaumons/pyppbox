@@ -30,7 +30,9 @@ def check_distributions(directory):
                 return matches[0]
 
             assert not any('plans' in PurePosixPath(name).parts for name in names), artifact
-            for required in ('pyppbox/config/cfg/main.yaml', 'pyppbox/ppb/mt.py', 'pyppbox/modules/detectors/rfdetr/__init__.py'):
+            for required in ('pyppbox/config/cfg/main.yaml', 'pyppbox/config/torchreidmodels.py',
+                             'pyppbox/modules/reiders/torchreid/model_dict.py', 'pyppbox/ppb/mt.py',
+                             'pyppbox/modules/detectors/rfdetr/__init__.py'):
                 find_file(required)
 
             # Check complete license/notice contents, not just their filenames.

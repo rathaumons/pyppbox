@@ -49,33 +49,57 @@ Example:
 """
 
 
-from .mt import MT
+from threading import Lock
 
-_mt = MT()
+_mt = None
+_mt_lock = Lock()
+
+
+def _get_mt():
+    """Create the shared pipeline once, on its first facade call."""
+    global _mt
+    if _mt is None:
+        with _mt_lock:
+            if _mt is None:
+                from .mt import MT
+                _mt = MT()
+    return _mt
+
+
+def __getattr__(name):
+    if name == 'MT':
+        from .mt import MT
+        globals()['MT'] = MT
+        return MT
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
+def __dir__():
+    return sorted(set(globals()) | set(__all__))
 
 def setConfigDir(config_dir=None, load_all=False):
     """See :func:`pyppbox.ppb.mt.MT.setConfigDir`"""
-    _mt.setConfigDir(config_dir=config_dir, load_all=load_all)
+    _get_mt().setConfigDir(config_dir=config_dir, load_all=load_all)
 
 def setMainModules(main_yaml=None, load_all=True):
     """See :func:`pyppbox.ppb.mt.MT.setMainModules`"""
-    _mt.setMainModules(main_yaml=main_yaml, load_all=load_all)
+    _get_mt().setMainModules(main_yaml=main_yaml, load_all=load_all)
 
 def forceFullGTMode():
     """See :func:`pyppbox.ppb.mt.MT.forceFullGTMode`"""
-    _mt.forceFullGTMode()
+    _get_mt().forceFullGTMode()
 
 def setMainDetector(detector=""):
     """See :func:`pyppbox.ppb.mt.MT.setMainDetector`"""
-    _mt.setMainDetector(detector=detector)
+    _get_mt().setMainDetector(detector=detector)
 
 def getConfig():
     """See :func:`pyppbox.ppb.mt.MT.getConfig`"""
-    return _mt.getConfig()
+    return _get_mt().getConfig()
 
 def getMainConfig(current=True):
     """See :func:`pyppbox.ppb.mt.MT.getMainConfig`"""
-    return _mt.getMainConfig(current=current)
+    return _get_mt().getMainConfig(current=current)
 
 def detectPeople(
     img, 
@@ -88,7 +112,7 @@ def detectPeople(
     alt_repspoint_top=True
 ):
     """See :func:`pyppbox.ppb.mt.MT.detectPeople`"""
-    return _mt.detectPeople(img, 
+    return _get_mt().detectPeople(img,
                             img_is_mat=img_is_mat, 
                             visual=visual, 
                             save=save, 
@@ -99,23 +123,23 @@ def detectPeople(
 
 def setMainTracker(tracker=""):
     """See :func:`pyppbox.ppb.mt.MT.setMainTracker`"""
-    _mt.setMainTracker(tracker=tracker)
+    _get_mt().setMainTracker(tracker=tracker)
 
 def trackPeople(img, people, img_is_mat=False):
     """See :func:`pyppbox.ppb.mt.MT.trackPeople`"""
-    return _mt.trackPeople(img, people, img_is_mat=img_is_mat)
+    return _get_mt().trackPeople(img, people, img_is_mat=img_is_mat)
 
 def setMainReIDer(reider="", auto_load=True):
     """See :func:`pyppbox.ppb.mt.MT.setMainReIDer`"""
-    _mt.setMainReIDer(reider=reider, auto_load=auto_load)
+    _get_mt().setMainReIDer(reider=reider, auto_load=auto_load)
 
 def reidPeople(img, people, deduplicate=True, img_is_mat=False):
     """See :func:`pyppbox.ppb.mt.MT.reidPeople`"""
-    return _mt.reidPeople(img, people, deduplicate=deduplicate, img_is_mat=img_is_mat)
+    return _get_mt().reidPeople(img, people, deduplicate=deduplicate, img_is_mat=img_is_mat)
 
 def trainReIDClassifier(reider="", train_data="", classifier_pkl=""):
     """See :func:`pyppbox.ppb.mt.MT.trainReIDClassifier`"""
-    _mt.trainReIDClassifier(reider=reider, train_data=train_data, classifier_pkl=classifier_pkl)
+    _get_mt().trainReIDClassifier(reider=reider, train_data=train_data, classifier_pkl=classifier_pkl)
 
 __all__ = ['setConfigDir', 'setMainModules', 'forceFullGTMode', 'setMainDetector', 
            'getConfig', 'getMainConfig', 'detectPeople', 'setMainTracker', 'trackPeople', 
