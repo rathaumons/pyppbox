@@ -13,7 +13,7 @@ echo.
 pip uninstall -y pyppbox-ultralytics
 pip uninstall -y vsensebox-ultralytics
 pip uninstall -y ultralytics
-pip install --upgrade --no-deps --force-reinstall vsensebox-ultralytics
+pip install --upgrade "pyppbox-ultralytics>=8.4.144"
 echo.
 echo ################################################################
 echo #                            Done!                             #

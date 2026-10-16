@@ -7,7 +7,8 @@ The examples below will help you make the most use of **pyppbox**. Before you tr
 
 .. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
 
-Run scripts with the repository's ``examples/`` directory as the working directory.
+Run examples 1–14 with the repository's ``examples/`` directory as the working directory.
+The optional RF-DETR example 15 runs as a module from the repository root.
 Examples 3, 4, 5, 11, and 13 contain ``C:/pyppbox_v3/`` placeholders in their scripts
 or custom configs; replace these with your installed ``pyppbox`` directory. Find it
 with ``python -c "import os, pyppbox; print(os.path.dirname(pyppbox.__file__))"``.
@@ -29,6 +30,7 @@ with ``python -c "import os, pyppbox; print(os.path.dirname(pyppbox.__file__))"`
    examples/example_12
    examples/example_13
    examples/example_14
+   examples/example_15
 
 |
 

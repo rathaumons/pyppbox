@@ -2,11 +2,10 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.gui.numericwidgets import FloatSpinBox, IntSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
-from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, 
-                                       getGlobalRootDir, getAncestorDir, 
-                                       getFloat, getInt)
+from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, getGlobalRootDir, getAncestorDir)
 
 
 unified_strings = UnifiedStrings()
@@ -41,9 +40,9 @@ class Ui_YOLOCLS(object):
                                                   QtCore.Qt.AlignmentFlag.AlignTrailing|
                                                   QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.yl_model_img_size_label.setObjectName("yl_model_img_size_label")
-        self.yl_nms_lineEdit = QtWidgets.QLineEdit(yolocls_ui)
-        self.yl_nms_lineEdit.setGeometry(QtCore.QRect(110, 10, 241, 21))
-        self.yl_nms_lineEdit.setObjectName("yl_nms_lineEdit")
+        self.yl_nms_spinBox = FloatSpinBox(yolocls_ui)
+        self.yl_nms_spinBox.setGeometry(QtCore.QRect(110, 10, 241, 21))
+        self.yl_nms_spinBox.setObjectName("yl_nms_spinBox")
         self.yl_model_cfg_file_pushButton = QtWidgets.QPushButton(yolocls_ui)
         self.yl_model_cfg_file_pushButton.setGeometry(QtCore.QRect(360, 100, 21, 24))
         self.yl_model_cfg_file_pushButton.setObjectName("yl_model_cfg_file_pushButton")
@@ -55,12 +54,12 @@ class Ui_YOLOCLS(object):
         self.yl_class_file_lineEdit.setGeometry(QtCore.QRect(110, 70, 241, 21))
         self.yl_class_file_lineEdit.setReadOnly(True)
         self.yl_class_file_lineEdit.setObjectName("yl_class_file_lineEdit")
-        self.yl_conf_lineEdit = QtWidgets.QLineEdit(yolocls_ui)
-        self.yl_conf_lineEdit.setGeometry(QtCore.QRect(110, 40, 241, 21))
-        self.yl_conf_lineEdit.setObjectName("yl_conf_lineEdit")
-        self.yl_repspint_calib_lineEdit = QtWidgets.QLineEdit(yolocls_ui)
-        self.yl_repspint_calib_lineEdit.setGeometry(QtCore.QRect(110, 190, 241, 21))
-        self.yl_repspint_calib_lineEdit.setObjectName("yl_repspint_calib_lineEdit")
+        self.yl_conf_spinBox = FloatSpinBox(yolocls_ui)
+        self.yl_conf_spinBox.setGeometry(QtCore.QRect(110, 40, 241, 21))
+        self.yl_conf_spinBox.setObjectName("yl_conf_spinBox")
+        self.yl_repspoint_calib_spinBox = FloatSpinBox(yolocls_ui)
+        self.yl_repspoint_calib_spinBox.setGeometry(QtCore.QRect(110, 190, 241, 21))
+        self.yl_repspoint_calib_spinBox.setObjectName("yl_repspoint_calib_spinBox")
         self.yl_class_file_pushButton = QtWidgets.QPushButton(yolocls_ui)
         self.yl_class_file_pushButton.setGeometry(QtCore.QRect(360, 70, 21, 24))
         self.yl_class_file_pushButton.setObjectName("yl_class_file_pushButton")
@@ -107,9 +106,11 @@ class Ui_YOLOCLS(object):
                                                  QtCore.Qt.AlignmentFlag.AlignTrailing|
                                                  QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.yl_model_weights_label.setObjectName("yl_model_weights_label")
-        self.yl_model_imgsize_lineEdit = QtWidgets.QLineEdit(yolocls_ui)
-        self.yl_model_imgsize_lineEdit.setGeometry(QtCore.QRect(110, 160, 241, 21))
-        self.yl_model_imgsize_lineEdit.setObjectName("yl_model_imgsize_lineEdit")
+        self.yl_model_imgsize_spinBox = IntSpinBox(yolocls_ui)
+        self.yl_model_imgsize_spinBox.setMinimum(1)
+        self.yl_model_imgsize_spinBox.setSingleStep(32)
+        self.yl_model_imgsize_spinBox.setGeometry(QtCore.QRect(110, 160, 241, 21))
+        self.yl_model_imgsize_spinBox.setObjectName("yl_model_imgsize_spinBox")
         font = QtGui.QFont()
         font.setPointSize(12)
         self.save_pushButton.setFont(font)
@@ -140,28 +141,26 @@ class Ui_YOLOCLS(object):
 
     def loadYL(self):
         self.mycfg.setAllDCFG()
-        self.yl_nms_lineEdit.setText(str(self.mycfg.dcfg_yolocs.nms))
-        self.yl_conf_lineEdit.setText(str(self.mycfg.dcfg_yolocs.conf))
+        self.yl_nms_spinBox.setValue(self.mycfg.dcfg_yolocs.nms)
+        self.yl_conf_spinBox.setValue(self.mycfg.dcfg_yolocs.conf)
         self.yl_model_cfg_file_lineEdit.setText(getAbsPathFDS(self.mycfg.dcfg_yolocs.model_cfg_file))
         self.yl_class_file_lineEdit.setText(getAbsPathFDS(self.mycfg.dcfg_yolocs.class_file))
         self.yl_model_weights_lineEdit.setText(getAbsPathFDS(self.mycfg.dcfg_yolocs.model_weights))
-        self.yl_model_imgsize_lineEdit.setText(str(self.mycfg.dcfg_yolocs.model_image_size))
-        self.yl_repspint_calib_lineEdit.setText(str(self.mycfg.dcfg_yolocs.repspoint_calibration))
+        self.yl_model_imgsize_spinBox.setValue(self.mycfg.dcfg_yolocs.model_image_size)
+        self.yl_repspoint_calib_spinBox.setValue(self.mycfg.dcfg_yolocs.repspoint_calibration)
 
     def updateCFG(self, yolocls_ui):
         yolocs_doc = {
             "dt_name": unified_strings.getUnifiedFormat("YOLO_Classic"),
-            "nms": getFloat(self.yl_nms_lineEdit.text(), default_val=0.7),
-            "conf": getFloat(self.yl_conf_lineEdit.text(), default_val=0.4),
+            "nms": self.yl_nms_spinBox.value(),
+            "conf": self.yl_conf_spinBox.value(),
             "class_file": normalizePathFDS(root_dir, self.yl_class_file_lineEdit.text()),
             "model_cfg_file": normalizePathFDS(root_dir, self.yl_model_cfg_file_lineEdit.text()),
             "model_weights": normalizePathFDS(root_dir, self.yl_model_weights_lineEdit.text()),
-            "model_image_size": getInt(self.yl_model_imgsize_lineEdit.text(), default_val=1024),
-            "repspoint_calibration": getFloat(self.yl_repspint_calib_lineEdit.text(), default_val=0.25)
+            "model_image_size": self.yl_model_imgsize_spinBox.value(),
+            "repspoint_calibration": self.yl_repspoint_calib_spinBox.value()
         }
-        yolo_utlt_doc = self.mycfg.dcfg_yolout.getDocument()
-        gt_doc = self.mycfg.dcfg_gt.getDocument()
-        self.mycfg.dumpAllDCFG([yolocs_doc, yolo_utlt_doc, gt_doc])
+        self.mycfg.dumpDetectorCFG(yolocs_doc)
         yolocls_ui.close()
 
     def browseClassFile(self):

@@ -13,7 +13,7 @@ from typing import Any, Dict, List, Union, Optional
 from pyppbox.config.configtools import isConfigInput, getCFGDict
 from pyppbox.config.myconfig import (
     MyConfigurator, NoneCFG,
-    DCFGYOLOCLS, DCFGYOLOULT, DCFGGT, 
+    DCFGYOLOCLS, DCFGYOLOULT, DCFGRFDETR, DCFGGT,
     TCFGCentroid, TCFGSORT, TCFGDeepSORT, 
     RCFGFaceNet, RCFGTorchreid, 
 )
@@ -301,6 +301,11 @@ class MT(object):
                 self.__dt_cfg__ = self.__cfg__.dcfg_yolout
                 self.__dt__ = MyYOLOULT(self.__dt_cfg__)
                 self.__dt_is_set__ = True
+            elif self.__cfg__.mcfg.detector.lower() == self.__unistrings__.rf_detr:
+                from pyppbox.modules.detectors.rfdetr import MyRFDETR
+                self.__dt_cfg__ = self.__cfg__.dcfg_rfdetr
+                self.__dt__ = MyRFDETR(self.__dt_cfg__)
+                self.__dt_is_set__ = True
             elif self.__cfg__.mcfg.detector.lower() == self.__unistrings__.gt:
                 self.__dt_cfg__ = self.__cfg__.dcfg_gt
                 self.__dt__ = GTInterpreter()
@@ -334,6 +339,13 @@ class MT(object):
                 self.__dt__ = MyYOLOULT(self.__dt_cfg__)
                 self.__dt_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set detector='{self.__dt_cfg__.dt_name}'")
+            elif self.__unistrings__.getUnifiedFormat(detector_dict['dt_name']).lower() == self.__unistrings__.rf_detr:
+                from pyppbox.modules.detectors.rfdetr import MyRFDETR
+                self.__dt_cfg__ = DCFGRFDETR()
+                self.__dt_cfg__.set(detector_dict)
+                self.__dt__ = MyRFDETR(self.__dt_cfg__)
+                self.__dt_is_set__ = True
+                add_info_log(f"---PYPPBOX : Set detector='{self.__dt_cfg__.dt_name}'")
             elif detector_dict['dt_name'].lower() == self.__unistrings__.gt:
                 self.__dt_cfg__ = DCFGGT()
                 self.__dt_cfg__.set(detector_dict)
@@ -357,7 +369,7 @@ class MT(object):
         ----------
         detector : str or dict or list
             Defaults to ``""``. An empty string uses the selected main configuration.
-            A supported name (YOLO_Classic, YOLO_Ultralytics, GT, or "None") loads settings from ``detectors.yaml`` in the
+            A supported name (YOLO_Classic, YOLO_Ultralytics, RF_DETR, GT, or "None") loads settings from ``detectors.yaml`` in the
             selected directory, defaulting to the internal directory. Alternatively,
             provide a complete dictionary, inline YAML/JSON mapping, YAML/JSON file path,
             or legacy list containing one mapping. Custom paths within a mapping resolve
@@ -394,6 +406,14 @@ class MT(object):
                 self.__dt__ = MyYOLOULT(self.__dt_cfg__)
                 self.__dt_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set detector='{detector}'")
+            elif self.__unistrings__.getUnifiedFormat(detector).lower() == self.__unistrings__.rf_detr:
+                from pyppbox.modules.detectors.rfdetr import MyRFDETR
+                if not self.__cfg_is_set__: self.setConfigDir()
+                self.__cfg__.setAllDCFG()
+                self.__dt_cfg__ = self.__cfg__.dcfg_rfdetr
+                self.__dt__ = MyRFDETR(self.__dt_cfg__)
+                self.__dt_is_set__ = True
+                add_info_log(f"---PYPPBOX : Set detector='{self.__dt_cfg__.dt_name}'")
             elif detector.lower() == self.__unistrings__.gt:
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__cfg__.setAllDCFG()
@@ -475,7 +495,8 @@ class MT(object):
             if not isinstance(self.__dt__, NothingDetecter):
                 img = getCVMat(img)
                 if (self.__dt_cfg__.dt_name.lower() == self.__unistrings__.yolo_cls or 
-                    self.__dt_cfg__.dt_name.lower() == self.__unistrings__.yolo_ult):
+                    self.__dt_cfg__.dt_name.lower() == self.__unistrings__.yolo_ult or
+                    self.__dt_cfg__.dt_name.lower() == self.__unistrings__.rf_detr):
                     people, img = self.__dt__.detectPeople(img, 
                                                            visual=visual, 
                                                            min_width_filter=min_width_filter, 

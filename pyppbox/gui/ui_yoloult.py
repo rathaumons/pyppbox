@@ -2,11 +2,10 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.gui.numericwidgets import FloatSpinBox, IntSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
-from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, 
-                                       getGlobalRootDir, getAncestorDir, 
-                                       getFloat, getInt, getBool)
+from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, getGlobalRootDir, getAncestorDir, getInt, getBool)
 
 unified_strings = UnifiedStrings()
 root_dir = getGlobalRootDir()
@@ -31,25 +30,26 @@ class Ui_YOLOULT(object):
         yoloult_ui.setSizePolicy(sizePolicy)
         yoloult_ui.setMinimumSize(QtCore.QSize(390, 300))
         yoloult_ui.setMaximumSize(QtCore.QSize(390, 300))
-        self.max_det_lineEdit = QtWidgets.QLineEdit(parent=yoloult_ui)
-        self.max_det_lineEdit.setGeometry(QtCore.QRect(110, 160, 241, 21))
-        self.max_det_lineEdit.setObjectName("max_det_lineEdit")
+        self.max_det_spinBox = IntSpinBox(parent=yoloult_ui)
+        self.max_det_spinBox.setGeometry(QtCore.QRect(110, 160, 241, 21))
+        self.max_det_spinBox.setObjectName("max_det_spinBox")
         self.devices_label = QtWidgets.QLabel(parent=yoloult_ui)
         self.devices_label.setGeometry(QtCore.QRect(10, 130, 91, 16))
         self.devices_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
                                         QtCore.Qt.AlignmentFlag.AlignTrailing|
                                         QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.devices_label.setObjectName("devices_label")
-        self.conf_lineEdit = QtWidgets.QLineEdit(parent=yoloult_ui)
-        self.conf_lineEdit.setGeometry(QtCore.QRect(110, 10, 241, 21))
-        self.conf_lineEdit.setObjectName("conf_lineEdit")
-        self.imgsz_lineEdit = QtWidgets.QLineEdit(parent=yoloult_ui)
-        self.imgsz_lineEdit.setGeometry(QtCore.QRect(110, 70, 241, 21))
-        self.imgsz_lineEdit.setText("")
-        self.imgsz_lineEdit.setObjectName("imgsz_lineEdit")
-        self.iou_lineEdit = QtWidgets.QLineEdit(parent=yoloult_ui)
-        self.iou_lineEdit.setGeometry(QtCore.QRect(110, 40, 241, 21))
-        self.iou_lineEdit.setObjectName("iou_lineEdit")
+        self.conf_spinBox = FloatSpinBox(parent=yoloult_ui)
+        self.conf_spinBox.setGeometry(QtCore.QRect(110, 10, 241, 21))
+        self.conf_spinBox.setObjectName("conf_spinBox")
+        self.imgsz_spinBox = IntSpinBox(parent=yoloult_ui)
+        self.imgsz_spinBox.setMinimum(1)
+        self.imgsz_spinBox.setSingleStep(32)
+        self.imgsz_spinBox.setGeometry(QtCore.QRect(110, 70, 241, 21))
+        self.imgsz_spinBox.setObjectName("imgsz_spinBox")
+        self.iou_spinBox = FloatSpinBox(parent=yoloult_ui)
+        self.iou_spinBox.setGeometry(QtCore.QRect(110, 40, 241, 21))
+        self.iou_spinBox.setObjectName("iou_spinBox")
         self.conf_label = QtWidgets.QLabel(parent=yoloult_ui)
         self.conf_label.setGeometry(QtCore.QRect(10, 10, 91, 16))
         self.conf_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
@@ -105,9 +105,9 @@ class Ui_YOLOULT(object):
                                                 QtCore.Qt.AlignmentFlag.AlignTrailing|
                                                 QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.repspoint_calib_label.setObjectName("repspoint_calib_label")
-        self.repspoint_calib_lineEdit = QtWidgets.QLineEdit(parent=yoloult_ui)
-        self.repspoint_calib_lineEdit.setGeometry(QtCore.QRect(110, 220, 241, 21))
-        self.repspoint_calib_lineEdit.setObjectName("repspoint_calib_lineEdit")
+        self.repspoint_calib_spinBox = FloatSpinBox(parent=yoloult_ui)
+        self.repspoint_calib_spinBox.setGeometry(QtCore.QRect(110, 220, 241, 21))
+        self.repspoint_calib_spinBox.setObjectName("repspoint_calib_spinBox")
         self.boxes_comboBox = QtWidgets.QComboBox(parent=yoloult_ui)
         self.boxes_comboBox.setGeometry(QtCore.QRect(110, 100, 241, 21))
         self.boxes_comboBox.setObjectName("boxes_comboBox")
@@ -128,11 +128,7 @@ class Ui_YOLOULT(object):
     def retranslateUi(self, yoloult_ui):
         _translate = QtCore.QCoreApplication.translate
         yoloult_ui.setWindowTitle(_translate("yoloult_ui", "YOLO Ultralytics"))
-        self.max_det_lineEdit.setPlaceholderText(_translate("yoloult_ui", "100"))
         self.devices_label.setText(_translate("yoloult_ui", "device"))
-        self.conf_lineEdit.setPlaceholderText(_translate("yoloult_ui", "0.4"))
-        self.imgsz_lineEdit.setPlaceholderText(_translate("yoloult_ui", "1024"))
-        self.iou_lineEdit.setPlaceholderText(_translate("yoloult_ui", "0.7"))
         self.conf_label.setText(_translate("yoloult_ui", "conf"))
         self.model_file_pushButton.setText(_translate("yoloult_ui", "..."))
         self.iou_label.setText(_translate("yoloult_ui", "iou"))
@@ -143,19 +139,18 @@ class Ui_YOLOULT(object):
         self.save_pushButton.setText(_translate("yoloult_ui", "Save"))
         self.model_file_label.setText(_translate("yoloult_ui", "model_file"))
         self.repspoint_calib_label.setText(_translate("yoloult_ui", "repspoint_calib"))
-        self.repspoint_calib_lineEdit.setPlaceholderText(_translate("yoloult_ui", "0.25"))
         self.boxes_comboBox.setItemText(0, _translate("yoloult_ui", "True"))
         self.boxes_comboBox.setItemText(1, _translate("yoloult_ui", "False"))
 
     def loadYLUTLT(self):
         self.mycfg.setAllDCFG()
-        self.conf_lineEdit.setText(str(self.mycfg.dcfg_yolout.conf))
-        self.iou_lineEdit.setText(str(self.mycfg.dcfg_yolout.iou))
-        self.imgsz_lineEdit.setText(str(self.mycfg.dcfg_yolout.imgsz))
+        self.conf_spinBox.setValue(self.mycfg.dcfg_yolout.conf)
+        self.iou_spinBox.setValue(self.mycfg.dcfg_yolout.iou)
+        self.imgsz_spinBox.setValue(self.mycfg.dcfg_yolout.imgsz)
         self.device_lineEdit.setText(str(self.mycfg.dcfg_yolout.device))
-        self.max_det_lineEdit.setText(str(self.mycfg.dcfg_yolout.max_det))
+        self.max_det_spinBox.setValue(self.mycfg.dcfg_yolout.max_det)
         self.model_file_lineEdit.setText(getAbsPathFDS(self.mycfg.dcfg_yolout.model_file))
-        self.repspoint_calib_lineEdit.setText(str(self.mycfg.dcfg_yolout.repspoint_calibration))
+        self.repspoint_calib_spinBox.setValue(self.mycfg.dcfg_yolout.repspoint_calibration)
         self.loadComboBoxes()
 
     def loadComboBoxes(self):
@@ -174,18 +169,16 @@ class Ui_YOLOULT(object):
             device = getInt(self.device_lineEdit.text())
         yolo_utlt_doc = {
             "dt_name": unified_strings.getUnifiedFormat("YOLO_Ultralytics"),
-            "conf": getFloat(self.conf_lineEdit.text(), default_val=0.4),
-            "iou": getFloat(self.iou_lineEdit.text(), default_val=0.7),
-            "imgsz": getInt(self.imgsz_lineEdit.text(), default_val=1024),
+            "conf": self.conf_spinBox.value(),
+            "iou": self.iou_spinBox.value(),
+            "imgsz": self.imgsz_spinBox.value(),
             "show_boxes": getBool(self.boxes_comboBox.currentText()),
             "device": device,
-            "max_det": getInt(self.max_det_lineEdit.text(), default_val=100),
+            "max_det": self.max_det_spinBox.value(),
             "model_file": normalizePathFDS(root_dir, self.model_file_lineEdit.text()),
-            "repspoint_calibration": getFloat(self.repspoint_calib_lineEdit.text(), default_val=0.25)
+            "repspoint_calibration": self.repspoint_calib_spinBox.value()
         }
-        yolocs_doc = self.mycfg.dcfg_yolocs.getDocument()
-        gt_doc = self.mycfg.dcfg_gt.getDocument()
-        self.mycfg.dumpAllDCFG([yolocs_doc, yolo_utlt_doc, gt_doc])
+        self.mycfg.dumpDetectorCFG(yolo_utlt_doc)
         yoloult_ui.close()
 
     def browseModelFile(self):

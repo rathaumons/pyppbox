@@ -8,12 +8,12 @@ Installing `pyppbox` is very easy and straightforward. You can install it from [
 `YOLO_Classic` uses [OpenCV DNN](https://docs.opencv.org/4.x/d2/d58/tutorial_table_of_content_dnn.html) to load Darknet `.cfg`/`.weights` models and requires OpenCV 4.x. OpenCV 5 removed the Darknet importer, so pyppbox requires `opencv-contrib-python<5` to preserve existing models and configurations. For GPU (CUDA) support, use a compatible OpenCV 4.x build from source or our [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox); the official `opencv-contrib-python` wheels provide CPU support only.
 
 * Prerequisite: 
-  - Python [[3.9-3.12]](https://www.python.org/downloads/) (For ***macOS*** GUI troubleshooting, try Python 3.11)
+  - Python [[3.9-3.13]](https://www.python.org/downloads/) (For ***macOS*** GUI troubleshooting, try Python 3.11)
   - Local pyppbox repo: `git clone https://github.com/rathaumons/pyppbox.git`
 
 * Before you install dependencies/requirements:
   - For Linux, recommend changing `python3` to `python`: `sudo apt install python-is-python3`
-  - If you prefer conda + Python [3.9-3.12]: `conda create --name pyppbox_env python=3.11`
+  - If you prefer conda + Python [3.9-3.13]: `conda create --name pyppbox_env python=3.11`
     Then activate it with `conda activate pyppbox_env` before installing packages.
   - Upgrade `pip` and `setuptools`:
     ```
@@ -66,6 +66,12 @@ You need to install the main package which is `pyppbox` and the data for the mod
     python -m build --wheel --skip-dependency-check --no-isolation
     ```
     Run these commands from the repository root, then install the generated wheel in `dist/` with `python -m pip install` followed by its path.
+
+* (Optional, V3.16) Install RF-DETR on Python 3.10+ from a checkout containing this feature:
+  ```
+  python -m pip install ".[rfdetr]"
+  ```
+  For a release wheel containing RF-DETR, install it with the `[rfdetr]` extra. Select `RF_DETR` in the GUI or with `setMainDetector()`. Like YOLO, the default config uses GPU `device: 0` and a local model path: `data/modules/rf_detr/rf-detr-nano.pth` under the installed pyppbox package. Select your downloaded checkpoint, or set `model_file: ''` to enable automatic downloading instead; set `device: cpu` for CPU inference. RF-DETR does not need a `pyppbox-data` detector package. Existing configurations work without migration. See [Example 15](https://rathaumons.github.io/pyppbox/examples/example_15.html) for models and custom class IDs.
 
 * Install [`pyppbox-data-xxx`](https://github.com/rathaumons/pyppbox-data/)
   - Download the latest from [releases](https://github.com/rathaumons/pyppbox-data/releases) or install the ones you need directly:
@@ -121,6 +127,13 @@ Similar to [`pyppbox-opencv`](https://github.com/rathaumons/opencv-for-pyppbox),
 
 ### 3️⃣ Customized Ultralytics
 
-The current [requirements file](https://github.com/rathaumons/pyppbox/blob/main/requirements/requirements.txt) installs [`vsensebox-ultralytics`](https://github.com/numediart/ultralytics-for-vsensebox), which provides the `ultralytics` import used by pyppbox. It shares that import namespace with the official `ultralytics` distribution, so avoid installing both in the same environment.
+The current [requirements file](https://github.com/rathaumons/pyppbox/blob/main/requirements/requirements.txt) installs [`pyppbox-ultralytics>=8.4.144`](https://github.com/rathaumons/ultralytics-for-pyppbox), which provides the `ultralytics` import used by pyppbox. Existing `YOLO_Ultralytics` configurations continue to work.
 
-[`pyppbox-ultralytics`](https://github.com/rathaumons/ultralytics-for-pyppbox) was the earlier distribution. Use the dependency specified by the requirements file for your pyppbox release. Using the current Ultralytics fork does not require the vsensebox framework.
+The official `ultralytics`, the previous `vsensebox-ultralytics`, and `pyppbox-ultralytics` distributions share that import namespace. When migrating an existing environment, remove all three before reinstalling the current fork:
+
+```sh
+python -m pip uninstall -y ultralytics vsensebox-ultralytics pyppbox-ultralytics
+python -m pip install "pyppbox-ultralytics>=8.4.144"
+```
+
+On Windows, `requirements/verify_packages.cmd` performs this replacement. Fresh installations of this pyppbox version select the current fork automatically.

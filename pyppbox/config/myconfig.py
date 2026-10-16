@@ -444,6 +444,150 @@ class DCFGYOLOULT(BaseCGF):
         return yolout_doc
 
 
+class DCFGRFDETR(BaseCGF):
+    """Configuration for the optional RF-DETR detection backend.
+
+    Attributes
+    ----------
+    dt_name : str
+        Canonical detector name, ``RF_DETR``.
+    model_size : str
+        ``nano`` (default), ``small``, ``medium``, or ``large``. Each uses its
+        published input resolution. Segmentation and Plus models are not included.
+    model_file : str
+        Local checkpoint, defaulting to the selected model's filename under
+        ``data/modules/rf_detr``. Empty uses RF-DETR's download/cache instead.
+        Custom checkpoints must match ``model_size``.
+    device : int or str
+        GPU index 0 (default), ``cpu``, ``cuda``, ``cuda:N``, ``mps``, or
+        ``auto``. Integer indices are retained in configuration documents.
+    conf : float
+        Minimum detection confidence on a 0-1 scale; defaults to 0.4.
+    max_det : int
+        Maximum returned detections after class/width filtering; defaults to 100.
+    person_class_id : int
+        Native RF-DETR class ID for people; defaults to 1 for pretrained COCO
+        models. Set the correct ID for custom checkpoints (often 0).
+    optimize : bool
+        Defaults to True. Prepare an inference-only model in place without JIT
+        compilation. Set False to retain the original upstream model instance.
+    repspoint_calibration : float
+        Box representative-point calibration in [0, 1]; defaults to 0.25.
+    from_dir : str
+        Root used to resolve relative checkpoint paths.
+
+    Notes
+    -----
+    Construction supplies defaults without importing RF-DETR or downloading
+    weights. ``set()`` overlays a mapping on those defaults, not on previous
+    values. Existing detector configurations retain their original behavior.
+    """
+
+    DEFAULTS = dict(dt_name='RF_DETR', conf=0.4, model_size='nano', device=0,
+                    max_det=100, model_file='data/modules/rf_detr/rf-detr-nano.pth', person_class_id=1,
+                    optimize=True, repspoint_calibration=0.25)
+
+    MODEL_FILES = dict(nano='rf-detr-nano.pth', small='rf-detr-small.pth',
+                       medium='rf-detr-medium.pth', large='rf-detr-large-2026.pth')
+
+    def __init__(self, relative_to_pyppbox_root=False):
+        """Initialize defaults and checkpoint path resolution.
+
+        Parameters
+        ----------
+        relative_to_pyppbox_root : bool
+            Defaults to False: resolve paths from the working directory.
+            True resolves them from the pyppbox package root.
+        """
+        super().__init__()
+        self.from_dir = internal_root_dir if relative_to_pyppbox_root else ''
+        self.set(self.DEFAULTS)
+
+    def set(self, input):
+        """Load a YAML/JSON path or raw/ready mapping over RF-DETR defaults.
+
+        Parameters
+        ----------
+        input : str or dict
+            Configuration accepted by the existing configuration parser. An
+            omitted model_file selects the local filename for model_size;
+            an explicitly empty model_file enables automatic downloading.
+
+        Raises
+        ------
+        ValueError
+            A key is unknown or a value is invalid. Model files are checked when
+            the detector is initialized, so configs can be edited before download.
+        """
+        supplied = getCFGDict(input)
+        unknown = set(supplied) - set(self.DEFAULTS)
+        if unknown:
+            raise ValueError(f'Unknown RF_DETR configuration keys: {sorted(unknown)}')
+        values = dict(self.DEFAULTS, **supplied)
+        values['dt_name'] = self.unified_strings.getUnifiedFormat(values['dt_name'])
+        if values['dt_name'] != 'RF_DETR':
+            raise ValueError('dt_name must be RF_DETR.')
+        values['model_size'] = str(values['model_size']).lower()
+        if values['model_size'] not in ('nano', 'small', 'medium', 'large'):
+            raise ValueError('model_size must be nano, small, medium, or large.')
+        if 'model_file' not in supplied:
+            values['model_file'] = 'data/modules/rf_detr/' + self.MODEL_FILES[values['model_size']]
+        for name in ('conf', 'repspoint_calibration'):
+            value = values[name]
+            if isinstance(value, bool):
+                raise ValueError(f'{name} must be a number in [0, 1].')
+            try:
+                value = float(value)
+            except (TypeError, ValueError, OverflowError) as error:
+                raise ValueError(f'{name} must be a number in [0, 1].') from error
+            if not 0 <= value <= 1:
+                raise ValueError(f'{name} must be a number in [0, 1].')
+            values[name] = value
+        for name, minimum in (('max_det', 1), ('person_class_id', 0)):
+            value = values[name]
+            try:
+                integer = int(value)
+                valid = not isinstance(value, bool) and integer == float(value) and integer >= minimum
+            except (TypeError, ValueError, OverflowError) as error:
+                raise ValueError(f'{name} must be an integer >= {minimum}.') from error
+            if not valid:
+                raise ValueError(f'{name} must be an integer >= {minimum}.')
+            values[name] = integer
+        optimize = values['optimize']
+        if isinstance(optimize, str) and optimize.lower() in ('true', 'false'):
+            optimize = optimize.lower() == 'true'
+        if not isinstance(optimize, bool):
+            raise ValueError('optimize must be a boolean.')
+        values['optimize'] = optimize
+        device = str(values['device']).strip().lower()
+        if device.isdecimal():
+            device = int(device)
+        elif device not in ('auto', 'cpu', 'cuda', 'mps') and not (
+                device.startswith('cuda:') and device[5:].isdecimal()):
+            raise ValueError('device must be cpu, cuda, cuda:N, mps, auto, or an integer index.')
+        values['device'] = device
+        path = values['model_file']
+        if not isinstance(path, str):
+            raise ValueError('model_file must be a local path string, or empty for pretrained weights.')
+        values['model_file'] = getAdaptiveAbsPathFDS(self.from_dir, path) if path else ''
+        for name, value in values.items():
+            setattr(self, name, value)
+        self.config = self.getDocument()
+
+    def getDocument(self):
+        """Return a serializable mapping using the existing package-relative paths.
+
+        Returns
+        -------
+        dict
+            RF-DETR configuration; an empty checkpoint remains empty.
+        """
+        document = {name: getattr(self, name) for name in self.DEFAULTS}
+        if self.model_file:
+            document['model_file'] = normalizePathFDS(internal_root_dir, self.model_file)
+        return document
+
+
 class DCFGGT(BaseCGF):
 
     """A class used to store the necessary configurations of detector GT (Ground-truth).
@@ -1018,7 +1162,7 @@ class MyCFGHeaders(object):
         header=("###########################################################\n"
                 "# Main config:\n"
                 "###########################################################\n"
-                "# detector: None | YOLO_Classic | YOLO_Ultralytics | GT\n"
+                "# detector: None | YOLO_Classic | YOLO_Ultralytics | RF_DETR | GT\n"
                 "# tracker: None | Centroid | SORT | DeepSORT\n"
                 "# reider: None | FaceNet | Torchreid\n"
                 "###########################################################\n")
@@ -1054,6 +1198,17 @@ class MyCFGHeaders(object):
                 "# device: 0\n"
                 "# max_det: 100\n"
                 "# model_file: data/modules/yolo_ultralytics/yolov8s-pose.pt\n"
+                "# repspoint_calibration: 0.25\n"
+                "###########################################################\n"
+                "# --- # RF_DETR (optional: pyppbox[rfdetr], Python 3.10+)\n"
+                "# dt_name: RF_DETR\n"
+                "# conf: 0.4\n"
+                "# model_size: nano\n"
+                "# device: 0\n"
+                "# max_det: 100\n"
+                "# model_file: data/modules/rf_detr/rf-detr-nano.pth\n"
+                "# person_class_id: 1\n"
+                "# optimize: True\n"
                 "# repspoint_calibration: 0.25\n"
                 "###########################################################\n"
                 "# --- # GT aka Ground Truth\n"
@@ -1157,6 +1312,8 @@ class MyConfigurator(PYPPBOXStructure):
         Set automatically.
         A :class:`~pyppbox.config.myconfig.DCFGYOLOULT` object used to store the configurations of detector
         YOLO_Ultralytics.
+    dcfg_rfdetr : DCFGRFDETR
+        RF-DETR settings; defaults are available even in V3 config directories.
     dcfg_gt : DCFGGT
         Set automatically.
         A :class:`DCFGGT` object used to store the configurations of detector GT (Ground-truth).
@@ -1381,10 +1538,12 @@ class MyConfigurator(PYPPBOXStructure):
         if isinstance(relative_to_pyppbox_root, bool):
             self.dcfg_yolocs = DCFGYOLOCLS(relative_to_pyppbox_root)
             self.dcfg_yolout = DCFGYOLOULT(relative_to_pyppbox_root)
+            self.dcfg_rfdetr = DCFGRFDETR(relative_to_pyppbox_root)
             self.dcfg_gt = DCFGGT(relative_to_pyppbox_root)
         elif relative_to_pyppbox_root is None:
             self.dcfg_yolocs = DCFGYOLOCLS(self.relative_to_pyppbox_root)
             self.dcfg_yolout = DCFGYOLOULT(self.relative_to_pyppbox_root)
+            self.dcfg_rfdetr = DCFGRFDETR(self.relative_to_pyppbox_root)
             self.dcfg_gt = DCFGGT(self.relative_to_pyppbox_root)
         else:
             msg = "MyConfigurator : setAllDCFG() -> 'relative_to_pyppbox_root' is not valid."
@@ -1404,6 +1563,9 @@ class MyConfigurator(PYPPBOXStructure):
                 elif d['dt_name'].lower() == self.unified_strings.yolo_ult:
                     self.dcfg_yolout.set(d)
                     self.dt_map.append(self.dcfg_yolout.dt_name)
+                elif self.unified_strings.getUnifiedFormat(d['dt_name']).lower() == self.unified_strings.rf_detr:
+                    self.dcfg_rfdetr.set(d)
+                    self.dt_map.append(self.dcfg_rfdetr.dt_name)
                 elif d['dt_name'].lower() == self.unified_strings.gt:
                     self.dcfg_gt.set(d)
                     self.dt_map.append(self.dcfg_gt.dt_name)
@@ -1414,6 +1576,12 @@ class MyConfigurator(PYPPBOXStructure):
                 msg = f"MyConfigurator : setAllDCFG() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
+
+        # Keep RF-DETR after Ultralytics, including in older config directories.
+        self.dt_map = [name for name in self.dt_map if name != self.dcfg_rfdetr.dt_name]
+        ultralytics = self.unified_strings.getUnifiedFormat('YOLO_Ultralytics')
+        position = self.dt_map.index(ultralytics) + 1 if ultralytics in self.dt_map else len(self.dt_map)
+        self.dt_map.insert(position, self.dcfg_rfdetr.dt_name)
 
     def setAllTCFG(
         self, 
@@ -1559,6 +1727,9 @@ class MyConfigurator(PYPPBOXStructure):
                 elif cfg['dt_name'].lower() == self.unified_strings.yolo_ult:
                     self.dcfg_yolout = DCFGYOLOULT(relative_to_pyppbox_root)
                     self.dcfg_yolout.set(cfg)
+                elif self.unified_strings.getUnifiedFormat(cfg['dt_name']).lower() == self.unified_strings.rf_detr:
+                    self.dcfg_rfdetr = DCFGRFDETR(relative_to_pyppbox_root)
+                    self.dcfg_rfdetr.set(cfg)
                 elif cfg['dt_name'].lower() == self.unified_strings.gt:
                     self.dcfg_gt = DCFGGT(relative_to_pyppbox_root)
                     self.dcfg_gt.set(cfg)
@@ -1625,6 +1796,31 @@ class MyConfigurator(PYPPBOXStructure):
             A configuration dictionary of a single document of the configurations.
         """
         dumpDocDict(self.main_yaml, document, self.cfg_headers.mainHeader())
+
+    def dumpDetectorCFG(self, document: Dict[str, Any]):
+        """Save one detector while preserving other documents and their order.
+
+        Parameters
+        ----------
+        document : dict
+            Detector mapping containing ``dt_name``. Replace matching documents
+            or append it if absent. Save atomically through ``dumpAllDCFG()``.
+
+        Notes
+        -----
+        Existing YAML values for other detectors are retained. Comments are
+        regenerated using the existing writer; live models are not reloaded.
+        """
+        name = self.unified_strings.getUnifiedFormat(document['dt_name']).lower()
+        documents = loadDocumentList(self.detectors_yaml)
+        matched = False
+        for index, existing in enumerate(documents):
+            if self.unified_strings.getUnifiedFormat(existing['dt_name']).lower() == name:
+                documents[index] = document
+                matched = True
+        if not matched:
+            documents.append(document)
+        self.dumpAllDCFG(documents)
 
     def dumpAllDCFG(self, document_list: List[Dict[str, Any]]):
         """Dump the detectors' configurations to detectors.yaml.

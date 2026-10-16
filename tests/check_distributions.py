@@ -30,7 +30,7 @@ def check_distributions(directory):
                 return matches[0]
 
             assert not any('plans' in PurePosixPath(name).parts for name in names), artifact
-            for required in ('pyppbox/config/cfg/main.yaml', 'pyppbox/ppb/mt.py'):
+            for required in ('pyppbox/config/cfg/main.yaml', 'pyppbox/ppb/mt.py', 'pyppbox/modules/detectors/rfdetr/__init__.py'):
                 find_file(required)
 
             # Check complete license/notice contents, not just their filenames.
@@ -45,7 +45,18 @@ def check_distributions(directory):
                 name for name in names if len(PurePosixPath(name).parts) == 2 and name.endswith('/PKG-INFO')
             )
             metadata = BytesParser().parsebytes(read_file(metadata_name))
+            assert 'Programming Language :: Python :: 3.13' in metadata.get_all('Classifier', []), artifact
             requirements = [Requirement(value) for value in metadata.get_all('Requires-Dist', [])]
+            yolo = [requirement for requirement in requirements if requirement.name == 'pyppbox-ultralytics']
+            assert len(yolo) == 1 and yolo[0].marker is None, (artifact, yolo)
+            assert '8.4.144' in yolo[0].specifier, (artifact, yolo)
+            assert not any(requirement.name in ('vsensebox-ultralytics', 'ultralytics')
+                           for requirement in requirements), artifact
+            rf = [requirement for requirement in requirements if requirement.name == 'rfdetr']
+            assert len(rf) == 1 and rf[0].marker is not None, (artifact, rf)
+            assert not rf[0].marker.evaluate({'extra': ''}), (artifact, rf)
+            assert rf[0].marker.evaluate({'extra': 'rfdetr'}), (artifact, rf)
+            assert '1.10.0' in rf[0].specifier and '1.11.0' not in rf[0].specifier, (artifact, rf)
             opencv = [requirement for requirement in requirements if requirement.name == 'opencv-contrib-python']
             assert len(opencv) == 1, (artifact, opencv)
             # Installation must retain Darknet support, including on future major releases.
@@ -73,7 +84,7 @@ def check_distributions(directory):
                 packaged = read_file(find_file(source)).decode('utf-8')
                 assert packaged.replace('\r\n', '\n') == (repo / source).read_text(encoding='utf-8'), (artifact, source)
 
-        print(f'{artifact.name}: code/configs, OpenCV bound, AGPL metadata, and third-party notices verified; local plans excluded')
+        print(f'{artifact.name}: code/configs, default YOLO backend, OpenCV bound, AGPL metadata, and third-party notices verified; local plans excluded')
 
 
 if __name__ == '__main__':

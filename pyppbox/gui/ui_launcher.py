@@ -4,6 +4,7 @@
 import os
 import sys
 import subprocess as sp
+import tempfile
 
 from pyppbox.utils.logtools import add_info_log, get_env, set_terminal_log_from_env
 
@@ -13,6 +14,7 @@ set_terminal_log_from_env()
 from PyQt6 import QtCore, QtGui, QtWidgets
 from ui_yolocls import Ui_YOLOCLS
 from ui_yoloult import Ui_YOLOULT
+from ui_rfdetr import Ui_RFDETR
 from ui_gt import Ui_GT
 from ui_centroid import Ui_Centroid
 from ui_sort import Ui_SORT
@@ -345,10 +347,39 @@ class Ui_PYPPBOXLauncher(object):
                         self.input_force_hd_comboBox.currentText())
         
         launcher.hide()
-        p = sp.Popen([sys.executable, os.path.join(current_dir, 'guidemo.py')], env=get_env())
-        p.wait()
+        error_output = ''
+        exit_code = None
+        try:
+            executable = sys.executable
+            options = {}
+            # pythonw has no Python stdout/stderr, even when OS handles are redirected.
+            # Use its console sibling without creating a console so errors can be captured.
+            if sys.platform == 'win32' and os.path.basename(executable).lower() == 'pythonw.exe':
+                executable = os.path.join(os.path.dirname(executable), 'python.exe')
+                options['creationflags'] = sp.CREATE_NO_WINDOW
+            with tempfile.TemporaryFile() as error_log:
+                p = sp.Popen([executable, os.path.join(current_dir, 'guidemo.py')],
+                             env=get_env(), stderr=error_log,
+                             stdout=None if sys.stdout is not None else error_log, **options)
+                exit_code = p.wait()
+                # Keep error details bounded even when a backend emits many messages.
+                error_log.seek(0, os.SEEK_END)
+                error_log.seek(max(0, error_log.tell() - 16000))
+                error_output = error_log.read().decode('utf-8', errors='replace').strip()
+            if error_output and sys.stderr is not None:
+                print(error_output, file=sys.stderr)
+        except OSError as error:
+            error_output = str(error)
+        finally:
+            launcher.show()
         self.mycfg.setMCFG()
-        launcher.show()
+        if exit_code != 0:
+            message = QtWidgets.QMessageBox(launcher)
+            message.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+            message.setWindowTitle('Demo failed')
+            message.setText('The demo could not finish. Check the selected models and input video.')
+            message.setDetailedText(error_output or f'Demo exited with code {exit_code}.')
+            message.exec()
 
     def updateMCFG(self, detector, tracker, reider, input, force_hd):
         add_info_log("-------GUI : Set DT='" + 
@@ -373,6 +404,10 @@ class Ui_PYPPBOXLauncher(object):
             tmp_QDialog.exec()
         elif self.detector_comboBox.currentText().lower() == self.mycfg.unified_strings.yolo_ult:
             ui = Ui_YOLOULT(self.cfg_mode, self.cfg_dir)
+            ui.setupUi(tmp_QDialog)
+            tmp_QDialog.exec()
+        elif self.detector_comboBox.currentText().lower() == self.mycfg.unified_strings.rf_detr:
+            ui = Ui_RFDETR(self.cfg_mode, self.cfg_dir)
             ui.setupUi(tmp_QDialog)
             tmp_QDialog.exec()
         elif self.detector_comboBox.currentText().lower() == self.mycfg.unified_strings.gt:

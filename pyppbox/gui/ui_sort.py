@@ -2,9 +2,9 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.gui.numericwidgets import FloatSpinBox, IntSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
-from pyppbox.utils.commontools import getFloat, getInt
 
 
 unified_strings = UnifiedStrings()
@@ -38,12 +38,12 @@ class Ui_SORT(object):
                                             QtCore.Qt.AlignmentFlag.AlignTrailing|
                                             QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.st_min_hits_label.setObjectName("st_min_hits_label")
-        self.st_iou_threshold_lineEdit = QtWidgets.QLineEdit(sort_ui)
-        self.st_iou_threshold_lineEdit.setGeometry(QtCore.QRect(110, 70, 241, 21))
-        self.st_iou_threshold_lineEdit.setObjectName("st_iou_threshold_lineEdit")
-        self.st_min_hits_lineEdit = QtWidgets.QLineEdit(sort_ui)
-        self.st_min_hits_lineEdit.setGeometry(QtCore.QRect(110, 40, 241, 21))
-        self.st_min_hits_lineEdit.setObjectName("st_min_hits_lineEdit")
+        self.st_iou_threshold_spinBox = FloatSpinBox(sort_ui)
+        self.st_iou_threshold_spinBox.setGeometry(QtCore.QRect(110, 70, 241, 21))
+        self.st_iou_threshold_spinBox.setObjectName("st_iou_threshold_spinBox")
+        self.st_min_hits_spinBox = IntSpinBox(sort_ui)
+        self.st_min_hits_spinBox.setGeometry(QtCore.QRect(110, 40, 241, 21))
+        self.st_min_hits_spinBox.setObjectName("st_min_hits_spinBox")
         self.st_max_age_label = QtWidgets.QLabel(sort_ui)
         self.st_max_age_label.setGeometry(QtCore.QRect(10, 10, 91, 16))
         self.st_max_age_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
@@ -56,9 +56,9 @@ class Ui_SORT(object):
                                                  QtCore.Qt.AlignmentFlag.AlignTrailing|
                                                  QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.st_iou_threshold_label.setObjectName("st_iou_threshold_label")
-        self.st_max_age_lineEdit = QtWidgets.QLineEdit(sort_ui)
-        self.st_max_age_lineEdit.setGeometry(QtCore.QRect(110, 10, 241, 21))
-        self.st_max_age_lineEdit.setObjectName("st_max_age_lineEdit")
+        self.st_max_age_spinBox = IntSpinBox(sort_ui)
+        self.st_max_age_spinBox.setGeometry(QtCore.QRect(110, 10, 241, 21))
+        self.st_max_age_spinBox.setObjectName("st_max_age_spinBox")
         font = QtGui.QFont()
         font.setPointSize(12)
         self.save_pushButton.setFont(font)
@@ -79,16 +79,16 @@ class Ui_SORT(object):
 
     def loadST(self):
         self.mycfg.setAllTCFG()
-        self.st_iou_threshold_lineEdit.setText(str(self.mycfg.tcfg_sort.iou_threshold))
-        self.st_max_age_lineEdit.setText(str(self.mycfg.tcfg_sort.max_age))
-        self.st_min_hits_lineEdit.setText(str(self.mycfg.tcfg_sort.min_hits))
+        self.st_iou_threshold_spinBox.setValue(self.mycfg.tcfg_sort.iou_threshold)
+        self.st_max_age_spinBox.setValue(self.mycfg.tcfg_sort.max_age)
+        self.st_min_hits_spinBox.setValue(self.mycfg.tcfg_sort.min_hits)
 
     def updateCFG(self, sort_ui):
         sort_doc = {
             "tk_name": unified_strings.getUnifiedFormat("SORT"),
-            "max_age": getInt(self.st_max_age_lineEdit.text(), default_val=1),
-            "min_hits": getInt(self.st_min_hits_lineEdit.text(), default_val=3),
-            "iou_threshold": getFloat(self.st_iou_threshold_lineEdit.text(), default_val=0.3)
+            "max_age": self.st_max_age_spinBox.value(),
+            "min_hits": self.st_min_hits_spinBox.value(),
+            "iou_threshold": self.st_iou_threshold_spinBox.value()
         }
         centroid_doc = self.mycfg.tcfg_centroid.getDocument()
         deepsort_doc = self.mycfg.tcfg_deepsort.getDocument()

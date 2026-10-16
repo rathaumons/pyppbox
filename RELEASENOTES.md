@@ -2,7 +2,7 @@
 
 ## **pyppbox V4 - Performance and Stability**
 
-* `pyppbox` V4 (planned, after V3.15)
+* `pyppbox` V4 (planned, after the V3 transition release)
 
   - Improve performance and stability in the existing pyppbox pipeline
   - Preserve working V3 configurations and public interfaces, including `pyppbox.standalone`
@@ -10,7 +10,19 @@
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
-* `pyppbox` [v3.15.0](https://github.com/rathaumons/pyppbox/tree/v3.15.0) - The Last V3
+* `pyppbox` v3.16.0 (unreleased) - RF-DETR Transition
+
+  Add an optional detector before the broader V4 performance and stability work.
+
+  - Support RF-DETR Nano, Small, Medium, and Large detection models through `RF_DETR`, using the existing pipeline and configuration format
+  - Add the optional `pyppbox[rfdetr]` extra (Python 3.10+), an RF-DETR GUI panel, and a detection/tracking example
+  - Supply defaults for older config directories without rewriting their files; preserve other detector configurations when saving settings
+  - Show demo failure details in the GUI, including when launched without a console on Windows
+  - Use numeric controls across detector, tracker, and ReID config panels, preserving decimal precision, signed crop offsets, and unlimited DeepSORT budgets
+  - Use [`pyppbox-ultralytics>=8.4.144`](https://github.com/rathaumons/ultralytics-for-pyppbox) as the default YOLO backend, replacing `vsensebox-ultralytics` with the same `ultralytics` imports and configuration format
+  - Extend Python support and CI coverage through Python 3.13
+
+* `pyppbox` [v3.15.0](https://github.com/rathaumons/pyppbox/tree/v3.15.0) - Maintenance and Stability
 
   Maintenance release before V4, preserving existing configuration keys, paths, and APIs:
   - Adopt **AGPLv3 or later** (`AGPL-3.0-or-later`), retaining bundled third-party licenses

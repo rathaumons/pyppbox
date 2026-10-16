@@ -27,6 +27,22 @@ YOLO_Ultralytics | ``MyYOLOULT``
 
 ----
 
+RF_DETR | ``MyRFDETR``
+----------------------
+
+Optional RF-DETR detection with Nano, Small, Medium, and Large models. See
+:doc:`../../examples/example_15` for installation, native class IDs, checkpoints,
+GUI settings, and a complete tracking example. Configuration uses
+:class:`pyppbox.config.myconfig.DCFGRFDETR`.
+
+.. automodule:: pyppbox.modules.detectors.rfdetr
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :special-members: __init__
+
+----
+
 GT | ``GTInterpreter``
 ----------------------
 

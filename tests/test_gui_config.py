@@ -13,7 +13,9 @@ from pyppbox.config.myconfig import MyConfigurator
 
 class GUIConfigTests(unittest.TestCase):
     def test_yolo_gui_saves_boolean_and_restores_selected_value(self):
-        with patch.dict(sys.modules, {'PyQt6': SimpleNamespace(QtCore=Mock(), QtGui=Mock(), QtWidgets=Mock())}):
+        with patch.dict(sys.modules, {
+                'PyQt6': SimpleNamespace(QtCore=Mock(), QtGui=Mock(), QtWidgets=Mock()),
+                'pyppbox.gui.numericwidgets': SimpleNamespace(FloatSpinBox=Mock(), IntSpinBox=Mock())}):
             module = importlib.import_module('pyppbox.gui.ui_yoloult')
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / 'detectors.yaml'
@@ -29,11 +31,12 @@ class GUIConfigTests(unittest.TestCase):
                     configurator.setAllDCFG()
                     ui = module.Ui_YOLOULT.__new__(module.Ui_YOLOULT)
                     ui.mycfg = configurator
-                    values = {'conf': '0.4', 'iou': '0.7', 'imgsz': '640', 'device': 'cpu',
-                              'max_det': '100', 'model_file': configurator.dcfg_yolout.model_file,
-                              'repspoint_calib': '0.25'}
+                    values = {'device': 'cpu', 'model_file': configurator.dcfg_yolout.model_file}
                     for name, value in values.items():
                         setattr(ui, name + '_lineEdit', Mock(text=Mock(return_value=value)))
+                    for name, value in {'conf': .4, 'iou': .7, 'imgsz': 640,
+                                        'max_det': 100, 'repspoint_calib': .25}.items():
+                        setattr(ui, name + '_spinBox', Mock(value=Mock(return_value=value)))
                     ui.boxes_comboBox = Mock(currentText=Mock(return_value=text))
                     ui.loadComboBoxes()
                     ui.boxes_comboBox.setCurrentIndex.assert_called_once_with(index)

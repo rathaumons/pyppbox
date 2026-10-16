@@ -104,7 +104,5 @@ class Ui_GT(object):
         gt_doc = {"dt_name": unified_strings.getUnifiedFormat("GT"),
                   "gt_file": normalizePathFDS(root_dir, self.gt_file_lineEdit.text()),
                   "gt_map_file": normalizePathFDS(root_dir, self.gt_map_lineEdit.text())}
-        yolo_doc = self.mycfg.dcfg_yolocs.getDocument()
-        yolo_utlt_doc = self.mycfg.dcfg_yolout.getDocument()
-        self.mycfg.dumpAllDCFG([yolo_doc, yolo_utlt_doc, gt_doc])
+        self.mycfg.dumpDetectorCFG(gt_doc)
         gi_ui.close()

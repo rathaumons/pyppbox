@@ -1,7 +1,7 @@
 ###########################################################
 # Main config:
 ###########################################################
-# detector: None | YOLO_Classic | YOLO_Ultralytics | GT
+# detector: None | YOLO_Classic | YOLO_Ultralytics | RF_DETR | GT
 # tracker: None | Centroid | SORT | DeepSORT
 # reider: None | FaceNet | Torchreid
 ###########################################################

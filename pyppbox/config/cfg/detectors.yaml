@@ -22,6 +22,17 @@
 # model_file: data/modules/yolo_ultralytics/yolov8s-pose.pt
 # repspoint_calibration: 0.25
 ###########################################################
+# --- # RF_DETR (optional: pyppbox[rfdetr], Python 3.10+)
+# dt_name: RF_DETR
+# conf: 0.4
+# model_size: nano
+# device: 0
+# max_det: 100
+# model_file: data/modules/rf_detr/rf-detr-nano.pth
+# person_class_id: 1
+# optimize: True
+# repspoint_calibration: 0.25
+###########################################################
 # --- # GT aka Ground Truth
 # dt_name: GT
 # gt_file: data/datasets/GTA_V_DATASET/ground_truth/realID_hard_sur.txt
@@ -40,10 +51,20 @@ dt_name: YOLO_Ultralytics
 conf: 0.4
 iou: 0.7
 imgsz: 1024
-show_boxes: False
+show_boxes: false
 device: 0
 max_det: 100
 model_file: data/modules/yolo_ultralytics/yolov8s-pose.pt
+repspoint_calibration: 0.25
+---
+dt_name: RF_DETR
+conf: 0.4
+model_size: nano
+device: 0
+max_det: 100
+model_file: data/modules/rf_detr/rf-detr-nano.pth
+person_class_id: 1
+optimize: true
 repspoint_calibration: 0.25
 ---
 dt_name: GT

@@ -2,9 +2,9 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.gui.numericwidgets import IntSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
-from pyppbox.utils.commontools import getInt
 
 
 unified_strings = UnifiedStrings()
@@ -32,9 +32,9 @@ class Ui_Centroid(object):
         self.save_pushButton = QtWidgets.QPushButton(centroid_ui)
         self.save_pushButton.setGeometry(QtCore.QRect(150, 50, 91, 31))
         self.save_pushButton.setObjectName("save_pushButton")
-        self.ct_max_distance_lineEdit = QtWidgets.QLineEdit(centroid_ui)
-        self.ct_max_distance_lineEdit.setGeometry(QtCore.QRect(110, 10, 241, 21))
-        self.ct_max_distance_lineEdit.setObjectName("ct_max_distance_lineEdit")
+        self.ct_max_distance_spinBox = IntSpinBox(centroid_ui)
+        self.ct_max_distance_spinBox.setGeometry(QtCore.QRect(110, 10, 241, 21))
+        self.ct_max_distance_spinBox.setObjectName("ct_max_distance_spinBox")
         self.ct_max_distance_label = QtWidgets.QLabel(centroid_ui)
         self.ct_max_distance_label.setGeometry(QtCore.QRect(10, 10, 91, 16))
         self.ct_max_distance_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
@@ -59,12 +59,12 @@ class Ui_Centroid(object):
 
     def loadCT(self):
         self.mycfg.setAllTCFG()
-        self.ct_max_distance_lineEdit.setText(str(self.mycfg.tcfg_centroid.max_spread))
+        self.ct_max_distance_spinBox.setValue(self.mycfg.tcfg_centroid.max_spread)
 
     def updateCFG(self, centroid_ui):
         centroid_doc = {
             "tk_name": unified_strings.getUnifiedFormat("Centroid"),
-            "max_spread": getInt(self.ct_max_distance_lineEdit.text(), default_val=50)
+            "max_spread": self.ct_max_distance_spinBox.value()
         }
         sort_doc = self.mycfg.tcfg_sort.getDocument()
         deepsort_doc = self.mycfg.tcfg_deepsort.getDocument()

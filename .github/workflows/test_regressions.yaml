@@ -10,8 +10,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python: ['3.9', '3.10', '3.11', '3.12']
+        python: ['3.9', '3.10', '3.11', '3.12', '3.13']
         numpy: ['<2', '>=2']
+        exclude:
+          # Python 3.13 support starts with NumPy 2.1.
+          - python: '3.13'
+            numpy: '<2'
     env:
       PYPPBOX_DISABLE_FILE_LOG: '1'
       PYPPBOX_DISABLE_TERMINAL_LOG: '1'
