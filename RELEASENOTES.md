@@ -14,6 +14,7 @@
   - Avoid rebuilding the accumulated result list during frame-local sorting; reject out-of-order or misaligned result records before writing
   - Share YOLO prediction, conversion, filtering, and drawing paths while preserving detection order and box/pose/confidence alignment; transfer only the result fields in use
   - Initialize YOLO pose drawing from model task metadata, including custom checkpoint names, with the legacy filename fallback retained
+  - Use indexed DeepSORT metadata lookup and carry actual detection associations through NMS; prevent repeated boxes or unmatched predicted tracks from overwriting another person's ID and metadata
 
 ## **pyppbox V3 - Make Simpler and Faster**
 

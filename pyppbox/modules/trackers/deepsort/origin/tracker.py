@@ -33,6 +33,9 @@ class Tracker:
         A Kalman filter to filter target trajectories in image space.
     tracks : List[Track]
         The list of active tracks at the current time step.
+    detection_indices : Dict[int, int]
+        Track ID to input detection index for measurements matched or initiated
+        in the latest update. Cleared on every update, including empty input.
 
     """
 
@@ -44,6 +47,7 @@ class Tracker:
 
         self.kf = kalman_filter.KalmanFilter()
         self.tracks = []
+        self.detection_indices = {}
         self._next_id = 1
 
     def predict(self):
@@ -63,6 +67,7 @@ class Tracker:
             A list of detections at the current time step.
 
         """
+        self.detection_indices = {}
         # Run matching cascade.
         matches, unmatched_tracks, unmatched_detections = \
             self._match(detections)
@@ -71,10 +76,12 @@ class Tracker:
         for track_idx, detection_idx in matches:
             self.tracks[track_idx].update(
                 self.kf, detections[detection_idx])
+            self.detection_indices[self.tracks[track_idx].track_id] = detection_idx
         for track_idx in unmatched_tracks:
             self.tracks[track_idx].mark_missed()
         for detection_idx in unmatched_detections:
             self._initiate_track(detections[detection_idx])
+            self.detection_indices[self.tracks[-1].track_id] = detection_idx
         self.tracks = [t for t in self.tracks if not t.is_deleted()]
 
         # Update distance metric.
