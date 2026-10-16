@@ -7,6 +7,7 @@ from pyppbox.utils.logtools import add_info_log, add_warning_log, add_error_log
 # Common
 import cv2
 from collections import Counter
+from operator import index as integer_index
 from typing import Any, Dict, List, Union, Optional
 
 # Configurations
@@ -26,6 +27,21 @@ from pyppbox.utils.commontools import getAbsPathFDS, isExist, getCVMat, getAnces
 
 
 __none_cfg__ = NoneCFG("Fiat Moneey")
+
+
+def _crop_reid_image(img, box_xyxy):
+    """Return a clipped ROI view; reject malformed or entirely invisible boxes."""
+    try:
+        x1, y1, x2, y2 = map(integer_index, box_xyxy)
+    except (TypeError, ValueError) as error:
+        raise ValueError('ReID crop expects four integer coordinates.') from error
+    height, width = img.shape[:2]
+    x1, x2 = max(0, min(width, x1)), max(0, min(width, x2))
+    y1, y2 = max(0, min(height, y1)), max(0, min(height, y2))
+    if x1 >= x2 or y1 >= y2:
+        raise ValueError('ReID crop has no visible pixels.')
+    return img[y1:y2, x1:x2]
+
 
 class MT(object):
 
@@ -861,6 +877,9 @@ class MT(object):
         Deferred classifier loading happens before processing the people list and can
         therefore occur on an empty frame. Classifier/model loading errors propagate.
         Per-person crop or recognition exceptions are logged and the person is retained.
+        Integer crop bounds are clipped to the image; malformed or entirely invisible
+        crops are skipped without counting a recognition call. Valid crops keep the
+        existing resizing/preprocessing. Recognition does not modify the input frame.
         """
         res = []
         reid_count = [0, 0]
@@ -919,10 +938,8 @@ class MT(object):
         for person in people:
             deepid = person.deepid
             if self.__unistrings__.err_did in deepid or self.__unistrings__.unk_did in deepid:
-                miniframe = img.copy()
                 try:
-                    [x1, y1, x2, y2] = person.box_xyxy
-                    miniframe = miniframe[y1:y2, x1:x2]
+                    miniframe = _crop_reid_image(img, person.box_xyxy)
                     people[index].deepid, people[index].deepid_conf = self.__ri__.recognize(
                         cv2.resize(miniframe, self.__ri_cfg__.model_wh), 
                         is_bgr=True
@@ -943,9 +960,7 @@ class MT(object):
                 for person in people:
                     try:
                         if person.deepid == ddeepid:
-                            [x1, y1, x2, y2] = person.box_xyxy
-                            miniframe = img.copy()
-                            miniframe = miniframe[y1:y2, x1:x2]
+                            miniframe = _crop_reid_image(img, person.box_xyxy)
                             people[index].deepid, people[index].deepid_conf = self.__ri__.recognize(
                                 cv2.resize(miniframe, self.__ri_cfg__.model_wh), 
                                 is_bgr=True
@@ -963,15 +978,14 @@ class MT(object):
         for person in people:
             faceid = person.faceid
             if self.__unistrings__.err_fid in faceid or self.__unistrings__.unk_fid in faceid:
-                (x, y) = person.repspoint
-                miniframe = img.copy()
                 try:
-                    miniframe = miniframe[
-                        y + int(self.__ri_cfg__.yl_h_calibration[0]):
+                    (x, y) = person.repspoint
+                    miniframe = _crop_reid_image(img, (
+                        x + int(self.__ri_cfg__.yl_w_calibration[0]),
+                        y + int(self.__ri_cfg__.yl_h_calibration[0]),
+                        x + int(self.__ri_cfg__.yl_w_calibration[1]),
                         y + int(self.__ri_cfg__.yl_h_calibration[1]),
-                        x + int(self.__ri_cfg__.yl_w_calibration[0]):
-                        x + int(self.__ri_cfg__.yl_w_calibration[1])
-                    ]
+                    )).copy()
                     people[index].faceid, people[index].faceid_conf = self.__ri__.recognize(
                         miniframe, 
                         is_bgr=True
@@ -993,13 +1007,12 @@ class MT(object):
                     try:
                         if person.faceid == dfaceid:
                             (x, y) = person.repspoint
-                            miniframe = img.copy()
-                            miniframe = miniframe[
-                                y + int(self.__ri_cfg__.yl_h_calibration[0]):
+                            miniframe = _crop_reid_image(img, (
+                                x + int(self.__ri_cfg__.yl_w_calibration[0]),
+                                y + int(self.__ri_cfg__.yl_h_calibration[0]),
+                                x + int(self.__ri_cfg__.yl_w_calibration[1]),
                                 y + int(self.__ri_cfg__.yl_h_calibration[1]),
-                                x + int(self.__ri_cfg__.yl_w_calibration[0]):
-                                x + int(self.__ri_cfg__.yl_w_calibration[1])
-                            ]
+                            )).copy()
                             people[index].faceid, people[index].faceid_conf = self.__ri__.recognize(
                                 miniframe, 
                                 is_bgr=True

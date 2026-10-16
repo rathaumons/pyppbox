@@ -2,11 +2,14 @@
 
 ## **pyppbox V4 - Performance and Stability**
 
-* `pyppbox` V4 (planned, after the V3 transition release)
+* `pyppbox` V4 (in development, after the V3 transition release)
 
   - Improve performance and stability in the existing pyppbox pipeline
   - Preserve working V3 configurations and public interfaces, including `pyppbox.standalone`
   - Measure optimizations against the V3.15 correctness baseline
+  - Reduce ReID crop allocations: resize body regions directly and copy only face regions in both normal and duplicate recognition passes
+  - Clip ReID crop bounds to the frame; skip malformed or entirely invisible regions while retaining the person's existing identity and confidence
+  - Add a reproducible ReID crop benchmark with output fingerprints, latency samples, and allocation measurements
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
