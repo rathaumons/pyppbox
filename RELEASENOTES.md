@@ -27,6 +27,7 @@
   - Preserve per-person ReID counts, crop preprocessing, and duplicate-group order; retry failed batches per person and recheck numerically close identity decisions using scalar inference
   - Use the named pyppbox logger without configuring application root logging; open unique user log files lazily and tolerate log I/O failures
   - Isolate GUI launch handoffs per session, store remembered state outside the package with atomic writes, and retain read-only legacy-state readers without changing YAML configs
+  - Add paired CPU pipeline benchmarks against the released V3.15 wheel on Linux, Windows, and macOS; verify output/identity equivalence and record advisory stage timings, latency percentiles, and sampled memory
 
 ## **pyppbox V3 - Make Simpler and Faster**
 

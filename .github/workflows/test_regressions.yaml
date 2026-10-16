@@ -9,7 +9,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        # Fixed x64 images also provide Python 3.9; macos-latest is ARM.
+        os: [ubuntu-24.04, windows-2022, macos-15-intel]
         python: ['3.9', '3.10', '3.11', '3.12', '3.13']
         numpy: ['<2', '>=2']
         exclude:
@@ -40,5 +41,5 @@ jobs:
       - name: Test installed wheel outside the checkout
         working-directory: ${{ runner.temp }}
         run: |
-          python -c "import pyppbox; print(pyppbox.__file__)"
+          python -c "import os,pathlib,pyppbox; p=pathlib.Path(pyppbox.__file__).resolve(); print(p); assert not p.is_relative_to(pathlib.Path(os.environ['GITHUB_WORKSPACE']).resolve()), 'Checkout shadowed the installed wheel'"
           python -m unittest discover -s "$GITHUB_WORKSPACE/tests" -v

@@ -1,0 +1,87 @@
+name: CPU pipeline comparison
+
+on: [push, pull_request, workflow_dispatch]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cpu-pipeline-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cpu_pipeline:
+    name: CPU models / ${{ matrix.os }} / Python 3.11
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2022, macos-15-intel]
+    env:
+      BASELINE_REF: 4279a26b5bcec553981c969772e8e079b51e81bf
+      PYTHONDONTWRITEBYTECODE: '1'
+      CUDA_VISIBLE_DEVICES: '-1'
+      PYPPBOX_DISABLE_FILE_LOG: '1'
+      PYPPBOX_DISABLE_TERMINAL_LOG: '1'
+      QT_QPA_PLATFORM: offscreen
+      MPLBACKEND: Agg
+      YOLO_CONFIG_DIR: ${{ runner.temp }}/ultralytics
+      PYPPBOX_RUNTIME_DIR: ${{ runner.temp }}/pyppbox-runtime
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: benchmarks/requirements-cpu.txt
+      - name: Install CPU PyTorch (Linux and Windows)
+        if: runner.os != 'macOS'
+        run: python -m pip install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cpu
+      - name: Install CPU PyTorch (macOS)
+        if: runner.os == 'macOS'
+        run: python -m pip install torch==2.5.1 torchvision==0.20.1
+      - name: Install benchmark and GUI dependencies
+        run: python -m pip install -r benchmarks/requirements-cpu.txt
+      - name: Record source and dependency provenance
+        run: |
+          mkdir -p "$RUNNER_TEMP/cpu-results" "$YOLO_CONFIG_DIR" "$PYPPBOX_RUNTIME_DIR"
+          git rev-parse HEAD > "$RUNNER_TEMP/cpu-results/candidate-ref.txt"
+          git show -s --format=fuller "$BASELINE_REF" > "$RUNNER_TEMP/cpu-results/baseline-ref.txt"
+          python -m pip freeze > "$RUNNER_TEMP/cpu-results/dependencies.txt"
+      - name: Build baseline and candidate wheels
+        run: |
+          git worktree add --detach "$RUNNER_TEMP/baseline-source" "$BASELINE_REF"
+          python -m build --no-isolation --wheel --sdist --outdir "$RUNNER_TEMP/candidate-dist"
+          python tests/check_distributions.py "$RUNNER_TEMP/candidate-dist"
+          python -m build --no-isolation --wheel --outdir "$RUNNER_TEMP/baseline-dist" "$RUNNER_TEMP/baseline-source"
+          python -m pip install --no-deps --target "$RUNNER_TEMP/baseline-wheel" "$RUNNER_TEMP"/baseline-dist/*.whl
+          python -m pip install --no-deps --target "$RUNNER_TEMP/candidate-wheel" "$RUNNER_TEMP"/candidate-dist/*.whl
+          python -c "import hashlib,json,os,pathlib; r=pathlib.Path(os.environ['RUNNER_TEMP']); print(json.dumps({str(p.relative_to(r)):hashlib.sha256(p.read_bytes()).hexdigest() for d in ('candidate-dist','baseline-dist') for p in (r/d).glob('*')},indent=2))" > "$RUNNER_TEMP/cpu-results/artifact-hashes.json"
+      - name: Test installed candidate, GUI, and native permission/lifecycle behavior
+        working-directory: ${{ runner.temp }}
+        run: python "$GITHUB_WORKSPACE/benchmarks/installed_checks.py" --package-root "$RUNNER_TEMP/candidate-wheel" --tests "$GITHUB_WORKSPACE/tests"
+      - uses: actions/cache@v5
+        with:
+          path: ${{ runner.temp }}/cpu-assets
+          key: cpu-assets-v1-${{ hashFiles('benchmarks/prepare_cpu_assets.py') }}
+      - name: Prepare verified model assets outside installed packages
+        run: python benchmarks/prepare_cpu_assets.py --directory "$RUNNER_TEMP/cpu-assets" --video examples/data/gta.mp4
+      - name: Compare released V3 and candidate sequentially on this runner
+        working-directory: ${{ runner.temp }}
+        run: |
+          python "$GITHUB_WORKSPACE/benchmarks/compare_cpu.py" --baseline-root "$RUNNER_TEMP/baseline-wheel" --candidate-root "$RUNNER_TEMP/candidate-wheel" --assets "$RUNNER_TEMP/cpu-assets/assets.json" --output "$RUNNER_TEMP/cpu-results" --baseline-ref "$BASELINE_REF" --candidate-ref "$(cat "$RUNNER_TEMP/cpu-results/candidate-ref.txt")" --trials 3 --frames 24 --threads 2
+      - name: Upload measurements and failure logs
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: cpu-pipeline-${{ matrix.os }}
+          path: ${{ runner.temp }}/cpu-results
+          retention-days: 30
+          if-no-files-found: warn
