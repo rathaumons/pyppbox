@@ -111,9 +111,11 @@ class Ui_DeepSORT(object):
             "max_cosine_distance": self.ds_cosine_distance_spinBox.value(),
             "model_file": normalizePathFDS(root_dir, self.ds_model_file_lineEdit.text())
         }
-        centroid_doc = self.mycfg.tcfg_centroid.getDocument()
-        sort_doc = self.mycfg.tcfg_sort.getDocument()
-        self.mycfg.dumpAllTCFG([centroid_doc, sort_doc, deepsort_doc])
+        try:
+            self.mycfg.dumpTrackerCFG(deepsort_doc)
+        except (ValueError, OSError) as error:
+            QtWidgets.QMessageBox.warning(YOLOForm, 'Cannot save settings', str(error))
+            return
         YOLOForm.close()
 
     def browseModelFile(self):

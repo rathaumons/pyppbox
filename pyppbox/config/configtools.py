@@ -5,6 +5,7 @@ import json
 import os
 import stat
 import tempfile
+from pathlib import Path
 import yaml
 
 from .unifiedstrings import UnifiedStrings
@@ -382,17 +383,21 @@ def loadRawYAMLStringMT(raw_string):
         raise ValueError(msg) from e
 
 
+def _serialize_documents(output_file, documents, header, single):
+    documents = _normalize_documents(documents)
+    if os.path.splitext(os.fspath(output_file))[1].lower() == '.json':
+        value = _single_document(documents) if single else documents
+        return json.dumps(value, ensure_ascii=False, indent=2) + '\n'
+    content = yaml.safe_dump_all(documents, sort_keys=False, allow_unicode=True)
+    if header:
+        content = header + ('' if header.endswith('\n') else '\n') + content
+    return content
+
+
 def _dump_documents(output_file, documents, header, single):
     temporary = None
     try:
-        documents = _normalize_documents(documents)
-        if os.path.splitext(os.fspath(output_file))[1].lower() == '.json':
-            value = _single_document(documents) if single else documents
-            content = json.dumps(value, ensure_ascii=False, indent=2) + '\n'
-        else:
-            content = yaml.safe_dump_all(documents, sort_keys=False, allow_unicode=True)
-            if header:
-                content = header + ('' if header.endswith('\n') else '\n') + content
+        content = _serialize_documents(output_file, documents, header, single)
         # Serialize before opening anything, then replace only a fully written file.
         destination = os.path.realpath(os.path.abspath(output_file))
         with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', newline='\n',
@@ -472,3 +477,128 @@ def dumpDocDictList(output_file, doc_list, header):
     replaced. This is atomic for this file only, not a transaction across config files.
     """
     _dump_documents(output_file, doc_list, header, single=False)
+
+
+def _sync_bytes(path, content):
+    with open(path, 'wb') as output:
+        output.write(content)
+        output.flush()
+        os.fsync(output.fileno())
+
+
+def _clean_save(directory):
+    # Only files created in our transaction directory; never recurse into a tree.
+    # Once cleanup starts, originals have been restored or the new group committed.
+    # Remove the journal first so interrupted cleanup cannot request another rollback.
+    (directory / 'manifest.json').unlink(missing_ok=True)
+    for path in directory.iterdir():
+        path.unlink()
+    directory.rmdir()
+
+
+def _restore_save(directory, entries):
+    errors = []
+    for index, entry in enumerate(entries):
+        destination = entry['destination']
+        try:
+            if entry['existed']:
+                temporary = directory / f'{index}.restore'
+                _sync_bytes(temporary, (directory / f'{index}.backup').read_bytes())
+                if os.name != 'nt':
+                    os.chmod(temporary, entry['mode'])
+                os.replace(temporary, destination)
+            elif os.path.exists(destination):
+                os.unlink(destination)
+        except OSError as error:
+            errors.append(f'{destination}: {error}')
+    if errors:
+        raise ValueError(f'Config rollback incomplete; retain recovery files in {directory}: ' + '; '.join(errors))
+    _clean_save(directory)
+
+
+def _dump_config_files(cfg_dir, files):
+    """Stage a group, retaining original bytes for rollback or explicit recovery."""
+    root = Path(cfg_dir).resolve()
+    _check_pending_save(root)
+    directory = None
+    entries = []
+    ready = False
+    committed = False
+    try:
+        # Finish all serialization before creating the transaction or changing configs.
+        rendered = [(name, _serialize_documents(name, docs, header, single).encode('utf-8'))
+                    for name, docs, header, single in files]
+        directory = Path(tempfile.mkdtemp(prefix='.pyppbox-save-', dir=root))
+        for index, (name, content) in enumerate(rendered):
+            destination = os.path.realpath(root / name)
+            if destination in [entry['destination'] for entry in entries]:
+                raise ValueError('Config files must resolve to distinct destinations.')
+            existed = os.path.exists(destination)
+            mode = stat.S_IMODE(os.stat(destination).st_mode) if existed else 0o600
+            if existed:
+                _sync_bytes(directory / f'{index}.backup', Path(destination).read_bytes())
+            staged = directory / f'{index}.staged'
+            _sync_bytes(staged, content)
+            if os.name != 'nt':
+                os.chmod(staged, mode)
+            entries.append(dict(name=name, destination=destination, existed=existed, mode=mode))
+        _sync_bytes(directory / 'manifest.json', json.dumps(entries).encode('utf-8'))
+        ready = True
+        for index, entry in enumerate(entries):
+            os.replace(directory / f'{index}.staged', entry['destination'])
+        _sync_bytes(directory / 'committed', b'complete\n')
+        committed = True
+        _clean_save(directory)
+    except (OSError, TypeError, ValueError, yaml.YAMLError) as error:
+        if directory is not None and directory.exists() and not committed:
+            if ready:
+                _restore_save(directory, entries)
+            else:
+                _clean_save(directory)
+        raise ValueError(f'Cannot save configuration group: {error}') from error
+
+
+def _check_pending_save(cfg_dir):
+    pending = next(Path(cfg_dir).glob('.pyppbox-save-*'), None)
+    if pending is not None:
+        raise ValueError(f'A config save needs recovery or is still running: {pending}')
+
+
+def recoverConfigSave(cfg_dir):
+    """Recover an interrupted ``MyConfigurator.dumpConfigs()`` save.
+
+    Parameters
+    ----------
+    cfg_dir : str or object
+        Config directory containing the retained ``.pyppbox-save-*`` folder.
+        Call only when no process is saving or using this directory. Pending saves
+        restore original bytes; completed saves retain the new files.
+
+    Raises
+    ------
+    ValueError
+        Recovery metadata is invalid, a destination changed, or restoration failed.
+        Backups are retained on failure. A group save is recoverable, not atomic to
+        concurrent readers; individual file replacements remain atomic. Power-loss
+        durability depends on the filesystem. Returns None.
+    """
+    root = Path(cfg_dir).resolve()
+    for directory in root.glob('.pyppbox-save-*'):
+        if directory.is_symlink() or not directory.is_dir():
+            raise ValueError(f'Invalid config recovery directory: {directory}')
+        try:
+            manifest = directory / 'manifest.json'
+            if not manifest.exists() or (directory / 'committed').exists():
+                _clean_save(directory)
+                continue
+            entries = json.loads(manifest.read_text(encoding='utf-8'))
+            if not isinstance(entries, list):
+                raise ValueError('Invalid config recovery manifest.')
+            for entry in entries:
+                if entry['name'] not in ('main.yaml', 'detectors.yaml', 'trackers.yaml', 'reiders.yaml'):
+                    raise ValueError('Invalid config recovery filename.')
+                if os.path.realpath(root / entry['name']) != entry['destination']:
+                    raise ValueError('Config recovery destination changed.')
+            _restore_save(directory, entries)
+        except (OSError, KeyError, TypeError, ValueError) as error:
+            raise ValueError(f'Cannot recover configuration save in {directory}: {error}') from error

@@ -308,22 +308,26 @@ class MT(object):
     def __loadDefaultDetector__(self):
         if self.__cfg_is_set__:
             if self.__cfg__.mcfg.detector.lower() == self.__unistrings__.yolo_cls:
-                from pyppbox.modules.detectors.yolocls import MyYOLOCLS
                 self.__dt_cfg__ = self.__cfg__.dcfg_yolocs
+                self.__dt_cfg__.validateRuntime()
+                from pyppbox.modules.detectors.yolocls import MyYOLOCLS
                 self.__dt__ = MyYOLOCLS(self.__dt_cfg__)
                 self.__dt_is_set__ = True
             elif self.__cfg__.mcfg.detector.lower() == self.__unistrings__.yolo_ult:
-                from pyppbox.modules.detectors.yoloult import MyYOLOULT
                 self.__dt_cfg__ = self.__cfg__.dcfg_yolout
+                self.__dt_cfg__.validateRuntime()
+                from pyppbox.modules.detectors.yoloult import MyYOLOULT
                 self.__dt__ = MyYOLOULT(self.__dt_cfg__)
                 self.__dt_is_set__ = True
             elif self.__cfg__.mcfg.detector.lower() == self.__unistrings__.rf_detr:
-                from pyppbox.modules.detectors.rfdetr import MyRFDETR
                 self.__dt_cfg__ = self.__cfg__.dcfg_rfdetr
+                self.__dt_cfg__.validateRuntime()
+                from pyppbox.modules.detectors.rfdetr import MyRFDETR
                 self.__dt__ = MyRFDETR(self.__dt_cfg__)
                 self.__dt_is_set__ = True
             elif self.__cfg__.mcfg.detector.lower() == self.__unistrings__.gt:
                 self.__dt_cfg__ = self.__cfg__.dcfg_gt
+                self.__dt_cfg__.validateRuntime()
                 self.__dt__ = GTInterpreter()
                 self.__dt__.setGT(self.__dt_cfg__.gt_file)
                 self.__dt_is_set__ = True
@@ -342,29 +346,33 @@ class MT(object):
     def __setCustomDetector__(self, detector_dict):
         if detector_dict:
             if detector_dict['dt_name'].lower() == self.__unistrings__.yolo_cls:
-                from pyppbox.modules.detectors.yolocls import MyYOLOCLS
                 self.__dt_cfg__ = DCFGYOLOCLS()
                 self.__dt_cfg__.set(detector_dict)
+                self.__dt_cfg__.validateRuntime()
+                from pyppbox.modules.detectors.yolocls import MyYOLOCLS
                 self.__dt__ = MyYOLOCLS(self.__dt_cfg__)
                 self.__dt_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set detector='{self.__dt_cfg__.dt_name}'")
             elif detector_dict['dt_name'].lower() == self.__unistrings__.yolo_ult:
-                from pyppbox.modules.detectors.yoloult import MyYOLOULT
                 self.__dt_cfg__ = DCFGYOLOULT()
                 self.__dt_cfg__.set(detector_dict)
+                self.__dt_cfg__.validateRuntime()
+                from pyppbox.modules.detectors.yoloult import MyYOLOULT
                 self.__dt__ = MyYOLOULT(self.__dt_cfg__)
                 self.__dt_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set detector='{self.__dt_cfg__.dt_name}'")
             elif self.__unistrings__.getUnifiedFormat(detector_dict['dt_name']).lower() == self.__unistrings__.rf_detr:
-                from pyppbox.modules.detectors.rfdetr import MyRFDETR
                 self.__dt_cfg__ = DCFGRFDETR()
                 self.__dt_cfg__.set(detector_dict)
+                self.__dt_cfg__.validateRuntime()
+                from pyppbox.modules.detectors.rfdetr import MyRFDETR
                 self.__dt__ = MyRFDETR(self.__dt_cfg__)
                 self.__dt_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set detector='{self.__dt_cfg__.dt_name}'")
             elif detector_dict['dt_name'].lower() == self.__unistrings__.gt:
                 self.__dt_cfg__ = DCFGGT()
                 self.__dt_cfg__.set(detector_dict)
+                self.__dt_cfg__.validateRuntime()
                 self.__dt__ = GTInterpreter()
                 self.__dt__.setGT(self.__dt_cfg__.gt_file)
                 self.__dt_is_set__ = True
@@ -407,26 +415,29 @@ class MT(object):
                 self.__loadDefaultDetector__()
                 add_info_log('---PYPPBOX : Use detector according to the "main.yaml"')
             elif detector.lower() == self.__unistrings__.yolo_cls:
-                from pyppbox.modules.detectors.yolocls import MyYOLOCLS
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__cfg__.setAllDCFG()
                 self.__dt_cfg__ = self.__cfg__.dcfg_yolocs
+                self.__dt_cfg__.validateRuntime()
+                from pyppbox.modules.detectors.yolocls import MyYOLOCLS
                 self.__dt__ = MyYOLOCLS(self.__dt_cfg__)
                 self.__dt_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set detector='{detector}'")
             elif detector.lower() == self.__unistrings__.yolo_ult:
-                from pyppbox.modules.detectors.yoloult import MyYOLOULT
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__cfg__.setAllDCFG()
                 self.__dt_cfg__ = self.__cfg__.dcfg_yolout
+                self.__dt_cfg__.validateRuntime()
+                from pyppbox.modules.detectors.yoloult import MyYOLOULT
                 self.__dt__ = MyYOLOULT(self.__dt_cfg__)
                 self.__dt_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set detector='{detector}'")
             elif self.__unistrings__.getUnifiedFormat(detector).lower() == self.__unistrings__.rf_detr:
-                from pyppbox.modules.detectors.rfdetr import MyRFDETR
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__cfg__.setAllDCFG()
                 self.__dt_cfg__ = self.__cfg__.dcfg_rfdetr
+                self.__dt_cfg__.validateRuntime()
+                from pyppbox.modules.detectors.rfdetr import MyRFDETR
                 self.__dt__ = MyRFDETR(self.__dt_cfg__)
                 self.__dt_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set detector='{self.__dt_cfg__.dt_name}'")
@@ -434,6 +445,7 @@ class MT(object):
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__cfg__.setAllDCFG()
                 self.__dt_cfg__ = self.__cfg__.dcfg_gt
+                self.__dt_cfg__.validateRuntime()
                 self.__dt__ = GTInterpreter()
                 self.__dt__.setGT(self.__dt_cfg__.gt_file)
                 self.__dt_is_set__ = True
@@ -554,8 +566,9 @@ class MT(object):
                 self.__tk__ = MySORT(self.__tk_cfg__)
                 self.__tk_is_set__ = True
             elif self.__cfg__.mcfg.tracker.lower() == self.__unistrings__.deepsort:
-                from pyppbox.modules.trackers.deepsort import MyDeepSORT
                 self.__tk_cfg__ = self.__cfg__.tcfg_deepsort
+                self.__tk_cfg__.validateRuntime()
+                from pyppbox.modules.trackers.deepsort import MyDeepSORT
                 self.__tk__ = MyDeepSORT(self.__tk_cfg__)
                 self.__tk_is_set__ = True
             elif self.__cfg__.mcfg.tracker.lower() == self.__unistrings__.none:
@@ -587,9 +600,10 @@ class MT(object):
                 self.__tk_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set tracker='{self.__tk_cfg__.tk_name}'")
             elif tracker_dict['tk_name'].lower() == self.__unistrings__.deepsort:
-                from pyppbox.modules.trackers.deepsort import MyDeepSORT
                 self.__tk_cfg__ = TCFGDeepSORT()
                 self.__tk_cfg__.set(tracker_dict)
+                self.__tk_cfg__.validateRuntime()
+                from pyppbox.modules.trackers.deepsort import MyDeepSORT
                 self.__tk__ = MyDeepSORT(self.__tk_cfg__)
                 self.__tk_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set tracker='{self.__tk_cfg__.tk_name}'")
@@ -647,10 +661,11 @@ class MT(object):
                 self.__tk_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set tracker='{tracker}'")
             elif tracker.lower() == self.__unistrings__.deepsort:
-                from pyppbox.modules.trackers.deepsort import MyDeepSORT
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__cfg__.setAllTCFG()
                 self.__tk_cfg__ = self.__cfg__.tcfg_deepsort
+                self.__tk_cfg__.validateRuntime()
+                from pyppbox.modules.trackers.deepsort import MyDeepSORT
                 self.__tk__ = MyDeepSORT(self.__tk_cfg__)
                 self.__tk_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set tracker='{tracker}'")
@@ -718,13 +733,15 @@ class MT(object):
     def __loadDefaultReIDer__(self, auto_load=True):
         if self.__cfg_is_set__:
             if self.__cfg__.mcfg.reider.lower() == self.__unistrings__.facenet:
-                from pyppbox.modules.reiders.facenet import MyFaceNet
                 self.__ri_cfg__ = self.__cfg__.rcfg_facenet
+                self.__ri_cfg__.validateRuntime(classifier=auto_load)
+                from pyppbox.modules.reiders.facenet import MyFaceNet
                 self.__ri__ = MyFaceNet(self.__ri_cfg__, auto_load=auto_load)
                 self.__ri_is_set__ = True
             elif self.__cfg__.mcfg.reider.lower() == self.__unistrings__.torchreid:
-                from pyppbox.modules.reiders.torchreid import MyTorchreid
                 self.__ri_cfg__ = self.__cfg__.rcfg_torchreid
+                self.__ri_cfg__.validateRuntime(classifier=auto_load)
+                from pyppbox.modules.reiders.torchreid import MyTorchreid
                 self.__ri__ = MyTorchreid(self.__ri_cfg__, auto_load=auto_load)
                 self.__ri_is_set__ = True
             elif self.__cfg__.mcfg.reider.lower() == self.__unistrings__.none:
@@ -746,16 +763,18 @@ class MT(object):
     def __setCustomReIDer__(self, reider_dict, auto_load=True):
         if reider_dict:
             if reider_dict['ri_name'].lower() == self.__unistrings__.facenet:
-                from pyppbox.modules.reiders.facenet import MyFaceNet
                 self.__ri_cfg__ = RCFGFaceNet()
                 self.__ri_cfg__.set(reider_dict)
+                self.__ri_cfg__.validateRuntime(classifier=auto_load)
+                from pyppbox.modules.reiders.facenet import MyFaceNet
                 self.__ri__ = MyFaceNet(self.__ri_cfg__, auto_load=auto_load)
                 self.__ri_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set reider='{self.__ri_cfg__.ri_name}'")
             elif reider_dict['ri_name'].lower() == self.__unistrings__.torchreid:
-                from pyppbox.modules.reiders.torchreid import MyTorchreid
                 self.__ri_cfg__ = RCFGTorchreid()
                 self.__ri_cfg__.set(reider_dict)
+                self.__ri_cfg__.validateRuntime(classifier=auto_load)
+                from pyppbox.modules.reiders.torchreid import MyTorchreid
                 self.__ri__ = MyTorchreid(self.__ri_cfg__, auto_load=auto_load)
                 self.__ri_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set reider='{self.__ri_cfg__.ri_name}'")
@@ -808,18 +827,20 @@ class MT(object):
                 self.__loadDefaultReIDer__(auto_load=auto_load)
                 add_info_log('---PYPPBOX : Use reider according to the "main.yaml"')
             elif reider.lower() == self.__unistrings__.facenet:
-                from pyppbox.modules.reiders.facenet import MyFaceNet
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__cfg__.setAllRCFG()
                 self.__ri_cfg__ = self.__cfg__.rcfg_facenet
+                self.__ri_cfg__.validateRuntime(classifier=auto_load)
+                from pyppbox.modules.reiders.facenet import MyFaceNet
                 self.__ri__ = MyFaceNet(self.__ri_cfg__, auto_load=auto_load)
                 self.__ri_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set reider='{reider}'")
             elif reider.lower() == self.__unistrings__.torchreid:
-                from pyppbox.modules.reiders.torchreid import MyTorchreid
                 if not self.__cfg_is_set__: self.setConfigDir()
                 self.__cfg__.setAllRCFG()
                 self.__ri_cfg__ = self.__cfg__.rcfg_torchreid
+                self.__ri_cfg__.validateRuntime(classifier=auto_load)
+                from pyppbox.modules.reiders.torchreid import MyTorchreid
                 self.__ri__ = MyTorchreid(self.__ri_cfg__, auto_load=auto_load)
                 self.__ri_is_set__ = True
                 add_info_log(f"---PYPPBOX : Set reider='{reider}'")
@@ -886,6 +907,7 @@ class MT(object):
         if self.__ri_is_set__:
             if self.__ri_cfg__.ri_name.lower() != self.__unistrings__.none:
                 if not self.__ri__.auto_load:
+                    self.__ri_cfg__.validateRuntime(classifier=True)
                     self.__ri__.load_classifier()
                     self.__ri__.auto_load = True
             if isinstance(people, list):
@@ -1074,9 +1096,11 @@ class MT(object):
                 from pyppbox.modules.reiders.facenet import MyFaceNet
                 from pyppbox.modules.reiders.torchreid import MyTorchreid
                 if isinstance(self.__ri__, MyFaceNet):
+                    self.__ri_cfg__.validateRuntime()
                     self.__ri__ = MyFaceNet(self.__ri_cfg__, auto_load=False)
                     add_info_log("------------- FaceNet --------------")
                 elif isinstance(self.__ri__, MyTorchreid):
+                    self.__ri_cfg__.validateRuntime()
                     self.__ri__ = MyTorchreid(self.__ri_cfg__, auto_load=False)
                     add_info_log("------------ Torchreid -------------")
                 add_info_log("---PYPPBOX : train_data='" + str(self.__ri_cfg__.train_data) + "'")

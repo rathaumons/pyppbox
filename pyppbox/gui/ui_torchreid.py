@@ -142,13 +142,7 @@ class Ui_Torchreid(object):
         self.dr_device_lineEdit.setText(str(self.mycfg.rcfg_torchreid.device))
 
     def updateCFG(self, torchreid_ui):
-        device = 'cuda'
-        if 'cpu' in self.dr_device_lineEdit.text().lower():
-            device = 'cpu'
-        elif 'cuda' in self.dr_device_lineEdit.text().lower():
-            device = 'cuda'
-        else:
-            device = getInt(self.dr_device_lineEdit.text())
+        device = self.dr_device_lineEdit.text().strip()
         Torchreid_doc = {
             "ri_name": unified_strings.getUnifiedFormat("Torchreid"),
             "classifier_pkl": normalizePathFDS(root_dir, self.dr_classifier_pkl_lineEdit.text()),
@@ -158,8 +152,11 @@ class Ui_Torchreid(object):
             "min_confidence": self.dr_min_confidence_spinBox.value(),
             "device": device
         }
-        facenet_doc = self.mycfg.rcfg_facenet.getDocument()
-        self.mycfg.dumpAllRCFG([facenet_doc, Torchreid_doc])
+        try:
+            self.mycfg.dumpReiderCFG(Torchreid_doc)
+        except (ValueError, OSError) as error:
+            QtWidgets.QMessageBox.warning(torchreid_ui, 'Cannot save settings', str(error))
+            return
         torchreid_ui.close()
 
     def browseTrainData(self):

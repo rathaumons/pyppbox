@@ -17,6 +17,9 @@
   - Use indexed DeepSORT metadata lookup and carry actual detection associations through NMS; prevent repeated boxes or unmatched predicted tracks from overwriting another person's ID and metadata
   - Read Torchreid configuration/model metadata without importing its runtime package, retaining the legacy catalog imports and YAML format
   - Load SORT's plotting/image dependencies only for its display demo; defer standalone pipeline imports and shared-instance creation until first use
+  - Validate existing configuration fields before model initialization, retaining safe legacy values and path rules; diagnose missing selected settings and inference assets
+  - Preserve extension fields, custom modules, and document order in GUI saves; retain indexed device selections and keep settings dialogs open on save errors
+  - Add recoverable grouped configuration saves with staging, rollback, and explicit recovery after interruption
 
 ## **pyppbox V3 - Make Simpler and Faster**
 

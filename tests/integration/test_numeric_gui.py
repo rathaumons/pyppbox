@@ -4,6 +4,7 @@ from pathlib import Path
 import shutil
 import tempfile
 import unittest
+from unittest.mock import patch
 
 os.environ.setdefault('QT_QPA_PLATFORM', 'offscreen')
 from PyQt6 import QtCore, QtTest, QtWidgets
@@ -134,6 +135,64 @@ class NumericGUIConfigTests(unittest.TestCase):
             ui.ds_nn_budget_spinBox.stepUp()
             ui.updateCFG(dialog)
             self.assertEqual(self.snapshot(folder)['tcfg_deepsort']['nn_budget'], 0)
+
+    def test_every_panel_preserves_extensions_custom_modules_and_document_order(self):
+        for panel in PANELS:
+            with self.subTest(panel=panel.__name__), tempfile.TemporaryDirectory() as folder:
+                self.copy_configs(folder)
+                before={}
+                for filename, key in (('detectors.yaml','dt_name'),('trackers.yaml','tk_name'),('reiders.yaml','ri_name')):
+                    path=Path(folder)/filename; docs=loadDocumentList(path)
+                    for doc in docs:
+                        if doc[key] != 'RF_DETR':  # RF-DETR intentionally rejects unknown options.
+                            doc['extension']={'keep':['001',False,42]}
+                    docs.insert(1,{key:'CustomModule','opaque':{'keep':'value'}})
+                    dumpDocDictList(path,docs,''); before[filename]=docs
+                dialog=QtWidgets.QDialog(); ui=panel(1,folder); ui.setupUi(dialog)
+                effective_before=self.snapshot(folder)
+                target=effective_before[CONFIGS[PANELS.index(panel)]]
+                key=next(key for key in ('dt_name','tk_name','ri_name') if key in target)
+                selected=target[key]
+                ui.updateCFG(dialog)
+                for filename, docs in before.items():
+                    after=loadDocumentList(Path(folder)/filename)
+                    self.assertEqual(len(after),len(docs))
+                    for old,new in zip(docs,after):
+                        if old.get(key)==selected:
+                            self.assertEqual(new.get('extension'),old.get('extension'))
+                        else:
+                            self.assertEqual(new,old)
+                self.assertEqual(self.snapshot(folder),effective_before)
+                dialog.close()
+
+    def test_save_failures_leave_all_dialogs_open_and_original_bytes_intact(self):
+        from pyppbox.config import configtools
+        for panel in PANELS:
+            with self.subTest(panel=panel.__name__), tempfile.TemporaryDirectory() as folder:
+                self.copy_configs(folder)
+                before={p.name:p.read_bytes() for p in Path(folder).glob('*.yaml')}
+                dialog=QtWidgets.QDialog(); ui=panel(1,folder); ui.setupUi(dialog)
+                with patch.object(configtools.os,'replace',side_effect=OSError('injected disk error')), \
+                        patch.object(QtWidgets.QMessageBox,'warning') as warning, patch.object(dialog,'close') as close:
+                    ui.updateCFG(dialog)
+                    warning.assert_called_once(); close.assert_not_called()
+                self.assertEqual({p.name:p.read_bytes() for p in Path(folder).glob('*.yaml')},before)
+                dialog.close()
+
+    def test_indexed_devices_roundtrip_and_invalid_devices_are_not_saved(self):
+        for panel, field in ((Ui_YOLOULT,'device_lineEdit'),(Ui_Torchreid,'dr_device_lineEdit')):
+            with self.subTest(panel=panel.__name__), tempfile.TemporaryDirectory() as folder:
+                self.copy_configs(folder)
+                dialog=QtWidgets.QDialog(); ui=panel(1,folder); ui.setupUi(dialog)
+                getattr(ui,field).setText('cuda:1'); ui.updateCFG(dialog)
+                name='dcfg_yolout' if panel is Ui_YOLOULT else 'rcfg_torchreid'
+                self.assertEqual(self.snapshot(folder)[name]['device'],'cuda:1')
+                before={p.name:p.read_bytes() for p in Path(folder).glob('*.yaml')}
+                getattr(ui,field).setText('garbage')
+                with patch.object(QtWidgets.QMessageBox,'warning') as warning, patch.object(dialog,'close') as close:
+                    ui.updateCFG(dialog)
+                    warning.assert_called_once(); close.assert_not_called()
+                self.assertEqual({p.name:p.read_bytes() for p in Path(folder).glob('*.yaml')},before)
 
 
 if __name__ == '__main__':

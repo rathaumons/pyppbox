@@ -13,7 +13,7 @@ from unittest.mock import Mock, patch
 import numpy as np
 
 from pyppbox.config.configtools import internal_cfg_dir, loadDocumentList
-from pyppbox.config.myconfig import RCFGFaceNet
+from pyppbox.config.myconfig import RCFGFaceNet, RCFGTorchreid
 from pyppbox.modules.reiders.torchreid import MyTorchreid
 from pyppbox.ppb.mt import MT
 from pyppbox.utils.persontools import Person
@@ -58,6 +58,7 @@ class ReIDTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory, \
                 patch.object(self.face_module, 'tf', tensorflow), \
                 patch.object(self.face_module.df, 'create_mtcnn', return_value=(None, None, None)), \
+                patch.object(RCFGFaceNet, 'validateRuntime'), \
                 patch.object(self.face_module.fn, 'load_model'), \
                 patch.object(self.face_module.df, 'detect_face',
                              return_value=(np.array([[0, 0, 10, 10, 1.]]), None)), \
@@ -144,6 +145,7 @@ class ReIDTests(unittest.TestCase):
                         module_name = 'pyppbox.modules.reiders.' + name.lower()
                         module = self.face_module if name == 'FaceNet' else importlib.import_module(module_name)
                         with tempfile.TemporaryDirectory() as directory, patch.dict(sys.modules, {module_name: module}), \
+                                patch.object(RCFGFaceNet if name == 'FaceNet' else RCFGTorchreid, 'validateRuntime'), \
                                 patch.object(module, 'My' + name, return_value=fake):
                             path = Path(directory) / 'custom.json'
                             path.write_text(json.dumps(values), encoding='utf-8')

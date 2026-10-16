@@ -160,13 +160,7 @@ class Ui_YOLOULT(object):
             self.boxes_comboBox.setCurrentIndex(1)
 
     def updateCFG(self, yoloult_ui):
-        device = 0
-        if 'cpu' in self.device_lineEdit.text().lower():
-            device = 'cpu'
-        elif 'cuda' in self.device_lineEdit.text().lower():
-            device = 'cuda'
-        else:
-            device = getInt(self.device_lineEdit.text())
+        device = self.device_lineEdit.text().strip()
         yolo_utlt_doc = {
             "dt_name": unified_strings.getUnifiedFormat("YOLO_Ultralytics"),
             "conf": self.conf_spinBox.value(),
@@ -178,7 +172,11 @@ class Ui_YOLOULT(object):
             "model_file": normalizePathFDS(root_dir, self.model_file_lineEdit.text()),
             "repspoint_calibration": self.repspoint_calib_spinBox.value()
         }
-        self.mycfg.dumpDetectorCFG(yolo_utlt_doc)
+        try:
+            self.mycfg.dumpDetectorCFG(yolo_utlt_doc)
+        except (ValueError, OSError) as error:
+            QtWidgets.QMessageBox.warning(yoloult_ui, 'Cannot save settings', str(error))
+            return
         yoloult_ui.close()
 
     def browseModelFile(self):

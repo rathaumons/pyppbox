@@ -90,7 +90,9 @@ class Ui_SORT(object):
             "min_hits": self.st_min_hits_spinBox.value(),
             "iou_threshold": self.st_iou_threshold_spinBox.value()
         }
-        centroid_doc = self.mycfg.tcfg_centroid.getDocument()
-        deepsort_doc = self.mycfg.tcfg_deepsort.getDocument()
-        self.mycfg.dumpAllTCFG([centroid_doc, sort_doc, deepsort_doc])
+        try:
+            self.mycfg.dumpTrackerCFG(sort_doc)
+        except (ValueError, OSError) as error:
+            QtWidgets.QMessageBox.warning(sort_ui, 'Cannot save settings', str(error))
+            return
         sort_ui.close()

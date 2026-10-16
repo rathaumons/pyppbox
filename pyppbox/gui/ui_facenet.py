@@ -190,8 +190,11 @@ class Ui_FaceNet(object):
             "yl_h_calibration": self.fn_yl_h_calib_pair.value(),
             "yl_w_calibration": self.fn_yl_w_calib_pair.value()
         }
-        deepreid_doc = self.mycfg.rcfg_torchreid.getDocument()
-        self.mycfg.dumpAllRCFG([facenet_doc, deepreid_doc])
+        try:
+            self.mycfg.dumpReiderCFG(facenet_doc)
+        except (ValueError, OSError) as error:
+            QtWidgets.QMessageBox.warning(facenet_ui, 'Cannot save settings', str(error))
+            return
         facenet_ui.close()
 
     def browseModelDet(self):

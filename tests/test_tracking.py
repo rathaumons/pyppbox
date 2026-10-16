@@ -216,7 +216,8 @@ np.testing.assert_array_equal(np.random.random(4), expected)
             self.assertTrue(mt.__dt__.detect_only)
             mt.setMainModules({'detector': 'GT', 'tracker': 'None', 'reider': 'None'})
             self.assertFalse(mt.__dt__.detect_only)
-            with patch('pyppbox.modules.reiders.torchreid.deepreid_extractor', return_value=Mock()):
+            with patch('pyppbox.modules.reiders.torchreid.deepreid_extractor', return_value=Mock()), \
+                    patch('pyppbox.config.myconfig.RCFGTorchreid.validateRuntime'):
                 mt.setMainReIDer('Torchreid', auto_load=False)
             self.assertTrue(mt.__dt__.detect_only)
             mt.setMainDetector('GT')

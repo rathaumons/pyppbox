@@ -160,7 +160,11 @@ class Ui_YOLOCLS(object):
             "model_image_size": self.yl_model_imgsize_spinBox.value(),
             "repspoint_calibration": self.yl_repspoint_calib_spinBox.value()
         }
-        self.mycfg.dumpDetectorCFG(yolocs_doc)
+        try:
+            self.mycfg.dumpDetectorCFG(yolocs_doc)
+        except (ValueError, OSError) as error:
+            QtWidgets.QMessageBox.warning(yolocls_ui, 'Cannot save settings', str(error))
+            return
         yolocls_ui.close()
 
     def browseClassFile(self):

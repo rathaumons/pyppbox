@@ -66,7 +66,9 @@ class Ui_Centroid(object):
             "tk_name": unified_strings.getUnifiedFormat("Centroid"),
             "max_spread": self.ct_max_distance_spinBox.value()
         }
-        sort_doc = self.mycfg.tcfg_sort.getDocument()
-        deepsort_doc = self.mycfg.tcfg_deepsort.getDocument()
-        self.mycfg.dumpAllTCFG([centroid_doc, sort_doc, deepsort_doc])
+        try:
+            self.mycfg.dumpTrackerCFG(centroid_doc)
+        except (ValueError, OSError) as error:
+            QtWidgets.QMessageBox.warning(centroid_ui, 'Cannot save settings', str(error))
+            return
         centroid_ui.close()
