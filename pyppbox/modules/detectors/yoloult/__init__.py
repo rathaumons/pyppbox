@@ -38,28 +38,37 @@ class MyYOLOULT(object):
             A :class:`~pyppbox.config.myconfig.DCFGYOLOULT` object which manages the configurations
             of detector YOLO_Ultralytics.
         """
-        self.cfg = cfg
-        self.cpu_only = False
-        if isinstance(self.cfg.device, str):
-            if self.cfg.device.lower() == 'cpu':
-                self.cpu_only = True
-        ignore_this_logger("ultralytics")
-        ignore_this_logger("pyppbox-ultralytics")
-        ignore_this_logger("vsensebox-ultralytics")
-        if "nas" in self.cfg.model_file:
-            # YOLO NAS isn't stable yet :/
-            from ultralytics import NAS
-            self.model = NAS(self.cfg.model_file)
-        else:
-            from ultralytics import YOLO
-            self.model = YOLO(self.cfg.model_file)
-            if getattr(self.model, 'task', None) == 'pose' or "pose" in self.cfg.model_file.lower():
-                from ultralytics.utils.plotting import Colors
-                self.colors = Colors()
-                self.kpt_color = self.colors.pose_palette[[16, 16, 16, 16, 16, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9]]
-                self.limb_color = self.colors.pose_palette[[9, 9, 9, 9, 7, 7, 7, 0, 0, 0, 0, 0, 16, 16, 16, 16, 16, 16, 16]]
-                self.skeleton = [[16, 14], [14, 12], [17, 15], [15, 13], [12, 13], [6, 12], [7, 13], [6, 7], [6, 8],
-                                [7, 9], [8, 10], [9, 11], [2, 3], [1, 2], [1, 3], [2, 4], [3, 5], [4, 6], [5, 7]]
+        self.model = None
+        try:
+            self.cfg = cfg
+            self.cpu_only = False
+            if isinstance(self.cfg.device, str):
+                if self.cfg.device.lower() == 'cpu':
+                    self.cpu_only = True
+            ignore_this_logger("ultralytics")
+            ignore_this_logger("pyppbox-ultralytics")
+            ignore_this_logger("vsensebox-ultralytics")
+            if "nas" in self.cfg.model_file:
+                # YOLO NAS isn't stable yet :/
+                from ultralytics import NAS
+                self.model = NAS(self.cfg.model_file)
+            else:
+                from ultralytics import YOLO
+                self.model = YOLO(self.cfg.model_file)
+                if getattr(self.model, 'task', None) == 'pose' or "pose" in self.cfg.model_file.lower():
+                    from ultralytics.utils.plotting import Colors
+                    self.colors = Colors()
+                    self.kpt_color = self.colors.pose_palette[[16, 16, 16, 16, 16, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9]]
+                    self.limb_color = self.colors.pose_palette[[9, 9, 9, 9, 7, 7, 7, 0, 0, 0, 0, 0, 16, 16, 16, 16, 16, 16, 16]]
+                    self.skeleton = [[16, 14], [14, 12], [17, 15], [15, 13], [12, 13], [6, 12], [7, 13], [6, 7], [6, 8],
+                                    [7, 9], [8, 10], [9, 11], [2, 3], [1, 2], [1, 3], [2, 4], [3, 5], [4, 6], [5, 7]]
+        except BaseException:
+            self.close()
+            raise
+
+    def close(self):
+        """Release the owned backend model without clearing global CUDA caches."""
+        self.model = None
 
     def _detections(self, img, classes, min_width_filter, alt_repspoint=False, alt_repspoint_top=True):
         """Yield aligned, width-filtered rows in backend order, with CPU keypoints."""

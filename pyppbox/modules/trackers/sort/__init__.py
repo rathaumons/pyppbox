@@ -27,6 +27,20 @@ class MySORT(object):
         self.previous_list = []
         self.current_list = []
 
+    def reset(self):
+        """Clear tracks/metadata without resetting SORT's process-wide ID counter."""
+        self.st = Sort(self.st.max_age, self.st.min_hits, self.st.iou_threshold)
+        self._people_by_cid = {}
+        self.previous_list = []
+        self.current_list = []
+
+    def close(self):
+        """Release this wrapper's tracks and cached people."""
+        self.st.trackers = []
+        self._people_by_cid = {}
+        self.previous_list = []
+        self.current_list = []
+
 
     def __getIndexFromSORTTracks__(self, box_xyxy, sort_tracks, max_spread=128):
         track_index = -1

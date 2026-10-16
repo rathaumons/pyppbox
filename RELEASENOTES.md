@@ -20,6 +20,9 @@
   - Validate existing configuration fields before model initialization, retaining safe legacy values and path rules; diagnose missing selected settings and inference assets
   - Preserve extension fields, custom modules, and document order in GUI saves; retain indexed device selections and keep settings dialogs open on save errors
   - Add recoverable grouped configuration saves with staging, rollback, and explicit recovery after interruption
+  - Add pipeline close/context-manager support and stream reset while retaining loaded models; release owned TensorFlow sessions and tracking metadata
+  - Construct replacement stages before publishing them, retaining the working pipeline on initialization failure and cleaning up unsuccessful candidates
+  - Preserve working FaceNet sessions/classifiers on failed reloads, close training sessions on success or failure, and avoid constructing the training reider twice
 
 ## **pyppbox V3 - Make Simpler and Faster**
 

@@ -43,29 +43,38 @@ class MyRFDETR:
         An empty ``model_file`` lets RF-DETR download its pretrained checkpoint
         to its cache (controlled by ``RF_HOME``). Backend/device failures propagate.
         """
-        if sys.version_info < (3, 10):
-            raise ImportError('RF_DETR requires Python 3.10+ and pyppbox[rfdetr].')
-        if cfg.model_file and not Path(cfg.model_file).is_file():
-            raise FileNotFoundError(f'RF_DETR checkpoint not found: {cfg.model_file}')
+        self.model = None
         try:
-            import rfdetr
-        except ModuleNotFoundError as error:
-            if error.name != 'rfdetr':
-                raise
-            raise ImportError('RF_DETR is optional. Install it with: pip install "pyppbox[rfdetr]"') from error
-        self.cfg = cfg
-        model_class = getattr(rfdetr, {
-            'nano': 'RFDETRNano', 'small': 'RFDETRSmall',
-            'medium': 'RFDETRMedium', 'large': 'RFDETRLarge',
-        }[cfg.model_size])
-        options = {}
-        if cfg.device != 'auto':
-            options['device'] = f'cuda:{cfg.device}' if isinstance(cfg.device, int) else cfg.device
-        if cfg.model_file:
-            options['pretrain_weights'] = cfg.model_file
-        self.model = model_class(**options)
-        if cfg.optimize:
-            self.model.inference(compile=False, inplace=True)
+            if sys.version_info < (3, 10):
+                raise ImportError('RF_DETR requires Python 3.10+ and pyppbox[rfdetr].')
+            if cfg.model_file and not Path(cfg.model_file).is_file():
+                raise FileNotFoundError(f'RF_DETR checkpoint not found: {cfg.model_file}')
+            try:
+                import rfdetr
+            except ModuleNotFoundError as error:
+                if error.name != 'rfdetr':
+                    raise
+                raise ImportError('RF_DETR is optional. Install it with: pip install "pyppbox[rfdetr]"') from error
+            self.cfg = cfg
+            model_class = getattr(rfdetr, {
+                'nano': 'RFDETRNano', 'small': 'RFDETRSmall',
+                'medium': 'RFDETRMedium', 'large': 'RFDETRLarge',
+            }[cfg.model_size])
+            options = {}
+            if cfg.device != 'auto':
+                options['device'] = f'cuda:{cfg.device}' if isinstance(cfg.device, int) else cfg.device
+            if cfg.model_file:
+                options['pretrain_weights'] = cfg.model_file
+            self.model = model_class(**options)
+            if cfg.optimize:
+                self.model.inference(compile=False, inplace=True)
+        except BaseException:
+            self.close()
+            raise
+
+    def close(self):
+        """Release the owned RF-DETR backend model."""
+        self.model = None
 
     def _detections(self, img, classes, min_width_filter):
         if not isinstance(img, np.ndarray) or img.dtype != np.uint8 or (

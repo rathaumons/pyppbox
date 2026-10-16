@@ -141,6 +141,23 @@ def trainReIDClassifier(reider="", train_data="", classifier_pkl=""):
     """See :func:`pyppbox.ppb.mt.MT.trainReIDClassifier`"""
     _get_mt().trainReIDClassifier(reider=reider, train_data=train_data, classifier_pkl=classifier_pkl)
 
+def reset(frame_index=0):
+    """See :meth:`pyppbox.ppb.mt.MT.reset`. Does not create an unused pipeline."""
+    if _mt is not None:
+        _mt.reset(frame_index=frame_index)
+
+def close():
+    """Close the shared pipeline; the next facade call creates a fresh instance.
+
+    Does not initialize an unused pipeline. On cleanup failure, retain the closed
+    instance so a later close() can retry. Call without concurrent facade activity.
+    """
+    global _mt
+    with _mt_lock:
+        if _mt is not None:
+            _mt.close()
+            _mt = None
+
 __all__ = ['setConfigDir', 'setMainModules', 'forceFullGTMode', 'setMainDetector', 
            'getConfig', 'getMainConfig', 'detectPeople', 'setMainTracker', 'trackPeople', 
-           'setMainReIDer', 'reidPeople', 'trainReIDClassifier', 'MT']
+           'setMainReIDer', 'reidPeople', 'trainReIDClassifier', 'reset', 'close', 'MT']

@@ -39,9 +39,43 @@ class MyDeepSORT(object):
         self.current_frame = 0
         self.nms_max_overlap = cfg.nms_max_overlap
         self.encoder = gdet.create_box_encoder(cfg.model_file, batch_size=16)
-        self.metric = nn_matching.NearestNeighborDistanceMetric("cosine", cfg.max_cosine_distance, 
-                                                                cfg.nn_budget)
-        self.tracker = DSTracker(self.metric)
+        try:
+            self.metric = nn_matching.NearestNeighborDistanceMetric("cosine", cfg.max_cosine_distance,
+                                                                    cfg.nn_budget)
+            self.tracker = DSTracker(self.metric)
+        except BaseException:
+            close = getattr(self.encoder, 'close', None)
+            if callable(close):
+                try:
+                    close()
+                except Exception as error:
+                    add_error_log(f'DeepSORT candidate cleanup failed: {error}')
+            raise
+
+    def reset(self):
+        """Clear tracks/features and metadata while retaining the loaded encoder."""
+        tracker = DSTracker(self.metric, self.tracker.max_iou_distance,
+                            self.tracker.max_age, self.tracker.n_init)
+        self.metric.samples = {}
+        self.tracker = tracker
+        self.previous_list = []
+        self.current_list = []
+        self._people_by_cid = {}
+        self.current_frame = 0
+
+    def close(self):
+        """Close the owned appearance encoder and release tracks/features/people."""
+        if self.encoder is not None:
+            close = getattr(self.encoder, 'close', None)
+            if callable(close):
+                close()
+            self.encoder = None
+        self.metric.samples = {}
+        self.tracker.tracks = []
+        self.tracker.detection_indices = {}
+        self.previous_list = []
+        self.current_list = []
+        self._people_by_cid = {}
 
 
     def __getCurrentIndexByBoxXYXY__(self, box, max_spread=128):

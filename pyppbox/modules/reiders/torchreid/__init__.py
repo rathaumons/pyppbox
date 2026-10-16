@@ -59,8 +59,20 @@ class MyTorchreid(object):
         self.extractor = deepreid_extractor(self.model_name, self.mdir, 
                                             self.model_path, device=self.device)
         self.auto_load = auto_load
-        if self.auto_load:
-            self.load_classifier()
+        self._closed = False
+        try:
+            if self.auto_load:
+                self.load_classifier()
+        except BaseException:
+            self.close()
+            raise
+
+    def close(self):
+        """Release extractor/classifier references without clearing global CUDA caches."""
+        self._closed = True
+        self.extractor = None
+        self.model = None
+        self.class_names = []
 
     def load_classifier(self):
         """Load or replace the instance's identity classifier and supporting state.
@@ -70,6 +82,8 @@ class MyTorchreid(object):
         extractor is already initialized by its constructor. Returns None.
         File, pickle, and model-loading errors propagate to the caller.
         """
+        if self._closed:
+            raise RuntimeError('This Torchreid instance is closed.')
         with open(self.classifier_pkl, 'rb') as classifier_file:
             (self.model, self.class_names) = pickle.load(classifier_file)
         add_info_log(f"--------RI : Classifier loaded! <- {getFileName(self.classifier_pkl)}")
@@ -114,6 +128,8 @@ class MyTorchreid(object):
         This method does not catch image-processing or inference exceptions. The
         returned error ID is not a substitute for handling exceptions in direct use.
         """
+        if getattr(self, '_closed', False):
+            raise RuntimeError('This reider is closed; create a new instance.')
         result = self.err
         conf = 0.0
         img = self.prepare_image(img, is_bgr=is_bgr)
@@ -176,6 +192,8 @@ class MyTorchreid(object):
         used by ``recognize()``, which calls ``predict_proba()``. Call ``load_classifier()``
         after training to use the written classifier in this existing instance.
         """
+        if getattr(self, '_closed', False):
+            raise RuntimeError('This reider is closed; create a new instance.')
         dataset = get_dataset(self.train_data)
         paths, labels = get_image_paths_and_labels(dataset)
         add_info_log("--------RI : Extracting features ...")

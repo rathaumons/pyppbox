@@ -131,6 +131,42 @@ class StartupTests(unittest.TestCase):
                 assert factory.call_count == 2
         ''')
 
+    def test_unused_lifecycle_facade_calls_do_not_import_or_construct_pipeline(self):
+        self.run_python('''
+            import pyppbox.ppb as api
+            import pyppbox.standalone as facade
+            facade.reset()
+            facade.close()
+            api.close()
+            assert api._mt is None
+            assert facade.close is api.close and facade.reset is api.reset
+        ''', ('pyppbox.ppb.mt', 'cv2', 'numpy', 'scipy', 'torch', 'tensorflow'))
+
+    def test_facade_close_recreates_shared_state_and_retains_failed_cleanup_for_retry(self):
+        self.run_python('''
+            from types import SimpleNamespace
+            from unittest.mock import Mock
+            import pyppbox.ppb as api
+            import pyppbox.standalone as facade
+            old = api.getConfig()
+            first = api._mt
+            facade.close()
+            assert first._closed and api._mt is None
+            assert api.getConfig() is not old
+            facade.close()
+            failed = SimpleNamespace(close=Mock(side_effect=[RuntimeError('busy'), None]))
+            api._mt = failed
+            try:
+                api.close()
+            except RuntimeError:
+                pass
+            else:
+                raise AssertionError('Cleanup failure swallowed')
+            assert api._mt is failed
+            api.close()
+            assert api._mt is None and failed.close.call_count == 2
+        ''')
+
     def test_standalone_aliases_share_state_and_explicit_MT_instances_are_independent(self):
         self.run_python('''
             import numpy as np
