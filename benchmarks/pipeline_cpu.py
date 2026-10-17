@@ -179,7 +179,8 @@ def main():
             raise AssertionError('Processing changed an input frame.')
         report = dict(schema=1, scope='CPU processing of predecoded frames; includes optional rendering/output',
             version=pyppbox.__version__, package_file=pyppbox.__file__, platform=platform.platform(),
-            python=sys.version, processor=platform.processor(), logical_cpus=os.cpu_count(), threads=args.threads,
+            python=sys.version, processor=platform.processor(), architecture=platform.machine(),
+            logical_cpus=os.cpu_count(), threads=args.threads, frame_shape=list(frames[0].shape),
             batch_size=args.batch_size, frame_sha256=hashes, blank_frames=[8,9],
             asset_sha256={key:assets[key]['sha256'] for key in paths},
             packages={name:metadata.version(name) for name in ('torch','torchvision','numpy','scipy','scikit-learn',

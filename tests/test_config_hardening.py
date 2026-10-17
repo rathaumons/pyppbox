@@ -208,6 +208,29 @@ class ConfigHardeningTests(unittest.TestCase):
                 self.assertEqual({p.name:p.read_bytes() for p in Path(directory).glob('*.yaml')},original)
                 self.assertFalse(list(Path(directory).glob('.pyppbox-save-*')))
 
+    @unittest.skipIf(os.name == 'nt', 'POSIX read-only files in a writable config directory')
+    def test_recovery_retries_readonly_restore_left_by_a_failed_rollback(self):
+        with tempfile.TemporaryDirectory() as directory:
+            cfg = self.copy_configs(directory)
+            original = {path.name:path.read_bytes() for path in Path(directory).glob('*.yaml')}
+            for path in Path(directory).glob('*.yaml'):
+                path.chmod(0o444)
+            replace = tools.os.replace
+            def fail(source, destination):
+                if str(source).endswith(('1.staged', '.restore')):
+                    raise OSError('temporary storage error')
+                return replace(source, destination)
+            with patch.object(tools.os, 'replace', side_effect=fail), self.assertRaises(ValueError):
+                cfg.dumpConfigs(main={'detector':'None','tracker':'None','reider':'None'},
+                                trackers=[self.docs['SORT']])
+            pending = next(Path(directory).glob('.pyppbox-save-*'))
+            self.assertTrue(list(pending.glob('*.restore')))
+            tools.recoverConfigSave(directory)
+            self.assertFalse(list(Path(directory).glob('.pyppbox-save-*')))
+            for path in Path(directory).glob('*.yaml'):
+                self.assertEqual(path.read_bytes(), original[path.name])
+                self.assertEqual(path.stat().st_mode & 0o777, 0o444)
+
     def test_runtime_preflight_stops_pipeline_before_constructor_and_classifier_load(self):
         import sys
         from types import SimpleNamespace

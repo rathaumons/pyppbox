@@ -109,7 +109,7 @@ def _file_failure(error):
 
 class _FileHandler(logging.FileHandler):
     def emit(self, record):
-        if self._closed or self._pyppbox_pid != os.getpid():
+        if self.stream is None or self._pyppbox_pid != os.getpid():
             return
         try:
             super().emit(record)

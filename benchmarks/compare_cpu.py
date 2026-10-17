@@ -36,7 +36,7 @@ def equivalent(expected, actual, context='output', tolerance=1e-6):
 
 
 def compare_reports(reference, report):
-    for key in ('schema', 'python', 'platform', 'packages', 'threads', 'batch_size',
+    for key in ('schema', 'python', 'platform', 'architecture', 'frame_shape', 'packages', 'threads', 'batch_size',
                 'frame_sha256', 'blank_frames', 'asset_sha256', 'detector', 'tracker', 'reider'):
         equivalent(reference[key], report[key], key)
     equivalent(list(reference['workloads']), list(report['workloads']), 'workloads')

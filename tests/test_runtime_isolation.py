@@ -27,6 +27,25 @@ class RuntimeIsolationTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         return result.stdout
 
+    def test_file_handler_does_not_require_newer_logging_private_closed_flag(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.run_python('''
+                import logging
+                from pathlib import Path
+                from pyppbox.utils import logtools as logs
+                logs.add_info_log('first')
+                handler = next(h for h in logs.__logger__.handlers if getattr(h, '_pyppbox_file', False))
+                handler.__dict__.pop('_closed', None)  # Python 3.9 FileHandler has no such field.
+                logs.add_info_log('second')
+                path = Path(handler.baseFilename)
+                before = path.read_bytes()
+                assert b'first' in before and b'second' in before
+                handler.close()
+                handler.__dict__.pop('_closed', None)
+                handler.emit(logging.LogRecord('pyppbox', logging.INFO, '', 0, 'after close', (), None))
+                assert handler.stream is None and path.read_bytes() == before
+            ''', directory)
+
     def test_enabled_logging_preserves_root_and_keeps_foreign_records_out_of_own_file(self):
         with tempfile.TemporaryDirectory() as directory:
             self.run_python('''

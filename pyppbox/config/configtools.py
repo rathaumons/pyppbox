@@ -505,6 +505,9 @@ def _restore_save(directory, entries):
         try:
             if entry['existed']:
                 temporary = directory / f'{index}.restore'
+                # A previous failed replacement may leave the original read-only
+                # mode on this owned temporary file. Recreate it for each retry.
+                temporary.unlink(missing_ok=True)
                 _sync_bytes(temporary, (directory / f'{index}.backup').read_bytes())
                 if os.name != 'nt':
                     os.chmod(temporary, entry['mode'])

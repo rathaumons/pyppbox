@@ -2,6 +2,10 @@ name: Bug fix regressions
 
 on: [push, pull_request, workflow_dispatch]
 
+concurrency:
+  group: regressions-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   regressions:
     name: ${{ matrix.os }} / Python ${{ matrix.python }} / NumPy ${{ matrix.numpy }}

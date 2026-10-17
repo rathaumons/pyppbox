@@ -17,7 +17,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, windows-2022, macos-15-intel]
+        # PyTorch 2.5 has macOS ARM wheels; Intel support ended at Torch 2.2.
+        os: [ubuntu-24.04, windows-2022, macos-15]
     env:
       BASELINE_REF: 4279a26b5bcec553981c969772e8e079b51e81bf
       PYTHONDONTWRITEBYTECODE: '1'

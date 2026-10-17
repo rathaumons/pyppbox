@@ -28,6 +28,7 @@
   - Use the named pyppbox logger without configuring application root logging; open unique user log files lazily and tolerate log I/O failures
   - Isolate GUI launch handoffs per session, store remembered state outside the package with atomic writes, and retain read-only legacy-state readers without changing YAML configs
   - Add paired CPU pipeline benchmarks against the released V3.15 wheel on Linux, Windows, and macOS; verify output/identity equivalence and record advisory stage timings, latency percentiles, and sampled memory
+  - Keep enabled file logging compatible with Python 3.9 and allow config recovery to retry read-only temporary restores after an interrupted rollback
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
