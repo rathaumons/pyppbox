@@ -46,6 +46,7 @@ def main_setup():
         author="Ratha SIV",
         maintainer="rathaROG",
         install_requires=read_requirements(),
+        extras_require={"rfdetr": ["rfdetr>=1.10.0,<1.11.0"]},
         keywords=['Toolbox', 'People Detecting', 'People Tracking', 'People Re-Identification'],
         python_requires=">=3.9",
         classifiers=[
@@ -62,6 +63,7 @@ def main_setup():
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
             "Programming Language :: Python :: 3.12",
+            "Programming Language :: Python :: 3.13",
             "Topic :: Scientific/Engineering",
             "Topic :: Scientific/Engineering :: Image Recognition",
             "Topic :: Software Development",

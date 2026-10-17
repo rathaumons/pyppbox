@@ -80,19 +80,37 @@ def extract_image_patch(image, bbox, patch_shape):
 class ImageEncoder(object):
 
     def __init__(self, checkpoint_filename, input_name="images", output_name="features"):
-        with tf.Graph().as_default():
-            gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=0.25)
-            self.session = tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_options, allow_soft_placement=True))
-            with tf.io.gfile.GFile(checkpoint_filename, "rb") as file_handle:
-                graph_def = tf.compat.v1.GraphDef()
-                graph_def.ParseFromString(file_handle.read())
-            tf.import_graph_def(graph_def, name="net")
-            self.input_var = tf.compat.v1.get_default_graph().get_tensor_by_name("net/%s:0" % input_name)
-            self.output_var = tf.compat.v1.get_default_graph().get_tensor_by_name("net/%s:0" % output_name)
-            assert len(self.output_var.get_shape()) == 2
-            assert len(self.input_var.get_shape()) == 4
-            self.feature_dim = self.output_var.get_shape().as_list()[-1]
-            self.image_shape = self.input_var.get_shape().as_list()[1:]
+        self.session = None
+        try:
+            with tf.Graph().as_default():
+                gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=0.25)
+                self.session = tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_options, allow_soft_placement=True))
+                with tf.io.gfile.GFile(checkpoint_filename, "rb") as file_handle:
+                    graph_def = tf.compat.v1.GraphDef()
+                    graph_def.ParseFromString(file_handle.read())
+                tf.import_graph_def(graph_def, name="net")
+                self.input_var = tf.compat.v1.get_default_graph().get_tensor_by_name("net/%s:0" % input_name)
+                self.output_var = tf.compat.v1.get_default_graph().get_tensor_by_name("net/%s:0" % output_name)
+                assert len(self.output_var.get_shape()) == 2
+                assert len(self.input_var.get_shape()) == 4
+                self.feature_dim = self.output_var.get_shape().as_list()[-1]
+                self.image_shape = self.input_var.get_shape().as_list()[1:]
+        except BaseException:
+            try:
+                self.close()
+            except Exception as error:
+                from pyppbox.utils.logtools import add_warning_log
+                add_warning_log(f'DeepSORT session cleanup failed: {error}')
+            raise
+
+    def close(self):
+        """Release this encoder's TensorFlow session; safe to repeat after success."""
+        if self.session is not None:
+            self.session.close()
+            self.session = None
+            self.input_var = None
+            self.output_var = None
+
 
     def __call__(self, data_x, batch_size=32):
         out = np.zeros((len(data_x), self.feature_dim), np.float64)
@@ -119,6 +137,7 @@ def create_box_encoder(model_filename, input_name="images",
         image_patches = np.asarray(image_patches)
         return image_encoder(image_patches, batch_size)
 
+    encoder.close = image_encoder.close
     return encoder
 
 

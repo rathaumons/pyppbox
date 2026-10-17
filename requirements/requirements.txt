@@ -31,7 +31,7 @@ PyQt6
 sfps
 ### Customized pyppbox-torchreid
 pyppbox-torchreid
-### Customized vsensebox-ultralytics (pyppbox-ultralytics is discontinued)
-vsensebox-ultralytics>=8.4.7
+### Customized pyppbox-ultralytics
+pyppbox-ultralytics>=8.4.144
 ### Unused
 # shapely

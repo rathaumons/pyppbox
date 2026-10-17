@@ -22,6 +22,10 @@ For example, the supported `YOLO_Classic` / `YOLO` module can only be used as a 
    |              |                  | * Run on: CPU or GPU (PyTorch)                           |
    +--------------+------------------+----------------------------------------------------------+
 
+``RF_DETR`` is an optional V4 detector supporting RF-DETR Nano, Small,
+Medium, and Large through PyTorch. Install the ``rfdetr`` extra on Python 3.10+;
+see :doc:`../examples/example_15` for configuration and usage.
+
 ``GT`` is also a supported detector name. It reads detections from a ground-truth
 text file; see :doc:`../examples/example_10`. Set both tracker and reider to
 ``"None"`` to preserve the GT identities automatically. With other stages enabled,
@@ -68,7 +72,7 @@ the next module selection.
 .. _read more here: https://github.com/rathaumons/PoseTReID_DATASET#-posetreid
 .. _V2, V3: https://pjreddie.com/darknet/yolo/
 .. _V4: https://github.com/AlexeyAB/darknet
-.. _ultralytics: https://github.com/numediart/ultralytics-for-vsensebox
+.. _ultralytics: https://github.com/rathaumons/ultralytics-for-pyppbox
 .. _V3, V5, V8, V9, v10, v11, v12, v26: https://github.com/ultralytics/assets/releases
 .. _SORT repo: https://github.com/abewley/sort
 .. _DeepSORT repo: https://github.com/deshwalmahesh/yolov7-deepsort-tracking

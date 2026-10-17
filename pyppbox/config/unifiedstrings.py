@@ -39,6 +39,8 @@ class UnifiedStrings(object):
     yolo_ult : str
         Set automatically.
         Unified string of words 'Yolo Ultralytics'.
+    rf_detr : str
+        Canonical RF-DETR detector key.
     sort : str
         Set automatically.
         Unified string of word 'SORT'.
@@ -130,6 +132,7 @@ class UnifiedStrings(object):
         self.gt = data['gt']
         self.yolo_cls = data['yolo_cls']
         self.yolo_ult = data['yolo_ult']
+        self.rf_detr = data.get('rf_detr', 'rf_detr')
         # tracker
         self.sort = data['sort']
         self.deepsort = data['deepsort']
@@ -168,6 +171,8 @@ class UnifiedStrings(object):
 
         if 'yolo' in input_str.lower():
             res = input_str.title().replace("Yolo", "YOLO")
+        elif input_str.lower() in (self.rf_detr, 'rf-detr', 'rfdetr'):
+            res = 'RF_DETR'
         elif self.gt.lower() == input_str.lower():
             res =  input_str.upper()
         elif self.centroid.lower() == input_str.lower():

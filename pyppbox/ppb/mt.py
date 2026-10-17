@@ -7,13 +7,15 @@ from pyppbox.utils.logtools import add_info_log, add_warning_log, add_error_log
 # Common
 import cv2
 from collections import Counter
+from copy import copy
+from operator import index as integer_index
 from typing import Any, Dict, List, Union, Optional
 
 # Configurations
 from pyppbox.config.configtools import isConfigInput, getCFGDict
 from pyppbox.config.myconfig import (
     MyConfigurator, NoneCFG,
-    DCFGYOLOCLS, DCFGYOLOULT, DCFGGT, 
+    DCFGYOLOCLS, DCFGYOLOULT, DCFGRFDETR, DCFGGT,
     TCFGCentroid, TCFGSORT, TCFGDeepSORT, 
     RCFGFaceNet, RCFGTorchreid, 
 )
@@ -23,9 +25,25 @@ from pyppbox.utils.persontools import Person
 from pyppbox.utils.gttools import GTInterpreter
 from pyppbox.utils.evatools import NothingDetecter, NothingTracker, NothingReider, TKOReider
 from pyppbox.utils.commontools import getAbsPathFDS, isExist, getCVMat, getAncestorDir
+from pyppbox.utils.batching import _batch_size, _batches
 
 
 __none_cfg__ = NoneCFG("Fiat Moneey")
+
+
+def _crop_reid_image(img, box_xyxy):
+    """Return a clipped ROI view; reject malformed or entirely invisible boxes."""
+    try:
+        x1, y1, x2, y2 = map(integer_index, box_xyxy)
+    except (TypeError, ValueError) as error:
+        raise ValueError('ReID crop expects four integer coordinates.') from error
+    height, width = img.shape[:2]
+    x1, x2 = max(0, min(width, x1)), max(0, min(width, x2))
+    y1, y2 = max(0, min(height, y1)), max(0, min(height, y2))
+    if x1 >= x2 or y1 >= y2:
+        raise ValueError('ReID crop has no visible pixels.')
+    return img[y1:y2, x1:x2]
+
 
 class MT(object):
 
@@ -94,6 +112,8 @@ class MT(object):
     """
 
     def __init__(self):
+        self._closed = False
+        self._retired = []
         # config
         self.__cfg__ = MyConfigurator()
         self.__unistrings__ = self.__cfg__.unified_strings
@@ -113,21 +133,221 @@ class MT(object):
         self.__deepidlistTMP__ = []
         self.__faceidlistTMP__ = []
 
+    def _ensure_open(self):
+        if self._closed:
+            raise RuntimeError('This pipeline is closed; create a new MT instance.')
+
+    def _configured_candidate(self):
+        candidate = copy(self.__cfg__)
+        if not self.__cfg_is_set__:
+            candidate = MyConfigurator()
+            candidate.setMainModules()
+        return candidate, True
+
+    def _select_stage(self, stage, value, candidate, configured=None):
+        specs = {
+            'dt': ('dt_name', 'detector', 'setAllDCFG', {
+                'YOLO_Classic': (DCFGYOLOCLS, 'dcfg_yolocs'),
+                'YOLO_Ultralytics': (DCFGYOLOULT, 'dcfg_yolout'),
+                'RF_DETR': (DCFGRFDETR, 'dcfg_rfdetr'), 'GT': (DCFGGT, 'dcfg_gt')}),
+            'tk': ('tk_name', 'tracker', 'setAllTCFG', {
+                'Centroid': (TCFGCentroid, 'tcfg_centroid'), 'SORT': (TCFGSORT, 'tcfg_sort'),
+                'DeepSORT': (TCFGDeepSORT, 'tcfg_deepsort')}),
+            'ri': ('ri_name', 'reider', 'setAllRCFG', {
+                'FaceNet': (RCFGFaceNet, 'rcfg_facenet'), 'Torchreid': (RCFGTorchreid, 'rcfg_torchreid')})}
+        key, selection, loader, classes = specs[stage]
+        configured = self.__cfg_is_set__ if configured is None else configured
+        if isConfigInput(value):
+            document = getCFGDict(value)
+            name = self.__unistrings__.getUnifiedFormat(document.get(key, ''))
+            if name == 'None':
+                return __none_cfg__, configured
+            if name not in classes:
+                raise ValueError(f'{key}: unsupported module selection {name!r}.')
+            config = classes[name][0]()
+            config.set(document)
+        elif isinstance(value, str):
+            if not configured:
+                prepared, configured = self._configured_candidate()
+                candidate.__dict__.update(prepared.__dict__)
+            name = self.__unistrings__.getUnifiedFormat(value) if value else getattr(candidate.mcfg, selection)
+            if name != 'None' and name not in classes:
+                raise ValueError(f'{key}: unsupported module selection {name!r}.')
+            if value:
+                getattr(candidate, loader)()
+            config = __none_cfg__ if name == 'None' else getattr(candidate, classes[name][1])
+        else:
+            raise ValueError(f'{key}: unsupported module selection {value!r}.')
+        return config, configured
+
+    def _build_stage(self, stage, config, auto_load=True, detector=None, tracker=None):
+        name = getattr(config, {'dt': 'dt_name', 'tk': 'tk_name', 'ri': 'ri_name'}[stage])
+        if name == 'None':
+            if stage == 'dt':
+                return NothingDetecter()
+            if stage == 'tk':
+                return NothingTracker()
+            detector = self.__dt_cfg__ if detector is None else detector
+            tracker = self.__tk_cfg__ if tracker is None else tracker
+            return TKOReider(static=True) if detector.dt_name != 'None' and tracker.tk_name != 'None' else NothingReider()
+        config.validateRuntime(classifier=auto_load if stage == 'ri' else False)
+        if name == 'GT':
+            result = GTInterpreter()
+            result.setGT(config.gt_file)
+            return result
+        if name == 'YOLO_Classic':
+            from pyppbox.modules.detectors.yolocls import MyYOLOCLS as factory
+        elif name == 'YOLO_Ultralytics':
+            from pyppbox.modules.detectors.yoloult import MyYOLOULT as factory
+        elif name == 'RF_DETR':
+            from pyppbox.modules.detectors.rfdetr import MyRFDETR as factory
+        elif name == 'Centroid':
+            from pyppbox.modules.trackers.centroid import MyCentroid as factory
+        elif name == 'SORT':
+            from pyppbox.modules.trackers.sort import MySORT as factory
+        elif name == 'DeepSORT':
+            from pyppbox.modules.trackers.deepsort import MyDeepSORT as factory
+        elif name == 'FaceNet':
+            from pyppbox.modules.reiders.facenet import MyFaceNet as factory
+        elif name == 'Torchreid':
+            from pyppbox.modules.reiders.torchreid import MyTorchreid as factory
+        else:
+            raise ValueError(f'Unsupported module: {name}')
+        return factory(config, auto_load=auto_load) if stage == 'ri' else factory(config)
+
+    def _retire(self, backend):
+        if backend is None:
+            return
+        try:
+            close = getattr(backend, 'close', None)
+            if callable(close):
+                close()
+        except Exception as error:
+            if not any(item is backend for item in self._retired):
+                self._retired.append(backend)
+            add_warning_log(f'---PYPPBOX : backend cleanup failed; close() will retry: {error}')
+
+    def _publish(self, candidate, configured, replacements):
+        previous = [getattr(self, f'__{stage}__') for stage in replacements]
+        # Preserve the public configurator object's identity for existing callers.
+        self.__cfg__.__dict__.clear()
+        self.__cfg__.__dict__.update(candidate.__dict__)
+        self.__cfg_is_set__ = configured
+        for stage, (config, backend) in replacements.items():
+            setattr(self, f'__{stage}_cfg__', config)
+            setattr(self, f'__{stage}__', backend)
+            setattr(self, f'__{stage}_is_set__', True)
+        if replacements:
+            self.__syncGTMode__()
+        for backend in previous:
+            self._retire(backend)
+
+    def _replace_stage(self, stage, value, auto_load=True):
+        self._ensure_open()
+        candidate = copy(self.__cfg__)
+        config, configured = self._select_stage(stage, value, candidate)
+        backend = self._build_stage(stage, config, auto_load=auto_load)
+        self._publish(candidate, configured, {stage: (config, backend)})
+        key = {'dt': 'dt_name', 'tk': 'tk_name', 'ri': 'ri_name'}[stage]
+        add_info_log(f"---PYPPBOX : Set {key}='{getattr(config, key)}'")
+
+    def _configure(self, candidate, load_all):
+        replacements = {}
+        if load_all:
+            try:
+                for stage in ('dt', 'tk', 'ri'):
+                    config, _ = self._select_stage(stage, '', candidate, configured=True)
+                    backend = self._build_stage(stage, config,
+                        detector=replacements.get('dt', (None,))[0],
+                        tracker=replacements.get('tk', (None,))[0])
+                    replacements[stage] = (config, backend)
+            except BaseException:
+                for _, backend in reversed(list(replacements.values())):
+                    self._retire(backend)
+                raise
+        self._publish(candidate, True, replacements)
+        if load_all:
+            add_info_log(f"---PYPPBOX : DT='{candidate.mcfg.detector}', "
+                         f"TK='{candidate.mcfg.tracker}', RI='{candidate.mcfg.reider}'")
+
+    def close(self):
+        """Release owned stages and mark this pipeline closed.
+
+        Successful cleanup is idempotent. A failing close hook does not prevent
+        other stages from closing; failed hooks are retained for the next close()
+        retry and reported as RuntimeError. Create a new MT for further processing.
+        PyTorch allocator caches are not cleared globally. Caller-owned videos,
+        windows, Person objects, and recorders are not closed or modified.
+        """
+        self._closed = True
+        resources = self._retired
+        self._retired = []
+        for stage in ('dt', 'tk', 'ri'):
+            backend = getattr(self, f'__{stage}__')
+            if backend is not None and not any(item is backend for item in resources):
+                resources.append(backend)
+            setattr(self, f'__{stage}__', None)
+            setattr(self, f'__{stage}_cfg__', __none_cfg__)
+            setattr(self, f'__{stage}_is_set__', False)
+        self.__deepidlistTMP__ = []
+        self.__faceidlistTMP__ = []
+        for backend in resources:
+            self._retire(backend)
+        if self._retired:
+            raise RuntimeError(f'{len(self._retired)} backend(s) could not close; call close() to retry.')
+
+    def reset(self, frame_index=0):
+        """Begin another stream while retaining loaded detector and ReID models.
+
+        Parameters
+        ----------
+        frame_index : int
+            Defaults to zero. Set the GT detector's next frame cursor. Clear tracker
+            histories, identity metadata, fallback-ID position, and ReID scratch lists.
+            SORT IDs need not restart at zero; other live streams keep their counters.
+
+        Notes
+        -----
+        Existing Person objects, configuration, loaded models/classifiers, and an
+        explicit full-GT override are retained. Call between streams, without concurrent
+        processing on this MT. A closed MT cannot be reset.
+        """
+        self._ensure_open()
+        if isinstance(frame_index, bool):
+            raise ValueError('frame_index must be a nonnegative integer.')
+        try:
+            frame_index = integer_index(frame_index)
+        except TypeError as error:
+            raise ValueError('frame_index must be a nonnegative integer.') from error
+        if frame_index < 0:
+            raise ValueError('frame_index must be a nonnegative integer.')
+        if self.__tk_is_set__:
+            self.__tk__.reset()
+        if self.__dt_is_set__ and self.__dt_cfg__.dt_name == 'GT':
+            self.__dt__.current_frame = frame_index
+        if isinstance(self.__ri__, TKOReider):
+            self.__ri__.reset()
+        self.__deepidlistTMP__ = []
+        self.__faceidlistTMP__ = []
+
+    def __enter__(self):
+        self._ensure_open()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        try:
+            self.close()
+        except Exception:
+            if exc_type is None:
+                raise
+            add_warning_log('---PYPPBOX : cleanup failed while handling an exception; close() can retry.')
+        return False
+
 
     ###########################################
     # Configurator
     ###########################################
 
-    def __setInternalCFGDir__(self, load_all):
-        self.__cfg__.__init__()
-        self.__cfg__.setMainModules()
-        if load_all:
-            add_info_log(f"---PYPPBOX : DT='{self.__cfg__.mcfg.detector}', "
-                         f"TK='{self.__cfg__.mcfg.tracker}', "
-                         f"RI='{self.__cfg__.mcfg.reider}'")
-            self.__loadDefaultDetector__()
-            self.__loadDefaultTracker__()
-            self.__loadDefaultReIDer__()
 
     def setConfigDir(self, config_dir: Optional[str] = None, load_all: bool = False):
         """Select a directory containing the four configuration files.
@@ -148,6 +368,7 @@ class MT(object):
         ------
         ValueError
             If the directory argument has an unsupported type or a config cannot be read.
+            Config/model loading failures retain the current pipeline and configurator.
 
         Notes
         -----
@@ -156,33 +377,16 @@ class MT(object):
         The directory loader uses the four YAML filenames above; individual module
         setters additionally accept JSON files.
         """
-        self.__cfg_is_set__ = False
-        if config_dir == None:
-            add_info_log("---PYPPBOX : Now use the internal config directory")
-            self.__cfg_is_set__ = True
-            self.__setInternalCFGDir__(load_all=load_all)
-        elif isinstance(config_dir, str):
-            if isExist(config_dir):
-                add_info_log(f"---PYPPBOX : Now use custom config dir, config_dir='{config_dir}'")
-                self.__cfg__.setCustomCFG(cfg_dir=config_dir)
-                self.__cfg__.setMainModules()
-                self.__cfg_is_set__ = True
-                if load_all:
-                    add_info_log(f"---PYPPBOX : DT='{self.__cfg__.mcfg.detector}', "
-                                 f"TK='{self.__cfg__.mcfg.tracker}', "
-                                 f"RI='{self.__cfg__.mcfg.reider}'")
-                    self.__loadDefaultDetector__()
-                    self.__loadDefaultTracker__()
-                    self.__loadDefaultReIDer__()
-            else:
-                add_warning_log(f"---PYPPBOX : config_dir='{config_dir}' does not exist")
-                add_warning_log("---PYPPBOX : Switched to internal config directory")
-                self.__cfg_is_set__ = True
-                self.__setInternalCFGDir__(load_all=load_all)
-        else:
-            msg = f"PYPPBOX : setConfigDir() -> config_dir='{config_dir}' is not valid."
-            add_error_log(msg)
-            raise ValueError(msg)
+        self._ensure_open()
+        if config_dir is not None and not isinstance(config_dir, str):
+            raise ValueError(f"PYPPBOX: config_dir={config_dir!r} is not valid.")
+        if config_dir is not None and not isExist(config_dir):
+            add_warning_log(f"---PYPPBOX : config_dir='{config_dir}' does not exist; using internal configs.")
+            config_dir = None
+        candidate = MyConfigurator() if config_dir is None else MyConfigurator(config_dir)
+        candidate.setMainModules()
+        self._configure(candidate, load_all)
+        add_info_log(f"---PYPPBOX : Now use config directory '{candidate.cfg_dir}'")
 
     def setMainModules(self, main_yaml: Optional[Union[str, Dict[str, Any]]] = None, load_all: bool = True):
         """Select the main detector, tracker, and reider from one configuration mapping.
@@ -201,17 +405,16 @@ class MT(object):
         Notes
         -----
         The internal config directory is selected if none has been configured.
-        Constructing models can load weights and classifiers and reset tracking state.
+        Construct all candidates before publishing configuration or active stages. A failure
+        preserves the previous pipeline and closes earlier candidates. Successful loading
+        resets tracking state and closes old stages. Models temporarily coexist; close
+        the old pipeline explicitly and create a new MT if releasing memory first is
+        required. No config files are saved.
         """
-        if not self.__cfg_is_set__: self.setConfigDir()
-        self.__cfg__.setMainModules(main_yaml=main_yaml)
-        if load_all: 
-            add_info_log(f"---PYPPBOX : DT='{self.__cfg__.mcfg.detector}', "
-                         f"TK='{self.__cfg__.mcfg.tracker}', "
-                         f"RI='{self.__cfg__.mcfg.reider}'")
-            self.__loadDefaultDetector__()
-            self.__loadDefaultTracker__()
-            self.__loadDefaultReIDer__()
+        self._ensure_open()
+        candidate, _ = self._configured_candidate()
+        candidate.setMainModules(main_yaml=main_yaml)
+        self._configure(candidate, load_all)
 
     def getConfig(self):
         """Return the live configurator used by this pipeline.
@@ -271,6 +474,7 @@ class MT(object):
         calling this :func:`forceFullGTMode()` sets :code:`detect_only=False` until the next
         detector, tracker, or reider selection. Normal frame processing preserves the override.
         """
+        self._ensure_open()
         success = False
         if self.__dt_is_set__:
             if self.__dt_cfg__.dt_name.lower() == self.__unistrings__.gt:
@@ -287,68 +491,7 @@ class MT(object):
                    "---PYPPBOX : DT!='GT' -> Failed to override detect_only=False"
                    "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
             add_warning_log(msg, add_new_line=True)
-            
 
-    def __loadDefaultDetector__(self):
-        if self.__cfg_is_set__:
-            if self.__cfg__.mcfg.detector.lower() == self.__unistrings__.yolo_cls:
-                from pyppbox.modules.detectors.yolocls import MyYOLOCLS
-                self.__dt_cfg__ = self.__cfg__.dcfg_yolocs
-                self.__dt__ = MyYOLOCLS(self.__dt_cfg__)
-                self.__dt_is_set__ = True
-            elif self.__cfg__.mcfg.detector.lower() == self.__unistrings__.yolo_ult:
-                from pyppbox.modules.detectors.yoloult import MyYOLOULT
-                self.__dt_cfg__ = self.__cfg__.dcfg_yolout
-                self.__dt__ = MyYOLOULT(self.__dt_cfg__)
-                self.__dt_is_set__ = True
-            elif self.__cfg__.mcfg.detector.lower() == self.__unistrings__.gt:
-                self.__dt_cfg__ = self.__cfg__.dcfg_gt
-                self.__dt__ = GTInterpreter()
-                self.__dt__.setGT(self.__dt_cfg__.gt_file)
-                self.__dt_is_set__ = True
-            elif self.__cfg__.mcfg.detector.lower() == self.__unistrings__.none:
-                self.__dt_cfg__ = __none_cfg__
-                self.__dt__ = NothingDetecter()
-                self.__dt_is_set__ = True
-            else: 
-                add_info_log("---PYPPBOX : The input detecor is not recognized.")
-                self.__dt_is_set__ = False
-        else:
-            add_warning_log("---PYPPBOX : The config is not set.")
-        self.__syncGTMode__()
-
-
-    def __setCustomDetector__(self, detector_dict):
-        if detector_dict:
-            if detector_dict['dt_name'].lower() == self.__unistrings__.yolo_cls:
-                from pyppbox.modules.detectors.yolocls import MyYOLOCLS
-                self.__dt_cfg__ = DCFGYOLOCLS()
-                self.__dt_cfg__.set(detector_dict)
-                self.__dt__ = MyYOLOCLS(self.__dt_cfg__)
-                self.__dt_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set detector='{self.__dt_cfg__.dt_name}'")
-            elif detector_dict['dt_name'].lower() == self.__unistrings__.yolo_ult:
-                from pyppbox.modules.detectors.yoloult import MyYOLOULT
-                self.__dt_cfg__ = DCFGYOLOULT()
-                self.__dt_cfg__.set(detector_dict)
-                self.__dt__ = MyYOLOULT(self.__dt_cfg__)
-                self.__dt_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set detector='{self.__dt_cfg__.dt_name}'")
-            elif detector_dict['dt_name'].lower() == self.__unistrings__.gt:
-                self.__dt_cfg__ = DCFGGT()
-                self.__dt_cfg__.set(detector_dict)
-                self.__dt__ = GTInterpreter()
-                self.__dt__.setGT(self.__dt_cfg__.gt_file)
-                self.__dt_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set detector='{self.__dt_cfg__.dt_name}'")
-            elif detector_dict['dt_name'].lower() == self.__unistrings__.none:
-                self.__dt_cfg__ = __none_cfg__
-                self.__dt__ = NothingDetecter()
-                self.__dt_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set detector='{self.__dt_cfg__.dt_name}'")
-            else: 
-                self.__dt_is_set__ = False
-                add_warning_log(f"---PYPPBOX : detector='{detector_dict['dt_name']}' is not recognized.")
 
     def setMainDetector(self, detector: Union[str, Dict[str, Any]] = ""):
         """Select and initialize the main detector.
@@ -357,7 +500,7 @@ class MT(object):
         ----------
         detector : str or dict or list
             Defaults to ``""``. An empty string uses the selected main configuration.
-            A supported name (YOLO_Classic, YOLO_Ultralytics, GT, or "None") loads settings from ``detectors.yaml`` in the
+            A supported name (YOLO_Classic, YOLO_Ultralytics, RF_DETR, GT, or "None") loads settings from ``detectors.yaml`` in the
             selected directory, defaulting to the internal directory. Alternatively,
             provide a complete dictionary, inline YAML/JSON mapping, YAML/JSON file path,
             or legacy list containing one mapping. Custom paths within a mapping resolve
@@ -365,53 +508,12 @@ class MT(object):
 
         Notes
         -----
-        This replaces the existing stage, so retained model/tracking state is discarded.
+        Construct the candidate before replacing the active stage. Loading failure
+        preserves its config, state, and resources; successful replacement closes it.
         The name ``"None"`` is a string. Selection also recomputes GT detection-only
         mode, replacing any earlier ``forceFullGTMode()`` override. Config files are not saved.
         """
-        self.__dt_is_set__ = False
-        self.__dt__ = None
-        if isConfigInput(detector):
-            self.__setCustomDetector__(getCFGDict(detector))
-        elif isinstance(detector, str):
-            if detector == "":
-                if not self.__cfg_is_set__: self.setConfigDir()
-                self.__loadDefaultDetector__()
-                add_info_log('---PYPPBOX : Use detector according to the "main.yaml"')
-            elif detector.lower() == self.__unistrings__.yolo_cls:
-                from pyppbox.modules.detectors.yolocls import MyYOLOCLS
-                if not self.__cfg_is_set__: self.setConfigDir()
-                self.__cfg__.setAllDCFG()
-                self.__dt_cfg__ = self.__cfg__.dcfg_yolocs
-                self.__dt__ = MyYOLOCLS(self.__dt_cfg__)
-                self.__dt_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set detector='{detector}'")
-            elif detector.lower() == self.__unistrings__.yolo_ult:
-                from pyppbox.modules.detectors.yoloult import MyYOLOULT
-                if not self.__cfg_is_set__: self.setConfigDir()
-                self.__cfg__.setAllDCFG()
-                self.__dt_cfg__ = self.__cfg__.dcfg_yolout
-                self.__dt__ = MyYOLOULT(self.__dt_cfg__)
-                self.__dt_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set detector='{detector}'")
-            elif detector.lower() == self.__unistrings__.gt:
-                if not self.__cfg_is_set__: self.setConfigDir()
-                self.__cfg__.setAllDCFG()
-                self.__dt_cfg__ = self.__cfg__.dcfg_gt
-                self.__dt__ = GTInterpreter()
-                self.__dt__.setGT(self.__dt_cfg__.gt_file)
-                self.__dt_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set detector='{detector}'")
-            elif detector.lower() == self.__unistrings__.none:
-                if not self.__cfg_is_set__: self.setConfigDir()
-                self.__cfg__.setAllDCFG()
-                self.__dt_cfg__ = __none_cfg__
-                self.__dt__ = NothingDetecter()
-                self.__dt_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set detector='{detector}'")
-        else:
-            add_warning_log(f"---PYPPBOX : detector='{detector}' is not recognized.")
-        self.__syncGTMode__()
+        self._replace_stage('dt', detector)
 
 
     def detectPeople(self, 
@@ -470,12 +572,14 @@ class MT(object):
         or ``setConfigDir(load_all=True)``. The default ``setConfigDir()`` alone only
         loads configuration. Detection filters and alternative points do not alter GT rows.
         """
+        self._ensure_open()
         people = []
         if self.__dt_is_set__: 
             if not isinstance(self.__dt__, NothingDetecter):
                 img = getCVMat(img)
                 if (self.__dt_cfg__.dt_name.lower() == self.__unistrings__.yolo_cls or 
-                    self.__dt_cfg__.dt_name.lower() == self.__unistrings__.yolo_ult):
+                    self.__dt_cfg__.dt_name.lower() == self.__unistrings__.yolo_ult or
+                    self.__dt_cfg__.dt_name.lower() == self.__unistrings__.rf_detr):
                     people, img = self.__dt__.detectPeople(img, 
                                                            visual=visual, 
                                                            min_width_filter=min_width_filter, 
@@ -504,66 +608,6 @@ class MT(object):
     # Tracker
     ###########################################
 
-    def __loadDefaultTracker__(self):
-        if self.__cfg_is_set__:
-            if self.__cfg__.mcfg.tracker.lower() == self.__unistrings__.centroid:
-                from pyppbox.modules.trackers.centroid import MyCentroid
-                self.__tk_cfg__ = self.__cfg__.tcfg_centroid
-                self.__tk__ = MyCentroid(self.__tk_cfg__)
-                self.__tk_is_set__ = True
-            elif self.__cfg__.mcfg.tracker.lower() == self.__unistrings__.sort:
-                from pyppbox.modules.trackers.sort import MySORT
-                self.__tk_cfg__ = self.__cfg__.tcfg_sort
-                self.__tk__ = MySORT(self.__tk_cfg__)
-                self.__tk_is_set__ = True
-            elif self.__cfg__.mcfg.tracker.lower() == self.__unistrings__.deepsort:
-                from pyppbox.modules.trackers.deepsort import MyDeepSORT
-                self.__tk_cfg__ = self.__cfg__.tcfg_deepsort
-                self.__tk__ = MyDeepSORT(self.__tk_cfg__)
-                self.__tk_is_set__ = True
-            elif self.__cfg__.mcfg.tracker.lower() == self.__unistrings__.none:
-                self.__tk_cfg__ = __none_cfg__
-                self.__tk__ = NothingTracker()
-                self.__tk_is_set__ = True
-            else: 
-                add_warning_log("---PYPPBOX : The input tracker is not recognized.")
-                self.__tk_is_set__ = False
-        else:
-            add_warning_log("---PYPPBOX : The config is not set.")
-        self.__syncGTMode__()
-
-
-    def __setCustomTracker__(self, tracker_dict):
-        if tracker_dict:
-            if tracker_dict['tk_name'].lower() == self.__unistrings__.centroid:
-                from pyppbox.modules.trackers.centroid import MyCentroid
-                self.__tk_cfg__ = TCFGCentroid()
-                self.__tk_cfg__.set(tracker_dict)
-                self.__tk__ = MyCentroid(self.__tk_cfg__)
-                self.__tk_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set tracker='{self.__tk_cfg__.tk_name}'")
-            elif tracker_dict['tk_name'].lower() == self.__unistrings__.sort:
-                from pyppbox.modules.trackers.sort import MySORT
-                self.__tk_cfg__ = TCFGSORT()
-                self.__tk_cfg__.set(tracker_dict)
-                self.__tk__ = MySORT(self.__tk_cfg__)
-                self.__tk_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set tracker='{self.__tk_cfg__.tk_name}'")
-            elif tracker_dict['tk_name'].lower() == self.__unistrings__.deepsort:
-                from pyppbox.modules.trackers.deepsort import MyDeepSORT
-                self.__tk_cfg__ = TCFGDeepSORT()
-                self.__tk_cfg__.set(tracker_dict)
-                self.__tk__ = MyDeepSORT(self.__tk_cfg__)
-                self.__tk_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set tracker='{self.__tk_cfg__.tk_name}'")
-            elif tracker_dict['tk_name'].lower() == self.__unistrings__.none:
-                self.__tk_cfg__ = __none_cfg__
-                self.__tk__ = NothingTracker()
-                self.__tk_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set tracker='{self.__tk_cfg__.tk_name}'")
-            else:
-                self.__tk_is_set__ = False
-                add_warning_log(f"---PYPPBOX : tracker='{tracker_dict['tk_name']}' is not recognized.")
 
     def setMainTracker(self, tracker: Union[str, Dict[str, Any]] = ""):
         """Select and initialize the main tracker.
@@ -580,53 +624,12 @@ class MT(object):
 
         Notes
         -----
-        This replaces the existing stage, so retained model/tracking state is discarded.
+        Construct the candidate before replacing the active stage. Loading failure
+        preserves its config, state, and resources; successful replacement closes it.
         The name ``"None"`` is a string. Selection also recomputes GT detection-only
         mode, replacing any earlier ``forceFullGTMode()`` override. Config files are not saved.
         """
-        self.__tk_is_set__ = False
-        self.__tk__ = None
-        if isConfigInput(tracker):
-            self.__setCustomTracker__(getCFGDict(tracker))
-        elif isinstance(tracker, str):
-            if tracker == "":
-                if not self.__cfg_is_set__: self.setConfigDir()
-                self.__loadDefaultTracker__()
-                add_info_log('---PYPPBOX : Use tracker according to the "main.yaml"')
-            elif tracker.lower() == self.__unistrings__.centroid:
-                from pyppbox.modules.trackers.centroid import MyCentroid
-                if not self.__cfg_is_set__: self.setConfigDir()
-                self.__cfg__.setAllTCFG()
-                self.__tk_cfg__ = self.__cfg__.tcfg_centroid
-                self.__tk__ = MyCentroid(self.__tk_cfg__)
-                self.__tk_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set tracker='{tracker}'")
-            elif tracker.lower() == self.__unistrings__.sort:
-                from pyppbox.modules.trackers.sort import MySORT
-                if not self.__cfg_is_set__: self.setConfigDir()
-                self.__cfg__.setAllTCFG()
-                self.__tk_cfg__ = self.__cfg__.tcfg_sort
-                self.__tk__ = MySORT(self.__tk_cfg__)
-                self.__tk_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set tracker='{tracker}'")
-            elif tracker.lower() == self.__unistrings__.deepsort:
-                from pyppbox.modules.trackers.deepsort import MyDeepSORT
-                if not self.__cfg_is_set__: self.setConfigDir()
-                self.__cfg__.setAllTCFG()
-                self.__tk_cfg__ = self.__cfg__.tcfg_deepsort
-                self.__tk__ = MyDeepSORT(self.__tk_cfg__)
-                self.__tk_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set tracker='{tracker}'")
-            elif tracker.lower() == self.__unistrings__.none:
-                if not self.__cfg_is_set__: self.setConfigDir()
-                self.__cfg__.setAllTCFG()
-                self.__tk_cfg__ = __none_cfg__
-                self.__tk__ = NothingTracker()
-                self.__tk_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set tracker='{tracker}'")
-        else:
-            add_warning_log(f"---PYPPBOX : tracker='{tracker}' is not recognized.")
-        self.__syncGTMode__()
+        self._replace_stage('tk', tracker)
 
 
     def trackPeople(self, img, people, img_is_mat=False):
@@ -660,6 +663,7 @@ class MT(object):
         Initialize the tracker first, for example with ``setMainTracker()`` or
         ``setConfigDir(load_all=True)``. Keep one pipeline per independent stream.
         """
+        self._ensure_open()
         res = []
         if self.__tk_is_set__: 
             if isinstance(people, list):
@@ -678,62 +682,6 @@ class MT(object):
     # REIDer
     ###########################################
 
-    def __loadDefaultReIDer__(self, auto_load=True):
-        if self.__cfg_is_set__:
-            if self.__cfg__.mcfg.reider.lower() == self.__unistrings__.facenet:
-                from pyppbox.modules.reiders.facenet import MyFaceNet
-                self.__ri_cfg__ = self.__cfg__.rcfg_facenet
-                self.__ri__ = MyFaceNet(self.__ri_cfg__, auto_load=auto_load)
-                self.__ri_is_set__ = True
-            elif self.__cfg__.mcfg.reider.lower() == self.__unistrings__.torchreid:
-                from pyppbox.modules.reiders.torchreid import MyTorchreid
-                self.__ri_cfg__ = self.__cfg__.rcfg_torchreid
-                self.__ri__ = MyTorchreid(self.__ri_cfg__, auto_load=auto_load)
-                self.__ri_is_set__ = True
-            elif self.__cfg__.mcfg.reider.lower() == self.__unistrings__.none:
-                if (self.__dt_cfg__.dt_name.lower() != self.__unistrings__.none and 
-                    self.__tk_cfg__.tk_name.lower() != self.__unistrings__.none):
-                    self.__ri__ = TKOReider(static=True)
-                else:
-                    self.__ri__ = NothingReider()
-                self.__ri_cfg__ = __none_cfg__
-                self.__ri_is_set__ = True
-            else:
-                add_warning_log("---PYPPBOX : The input reider is not recognized.")
-                self.__ri_is_set__ = False
-        else:
-            add_warning_log("---PYPPBOX : The config is not set.")
-        self.__syncGTMode__()
-
-
-    def __setCustomReIDer__(self, reider_dict, auto_load=True):
-        if reider_dict:
-            if reider_dict['ri_name'].lower() == self.__unistrings__.facenet:
-                from pyppbox.modules.reiders.facenet import MyFaceNet
-                self.__ri_cfg__ = RCFGFaceNet()
-                self.__ri_cfg__.set(reider_dict)
-                self.__ri__ = MyFaceNet(self.__ri_cfg__, auto_load=auto_load)
-                self.__ri_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set reider='{self.__ri_cfg__.ri_name}'")
-            elif reider_dict['ri_name'].lower() == self.__unistrings__.torchreid:
-                from pyppbox.modules.reiders.torchreid import MyTorchreid
-                self.__ri_cfg__ = RCFGTorchreid()
-                self.__ri_cfg__.set(reider_dict)
-                self.__ri__ = MyTorchreid(self.__ri_cfg__, auto_load=auto_load)
-                self.__ri_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set reider='{self.__ri_cfg__.ri_name}'")
-            elif reider_dict['ri_name'].lower() == self.__unistrings__.none:
-                if (self.__dt_cfg__.dt_name.lower() != self.__unistrings__.none and 
-                    self.__tk_cfg__.tk_name.lower() != self.__unistrings__.none):
-                    self.__ri__ = TKOReider(static=True)
-                else:
-                    self.__ri__ = NothingReider()
-                self.__ri_cfg__ = __none_cfg__
-                self.__ri_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set reider='{self.__ri_cfg__.ri_name}'")
-            else:
-                self.__ri_is_set__ = False
-                add_warning_log(f"---PYPPBOX : reider='{reider_dict['ri_name']}' is not recognized.")
 
     def setMainReIDer(self, reider: Union[str, Dict[str, Any]] = "", auto_load: bool = True):
         """Select and initialize the main reider.
@@ -755,54 +703,17 @@ class MT(object):
 
         Notes
         -----
-        This replaces the existing stage, so retained model/tracking state is discarded.
+        Construct the candidate before replacing the active stage. Loading failure
+        preserves its config, state, and resources; successful replacement closes it.
         The name ``"None"`` is a string. Selection also recomputes GT detection-only
         mode, replacing any earlier ``forceFullGTMode()`` override. Config files are not saved.
         With detector and tracker enabled, reider ``"None"`` uses static
         fallback identities. In other combinations it passes existing identities through.
         """
-        self.__ri_is_set__ = False
-        self.__ri__ = None
-        if isConfigInput(reider):
-            self.__setCustomReIDer__(getCFGDict(reider), auto_load)
-        elif isinstance(reider, str):
-            if reider == "":
-                if not self.__cfg_is_set__: self.setConfigDir()
-                self.__loadDefaultReIDer__(auto_load=auto_load)
-                add_info_log('---PYPPBOX : Use reider according to the "main.yaml"')
-            elif reider.lower() == self.__unistrings__.facenet:
-                from pyppbox.modules.reiders.facenet import MyFaceNet
-                if not self.__cfg_is_set__: self.setConfigDir()
-                self.__cfg__.setAllRCFG()
-                self.__ri_cfg__ = self.__cfg__.rcfg_facenet
-                self.__ri__ = MyFaceNet(self.__ri_cfg__, auto_load=auto_load)
-                self.__ri_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set reider='{reider}'")
-            elif reider.lower() == self.__unistrings__.torchreid:
-                from pyppbox.modules.reiders.torchreid import MyTorchreid
-                if not self.__cfg_is_set__: self.setConfigDir()
-                self.__cfg__.setAllRCFG()
-                self.__ri_cfg__ = self.__cfg__.rcfg_torchreid
-                self.__ri__ = MyTorchreid(self.__ri_cfg__, auto_load=auto_load)
-                self.__ri_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set reider='{reider}'")
-            elif reider.lower() == self.__unistrings__.none:
-                if not self.__cfg_is_set__: self.setConfigDir()
-                self.__cfg__.setAllRCFG()
-                if (self.__dt_cfg__.dt_name.lower() != self.__unistrings__.none and 
-                    self.__tk_cfg__.tk_name.lower() != self.__unistrings__.none):
-                    self.__ri__ = TKOReider(static=True)
-                else:
-                    self.__ri__ = NothingReider()
-                self.__ri_cfg__ = __none_cfg__
-                self.__ri_is_set__ = True
-                add_info_log(f"---PYPPBOX : Set reider='{reider}'")
-        else:
-            add_warning_log(f"---PYPPBOX : reider='{reider}' is not recognized.")
-        self.__syncGTMode__()
+        self._replace_stage('ri', reider, auto_load=auto_load)
 
 
-    def reidPeople(self, img, people, deduplicate=True, img_is_mat=False):
+    def reidPeople(self, img, people, deduplicate=True, img_is_mat=False, *, batch_size=1):
         """Update unknown/error identities using the active reider.
 
         Parameters
@@ -817,6 +728,10 @@ class MT(object):
             does not remove people or guarantee that the final identities are unique.
         img_is_mat : bool
             Defaults to ``False``. If True, use the array without image-helper conversion.
+        batch_size : int
+            Defaults to one, retaining scalar behavior. Values above one opt into
+            bounded Torchreid inference batches. This call-time option does not
+            change YAML files or FaceNet's scalar inference/training settings.
 
         Returns
         -------
@@ -824,7 +739,7 @@ class MT(object):
             People with updated identity and confidence fields. Empty when the input
             list is empty or no reider has been initialized.
         tuple[int, int]
-            Counts of completed initial and duplicate recognition calls, including
+            Counts of completed initial and duplicate person recognitions, including
             unknown/error-ID results. Calls raising exceptions are not counted.
             Both counts are zero for a disabled reider.
 
@@ -840,20 +755,36 @@ class MT(object):
         Deferred classifier loading happens before processing the people list and can
         therefore occur on an empty frame. Classifier/model loading errors propagate.
         Per-person crop or recognition exceptions are logged and the person is retained.
+        Integer crop bounds are clipped to the image; malformed or entirely invisible
+        crops are skipped without counting a recognition call. Valid crops keep the
+        existing resizing/preprocessing. Recognition does not modify the input frame.
+        Opt-in Torchreid batches retain group order and per-person counts. Failed
+        batches retry scalar recognition per person. Aliased Person objects use the
+        scalar path. Floating-point confidence can vary; close decisions are rechecked
+        with scalar recognition. Batch calls/rechecks do not add to the counts.
         """
+        self._ensure_open()
+        size = _batch_size(batch_size)
         res = []
         reid_count = [0, 0]
         if self.__ri_is_set__:
             if self.__ri_cfg__.ri_name.lower() != self.__unistrings__.none:
                 if not self.__ri__.auto_load:
+                    self.__ri_cfg__.validateRuntime(classifier=True)
                     self.__ri__.load_classifier()
                     self.__ri__.auto_load = True
             if isinstance(people, list):
                 if len(people) > 0:
                     if isinstance(people[0], Person):
                         if not img_is_mat: img = getCVMat(img)
-                        res, reid_count[0] = self.__reidNormal__(img, people)
-                        if deduplicate: res, reid_count[1] = self.__reidDupkiller__(img, res)
+                        if (size > 1 and self.__ri_cfg__.ri_name.lower() == self.__unistrings__.torchreid
+                                and len({id(person) for person in people}) == len(people)):
+                            res, reid_count[0] = self._reid_deep_batch(img, people, size)
+                            if deduplicate:
+                                res, reid_count[1] = self._reid_deep_batch_duplicates(img, res, size)
+                        else:
+                            res, reid_count[0] = self.__reidNormal__(img, people)
+                            if deduplicate: res, reid_count[1] = self.__reidDupkiller__(img, res)
                     else:
                         msg = "PYPPBOX : reidPeople() -> Input 'people' has unsupported element."
                         add_error_log(msg)
@@ -898,10 +829,8 @@ class MT(object):
         for person in people:
             deepid = person.deepid
             if self.__unistrings__.err_did in deepid or self.__unistrings__.unk_did in deepid:
-                miniframe = img.copy()
                 try:
-                    [x1, y1, x2, y2] = person.box_xyxy
-                    miniframe = miniframe[y1:y2, x1:x2]
+                    miniframe = _crop_reid_image(img, person.box_xyxy)
                     people[index].deepid, people[index].deepid_conf = self.__ri__.recognize(
                         cv2.resize(miniframe, self.__ri_cfg__.model_wh), 
                         is_bgr=True
@@ -913,6 +842,61 @@ class MT(object):
             index += 1
         return people, reid_count
 
+    def _deep_batch_jobs(self, img, people, selected):
+        for index, person in enumerate(people):
+            if selected(person.deepid):
+                try:
+                    crop = cv2.resize(_crop_reid_image(img, person.box_xyxy), self.__ri_cfg__.model_wh)
+                except Exception as error:
+                    add_warning_log(f'---PYPPBOX : Torchreid crop skipped: {error}')
+                    continue
+                yield index, crop
+
+    def _run_deep_batches(self, people, jobs, size):
+        completed = 0
+        for chunk in _batches(jobs, size):
+            results = None
+            try:
+                results = self.__ri__.recognize_batch([crop for _, crop in chunk],
+                                                     is_bgr=True, batch_size=size)
+                if len(results) != len(chunk) or any(len(result) != 2 for result in results):
+                    raise ValueError('Torchreid returned an inconsistent recognition batch.')
+            except Exception as error:
+                # Leave the exception scope before retrying, releasing its inference
+                # traceback/temporary tensor references (including failed CUDA batches).
+                results = None
+                add_warning_log(f'---PYPPBOX : Torchreid batch failed; retrying per person: {error}')
+            if results is None:
+                for index, crop in chunk:
+                    try:
+                        people[index].deepid, people[index].deepid_conf = self.__ri__.recognize(crop, is_bgr=True)
+                        completed += 1
+                    except Exception as error:
+                        add_warning_log(f'---PYPPBOX : Torchreid recognition skipped: {error}')
+            else:
+                for (index, _), (identity, confidence) in zip(chunk, results):
+                    people[index].deepid, people[index].deepid_conf = identity, confidence
+                    completed += 1
+            chunk.clear()
+        return completed
+
+    def _reid_deep_batch(self, img, people, size):
+        jobs = self._deep_batch_jobs(img, people, lambda value:
+            self.__unistrings__.err_did in value or self.__unistrings__.unk_did in value)
+        completed = self._run_deep_batches(people, jobs, size)
+        self.__deepidlistTMP__ = [person.deepid for person in people]
+        return people, completed
+
+    def _reid_deep_batch_duplicates(self, img, people, size):
+        completed = 0
+        duplicate_ids = [identity for identity, count in Counter(self.__deepidlistTMP__).items() if count > 1]
+        # Build each group's jobs only after the preceding group has completed.
+        # Earlier re-recognition can move a person into a later duplicate group.
+        for identity in duplicate_ids:
+            jobs = self._deep_batch_jobs(img, people, lambda value: value == identity)
+            completed += self._run_deep_batches(people, jobs, size)
+        return people, completed
+
     def __reidDupDeepkiller__(self, img, people):
         reid_count = 0
         if len(self.__deepidlistTMP__) != len(set(self.__deepidlistTMP__)):
@@ -922,9 +906,7 @@ class MT(object):
                 for person in people:
                     try:
                         if person.deepid == ddeepid:
-                            [x1, y1, x2, y2] = person.box_xyxy
-                            miniframe = img.copy()
-                            miniframe = miniframe[y1:y2, x1:x2]
+                            miniframe = _crop_reid_image(img, person.box_xyxy)
                             people[index].deepid, people[index].deepid_conf = self.__ri__.recognize(
                                 cv2.resize(miniframe, self.__ri_cfg__.model_wh), 
                                 is_bgr=True
@@ -942,15 +924,14 @@ class MT(object):
         for person in people:
             faceid = person.faceid
             if self.__unistrings__.err_fid in faceid or self.__unistrings__.unk_fid in faceid:
-                (x, y) = person.repspoint
-                miniframe = img.copy()
                 try:
-                    miniframe = miniframe[
-                        y + int(self.__ri_cfg__.yl_h_calibration[0]):
+                    (x, y) = person.repspoint
+                    miniframe = _crop_reid_image(img, (
+                        x + int(self.__ri_cfg__.yl_w_calibration[0]),
+                        y + int(self.__ri_cfg__.yl_h_calibration[0]),
+                        x + int(self.__ri_cfg__.yl_w_calibration[1]),
                         y + int(self.__ri_cfg__.yl_h_calibration[1]),
-                        x + int(self.__ri_cfg__.yl_w_calibration[0]):
-                        x + int(self.__ri_cfg__.yl_w_calibration[1])
-                    ]
+                    )).copy()
                     people[index].faceid, people[index].faceid_conf = self.__ri__.recognize(
                         miniframe, 
                         is_bgr=True
@@ -972,13 +953,12 @@ class MT(object):
                     try:
                         if person.faceid == dfaceid:
                             (x, y) = person.repspoint
-                            miniframe = img.copy()
-                            miniframe = miniframe[
-                                y + int(self.__ri_cfg__.yl_h_calibration[0]):
+                            miniframe = _crop_reid_image(img, (
+                                x + int(self.__ri_cfg__.yl_w_calibration[0]),
+                                y + int(self.__ri_cfg__.yl_h_calibration[0]),
+                                x + int(self.__ri_cfg__.yl_w_calibration[1]),
                                 y + int(self.__ri_cfg__.yl_h_calibration[1]),
-                                x + int(self.__ri_cfg__.yl_w_calibration[0]):
-                                x + int(self.__ri_cfg__.yl_w_calibration[1])
-                            ]
+                            )).copy()
                             people[index].faceid, people[index].faceid_conf = self.__ri__.recognize(
                                 miniframe, 
                                 is_bgr=True
@@ -1016,35 +996,35 @@ class MT(object):
 
         Notes
         -----
-        This replaces the pipeline's active reider and returns None. Invalid explicit
-        input/output directories are logged and training is skipped. Backend training
-        errors propagate. Config files are not saved. Load the written classifier before
+        Construct one training reider, retaining the active one until training succeeds.
+        On failure, dispose the candidate and retain the active reider. Returns None.
+        Invalid explicit input/output directories are logged and training is skipped.
+        Backend errors propagate; output files can still be overwritten by training.
+        Config files are not saved. Load the written classifier before
         subsequent recognition; the pipeline does this on its next ``reidPeople()`` call.
         """
-        self.setMainReIDer(reider=reider, auto_load=False)
-        if self.__ri_is_set__:
-            valid_train_data = True
-            valid_pkl = True
-            if train_data != "":
-                if isExist(train_data): 
-                    self.__ri_cfg__.train_data = getAbsPathFDS(train_data)
-                else: 
-                    valid_train_data = False
-                    add_error_log(f"---PYPPBOX : train_data='{train_data}' does not exist.")
-            if classifier_pkl != "":
-                if not isExist(getAncestorDir(classifier_pkl)):
-                    valid_pkl = False
-                    add_error_log(f"---PYPPBOX : classifier_pkl='{classifier_pkl}' is not valid.")
-                if valid_pkl: self.__ri_cfg__.classifier_pkl = getAbsPathFDS(classifier_pkl)
-            if valid_train_data and valid_pkl:
-                from pyppbox.modules.reiders.facenet import MyFaceNet
-                from pyppbox.modules.reiders.torchreid import MyTorchreid
-                if isinstance(self.__ri__, MyFaceNet):
-                    self.__ri__ = MyFaceNet(self.__ri_cfg__, auto_load=False)
-                    add_info_log("------------- FaceNet --------------")
-                elif isinstance(self.__ri__, MyTorchreid):
-                    self.__ri__ = MyTorchreid(self.__ri_cfg__, auto_load=False)
-                    add_info_log("------------ Torchreid -------------")
-                add_info_log("---PYPPBOX : train_data='" + str(self.__ri_cfg__.train_data) + "'")
-                add_info_log("---PYPPBOX : classifier_pkl='" + str(self.__ri_cfg__.classifier_pkl) + "'")
-                self.__ri__.train_classifier()
+        self._ensure_open()
+        candidate_cfg = copy(self.__cfg__)
+        config, configured = self._select_stage('ri', reider, candidate_cfg)
+        config = copy(config)
+        if config.ri_name == 'None':
+            raise ValueError('Classifier training requires FaceNet or Torchreid.')
+        if train_data != "":
+            if not isExist(train_data):
+                add_error_log(f"---PYPPBOX : train_data='{train_data}' does not exist.")
+                return
+            config.train_data = getAbsPathFDS(train_data)
+        if classifier_pkl != "":
+            if not isExist(getAncestorDir(classifier_pkl)):
+                add_error_log(f"---PYPPBOX : classifier_pkl='{classifier_pkl}' is not valid.")
+                return
+            config.classifier_pkl = getAbsPathFDS(classifier_pkl)
+        candidate = self._build_stage('ri', config, auto_load=False)
+        try:
+            add_info_log(f"---PYPPBOX : train_data='{config.train_data}'")
+            add_info_log(f"---PYPPBOX : classifier_pkl='{config.classifier_pkl}'")
+            candidate.train_classifier()
+        except BaseException:
+            self._retire(candidate)
+            raise
+        self._publish(candidate_cfg, configured, {'ri': (config, candidate)})

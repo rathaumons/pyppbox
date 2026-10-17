@@ -4,6 +4,7 @@
 import os
 import sys
 import subprocess as sp
+import tempfile
 
 from pyppbox.utils.logtools import add_info_log, get_env, set_terminal_log_from_env
 
@@ -13,6 +14,7 @@ set_terminal_log_from_env()
 from PyQt6 import QtCore, QtGui, QtWidgets
 from ui_yolocls import Ui_YOLOCLS
 from ui_yoloult import Ui_YOLOULT
+from ui_rfdetr import Ui_RFDETR
 from ui_gt import Ui_GT
 from ui_centroid import Ui_Centroid
 from ui_sort import Ui_SORT
@@ -20,7 +22,8 @@ from ui_deepsort import Ui_DeepSORT
 from ui_facenet import Ui_FaceNet
 from ui_torchreid import Ui_Torchreid
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
-from pyppbox.gui.guihub import loadUITMP, loadInputTMP, writeInputTMP
+from pyppbox.gui.guihub import loadUITMP, loadInputTMP, writeInputTMP, _gui_session
+from pyppbox.gui.processes import gui_process, watch_gui_parent
 from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, joinFPathFull, 
                                        getBool, getGlobalRootDir, getAncestorDir, getVersionString)
 
@@ -338,17 +341,50 @@ class Ui_PYPPBOXLauncher(object):
             self.input_video_file_lineEdit.setText(source_file)
 
     def launchNow(self):
-        self.updateMCFG(self.detector_comboBox.currentText(), 
-                        self.tracker_comboBox.currentText(), 
-                        self.reider_comboBox.currentText(), 
-                        self.input_video_file_lineEdit.text(), 
-                        self.input_force_hd_comboBox.currentText())
+        try:
+            self.updateMCFG(self.detector_comboBox.currentText(),
+                            self.tracker_comboBox.currentText(),
+                            self.reider_comboBox.currentText(),
+                            self.input_video_file_lineEdit.text(),
+                            self.input_force_hd_comboBox.currentText())
+        except (OSError, ValueError) as error:
+            QtWidgets.QMessageBox.critical(launcher, 'Cannot save launch settings', str(error))
+            return
         
         launcher.hide()
-        p = sp.Popen([sys.executable, os.path.join(current_dir, 'guidemo.py')], env=get_env())
-        p.wait()
+        error_output = ''
+        exit_code = None
+        try:
+            executable = sys.executable
+            options = {}
+            # pythonw has no Python stdout/stderr, even when OS handles are redirected.
+            # Use its console sibling without creating a console so errors can be captured.
+            if sys.platform == 'win32' and os.path.basename(executable).lower() == 'pythonw.exe':
+                executable = os.path.join(os.path.dirname(executable), 'python.exe')
+                options['creationflags'] = sp.CREATE_NO_WINDOW
+            with tempfile.TemporaryFile() as error_log:
+                with gui_process([executable, os.path.join(current_dir, 'guidemo.py')],
+                                 popen=sp.Popen, env=get_env(), stderr=error_log,
+                                 stdout=None if sys.stdout is not None else error_log, **options) as p:
+                    exit_code = p.wait()
+                # Keep error details bounded even when a backend emits many messages.
+                error_log.seek(0, os.SEEK_END)
+                error_log.seek(max(0, error_log.tell() - 16000))
+                error_output = error_log.read().decode('utf-8', errors='replace').strip()
+            if error_output and sys.stderr is not None:
+                print(error_output, file=sys.stderr)
+        except OSError as error:
+            error_output = str(error)
+        finally:
+            launcher.show()
         self.mycfg.setMCFG()
-        launcher.show()
+        if exit_code != 0:
+            message = QtWidgets.QMessageBox(launcher)
+            message.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+            message.setWindowTitle('Demo failed')
+            message.setText('The demo could not finish. Check the selected models and input video.')
+            message.setDetailedText(error_output or f'Demo exited with code {exit_code}.')
+            message.exec()
 
     def updateMCFG(self, detector, tracker, reider, input, force_hd):
         add_info_log("-------GUI : Set DT='" + 
@@ -373,6 +409,10 @@ class Ui_PYPPBOXLauncher(object):
             tmp_QDialog.exec()
         elif self.detector_comboBox.currentText().lower() == self.mycfg.unified_strings.yolo_ult:
             ui = Ui_YOLOULT(self.cfg_mode, self.cfg_dir)
+            ui.setupUi(tmp_QDialog)
+            tmp_QDialog.exec()
+        elif self.detector_comboBox.currentText().lower() == self.mycfg.unified_strings.rf_detr:
+            ui = Ui_RFDETR(self.cfg_mode, self.cfg_dir)
             ui.setupUi(tmp_QDialog)
             tmp_QDialog.exec()
         elif self.detector_comboBox.currentText().lower() == self.mycfg.unified_strings.gt:
@@ -424,6 +464,7 @@ class Ui_PYPPBOXLauncher(object):
 
 
 if __name__ == "__main__":
+    watch_gui_parent()
 
     # Option 0: Use Parser with the rewritten cmd file
     '''
@@ -436,16 +477,16 @@ if __name__ == "__main__":
     cfg_dir = args.cfgdir
     '''
     
-    # Option 1: Use ui.tmp file
-    cfg_dir = loadUITMP()
-    cfg_mode = 0
-    if cfg_dir != None:
-        cfg_mode = 1
+    # API launches inherit an owned session; direct script launches create one.
+    with _gui_session(env=get_env(), reuse=True) as child_env:
+        os.environ['PYPPBOX_GUI_SESSION_DIR'] = child_env['PYPPBOX_GUI_SESSION_DIR']
+        cfg_dir = loadUITMP()
+        cfg_mode = 0 if cfg_dir is None else 1
 
-    app = QtWidgets.QApplication(sys.argv)
-    launcher = QtWidgets.QMainWindow()
-    launcher.setWindowIcon(QtGui.QIcon(joinFPathFull(current_dir, "assets/settings.ico")))
-    ui = Ui_PYPPBOXLauncher(cfg_mode=cfg_mode, cfg_dir=cfg_dir)
-    ui.setupUi(launcher)
-    launcher.show()
-    sys.exit(app.exec())
+        app = QtWidgets.QApplication(sys.argv)
+        launcher = QtWidgets.QMainWindow()
+        launcher.setWindowIcon(QtGui.QIcon(joinFPathFull(current_dir, "assets/settings.ico")))
+        ui = Ui_PYPPBOXLauncher(cfg_mode=cfg_mode, cfg_dir=cfg_dir)
+        ui.setupUi(launcher)
+        launcher.show()
+        sys.exit(app.exec())

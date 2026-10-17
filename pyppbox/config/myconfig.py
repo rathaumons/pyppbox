@@ -1,11 +1,14 @@
 # Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License
 
 
+import os
 from typing import Any, Dict, List, Union, Optional
 
 from .unifiedstrings import UnifiedStrings
+from .validation import validate_config, validate_runtime
 from .configtools import (PYPPBOXStructure, getCFGDict, getCFGDictList, 
-                          loadDocumentList, dumpDocDict, dumpDocDictList)
+                          loadDocumentList, dumpDocDict, dumpDocDictList, _dump_config_files,
+                          _check_pending_save)
 from pyppbox.utils.logtools import add_warning_log, add_error_log
 from pyppbox.utils.commontools import (
     getFileName, 
@@ -41,9 +44,10 @@ class BaseCGF(object):
 
     Notes
     -----
-    Ready mappings/lists are held by reference, not deep-copied. Loading a
-    single document and a document list updates ``config`` and ``configs`` separately.
-    Dump methods select JSON for a .json output suffix and YAML otherwise.
+    Base mappings/lists are held by reference. Supported subclasses validate known
+    fields into a new mapping, preserving extension fields without deep copying them.
+    Loading a single document and a document list updates ``config`` and ``configs``
+    separately. Dump methods select JSON for a .json output suffix and YAML otherwise.
     """
 
     def __init__(self):
@@ -57,10 +61,30 @@ class BaseCGF(object):
         Parameters
         ----------
         input : str or dict
-            A YAML/JSON file path, or a raw/ready dictionary.
+            A YAML/JSON file path, or a raw/ready dictionary. Supported subclasses
+            validate required fields, numeric ranges, path types, and device syntax
+            before storing the mapping. Model files are not opened here.
         """
-        self.config = getCFGDict(input)
+        self.config = validate_config(type(self).__name__, getCFGDict(input), self.unified_strings)
     
+    def validateRuntime(self, classifier=False):
+        """Check inference assets before constructing models, without importing a backend.
+
+        Parameters
+        ----------
+        classifier : bool
+            Defaults to False. Include identity classifier files and deferred FaceNet
+            models when True. Training directories and GT mapping files are not checked.
+
+        Raises
+        ------
+        ValueError
+            A required inference asset is missing, has the wrong type, or a Torchreid
+            checkpoint has no dimensions in the model catalog. Device availability and
+            checkpoint contents are validated by the backend when it loads them.
+        """
+        validate_runtime(self, classifier=classifier)
+
     def loadDocs(self, input: Union[str, Dict[str, Any]]):
         """Load and set a list of multiple documents from a YAML/JSON file or string.
 
@@ -213,7 +237,7 @@ class MainCFG(BaseCGF):
             "tracker": self.tracker,
             "reider": self.reider,
         }
-        return main_doc
+        return dict(self.config, **main_doc)
 
 
 class DCFGYOLOCLS(BaseCGF):
@@ -324,7 +348,7 @@ class DCFGYOLOCLS(BaseCGF):
             "model_image_size": self.model_image_size,
             "repspoint_calibration": self.repspoint_calibration
         }
-        return yolocs_doc
+        return dict(self.config, **yolocs_doc)
 
 
 class DCFGYOLOULT(BaseCGF):
@@ -343,8 +367,8 @@ class DCFGYOLOULT(BaseCGF):
         Parameter imgsz of YOLO_Ultralytics.
     show_boxes : bool
         Parameter show_boxes of YOLO_Ultralytics.
-    device : int
-        Parameter device of YOLO_Ultralytics.
+    device : int or str or list[int] or None
+        Device name, GPU index/indices, or the backend's automatic selection.
     max_det : int
         Parameter max_det of YOLO_Ultralytics.
     model_file : str
@@ -441,7 +465,151 @@ class DCFGYOLOULT(BaseCGF):
             "model_file": normalizePathFDS(internal_root_dir, self.model_file),
             "repspoint_calibration": self.repspoint_calibration
         }
-        return yolout_doc
+        return dict(self.config, **yolout_doc)
+
+
+class DCFGRFDETR(BaseCGF):
+    """Configuration for the optional RF-DETR detection backend.
+
+    Attributes
+    ----------
+    dt_name : str
+        Canonical detector name, ``RF_DETR``.
+    model_size : str
+        ``nano`` (default), ``small``, ``medium``, or ``large``. Each uses its
+        published input resolution. Segmentation and Plus models are not included.
+    model_file : str
+        Local checkpoint, defaulting to the selected model's filename under
+        ``data/modules/rf_detr``. Empty uses RF-DETR's download/cache instead.
+        Custom checkpoints must match ``model_size``.
+    device : int or str
+        GPU index 0 (default), ``cpu``, ``cuda``, ``cuda:N``, ``mps``, or
+        ``auto``. Integer indices are retained in configuration documents.
+    conf : float
+        Minimum detection confidence on a 0-1 scale; defaults to 0.4.
+    max_det : int
+        Maximum returned detections after class/width filtering; defaults to 100.
+    person_class_id : int
+        Native RF-DETR class ID for people; defaults to 1 for pretrained COCO
+        models. Set the correct ID for custom checkpoints (often 0).
+    optimize : bool
+        Defaults to True. Prepare an inference-only model in place without JIT
+        compilation. Set False to retain the original upstream model instance.
+    repspoint_calibration : float
+        Box representative-point calibration in [0, 1]; defaults to 0.25.
+    from_dir : str
+        Root used to resolve relative checkpoint paths.
+
+    Notes
+    -----
+    Construction supplies defaults without importing RF-DETR or downloading
+    weights. ``set()`` overlays a mapping on those defaults, not on previous
+    values. Existing detector configurations retain their original behavior.
+    """
+
+    DEFAULTS = dict(dt_name='RF_DETR', conf=0.4, model_size='nano', device=0,
+                    max_det=100, model_file='data/modules/rf_detr/rf-detr-nano.pth', person_class_id=1,
+                    optimize=True, repspoint_calibration=0.25)
+
+    MODEL_FILES = dict(nano='rf-detr-nano.pth', small='rf-detr-small.pth',
+                       medium='rf-detr-medium.pth', large='rf-detr-large-2026.pth')
+
+    def __init__(self, relative_to_pyppbox_root=False):
+        """Initialize defaults and checkpoint path resolution.
+
+        Parameters
+        ----------
+        relative_to_pyppbox_root : bool
+            Defaults to False: resolve paths from the working directory.
+            True resolves them from the pyppbox package root.
+        """
+        super().__init__()
+        self.from_dir = internal_root_dir if relative_to_pyppbox_root else ''
+        self.set(self.DEFAULTS)
+
+    def set(self, input):
+        """Load a YAML/JSON path or raw/ready mapping over RF-DETR defaults.
+
+        Parameters
+        ----------
+        input : str or dict
+            Configuration accepted by the existing configuration parser. An
+            omitted model_file selects the local filename for model_size;
+            an explicitly empty model_file enables automatic downloading.
+
+        Raises
+        ------
+        ValueError
+            A key is unknown or a value is invalid. Model files are checked when
+            the detector is initialized, so configs can be edited before download.
+        """
+        supplied = getCFGDict(input)
+        unknown = set(supplied) - set(self.DEFAULTS)
+        if unknown:
+            raise ValueError(f'Unknown RF_DETR configuration keys: {sorted(unknown)}')
+        values = dict(self.DEFAULTS, **supplied)
+        values['dt_name'] = self.unified_strings.getUnifiedFormat(values['dt_name'])
+        if values['dt_name'] != 'RF_DETR':
+            raise ValueError('dt_name must be RF_DETR.')
+        values['model_size'] = str(values['model_size']).lower()
+        if values['model_size'] not in ('nano', 'small', 'medium', 'large'):
+            raise ValueError('model_size must be nano, small, medium, or large.')
+        if 'model_file' not in supplied:
+            values['model_file'] = 'data/modules/rf_detr/' + self.MODEL_FILES[values['model_size']]
+        for name in ('conf', 'repspoint_calibration'):
+            value = values[name]
+            if isinstance(value, bool):
+                raise ValueError(f'{name} must be a number in [0, 1].')
+            try:
+                value = float(value)
+            except (TypeError, ValueError, OverflowError) as error:
+                raise ValueError(f'{name} must be a number in [0, 1].') from error
+            if not 0 <= value <= 1:
+                raise ValueError(f'{name} must be a number in [0, 1].')
+            values[name] = value
+        for name, minimum in (('max_det', 1), ('person_class_id', 0)):
+            value = values[name]
+            try:
+                integer = int(value)
+                valid = not isinstance(value, bool) and integer == float(value) and integer >= minimum
+            except (TypeError, ValueError, OverflowError) as error:
+                raise ValueError(f'{name} must be an integer >= {minimum}.') from error
+            if not valid:
+                raise ValueError(f'{name} must be an integer >= {minimum}.')
+            values[name] = integer
+        optimize = values['optimize']
+        if isinstance(optimize, str) and optimize.lower() in ('true', 'false'):
+            optimize = optimize.lower() == 'true'
+        if not isinstance(optimize, bool):
+            raise ValueError('optimize must be a boolean.')
+        values['optimize'] = optimize
+        device = str(values['device']).strip().lower()
+        if device.isdecimal():
+            device = int(device)
+        elif device not in ('auto', 'cpu', 'cuda', 'mps') and not (
+                device.startswith('cuda:') and device[5:].isdecimal()):
+            raise ValueError('device must be cpu, cuda, cuda:N, mps, auto, or an integer index.')
+        values['device'] = device
+        path = values['model_file']
+        if not isinstance(path, str):
+            raise ValueError('model_file must be a local path string, or empty for pretrained weights.')
+        values['model_file'] = getAdaptiveAbsPathFDS(self.from_dir, path) if path else ''
+        for name, value in values.items():
+            setattr(self, name, value)
+        self.config = self.getDocument()
+
+    def getDocument(self):
+        """Return a serializable mapping using the existing package-relative paths.
+
+        Returns
+        -------
+        dict
+            RF-DETR configuration; an empty checkpoint remains empty.
+        """
+        document = {name: getattr(self, name) for name in self.DEFAULTS}
+        if self.model_file:
+            document['model_file'] = normalizePathFDS(internal_root_dir, self.model_file)
+        return document
 
 
 class DCFGGT(BaseCGF):
@@ -527,7 +695,7 @@ class DCFGGT(BaseCGF):
             "gt_file": normalizePathFDS(internal_root_dir, self.gt_file),
             "gt_map_file": normalizePathFDS(internal_root_dir, self.gt_map_file)
         }
-        return gt_doc
+        return dict(self.config, **gt_doc)
 
 
 class TCFGCentroid(BaseCGF):
@@ -588,7 +756,7 @@ class TCFGCentroid(BaseCGF):
             "tk_name": self.tk_name,
             "max_spread": self.max_spread
         }
-        return centroid_doc
+        return dict(self.config, **centroid_doc)
 
 
 class TCFGSORT(BaseCGF):
@@ -657,7 +825,7 @@ class TCFGSORT(BaseCGF):
             "min_hits": self.min_hits,
             "iou_threshold": self.iou_threshold
         }
-        return sort_doc
+        return dict(self.config, **sort_doc)
         
 
 class TCFGDeepSORT(BaseCGF):
@@ -668,8 +836,8 @@ class TCFGDeepSORT(BaseCGF):
     ----------
     tk_name : str
         Configured name of tracker DeepSORT.
-    nn_budget : int
-        Parameter :obj:`nn_budget` of tracker DeepSORT.
+    nn_budget : int or None
+        Nonnegative feature budget; None retains unlimited feature history.
     nms_max_overlap : float
         Parameter :obj:`nms_max_overlap` of tracker DeepSORT.
     max_cosine_distance : float
@@ -750,7 +918,7 @@ class TCFGDeepSORT(BaseCGF):
             "max_cosine_distance": self.max_cosine_distance,
             "model_file": normalizePathFDS(internal_root_dir, self.model_file)
         }
-        return deepsort_doc
+        return dict(self.config, **deepsort_doc)
 
 
 class RCFGFaceNet(BaseCGF):
@@ -875,7 +1043,7 @@ class RCFGFaceNet(BaseCGF):
             "yl_h_calibration": self.yl_h_calibration,
             "yl_w_calibration": self.yl_w_calibration
         }
-        return facenet_doc
+        return dict(self.config, **facenet_doc)
 
 
 class RCFGTorchreid(BaseCGF):
@@ -902,7 +1070,8 @@ class RCFGTorchreid(BaseCGF):
         Configured confidence fraction on a 0-1 scale. Reider instances convert
         this to an integer percentage threshold.
     device : str
-        Parameter device for specifying a computing device.
+        Device name such as cpu, cuda, or cuda:N. Legacy integer GPU indices
+        are normalized to cuda:N before feature-extractor initialization.
     base_model_path : str
         Path of a base model corresponding to the pretrained model or :attr:`model_name`.
     model_dict : ``TorchreidModelDict``
@@ -958,7 +1127,7 @@ class RCFGTorchreid(BaseCGF):
         super().loadDoc(input)
         if self.config:
             try:
-                from pyppbox.modules.reiders.torchreid.model_dict import TorchreidModelDict
+                from .torchreidmodels import TorchreidModelDict
                 self.ri_name = self.unified_strings.getUnifiedFormat(self.config['ri_name'])
                 self.classifier_pkl = getAdaptiveAbsPathFDS(self.from_dir, self.config['classifier_pkl'])
                 self.train_data = getAdaptiveAbsPathFDS(self.from_dir, self.config['train_data'])
@@ -998,7 +1167,7 @@ class RCFGTorchreid(BaseCGF):
             "min_confidence": self.min_confidence,
             "device": self.device
         }
-        return torchreid_doc
+        return dict(self.config, **torchreid_doc)
 
 
 class MyCFGHeaders(object):
@@ -1018,7 +1187,7 @@ class MyCFGHeaders(object):
         header=("###########################################################\n"
                 "# Main config:\n"
                 "###########################################################\n"
-                "# detector: None | YOLO_Classic | YOLO_Ultralytics | GT\n"
+                "# detector: None | YOLO_Classic | YOLO_Ultralytics | RF_DETR | GT\n"
                 "# tracker: None | Centroid | SORT | DeepSORT\n"
                 "# reider: None | FaceNet | Torchreid\n"
                 "###########################################################\n")
@@ -1054,6 +1223,17 @@ class MyCFGHeaders(object):
                 "# device: 0\n"
                 "# max_det: 100\n"
                 "# model_file: data/modules/yolo_ultralytics/yolov8s-pose.pt\n"
+                "# repspoint_calibration: 0.25\n"
+                "###########################################################\n"
+                "# --- # RF_DETR (optional: pyppbox[rfdetr], Python 3.10+)\n"
+                "# dt_name: RF_DETR\n"
+                "# conf: 0.4\n"
+                "# model_size: nano\n"
+                "# device: 0\n"
+                "# max_det: 100\n"
+                "# model_file: data/modules/rf_detr/rf-detr-nano.pth\n"
+                "# person_class_id: 1\n"
+                "# optimize: True\n"
                 "# repspoint_calibration: 0.25\n"
                 "###########################################################\n"
                 "# --- # GT aka Ground Truth\n"
@@ -1157,6 +1337,8 @@ class MyConfigurator(PYPPBOXStructure):
         Set automatically.
         A :class:`~pyppbox.config.myconfig.DCFGYOLOULT` object used to store the configurations of detector
         YOLO_Ultralytics.
+    dcfg_rfdetr : DCFGRFDETR
+        RF-DETR settings; defaults are available even in V3 config directories.
     dcfg_gt : DCFGGT
         Set automatically.
         A :class:`DCFGGT` object used to store the configurations of detector GT (Ground-truth).
@@ -1287,24 +1469,30 @@ class MyConfigurator(PYPPBOXStructure):
             configurations inside config directory :attr:`~pyppbox.config.configtools.PYPPBOXStructure.cfg_dir` set in the ``__init__()``.
         """
         self.setMCFG(main_yaml=main_yaml)
-        selected_dt = self.mcfg.config['detector']
-        dt_list = loadDocumentList(self.detectors_yaml)
-        for dt in dt_list:
-            if dt['dt_name'].lower() == selected_dt.lower():
-                self.setASupportedModuleCFG(dt, self.relative_to_pyppbox_root)
-                break
-        selected_tk = self.mcfg.config['tracker']
-        tk_list = loadDocumentList(self.trackers_yaml)
-        for tk in tk_list:
-            if tk['tk_name'].lower() == selected_tk.lower():
-                self.setASupportedModuleCFG(tk, self.relative_to_pyppbox_root)
-                break
-        selected_ri = self.mcfg.config['reider']
-        ri_list = loadDocumentList(self.reiders_yaml)
-        for ri in ri_list:
-            if ri['ri_name'].lower() == selected_ri.lower():
-                self.setASupportedModuleCFG(ri, self.relative_to_pyppbox_root)
-                break
+        if not self.mcfg.config:
+            raise ValueError('main.yaml: the main configuration is empty.')
+        for stage, key, filename in (('detector', 'dt_name', self.detectors_yaml),
+                                      ('tracker', 'tk_name', self.trackers_yaml),
+                                      ('reider', 'ri_name', self.reiders_yaml)):
+            selected = self.mcfg.config[stage]
+            supported = {'detector': ('YOLO_Classic', 'YOLO_Ultralytics', 'RF_DETR', 'GT', 'None'),
+                         'tracker': ('Centroid', 'SORT', 'DeepSORT', 'None'),
+                         'reider': ('FaceNet', 'Torchreid', 'None')}
+            if selected not in supported[stage]:
+                raise ValueError(f'main.yaml: unsupported {stage} selection: {selected}.')
+            documents = loadDocumentList(filename)
+            if selected == 'None':
+                continue
+            for document in documents:
+                if self.unified_strings.getUnifiedFormat(document.get(key, '')).lower() == selected.lower():
+                    self.setASupportedModuleCFG(document, self.relative_to_pyppbox_root)
+                    break
+            else:
+                if selected == 'RF_DETR':
+                    # Older config directories do not contain this optional detector.
+                    self.dcfg_rfdetr = DCFGRFDETR(self.relative_to_pyppbox_root)
+                else:
+                    raise ValueError(f'{filename}: missing {key} configuration for {selected}.')
     
     def setGTCFG(
         self, 
@@ -1381,10 +1569,12 @@ class MyConfigurator(PYPPBOXStructure):
         if isinstance(relative_to_pyppbox_root, bool):
             self.dcfg_yolocs = DCFGYOLOCLS(relative_to_pyppbox_root)
             self.dcfg_yolout = DCFGYOLOULT(relative_to_pyppbox_root)
+            self.dcfg_rfdetr = DCFGRFDETR(relative_to_pyppbox_root)
             self.dcfg_gt = DCFGGT(relative_to_pyppbox_root)
         elif relative_to_pyppbox_root is None:
             self.dcfg_yolocs = DCFGYOLOCLS(self.relative_to_pyppbox_root)
             self.dcfg_yolout = DCFGYOLOULT(self.relative_to_pyppbox_root)
+            self.dcfg_rfdetr = DCFGRFDETR(self.relative_to_pyppbox_root)
             self.dcfg_gt = DCFGGT(self.relative_to_pyppbox_root)
         else:
             msg = "MyConfigurator : setAllDCFG() -> 'relative_to_pyppbox_root' is not valid."
@@ -1404,6 +1594,9 @@ class MyConfigurator(PYPPBOXStructure):
                 elif d['dt_name'].lower() == self.unified_strings.yolo_ult:
                     self.dcfg_yolout.set(d)
                     self.dt_map.append(self.dcfg_yolout.dt_name)
+                elif self.unified_strings.getUnifiedFormat(d['dt_name']).lower() == self.unified_strings.rf_detr:
+                    self.dcfg_rfdetr.set(d)
+                    self.dt_map.append(self.dcfg_rfdetr.dt_name)
                 elif d['dt_name'].lower() == self.unified_strings.gt:
                     self.dcfg_gt.set(d)
                     self.dt_map.append(self.dcfg_gt.dt_name)
@@ -1414,6 +1607,12 @@ class MyConfigurator(PYPPBOXStructure):
                 msg = f"MyConfigurator : setAllDCFG() -> {e}"
                 add_error_log(msg)
                 raise ValueError(msg)
+
+        # Keep RF-DETR after Ultralytics, including in older config directories.
+        self.dt_map = [name for name in self.dt_map if name != self.dcfg_rfdetr.dt_name]
+        ultralytics = self.unified_strings.getUnifiedFormat('YOLO_Ultralytics')
+        position = self.dt_map.index(ultralytics) + 1 if ultralytics in self.dt_map else len(self.dt_map)
+        self.dt_map.insert(position, self.dcfg_rfdetr.dt_name)
 
     def setAllTCFG(
         self, 
@@ -1559,6 +1758,9 @@ class MyConfigurator(PYPPBOXStructure):
                 elif cfg['dt_name'].lower() == self.unified_strings.yolo_ult:
                     self.dcfg_yolout = DCFGYOLOULT(relative_to_pyppbox_root)
                     self.dcfg_yolout.set(cfg)
+                elif self.unified_strings.getUnifiedFormat(cfg['dt_name']).lower() == self.unified_strings.rf_detr:
+                    self.dcfg_rfdetr = DCFGRFDETR(relative_to_pyppbox_root)
+                    self.dcfg_rfdetr.set(cfg)
                 elif cfg['dt_name'].lower() == self.unified_strings.gt:
                     self.dcfg_gt = DCFGGT(relative_to_pyppbox_root)
                     self.dcfg_gt.set(cfg)
@@ -1622,9 +1824,135 @@ class MyConfigurator(PYPPBOXStructure):
         Parameters
         ----------
         document : Dict[str, Any]
-            A configuration dictionary of a single document of the configurations.
+            Main selection fields to merge into main.yaml. Existing extension
+            fields are retained. A new file requires all three stage selections.
         """
+        _check_pending_save(self.cfg_dir)
+        document = {**getCFGDict(self.main_yaml), **getCFGDict(document)} if os.path.exists(self.main_yaml) else getCFGDict(document)
+        if not document:
+            raise ValueError('The main configuration must contain detector, tracker, and reider.')
+        MainCFG().set(document)
         dumpDocDict(self.main_yaml, document, self.cfg_headers.mainHeader())
+
+    def dumpDetectorCFG(self, document: Dict[str, Any]):
+        """Save one detector while preserving other documents and their order.
+
+        Parameters
+        ----------
+        document : dict
+            Detector mapping containing ``dt_name``. Merge supplied fields into
+            matching documents, or append a complete document if absent. Retain
+            extension fields and save this file atomically after validation.
+
+        Notes
+        -----
+        Existing YAML values for other detectors are retained. Comments are
+        regenerated using the existing writer; live models are not reloaded.
+        """
+        self._dump_module(document, 'dt_name', self.detectors_yaml)
+
+    def dumpTrackerCFG(self, document: Dict[str, Any]):
+        """Merge one tracker mapping into trackers.yaml, retaining extension fields
+        and all other documents in their existing order. Validate before saving.
+
+        Parameters
+        ----------
+        document : dict
+            Tracker name in ``tk_name`` and fields to update. A new tracker requires
+            a complete mapping. Unknown modules retain their opaque settings.
+        """
+        self._dump_module(document, 'tk_name', self.trackers_yaml)
+
+    def dumpReiderCFG(self, document: Dict[str, Any]):
+        """Merge one ReID mapping into reiders.yaml, retaining extension fields
+        and all other documents in their existing order. Validate before saving.
+
+        Parameters
+        ----------
+        document : dict
+            ReID name in ``ri_name`` and fields to update. A new reider requires
+            a complete mapping. Unknown modules retain their opaque settings.
+        """
+        self._dump_module(document, 'ri_name', self.reiders_yaml)
+
+    def _dump_module(self, document, key, filename):
+        _check_pending_save(self.cfg_dir)
+        document = getCFGDict(document)
+        if key not in document or not isinstance(document[key], str) or not document[key].strip():
+            raise ValueError(f'{key} must be a nonempty module name.')
+        name = self.unified_strings.getUnifiedFormat(document[key]).lower()
+        documents = loadDocumentList(filename) if os.path.exists(filename) else []
+        matched = False
+        for index, existing in enumerate(documents):
+            if self.unified_strings.getUnifiedFormat(existing.get(key, '')).lower() == name:
+                merged = {**existing, **document}
+                self._validate_documents([merged], key)
+                documents[index] = merged
+                matched = True
+        if not matched:
+            self._validate_documents([document], key)
+            documents.append(document)
+        # Other modules are opaque here: editing one must not normalize or reject them.
+        header = {'dt_name': self.cfg_headers.detectorHeader,
+                  'tk_name': self.cfg_headers.trackerHeader,
+                  'ri_name': self.cfg_headers.reiderHeader}[key]()
+        dumpDocDictList(filename, documents, header)
+
+    def _validate_documents(self, documents, key):
+        classes = {'YOLO_Classic': DCFGYOLOCLS, 'YOLO_Ultralytics': DCFGYOLOULT,
+                   'RF_DETR': DCFGRFDETR, 'GT': DCFGGT, 'Centroid': TCFGCentroid,
+                   'SORT': TCFGSORT, 'DeepSORT': TCFGDeepSORT, 'FaceNet': RCFGFaceNet,
+                   'Torchreid': RCFGTorchreid}
+        for document in documents:
+            if not isinstance(document.get(key), str) or not document[key].strip():
+                raise ValueError(f'{key} must be a nonempty module name.')
+            name = self.unified_strings.getUnifiedFormat(document.get(key, ''))
+            cls = classes.get(name)
+            if cls is not None:
+                cls().set(document)
+
+    def dumpConfigs(self, main=None, detectors=None, trackers=None, reiders=None):
+        """Save complete selected config documents as a recoverable group.
+
+        Parameters
+        ----------
+        main : dict or None
+            Complete main mapping. None leaves main.yaml untouched.
+        detectors : list[dict] or None
+            Complete detector documents. None leaves detectors.yaml untouched.
+        trackers : list[dict] or None
+            Complete tracker documents. None leaves trackers.yaml untouched.
+        reiders : list[dict] or None
+            Complete ReID documents. None leaves reiders.yaml untouched.
+
+        Notes
+        -----
+        Validate and serialize everything before replacing files. On a handled
+        write failure, restore the originals, including their exact bytes. If
+        interrupted, stop other users of the directory and call
+        :func:`~pyppbox.config.configtools.recoverConfigSave` before retrying.
+        Retain recovery folders if restoration fails. This is not a transaction
+        for concurrent readers/writers; use one writer and pause readers. Resolved
+        symlink targets must be on the same filesystem as the config directory.
+        Existing per-file dump methods keep their replacement semantics.
+        """
+        files = []
+        if main is not None:
+            main = getCFGDict(main)
+            if not main:
+                raise ValueError('The main configuration must contain detector, tracker, and reider.')
+            MainCFG().set(main)
+            files.append(('main.yaml', main, self.cfg_headers.mainHeader(), True))
+        for name, documents, key, header in (
+                ('detectors', detectors, 'dt_name', self.cfg_headers.detectorHeader),
+                ('trackers', trackers, 'tk_name', self.cfg_headers.trackerHeader),
+                ('reiders', reiders, 'ri_name', self.cfg_headers.reiderHeader)):
+            if documents is not None:
+                documents = getCFGDictList(documents)
+                self._validate_documents(documents, key)
+                files.append((name + '.yaml', documents, header(), False))
+        if files:
+            _dump_config_files(self.cfg_dir, files)
 
     def dumpAllDCFG(self, document_list: List[Dict[str, Any]]):
         """Dump the detectors' configurations to detectors.yaml.
@@ -1634,6 +1962,9 @@ class MyConfigurator(PYPPBOXStructure):
         document_list : List[Dict[str, Any]]
             A list of multiple documents of the configurations.
         """
+        _check_pending_save(self.cfg_dir)
+        document_list = getCFGDictList(document_list)
+        self._validate_documents(document_list, 'dt_name')
         dumpDocDictList(self.detectors_yaml, document_list, self.cfg_headers.detectorHeader())
 
     def dumpAllTCFG(self, document_list: List[Dict[str, Any]]):
@@ -1644,6 +1975,9 @@ class MyConfigurator(PYPPBOXStructure):
         document_list : List[Dict[str, Any]]
             A list of multiple documents of the configurations.
         """
+        _check_pending_save(self.cfg_dir)
+        document_list = getCFGDictList(document_list)
+        self._validate_documents(document_list, 'tk_name')
         dumpDocDictList(self.trackers_yaml, document_list, self.cfg_headers.trackerHeader())
 
     def dumpAllRCFG(self, document_list: List[Dict[str, Any]]):
@@ -1654,5 +1988,8 @@ class MyConfigurator(PYPPBOXStructure):
         document_list : List[Dict[str, Any]]
             A list of multiple documents of the configurations.
         """
+        _check_pending_save(self.cfg_dir)
+        document_list = getCFGDictList(document_list)
+        self._validate_documents(document_list, 'ri_name')
         dumpDocDictList(self.reiders_yaml, document_list, self.cfg_headers.reiderHeader())
 

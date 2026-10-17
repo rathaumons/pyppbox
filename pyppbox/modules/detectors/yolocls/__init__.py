@@ -31,13 +31,22 @@ class MyYOLOCLS(object):
             A :class:`~pyppbox.config.myconfig.DCFGYOLOCLS` object which manages the configurations of detector
             YOLO_Classic.
         """
-        self.cfg = cfg
-        net = cv2.dnn.readNet(cfg.model_weights, cfg.model_cfg_file)
-        if cv2.cuda.getCudaEnabledDeviceCount() > 0:
-            net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
-            net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
-        self.model = cv2.dnn_DetectionModel(net)
-        self.model.setInputParams(size=cfg.model_resolution, scale=1/255.0)
+        self.model = None
+        try:
+            self.cfg = cfg
+            net = cv2.dnn.readNet(cfg.model_weights, cfg.model_cfg_file)
+            if cv2.cuda.getCudaEnabledDeviceCount() > 0:
+                net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
+                net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
+            self.model = cv2.dnn_DetectionModel(net)
+            self.model.setInputParams(size=cfg.model_resolution, scale=1/255.0)
+        except BaseException:
+            self.close()
+            raise
+
+    def close(self):
+        """Release the owned OpenCV detection model."""
+        self.model = None
 
     def detect(self, img, visual=True, class_filter=[0], min_width_filter=15):
         """Detect general object with object's class filter ``class_filter`` in a

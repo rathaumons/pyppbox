@@ -22,7 +22,8 @@ Base Structure of ``pyppbox``
    ├───modules  ..........................  All supported detector/trackers/reiders
    │   ├───detectors  ....................  All supported detectors
    │   │   ├───yolocls  ..................  Detector YOLO_Classic
-   │   │   └───yoloult  ..................  Detector YOLO_Ultralytics
+   │   │   ├───yoloult  ..................  Detector YOLO_Ultralytics
+   │   │   └───rfdetr  ...................  Optional detector RF_DETR
    │   ├───trackers  .....................  All supported trackers
    │   │   ├───centroid  .................  Tracker Centroid
    │   │   ├───sort  .....................  Tracker SORT
@@ -72,10 +73,15 @@ Data: ``pyppbox-data`` and ``pyppbox-data-gta5``
        │       │       *.csv  ............  Ground-truth  .csv file
        │       └───videos
        │               *.mp4
-       ├───logs  .........................  Log directory, part of pyppbox-data module
+       ├───logs  .........................  Legacy logs, retained for compatibility
        ├───modules  ......................  Data directory, part of pyppbox-data module
        │   ├───deepsort  .................  Directory, consists of all data for DeepSORT
        │   │       mars-small128.pb
+       │   ├───rf_detr  ..................  Optional pyppbox-data-rfdetr v1.5.0
+       │   │       rf-detr-nano.pth
+       │   │       rf-detr-small.pth
+       │   │       rf-detr-medium.pth
+       │   │       rf-detr-large-2026.pth
        │   ├───facenet  ..................  Directory, consists of all data for FaceNet
        │   │   ├───classifier
        │   │   │       *.pkl
@@ -102,3 +108,17 @@ Data: ``pyppbox-data`` and ``pyppbox-data-gta5``
        │   └───yolo_ultralytics  .........  Directory, consists of all data for YOLO_Ultralytics
        │           *.pt
        └───res
+
+Mutable runtime files
+---------------------
+
+New logs and GUI state are written outside the installed package, under the
+per-user directory described in :doc:`utils`. Set ``PYPPBOX_RUNTIME_DIR`` to choose
+another writable location. GUI launch handoffs are isolated per launch; installed
+``gui/tmp`` files serve only as legacy defaults. Configuration, asset, and explicit
+result-export paths retain their existing behavior.
+
+All six module data wheels use version **1.5.0** for V4; the independently
+versioned GTA V dataset is unchanged. See :doc:`../getstarted` for installation and
+:doc:`../examples/example_15` for direct RF-DETR weight downloads. Data wheels
+supply assets only and do not install their inference backends.

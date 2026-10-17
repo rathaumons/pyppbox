@@ -39,9 +39,43 @@ class MyDeepSORT(object):
         self.current_frame = 0
         self.nms_max_overlap = cfg.nms_max_overlap
         self.encoder = gdet.create_box_encoder(cfg.model_file, batch_size=16)
-        self.metric = nn_matching.NearestNeighborDistanceMetric("cosine", cfg.max_cosine_distance, 
-                                                                cfg.nn_budget)
-        self.tracker = DSTracker(self.metric)
+        try:
+            self.metric = nn_matching.NearestNeighborDistanceMetric("cosine", cfg.max_cosine_distance,
+                                                                    cfg.nn_budget)
+            self.tracker = DSTracker(self.metric)
+        except BaseException:
+            close = getattr(self.encoder, 'close', None)
+            if callable(close):
+                try:
+                    close()
+                except Exception as error:
+                    add_error_log(f'DeepSORT candidate cleanup failed: {error}')
+            raise
+
+    def reset(self):
+        """Clear tracks/features and metadata while retaining the loaded encoder."""
+        tracker = DSTracker(self.metric, self.tracker.max_iou_distance,
+                            self.tracker.max_age, self.tracker.n_init)
+        self.metric.samples = {}
+        self.tracker = tracker
+        self.previous_list = []
+        self.current_list = []
+        self._people_by_cid = {}
+        self.current_frame = 0
+
+    def close(self):
+        """Close the owned appearance encoder and release tracks/features/people."""
+        if self.encoder is not None:
+            close = getattr(self.encoder, 'close', None)
+            if callable(close):
+                close()
+            self.encoder = None
+        self.metric.samples = {}
+        self.tracker.tracks = []
+        self.tracker.detection_indices = {}
+        self.previous_list = []
+        self.current_list = []
+        self._people_by_cid = {}
 
 
     def __getCurrentIndexByBoxXYXY__(self, box, max_spread=128):
@@ -83,9 +117,9 @@ class MyDeepSORT(object):
             BGR frame array required for appearance encoding when detections are present.
         max_spread : int
             Defaults to ``128``.
-            Max spread or max margin used to decide whether 2 bounding boxes are the same by comparing
-            the differences between the elements in the bounding box given by the embedded DeepSORT and the
-            coressponding elements of a person's bounding box in the ``person_list``.
+            Inclusive maximum coordinate difference between an updated track box
+            and its matched detection's box in ``person_list``. Assign the CID and
+            cached metadata only when that matched pair passes this check.
 
         Returns
         -------
@@ -100,6 +134,10 @@ class MyDeepSORT(object):
         An empty input advances track age and returns an empty list. Metadata
         is retained only while the underlying track remains alive. Returned values
         represent current detections, not a list of predicted boxes for missing people.
+        The returned list retains input order and objects, including detections
+        suppressed by NMS. Only confirmed tracks with a current matched detection
+        passing ``max_spread`` assign IDs and metadata. Other people retain their
+        supplied CIDs. NMS indices map associations back to the original input list.
         """
         self.previous_list = list(self._people_by_cid.values())
         self.current_list = []
@@ -130,21 +168,26 @@ class MyDeepSORT(object):
                 self.tracker.update(detections)
 
                 for track in self.tracker.tracks:
-                    if not track.is_confirmed() or track.time_since_update > 1:
+                    if not track.is_confirmed() or track.time_since_update > 0:
                         continue
-                    box_xyxy = track.to_tlbr()
+                    detection_index = self.tracker.detection_indices.get(track.track_id)
+                    if detection_index is None:
+                        continue
+                    # DeepSORT matches the post-NMS list; retain that association
+                    # through NMS's reordering/suppression to the original Person.
+                    person = self.current_list[indices[detection_index]]
+                    if np.max(np.abs(track.to_tlbr() - person.box_xyxy)) > max_spread:
+                        continue
                     new_cid = int(track.track_id)
-                    cindex = self.__getCurrentIndexByBoxXYXY__(box_xyxy, max_spread=max_spread)
-                    if cindex >= 0:
-                        self.current_list[cindex].cid = new_cid
-                        pindex = self.__getIndexFromPreviousList__(new_cid)
-                        if pindex >= 0:
-                            self.current_list[cindex].faceid = self.previous_list[pindex].faceid
-                            self.current_list[cindex].deepid = self.previous_list[pindex].deepid
-                            self.current_list[cindex].faceid_conf = self.previous_list[pindex].faceid_conf
-                            self.current_list[cindex].deepid_conf = self.previous_list[pindex].deepid_conf
-                            self.current_list[cindex].misc = self.previous_list[pindex].misc
-                        self._people_by_cid[new_cid] = self.current_list[cindex]
+                    person.cid = new_cid
+                    previous = self._people_by_cid.get(new_cid)
+                    if previous is not None:
+                        person.faceid = previous.faceid
+                        person.deepid = previous.deepid
+                        person.faceid_conf = previous.faceid_conf
+                        person.deepid_conf = previous.deepid_conf
+                        person.misc = previous.misc
+                    self._people_by_cid[new_cid] = person
             else:
                 msg = ("MyDeepSORT : update() -> The element of input 'person_list' list has unsupported type.")
                 add_error_log(msg)

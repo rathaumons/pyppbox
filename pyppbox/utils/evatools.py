@@ -300,6 +300,13 @@ class NothingTracker(object):
     def __init__(self):
         self.previous_list = []
         self.current_list = []
+    def reset(self):
+        """Forget identity metadata from previous calls without changing people."""
+        self.previous_list = []
+        self.current_list = []
+    def close(self):
+        """Release references to tracked people."""
+        self.reset()
     def _getIndex(self, deepid):
         pindex = -1
         for i in range(0, len(self.previous_list)):
@@ -383,6 +390,10 @@ class TKOReider(object):
         self.string_length = string_length
         self.static_index = 0
         self.setStaticIDs(static_ids)
+
+    def reset(self):
+        """Restart the existing static fallback-ID sequence without regenerating it."""
+        self.static_index = 0
 
     def recognize(self, _):
         """Generate a fallback identity, ignoring the supplied input.

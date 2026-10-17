@@ -2,12 +2,11 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.gui.numericwidgets import FloatSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
-from pyppbox.modules.reiders.torchreid.model_dict import TorchreidModelDict
-from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, getFileName, 
-                                       getGlobalRootDir, getAncestorDir, joinFPathFull,
-                                       getFloat, getInt)
+from pyppbox.config.torchreidmodels import TorchreidModelDict
+from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, getFileName, getGlobalRootDir, getAncestorDir, joinFPathFull, getInt)
 
 
 unified_strings = UnifiedStrings()
@@ -41,10 +40,9 @@ class Ui_Torchreid(object):
                                               QtCore.Qt.AlignmentFlag.AlignTrailing|
                                               QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.dr_model_path_label.setObjectName("dr_model_path_label")
-        self.dr_min_confidence_lineEdit = QtWidgets.QLineEdit(torchreid_ui)
-        self.dr_min_confidence_lineEdit.setGeometry(QtCore.QRect(110, 130, 241, 21))
-        self.dr_min_confidence_lineEdit.setReadOnly(False)
-        self.dr_min_confidence_lineEdit.setObjectName("dr_min_confidence_lineEdit")
+        self.dr_min_confidence_spinBox = FloatSpinBox(torchreid_ui)
+        self.dr_min_confidence_spinBox.setGeometry(QtCore.QRect(110, 130, 241, 21))
+        self.dr_min_confidence_spinBox.setObjectName("dr_min_confidence_spinBox")
         self.save_pushButton = QtWidgets.QPushButton(torchreid_ui)
         self.save_pushButton.setGeometry(QtCore.QRect(150, 200, 91, 31))
         font = QtGui.QFont()
@@ -140,28 +138,25 @@ class Ui_Torchreid(object):
         self.dr_train_data_lineEdit.setText(getAbsPathFDS(self.mycfg.rcfg_torchreid.train_data))
         self.dr_model_name_lineEdit.setText(str(self.mycfg.rcfg_torchreid.model_name))
         self.dr_model_path_lineEdit.setText(getAbsPathFDS(self.mycfg.rcfg_torchreid.model_path))
-        self.dr_min_confidence_lineEdit.setText(str(self.mycfg.rcfg_torchreid.min_confidence))
+        self.dr_min_confidence_spinBox.setValue(self.mycfg.rcfg_torchreid.min_confidence)
         self.dr_device_lineEdit.setText(str(self.mycfg.rcfg_torchreid.device))
 
     def updateCFG(self, torchreid_ui):
-        device = 'cuda'
-        if 'cpu' in self.dr_device_lineEdit.text().lower():
-            device = 'cpu'
-        elif 'cuda' in self.dr_device_lineEdit.text().lower():
-            device = 'cuda'
-        else:
-            device = getInt(self.dr_device_lineEdit.text())
+        device = self.dr_device_lineEdit.text().strip()
         Torchreid_doc = {
             "ri_name": unified_strings.getUnifiedFormat("Torchreid"),
             "classifier_pkl": normalizePathFDS(root_dir, self.dr_classifier_pkl_lineEdit.text()),
             "train_data": normalizePathFDS(root_dir, self.dr_train_data_lineEdit.text()),
             "model_name": self.dr_model_name_lineEdit.text(),
             "model_path": normalizePathFDS(root_dir, self.dr_model_path_lineEdit.text()),
-            "min_confidence": getFloat(self.dr_min_confidence_lineEdit.text(), default_val=0.35),
+            "min_confidence": self.dr_min_confidence_spinBox.value(),
             "device": device
         }
-        facenet_doc = self.mycfg.rcfg_facenet.getDocument()
-        self.mycfg.dumpAllRCFG([facenet_doc, Torchreid_doc])
+        try:
+            self.mycfg.dumpReiderCFG(Torchreid_doc)
+        except (ValueError, OSError) as error:
+            QtWidgets.QMessageBox.warning(torchreid_ui, 'Cannot save settings', str(error))
+            return
         torchreid_ui.close()
 
     def browseTrainData(self):

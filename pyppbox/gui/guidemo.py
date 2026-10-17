@@ -4,6 +4,10 @@
 import os
 import cv2
 
+from pyppbox.gui.processes import watch_gui_parent
+if __name__ == '__main__':
+    watch_gui_parent()
+
 from pyppbox.utils.logtools import set_terminal_log_from_env, add_info_log
 
 # Honor environment variable to disable/enable terminal logs

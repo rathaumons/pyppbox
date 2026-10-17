@@ -2,11 +2,10 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.gui.numericwidgets import FloatSpinBox, IntPairEdit, IntSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
-from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, 
-                                       getGlobalRootDir, getAncestorDir, 
-                                       get2Dlist, getFloat, getInt)
+from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, getGlobalRootDir, getAncestorDir)
 
 
 unified_strings = UnifiedStrings()
@@ -87,13 +86,13 @@ class Ui_FaceNet(object):
                                              QtCore.Qt.AlignmentFlag.AlignTrailing|
                                              QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.fn_model_det_label.setObjectName("fn_model_det_label")
-        self.fn_yl_w_calib_lineEdit = QtWidgets.QLineEdit(facenet_ui)
-        self.fn_yl_w_calib_lineEdit.setGeometry(QtCore.QRect(110, 250, 241, 21))
-        self.fn_yl_w_calib_lineEdit.setReadOnly(False)
-        self.fn_yl_w_calib_lineEdit.setObjectName("fn_yl_w_calib_lineEdit")
-        self.fn_batch_size_lineEdit = QtWidgets.QLineEdit(facenet_ui)
-        self.fn_batch_size_lineEdit.setGeometry(QtCore.QRect(110, 160, 241, 21))
-        self.fn_batch_size_lineEdit.setObjectName("fn_batch_size_lineEdit")
+        self.fn_yl_w_calib_pair = IntPairEdit(facenet_ui)
+        self.fn_yl_w_calib_pair.setGeometry(QtCore.QRect(110, 250, 241, 21))
+        self.fn_yl_w_calib_pair.setObjectName("fn_yl_w_calib_pair")
+        self.fn_batch_size_spinBox = IntSpinBox(facenet_ui)
+        self.fn_batch_size_spinBox.setMinimum(1)
+        self.fn_batch_size_spinBox.setGeometry(QtCore.QRect(110, 160, 241, 21))
+        self.fn_batch_size_spinBox.setObjectName("fn_batch_size_spinBox")
         self.fn_batch_size_label = QtWidgets.QLabel(facenet_ui)
         self.fn_batch_size_label.setGeometry(QtCore.QRect(10, 160, 91, 16))
         self.fn_batch_size_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
@@ -114,22 +113,22 @@ class Ui_FaceNet(object):
                                               QtCore.Qt.AlignmentFlag.AlignTrailing|
                                               QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.fn_model_file_label.setObjectName("fn_model_file_label")
-        self.fn_gpu_mem_lineEdit = QtWidgets.QLineEdit(facenet_ui)
-        self.fn_gpu_mem_lineEdit.setGeometry(QtCore.QRect(110, 10, 241, 21))
-        self.fn_gpu_mem_lineEdit.setObjectName("fn_gpu_mem_lineEdit")
-        self.fn_min_confidence_lineEdit = QtWidgets.QLineEdit(facenet_ui)
-        self.fn_min_confidence_lineEdit.setGeometry(QtCore.QRect(110, 190, 241, 21))
-        self.fn_min_confidence_lineEdit.setReadOnly(False)
-        self.fn_min_confidence_lineEdit.setObjectName("fn_min_confidence_lineEdit")
+        self.fn_gpu_mem_spinBox = FloatSpinBox(facenet_ui)
+        self.fn_gpu_mem_spinBox.setSingleStep(0.01)
+        self.fn_gpu_mem_spinBox.setGeometry(QtCore.QRect(110, 10, 241, 21))
+        self.fn_gpu_mem_spinBox.setObjectName("fn_gpu_mem_spinBox")
+        self.fn_min_confidence_spinBox = FloatSpinBox(facenet_ui)
+        self.fn_min_confidence_spinBox.setGeometry(QtCore.QRect(110, 190, 241, 21))
+        self.fn_min_confidence_spinBox.setObjectName("fn_min_confidence_spinBox")
         self.fn_classifier_pkl_pushButton = QtWidgets.QPushButton(facenet_ui)
         self.fn_classifier_pkl_pushButton.setGeometry(QtCore.QRect(360, 100, 21, 24))
         self.fn_classifier_pkl_pushButton.setObjectName("fn_classifier_pkl_pushButton")
         self.fn_train_data_pushButton = QtWidgets.QPushButton(facenet_ui)
         self.fn_train_data_pushButton.setGeometry(QtCore.QRect(360, 130, 21, 24))
         self.fn_train_data_pushButton.setObjectName("dr_train_data_pushButton")
-        self.fn_yl_h_calib_lineEdit = QtWidgets.QLineEdit(facenet_ui)
-        self.fn_yl_h_calib_lineEdit.setGeometry(QtCore.QRect(110, 220, 241, 21))
-        self.fn_yl_h_calib_lineEdit.setObjectName("fn_yl_h_calib_lineEdit")
+        self.fn_yl_h_calib_pair = IntPairEdit(facenet_ui)
+        self.fn_yl_h_calib_pair.setGeometry(QtCore.QRect(110, 220, 241, 21))
+        self.fn_yl_h_calib_pair.setObjectName("fn_yl_h_calib_pair")
         self.fn_model_det_lineEdit = QtWidgets.QLineEdit(facenet_ui)
         self.fn_model_det_lineEdit.setGeometry(QtCore.QRect(110, 40, 241, 21))
         self.fn_model_det_lineEdit.setReadOnly(True)
@@ -168,31 +167,34 @@ class Ui_FaceNet(object):
 
     def loadFN(self):
         self.mycfg.setAllRCFG()
-        self.fn_batch_size_lineEdit.setText(str(self.mycfg.rcfg_facenet.batch_size))
-        self.fn_gpu_mem_lineEdit.setText(str(self.mycfg.rcfg_facenet.gpu_mem))
-        self.fn_min_confidence_lineEdit.setText(str(self.mycfg.rcfg_facenet.min_confidence))
+        self.fn_batch_size_spinBox.setValue(self.mycfg.rcfg_facenet.batch_size)
+        self.fn_gpu_mem_spinBox.setValue(self.mycfg.rcfg_facenet.gpu_mem)
+        self.fn_min_confidence_spinBox.setValue(self.mycfg.rcfg_facenet.min_confidence)
         self.fn_classifier_pkl_lineEdit.setText(getAbsPathFDS(self.mycfg.rcfg_facenet.classifier_pkl))
         self.fn_train_data_lineEdit.setText(getAbsPathFDS(self.mycfg.rcfg_facenet.train_data))
         self.fn_model_file_lineEdit.setText(getAbsPathFDS(self.mycfg.rcfg_facenet.model_file))
         self.fn_model_det_lineEdit.setText(getAbsPathFDS(self.mycfg.rcfg_facenet.model_det))
-        self.fn_yl_h_calib_lineEdit.setText(str(self.mycfg.rcfg_facenet.yl_h_calibration))
-        self.fn_yl_w_calib_lineEdit.setText(str(self.mycfg.rcfg_facenet.yl_w_calibration))
+        self.fn_yl_h_calib_pair.setValue(self.mycfg.rcfg_facenet.yl_h_calibration)
+        self.fn_yl_w_calib_pair.setValue(self.mycfg.rcfg_facenet.yl_w_calibration)
 
     def updateCFG(self, facenet_ui):
         facenet_doc = {
             "ri_name": unified_strings.getUnifiedFormat("FaceNet"),
-            "gpu_mem": getFloat(self.fn_gpu_mem_lineEdit.text(), default_val=0.585),
+            "gpu_mem": self.fn_gpu_mem_spinBox.value(),
             "model_det": normalizePathFDS(root_dir, self.fn_model_det_lineEdit.text()), 
             "model_file": normalizePathFDS(root_dir, self.fn_model_file_lineEdit.text()),
             "classifier_pkl": normalizePathFDS(root_dir, self.fn_classifier_pkl_lineEdit.text()),
             "train_data": normalizePathFDS(root_dir, self.fn_train_data_lineEdit.text()),
-            "batch_size": getInt(self.fn_batch_size_lineEdit.text(), default_val=0.5),
-            "min_confidence": getFloat(self.fn_min_confidence_lineEdit.text(), default_val=0.75),
-            "yl_h_calibration": get2Dlist(self.fn_yl_h_calib_lineEdit.text()),
-            "yl_w_calibration": get2Dlist(self.fn_yl_w_calib_lineEdit.text())
+            "batch_size": self.fn_batch_size_spinBox.value(),
+            "min_confidence": self.fn_min_confidence_spinBox.value(),
+            "yl_h_calibration": self.fn_yl_h_calib_pair.value(),
+            "yl_w_calibration": self.fn_yl_w_calib_pair.value()
         }
-        deepreid_doc = self.mycfg.rcfg_torchreid.getDocument()
-        self.mycfg.dumpAllRCFG([facenet_doc, deepreid_doc])
+        try:
+            self.mycfg.dumpReiderCFG(facenet_doc)
+        except (ValueError, OSError) as error:
+            QtWidgets.QMessageBox.warning(facenet_ui, 'Cannot save settings', str(error))
+            return
         facenet_ui.close()
 
     def browseModelDet(self):

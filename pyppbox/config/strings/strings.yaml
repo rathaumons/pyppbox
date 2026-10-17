@@ -7,6 +7,7 @@ reider: reider
 gt: gt
 yolo_cls: yolo_classic
 yolo_ult: yolo_ultralytics
+rf_detr: rf_detr
 # tracker
 sort: sort
 deepsort: deepsort

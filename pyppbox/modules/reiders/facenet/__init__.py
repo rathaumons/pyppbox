@@ -3,6 +3,8 @@
 
 import os
 import pickle
+from copy import copy
+from contextlib import contextmanager
 import cv2
 import skimage.transform
 import numpy as np
@@ -76,6 +78,9 @@ class MyFaceNet(object):
         self.image_size = 182
         self.input_image_size = 160
         self.auto_load = auto_load
+        self.sess = None
+        self._pending_sessions = []
+        self._closed = False
         if self.auto_load:
             self.load_classifier()
 
@@ -88,6 +93,71 @@ class MyFaceNet(object):
         networks, and FaceNet graph. Returns None.
         File, pickle, and model-loading errors propagate to the caller.
         """
+        if self._closed:
+            raise RuntimeError('This FaceNet instance is closed.')
+        candidate = copy(self)
+        candidate.sess = None
+        candidate._pending_sessions = []
+        try:
+            candidate._load_classifier()
+        except BaseException:
+            try:
+                candidate.close()
+            except Exception as error:
+                self._pending_sessions.extend(candidate._pending_sessions)
+                add_warning_log(f'FaceNet candidate cleanup failed: {error}')
+            raise
+        previous = self.sess
+        pending = self._pending_sessions
+        self.__dict__.update(candidate.__dict__)
+        self._pending_sessions = pending
+        if previous is not None:
+            self._pending_sessions.append(previous)
+        self._close_pending_sessions()
+
+    def _close_pending_sessions(self):
+        sessions, self._pending_sessions = self._pending_sessions, []
+        for session in sessions:
+            try:
+                session.close()
+            except Exception as error:
+                self._pending_sessions.append(session)
+                add_warning_log(f'FaceNet session cleanup failed; close() can retry: {error}')
+
+    @contextmanager
+    def _training_session(self, **options):
+        session = tf.compat.v1.Session(**options)
+        failed = False
+        try:
+            yield session
+        except BaseException:
+            failed = True
+            raise
+        finally:
+            self._pending_sessions.append(session)
+            self._close_pending_sessions()
+            if not failed and any(item is session for item in self._pending_sessions):
+                raise RuntimeError('FaceNet training session could not close; close() can retry.')
+
+    def close(self):
+        """Release owned TensorFlow sessions and graph/classifier references.
+
+        Idempotent after success. Failed session closes remain available for retry
+        and raise RuntimeError. A closed reider requires a new instance.
+        """
+        self._closed = True
+        if self.sess is not None:
+            self._pending_sessions.append(self.sess)
+            self.sess = None
+        for name in ('pnet', 'rnet', 'onet', 'images_placeholder', 'embeddings',
+                     'phase_train_placeholder', 'model'):
+            setattr(self, name, None)
+        self.pnames = []
+        self._close_pending_sessions()
+        if self._pending_sessions:
+            raise RuntimeError('FaceNet sessions could not close; call close() to retry.')
+
+    def _load_classifier(self):
         with tf.Graph().as_default():
             gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=float(self.gpu_mem))
             self.sess = tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_options, allow_soft_placement=True))
@@ -147,6 +217,8 @@ class MyFaceNet(object):
         This method does not catch image-processing or inference exceptions. The
         returned error ID is not a substitute for handling exceptions in direct use.
         """
+        if getattr(self, '_closed', False):
+            raise RuntimeError('This reider is closed; create a new instance.')
         result = self.err
         conf = 0.0
         img = self.prepare_image(img, is_bgr=is_bgr)
@@ -232,56 +304,58 @@ class MyFaceNet(object):
         used by ``recognize()``, which calls ``predict_proba()``. Call ``load_classifier()``
         after training to use the written classifier in this existing instance.
         """
+        if getattr(self, '_closed', False):
+            raise RuntimeError('This reider is closed; create a new instance.')
         import math
         from sklearn.svm import SVC
         with tf.Graph().as_default():
 
             gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=float(self.gpu_mem))
-            sess = tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_options))
-            with sess.as_default():
+            with self._training_session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_options)) as sess:
+                with sess.as_default():
 
-                dataset = fn.get_dataset(self.train_data)
-                classifier_filename_exp = os.path.expanduser(self.classifier_file)
+                    dataset = fn.get_dataset(self.train_data)
+                    classifier_filename_exp = os.path.expanduser(self.classifier_file)
 
-                paths, labels = fn.get_image_paths_and_labels(dataset)
-                add_info_log('--------RI : Number of people: %d' % len(dataset))
+                    paths, labels = fn.get_image_paths_and_labels(dataset)
+                    add_info_log('--------RI : Number of people: %d' % len(dataset))
 
-                add_info_log('--------RI : Loading feature extraction model ... ')
-                modeldir = self.model_file
-                fn.load_model(modeldir)
+                    add_info_log('--------RI : Loading feature extraction model ... ')
+                    modeldir = self.model_file
+                    fn.load_model(modeldir)
 
-                images_placeholder = tf.compat.v1.get_default_graph().get_tensor_by_name("input:0")
-                embeddings = tf.compat.v1.get_default_graph().get_tensor_by_name("embeddings:0")
-                phase_train_placeholder = tf.compat.v1.get_default_graph().get_tensor_by_name("phase_train:0")
-                embedding_size = embeddings.get_shape()[1]
+                    images_placeholder = tf.compat.v1.get_default_graph().get_tensor_by_name("input:0")
+                    embeddings = tf.compat.v1.get_default_graph().get_tensor_by_name("embeddings:0")
+                    phase_train_placeholder = tf.compat.v1.get_default_graph().get_tensor_by_name("phase_train:0")
+                    embedding_size = embeddings.get_shape()[1]
 
-                # Run forward pass to calculate embeddings
-                add_info_log('--------RI : Calculating features ... ')
-                batch_size = self.batch_size
-                image_size = 160
-                nrof_images = len(paths)
-                nrof_batches_per_epoch = int(math.ceil(1.0 * nrof_images / batch_size))
-                emb_array = np.zeros((nrof_images, embedding_size))
-                for i in range(nrof_batches_per_epoch):
-                    start_index = i * batch_size
-                    end_index = min((i + 1) * batch_size, nrof_images)
-                    paths_batch = paths[start_index:end_index]
-                    images = fn.load_data(paths_batch, False, False, image_size)
-                    feed_dict = {images_placeholder: images, phase_train_placeholder: False}
-                    emb_array[start_index:end_index, :] = sess.run(embeddings, feed_dict=feed_dict)
+                    # Run forward pass to calculate embeddings
+                    add_info_log('--------RI : Calculating features ... ')
+                    batch_size = self.batch_size
+                    image_size = 160
+                    nrof_images = len(paths)
+                    nrof_batches_per_epoch = int(math.ceil(1.0 * nrof_images / batch_size))
+                    emb_array = np.zeros((nrof_images, embedding_size))
+                    for i in range(nrof_batches_per_epoch):
+                        start_index = i * batch_size
+                        end_index = min((i + 1) * batch_size, nrof_images)
+                        paths_batch = paths[start_index:end_index]
+                        images = fn.load_data(paths_batch, False, False, image_size)
+                        feed_dict = {images_placeholder: images, phase_train_placeholder: False}
+                        emb_array[start_index:end_index, :] = sess.run(embeddings, feed_dict=feed_dict)
 
-                # Train classifier
-                add_info_log('--------RI : Training classifier ... ')
-                model = SVC(C=C, kernel=kernel, probability=probability, 
-                            decision_function_shape=decision_function_shape)
-                model.fit(emb_array, labels)
+                    # Train classifier
+                    add_info_log('--------RI : Training classifier ... ')
+                    model = SVC(C=C, kernel=kernel, probability=probability,
+                                decision_function_shape=decision_function_shape)
+                    model.fit(emb_array, labels)
 
-                # Create a list of class names & save classifier model
-                class_names = [cls.name.replace('_', ' ') for cls in dataset]
-                with open(classifier_filename_exp, 'wb') as outfile:
-                    pickle.dump((model, class_names), outfile)
-                add_info_log('--------RI : Classifier file saved! -> %s' % classifier_filename_exp)
-                classes_txt = classifier_filename_exp[:-3] + "txt"
-                with open(classes_txt, 'w') as classes_file:
-                    classes_file.writelines([str(c) + "\n" for c in class_names])
-                add_info_log(f"--------RI : Classes file saved! -> {classes_txt}")
+                    # Create a list of class names & save classifier model
+                    class_names = [cls.name.replace('_', ' ') for cls in dataset]
+                    with open(classifier_filename_exp, 'wb') as outfile:
+                        pickle.dump((model, class_names), outfile)
+                    add_info_log('--------RI : Classifier file saved! -> %s' % classifier_filename_exp)
+                    classes_txt = classifier_filename_exp[:-3] + "txt"
+                    with open(classes_txt, 'w') as classes_file:
+                        classes_file.writelines([str(c) + "\n" for c in class_names])
+                    add_info_log(f"--------RI : Classes file saved! -> {classes_txt}")

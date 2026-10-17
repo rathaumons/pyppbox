@@ -65,6 +65,16 @@ class MyCentroid(object):
         # Monotonic counter to prevent accidental CID reuse across frames
         self._next_cid = 0
 
+    def reset(self):
+        """Clear this stream's tracks and identity cache; retain its distance limit."""
+        self.previous_list = []
+        self.current_list = []
+        self._next_cid = 0
+
+    def close(self):
+        """Release tracked people without modifying caller-owned Person objects."""
+        self.reset()
+
     def __generateID__(self) -> int:
         """Generate a new unique tracking ID (CID)."""
         cid = self._next_cid

@@ -8,7 +8,8 @@ import subprocess as sp
 from pyppbox.utils.logtools import add_info_log, add_warning_log, add_error_log, get_env
 from pyppbox.config.configtools import PYPPBOXStructure, loadDocument, loadDocumentList
 from pyppbox.utils.commontools import getAbsPathFDS, joinFPathFull, isExist
-from pyppbox.gui.guihub import writeUITMP
+from pyppbox.gui.guihub import _gui_session
+from pyppbox.gui.processes import gui_process
 
 current_dir = os.path.dirname(__file__)
 pyppbox_struct = PYPPBOXStructure()
@@ -93,13 +94,16 @@ def resetInternalConfig():
 def launchGUI():
     """Launch the GUI in a child Python process and wait for it to close.
 
-    Write the selected GUI config directory to the GUI state file and pass the
-    current process environment to the child. Returns None; no child exit code is
+    Give each launch its own writable state directory, pass the current environment
+    plus its session path to the child, and remove owned state after the child exits.
+    Stop owned launcher/demo processes and their workers on completion/interruption.
+    Config directories/formats are unchanged. Returns None; no child exit code is
     returned. This does not initialize the standalone pipeline in the calling process.
     """
-    writeUITMP(__cfgdir__)
-    p = sp.Popen([sys.executable, os.path.join(current_dir, 'ui_launcher.py')], env=get_env())
-    p.wait()
+    with _gui_session(__cfgdir__, env=get_env()) as child_env:
+        with gui_process([sys.executable, os.path.join(current_dir, 'ui_launcher.py')],
+                         popen=sp.Popen, env=child_env) as p:
+            p.wait()
 
 def generateConfig(cfg_dir, auto_launch_gui=True):
     """Extract the selected GUI config archive into an existing directory.

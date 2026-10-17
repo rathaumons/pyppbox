@@ -1,0 +1,93 @@
+V4 upgrade guide
+================
+
+V4 development is on the ``dev`` branch. The last released V3 is **v3.15.0**;
+the development package version remains unchanged until the release bump. The
+previously proposed V3.16 transition features are included in V4. See
+:doc:`../releasenotes` for the complete implemented changes.
+
+Existing projects and configurations
+----------------------------------------
+
+Existing YAML/JSON files, dictionary inputs, module names, path rules, Person
+attributes, and public facades remain supported. There is no config schema
+migration. Old config directories gain RF-DETR defaults in memory without being
+rewritten. GUI saves retain unknown extension fields and other module documents.
+Validation now diagnoses invalid values or missing selected assets before model
+initialization. A grouped config save supports rollback and explicit recovery;
+use one writer and pause readers during that operation.
+
+The default YOLO dependency is ``pyppbox-ultralytics>=8.4.144`` and still imports
+as ``ultralytics``. Follow :doc:`../getstarted` when replacing the earlier fork.
+Core metadata/CI covers Python 3.9–3.13. The optional RF-DETR runtime needs
+Python 3.10+ and ``rfdetr>=1.10.0,<1.11.0``.
+
+RF-DETR and model data
+--------------------------
+
+RF-DETR supports Nano, Small, Medium, and current Large detection checkpoints.
+Install the runtime extra separately from the optional data wheel. All six module
+data wheels are available in the `v1.5.0 release
+<https://github.com/rathaumons/pyppbox-data/releases/tag/v1.5.0>`_, including
+``pyppbox-data-rfdetr``; GTA V data
+keeps its independent version. The RF-DETR wheel populates the standard
+``data/modules/rf_detr`` paths, or you can browse to individual downloaded weights
+or use automatic caching. :doc:`../examples/example_15` provides direct downloads,
+filenames, class IDs, and offline instructions. CPU use requires ``device: cpu``;
+the shipped detector default remains GPU index 0.
+
+Pipeline ownership and cleanup
+------------------------------
+
+Create one ``MT`` per independent stream and use its context manager or ``close()``
+to release owned models and sessions. ``reset()`` clears stream state while
+retaining loaded models. Stage replacement prepares candidates before publication,
+so failed initialization retains the active pipeline. Replacement can temporarily
+hold old and new models together. Calls on one pipeline are not synchronized;
+use independent instances for independent streams. The shared facade remains
+available for a single stream. See :doc:`standalone` for examples and failure rules.
+
+GUI launcher/demo processes now own their workers and clean up on completion,
+interruption, and unexpected parent loss. Logs and GUI handoffs live in writable
+user/session directories rather than the installation. ``PYPPBOX_RUNTIME_DIR``
+overrides that location. Root application logging is left unchanged. Configuration
+edits and explicit model/result paths retain their existing destinations; use a
+writable custom config directory if the installation is read-only. Abrupt process
+death may leave a session folder even though its process tree stops. See
+:doc:`utils` for logging switches and platform paths.
+
+Performance and correctness
+---------------------------
+
+The implementation removes full-frame ReID copies, indexes GT/DeepSORT metadata,
+avoids accumulated result-list copies, consolidates YOLO result conversion, and
+defers runtime imports. Torchreid inference batching is bounded and opt-in through
+``reidPeople(batch_size=...)``; scalar processing stays the default. Large CPU
+batches can be slower, and confidence values can differ slightly. See
+:doc:`standalone` before enabling batches for your models.
+
+Invalid or invisible ReID crops are skipped. DeepSORT retains actual post-NMS
+detection associations; corrected identity assignments can differ from the old
+buggy behavior. Result recording rejects out-of-order or misaligned frames before
+writing. ResIO still retains recorded snapshots, so its memory use grows with the
+recording duration.
+
+Validation includes 27 core source/installed-wheel compatibility jobs and six
+CPU model/GUI jobs on Linux, Windows, and macOS. The initial YOLO/SORT/Torchreid
+replays preserve outputs, identities, and ReID counts. RF-DETR's four variants,
+offline loading, failure recovery, repeated replacement, independent streams,
+generated native/Lightning custom heads, and GUI descendant cleanup also pass.
+Those custom fixtures validate formats and class mapping, not trained-model
+quality. This bounded coverage does not certify every downstream model or scene.
+
+The existing **Test Core Linux**, **Test Core Windows**, and **Test Core macOS**
+workflows run source/installed-wheel compatibility checks on pushes and pull
+requests. Their backend example checks run when started manually. The manual
+**Test CPU Pipeline Comparison** workflow groups the YOLO/SORT/Torchreid and
+RF-DETR comparisons as separate jobs across all three systems, retaining the
+captured baselines, pinned dependencies, GUI checks, and result artifacts.
+
+Measured CPU performance varies by workload and platform; no universal speedup or
+15% end-to-end gain is claimed. Additional GPU qualification and an eight-hour soak
+are not release requirements. Select detectors and batch limits using your own
+representative videos and hardware.

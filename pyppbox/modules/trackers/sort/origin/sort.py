@@ -16,17 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import os
-import glob
-import time
-import argparse
-
 import numpy as np
-# import matplotlib
-# matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-from skimage import io
 
 from filterpy.kalman import KalmanFilter
 
@@ -366,6 +356,7 @@ class Sort(object):
 
 def parse_args():
   """Parse input arguments."""
+  import argparse
   parser = argparse.ArgumentParser(description='SORT demo')
   parser.add_argument('--display', dest='display', help='Display online tracker output (slow) [False]', action='store_true')
   parser.add_argument("--seq_path", help="Path to detections.", type=str, default='data')
@@ -378,6 +369,10 @@ def parse_args():
 
 
 if __name__ == '__main__':
+  import os
+  import glob
+  import time
+
   np.random.seed(0)
   # all train
   args = parse_args()
@@ -387,6 +382,10 @@ if __name__ == '__main__':
   total_frames = 0
   colours = np.random.rand(32, 3)  # used only for display
   if display:
+    import matplotlib.pyplot as plt
+    import matplotlib.patches as patches
+    from skimage import io
+
     if not os.path.exists('mot_benchmark'):
       print('\n\tERROR: mot_benchmark link not found!\n\n    Create a symbolic link to the MOT benchmark\n'
             '    (https://motchallenge.net/data/2D_MOT_2015/#download). E.g.:\n\n'
