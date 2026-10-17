@@ -2,10 +2,7 @@
 
 ## **pyppbox V4 - Performance and Stability**
 
-* `pyppbox` V4 (unreleased)
-
-  Development continues on `dev`; the package version is unchanged until release.
-  RF-DETR and the previously proposed V3.16 transition changes are included here.
+* `pyppbox` v4.0.0 - Performance and Stability
 
   - Improve performance and stability in the existing pyppbox pipeline
   - Preserve working V3 configurations and public interfaces, including `pyppbox.standalone`

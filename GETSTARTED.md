@@ -2,7 +2,7 @@
 
 Installing `pyppbox` is very easy and straightforward. You can install it from [PyPI](https://pypi.org/project/pyppbox/) directly or use the prebuilt `.whl` files on [GitHub releases](https://github.com/rathaumons/pyppbox/releases) or install from GitHub directly or build it from source on your own machine. However, in order to get it work, you need to install all the necessary dependencies or requirements for the modules you need.
 
-This checkout documents **V4 development**. The last released V3 is v3.15.0; the development package still reports that version until the release bump. To try the implemented V4 changes, use the `dev` branch (`git switch dev`) and install from that checkout. See the [V4 upgrade guide](https://rathaumons.github.io/pyppbox/pyppbox/v4.html).
+This checkout contains **pyppbox V4 (4.0.0)**. For source installation, use the `main` branch. Existing V3 projects can keep their configuration files; see the [V4 upgrade guide](https://rathaumons.github.io/pyppbox/pyppbox/v4.html) for compatibility and runtime changes.
 
 
 ## ⚙️ Requirements
@@ -69,7 +69,7 @@ You need to install the main package which is `pyppbox` and the data for the mod
     ```
     Run these commands from the repository root, then install the generated wheel in `dist/` with `python -m pip install` followed by its path.
 
-* (Optional, V4) Install RF-DETR on Python 3.10+ from the `dev` checkout:
+* (Optional, V4) Install RF-DETR on Python 3.10+ from this checkout:
   ```
   python -m pip install ".[rfdetr]"
   ```
