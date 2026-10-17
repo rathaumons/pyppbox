@@ -229,9 +229,18 @@ class RuntimeIsolationTests(unittest.TestCase):
                     os.environ['PYPPBOX_GUI_SESSION_DIR'] = env['PYPPBOX_GUI_SESSION_DIR']
                     guihub.writeInputTMP('outside-package.mp4', True)
                     assert guihub.loadInputTMP() == ('outside-package.mp4', True)
-                    assert guihub.loadUITMP() is None
+                    assert guihub.loadUITMP() is None, (guihub.loadUITMP(), guihub.default_cfg)
                 assert Path(logs.__log_txt_path__).exists()
             ''', directory)
+
+    def test_internal_config_selection_recognizes_the_same_windows_path_case(self):
+        if os.name != 'nt':
+            self.skipTest('Windows case-insensitive paths')
+        with tempfile.TemporaryDirectory() as directory:
+            selection = str(Path(guihub.default_cfg).resolve()).swapcase()
+            with patch.dict(os.environ, {'PYPPBOX_RUNTIME_DIR':directory}, clear=True):
+                guihub.writeUITMP(selection)
+                self.assertIsNone(guihub.loadUITMP())
 
     def test_retention_skips_current_process_files_and_handles_permission_errors(self):
         from pyppbox.utils import logtools

@@ -102,7 +102,9 @@ def writeUITMP(cfg_dir):
 
 
 def _config_text(cfg_dir):
-    value = default_cfg_keyword if cfg_dir is None or os.path.abspath(cfg_dir) == os.path.abspath(default_cfg) else str(cfg_dir)
+    internal = cfg_dir is None or (os.path.normcase(os.path.realpath(cfg_dir))
+                                  == os.path.normcase(os.path.realpath(default_cfg)))
+    value = default_cfg_keyword if internal else str(cfg_dir)
     if any(char in value for char in ('\n', '\r', '\x00')):
         raise ValueError('GUI configuration paths must fit on one line.')
     return value + '\n'

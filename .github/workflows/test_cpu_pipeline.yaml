@@ -52,6 +52,11 @@ jobs:
                   path.mkdir(parents=True, exist_ok=True)
                   output.write(f'{name}={path}\n')
           PY
+      - name: Install offscreen Qt system libraries (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libopengl0
       - name: Install CPU PyTorch (Linux and Windows)
         if: runner.os != 'macOS'
         run: python -m pip install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cpu
@@ -77,7 +82,7 @@ jobs:
           python -c "import hashlib,json,os,pathlib; r=pathlib.Path(os.environ['RUNNER_TEMP']); print(json.dumps({str(p.relative_to(r)):hashlib.sha256(p.read_bytes()).hexdigest() for d in ('candidate-dist','baseline-dist') for p in (r/d).glob('*')},indent=2))" > "$RUNNER_TEMP/cpu-results/artifact-hashes.json"
       - name: Test installed candidate, GUI, and native permission/lifecycle behavior
         working-directory: ${{ runner.temp }}
-        run: python "$GITHUB_WORKSPACE/benchmarks/installed_checks.py" --package-root "$RUNNER_TEMP/candidate-wheel" --tests "$GITHUB_WORKSPACE/tests"
+        run: python "$GITHUB_WORKSPACE/benchmarks/installed_checks.py" --package-root "$RUNNER_TEMP/candidate-wheel" --tests "$GITHUB_WORKSPACE/tests" 2>&1 | tee "$RUNNER_TEMP/cpu-results/installed-tests.log"
       - uses: actions/cache@v5
         with:
           path: ${{ runner.temp }}/cpu-assets
