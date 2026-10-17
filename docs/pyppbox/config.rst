@@ -30,7 +30,7 @@ string values and replace each file atomically.
 Validation and safe saves
 -------------------------
 
-The V4 development changes retain these formats, keys, defaults, and path rules.
+V4 retains these formats, keys, defaults, and path rules.
 Supported config classes validate required settings, finite numeric values, positive
 image/batch sizes, nonnegative tracker counts, path types, and device syntax before
 initializing models. Numeric strings and quoted boolean values are normalized where

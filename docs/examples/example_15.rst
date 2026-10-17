@@ -1,7 +1,7 @@
 15. RF-DETR detection and tracking
 ==================================
 
-``RF_DETR`` is an optional detector included in V4 development, using the existing
+``RF_DETR`` is an optional detector included in pyppbox V4, using the existing
 configuration files, public pipeline, and GUI. Python **3.10+** is required for
 RF-DETR; existing detectors remain usable without installing this extra.
 
@@ -99,7 +99,7 @@ Alternatively, the optional `pyppbox-data-rfdetr v1.5.0 wheel
 checkpoints under ``{pyppbox root}/data/modules/rf_detr/``, matching the existing
 internal config paths. See :doc:`../getstarted` for the six v1.5.0 data-wheel
 installation commands and download checksum files. Installing a data wheel does not
-install the RF-DETR runtime; install ``.[rfdetr]`` from the development checkout too.
+install the RF-DETR runtime; install ``.[rfdetr]`` from the source checkout too.
 
 The data wheel removes optimizer, scheduler, and epoch state from Nano/Small/Medium,
 keeping every model tensor and the architecture/class metadata unchanged. Large's

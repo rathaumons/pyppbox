@@ -1,9 +1,9 @@
 V4 upgrade guide
 ================
 
-V4 development is on the ``dev`` branch. The last released V3 is **v3.15.0**;
-the development package version remains unchanged until the release bump. The
-previously proposed V3.16 transition features are included in V4. See
+**pyppbox v4.0.0** follows **v3.15.0**, the final V3 release. It adds RF-DETR and
+performance/stability improvements while retaining the existing config formats.
+Source installation uses the ``main`` branch. See
 :doc:`../releasenotes` for the complete implemented changes.
 
 Existing projects and configurations
