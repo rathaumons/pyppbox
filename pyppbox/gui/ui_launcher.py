@@ -23,6 +23,7 @@ from ui_facenet import Ui_FaceNet
 from ui_torchreid import Ui_Torchreid
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.gui.guihub import loadUITMP, loadInputTMP, writeInputTMP, _gui_session
+from pyppbox.gui.processes import gui_process, watch_gui_parent
 from pyppbox.utils.commontools import (getAbsPathFDS, normalizePathFDS, joinFPathFull, 
                                        getBool, getGlobalRootDir, getAncestorDir, getVersionString)
 
@@ -362,10 +363,10 @@ class Ui_PYPPBOXLauncher(object):
                 executable = os.path.join(os.path.dirname(executable), 'python.exe')
                 options['creationflags'] = sp.CREATE_NO_WINDOW
             with tempfile.TemporaryFile() as error_log:
-                p = sp.Popen([executable, os.path.join(current_dir, 'guidemo.py')],
-                             env=get_env(), stderr=error_log,
-                             stdout=None if sys.stdout is not None else error_log, **options)
-                exit_code = p.wait()
+                with gui_process([executable, os.path.join(current_dir, 'guidemo.py')],
+                                 popen=sp.Popen, env=get_env(), stderr=error_log,
+                                 stdout=None if sys.stdout is not None else error_log, **options) as p:
+                    exit_code = p.wait()
                 # Keep error details bounded even when a backend emits many messages.
                 error_log.seek(0, os.SEEK_END)
                 error_log.seek(max(0, error_log.tell() - 16000))
@@ -463,6 +464,7 @@ class Ui_PYPPBOXLauncher(object):
 
 
 if __name__ == "__main__":
+    watch_gui_parent()
 
     # Option 0: Use Parser with the rewritten cmd file
     '''

@@ -29,6 +29,8 @@
   - Isolate GUI launch handoffs per session, store remembered state outside the package with atomic writes, and retain read-only legacy-state readers without changing YAML configs
   - Add paired CPU pipeline benchmarks against the released V3.15 wheel on Linux, Windows, and macOS; verify output/identity equivalence and record advisory stage timings, latency percentiles, and sampled memory
   - Keep enabled file logging compatible with Python 3.9, retry read-only temporary config restores after an interrupted rollback, and recognize internal GUI config paths across Windows path aliases/case
+  - Stop owned GUI launcher/demo workers on exit or interruption, using private Windows jobs and POSIX sessions with parent-loss cleanup
+  - Validate RF-DETR Nano/Small/Medium/Large on CPU against native predictions, offline checkpoints, generated custom class heads and Lightning checkpoints, failed replacements, and independent streams
 
 ## **pyppbox V3 - Make Simpler and Faster**
 

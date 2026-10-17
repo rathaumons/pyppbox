@@ -12,6 +12,13 @@ launcher_module = importlib.import_module('ui_launcher')
 
 
 class GUILaunchTests(unittest.TestCase):
+    def setUp(self):
+        # These tests mock Popen; the process-tree integration tests use real jobs/groups.
+        jobs=patch('pyppbox.gui.processes._WindowsJob')
+        groups=patch('pyppbox.gui.processes.os.killpg',create=True)
+        jobs.start(); groups.start()
+        self.addCleanup(jobs.stop); self.addCleanup(groups.stop)
+
     def launcher(self):
         ui = launcher_module.Ui_PYPPBOXLauncher.__new__(launcher_module.Ui_PYPPBOXLauncher)
         ui.updateMCFG = Mock()
@@ -74,7 +81,7 @@ class GUILaunchTests(unittest.TestCase):
             ui.launchNow()
             self.assertEqual(Path(popen.call_args.args[0][0]), Path('C:/test/.venv/Scripts/python.exe'))
             options = popen.call_args.kwargs
-            self.assertEqual(options['creationflags'], launcher_module.sp.CREATE_NO_WINDOW)
+            self.assertEqual(options['creationflags'], launcher_module.sp.CREATE_NO_WINDOW | 0x4)
             self.assertIs(options['stdout'], options['stderr'])
 
 

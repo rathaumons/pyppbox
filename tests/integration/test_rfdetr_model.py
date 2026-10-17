@@ -23,6 +23,7 @@ class RFDETRModelTests(unittest.TestCase):
             capture.release()
         original = frame.copy()
         pipeline = MT()
+        self.addCleanup(pipeline.close)
         pipeline.setMainDetector(dict(dt_name='RF_DETR', model_size='nano', model_file='', device=device))
         pipeline.setMainTracker('SORT')
         pipeline.setMainReIDer('None')

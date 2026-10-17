@@ -8,5 +8,6 @@ recursive-exclude docs *.*
 recursive-exclude examples *.*
 prune plans
 recursive-include benchmarks *.py *.txt
+include tests/integration/gui_process_probe.py
 global-exclude */__pycache__
 global-exclude *.pyc *.cmd

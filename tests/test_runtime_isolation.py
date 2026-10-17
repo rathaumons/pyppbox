@@ -16,6 +16,14 @@ from pyppbox.utils import runtime
 
 
 class RuntimeIsolationTests(unittest.TestCase):
+    def setUp(self):
+        # Existing launcher tests use Popen doubles; real OS ownership is covered
+        # separately by integration/test_gui_process_cleanup.py.
+        jobs=patch('pyppbox.gui.processes._WindowsJob')
+        groups=patch('pyppbox.gui.processes.os.killpg',create=True)
+        self.jobs=jobs.start(); self.groups=groups.start()
+        self.addCleanup(jobs.stop); self.addCleanup(groups.stop)
+
     def run_python(self, code, directory, **environment):
         env = dict(os.environ, PYPPBOX_RUNTIME_DIR=str(directory),
                    PYPPBOX_DISABLE_FILE_LOG='0', PYPPBOX_DISABLE_TERMINAL_LOG='1',
@@ -364,7 +372,11 @@ class RuntimeIsolationTests(unittest.TestCase):
             child = Mock(wait=Mock(side_effect=[KeyboardInterrupt(), 0]))
             with patch.object(guitools.sp, 'Popen', return_value=child):
                 with self.assertRaises(KeyboardInterrupt): guitools.launchGUI()
-            child.terminate.assert_called_once(); child.kill.assert_not_called()
+            if os.name=='nt':
+                self.jobs.return_value.close.assert_called_once()
+            else:
+                self.assertGreaterEqual(self.groups.call_count,1)
+            child.kill.assert_not_called()
             self.assertEqual(list((Path(directory) / 'sessions').iterdir()), [])
 
 

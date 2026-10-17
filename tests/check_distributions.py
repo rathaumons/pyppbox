@@ -33,7 +33,7 @@ def check_distributions(directory):
             for required in ('pyppbox/config/cfg/main.yaml', 'pyppbox/config/torchreidmodels.py',
                              'pyppbox/config/validation.py', 'pyppbox/utils/batching.py', 'pyppbox/utils/runtime.py',
                              'pyppbox/modules/reiders/torchreid/model_dict.py', 'pyppbox/ppb/mt.py',
-                             'pyppbox/modules/detectors/rfdetr/__init__.py'):
+                             'pyppbox/modules/detectors/rfdetr/__init__.py', 'pyppbox/gui/processes.py'):
                 find_file(required)
 
             # Check complete license/notice contents, not just their filenames.

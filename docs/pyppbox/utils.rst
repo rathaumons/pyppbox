@@ -66,6 +66,12 @@ share those configuration files; use separate directories for independent edits.
 Remembered preferences use the last successful write, while active sessions stay
 independent. Third-party backends may manage their own logging and runtime files.
 
+GUI launches own their launcher/demo processes and workers. Completion or
+interruption stops owned processes; normal API returns also clean launch state.
+Windows uses private kill-on-close jobs; POSIX uses separate sessions with
+parent-loss monitoring. Abrupt process termination can leave abandoned session
+folders, as described above; it does not make those folders shared config stores.
+
 .. automodule:: pyppbox.utils.logtools
    :members:
    :undoc-members:
