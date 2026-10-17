@@ -14,8 +14,8 @@ Table of contents
    :maxdepth: 2
 
    getstarted
-   pyppbox/v4
    examples
+   pyppbox/v4
    pyppbox/standalone
    pyppbox/modules
    pyppbox/structure
