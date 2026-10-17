@@ -80,6 +80,13 @@ generated native/Lightning custom heads, and GUI descendant cleanup also pass.
 Those custom fixtures validate formats and class mapping, not trained-model
 quality. This bounded coverage does not certify every downstream model or scene.
 
+The existing **Test Core Linux**, **Test Core Windows**, and **Test Core macOS**
+workflows run source/installed-wheel compatibility checks on pushes and pull
+requests. Their backend example checks run when started manually. The manual
+**Test CPU Pipeline Comparison** workflow groups the YOLO/SORT/Torchreid and
+RF-DETR comparisons as separate jobs across all three systems, retaining the
+captured baselines, pinned dependencies, GUI checks, and result artifacts.
+
 Measured CPU performance varies by workload and platform; no universal speedup or
 15% end-to-end gain is claimed. Additional GPU qualification and an eight-hour soak
 are not release requirements. Select detectors and batch limits using your own
