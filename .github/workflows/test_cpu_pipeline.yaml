@@ -88,7 +88,9 @@ jobs:
           path: ${{ runner.temp }}/cpu-assets
           key: cpu-assets-v1-${{ hashFiles('benchmarks/prepare_cpu_assets.py') }}
       - name: Prepare verified model assets outside installed packages
-        run: python benchmarks/prepare_cpu_assets.py --directory "$RUNNER_TEMP/cpu-assets" --video examples/data/gta.mp4
+        run: |
+          python benchmarks/prepare_cpu_assets.py --directory "$RUNNER_TEMP/cpu-assets" --video examples/data/gta.mp4
+          cp "$RUNNER_TEMP/cpu-assets/assets.json" "$RUNNER_TEMP/cpu-results/assets.json"
       - name: Compare released V3 and candidate sequentially on this runner
         working-directory: ${{ runner.temp }}
         run: |

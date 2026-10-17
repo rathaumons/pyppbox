@@ -2,11 +2,23 @@
 
 ## **pyppbox V4 - Performance and Stability**
 
-* `pyppbox` V4 (in development, after the V3 transition release)
+* `pyppbox` V4 (unreleased)
+
+  Development continues on `dev`; the package version is unchanged until release.
+  RF-DETR and the previously proposed V3.16 transition changes are included here.
 
   - Improve performance and stability in the existing pyppbox pipeline
   - Preserve working V3 configurations and public interfaces, including `pyppbox.standalone`
   - Measure optimizations against the V3.15 correctness baseline
+  - Support optional RF-DETR Nano, Small, Medium, and current Large detection models through `RF_DETR`, with an RF-DETR GUI panel and [Example 15](https://rathaumons.github.io/pyppbox/examples/example_15.html); install `pyppbox[rfdetr]` on Python 3.10+
+  - Use the published [`pyppbox-data` v1.5.0](https://github.com/rathaumons/pyppbox-data/releases/tag/v1.5.0) wheels in installation docs and CI, including optional `pyppbox-data-rfdetr`; document direct checkpoint downloads, RF-DETR caching, and download checksums
+  - Package RF-DETR Nano/Small/Medium without optimizer, scheduler, or epoch state, preserving model tensors and architecture/class metadata; retain source and packaged checksums
+  - Declare licenses per data module and include the corresponding upstream license texts and attribution in all six data wheels, preserving model/classifier payloads
+  - Supply RF-DETR defaults for older config directories without rewriting their files; preserve other detector configurations when saving settings
+  - Show backend failure details in the GUI, including launches without a console on Windows
+  - Use numeric controls across detector, tracker, and ReID config panels, preserving decimal precision, signed crop offsets, and unlimited DeepSORT budgets
+  - Use [`pyppbox-ultralytics>=8.4.144`](https://github.com/rathaumons/ultralytics-for-pyppbox) as the default YOLO backend, replacing `vsensebox-ultralytics` with the same `ultralytics` imports and configuration format
+  - Extend Python metadata and core CI coverage through Python 3.13; RF-DETR remains optional and has its own Python/backend requirements
   - Reduce ReID crop allocations: resize body regions directly and copy only face regions in both normal and duplicate recognition passes
   - Clip ReID crop bounds to the frame; skip malformed or entirely invisible regions while retaining the person's existing identity and confidence
   - Add a reproducible ReID crop benchmark with output fingerprints, latency samples, and allocation measurements
@@ -31,20 +43,11 @@
   - Keep enabled file logging compatible with Python 3.9, retry read-only temporary config restores after an interrupted rollback, and recognize internal GUI config paths across Windows path aliases/case
   - Stop owned GUI launcher/demo workers on exit or interruption, using private Windows jobs and POSIX sessions with parent-loss cleanup
   - Validate RF-DETR Nano/Small/Medium/Large on CPU against native predictions, offline checkpoints, generated custom class heads and Lightning checkpoints, failed replacements, and independent streams
+  - Pass 27 core source/installed-wheel compatibility jobs plus six CPU model/GUI jobs across Linux, Windows, and macOS, including real descendant-process cleanup
+
+  CPU timings depend on the workload and platform; no universal speedup or 15% target is claimed. Custom checkpoint fixtures validate loading and class mapping, not trained-model accuracy. See the [V4 upgrade guide](https://rathaumons.github.io/pyppbox/pyppbox/v4.html) for compatibility and runtime behavior.
 
 ## **pyppbox V3 - Make Simpler and Faster**
-
-* `pyppbox` v3.16.0 (unreleased) - RF-DETR Transition
-
-  Add an optional detector before the broader V4 performance and stability work.
-
-  - Support RF-DETR Nano, Small, Medium, and Large detection models through `RF_DETR`, using the existing pipeline and configuration format
-  - Add the optional `pyppbox[rfdetr]` extra (Python 3.10+), an RF-DETR GUI panel, and a detection/tracking example
-  - Supply defaults for older config directories without rewriting their files; preserve other detector configurations when saving settings
-  - Show demo failure details in the GUI, including when launched without a console on Windows
-  - Use numeric controls across detector, tracker, and ReID config panels, preserving decimal precision, signed crop offsets, and unlimited DeepSORT budgets
-  - Use [`pyppbox-ultralytics>=8.4.144`](https://github.com/rathaumons/ultralytics-for-pyppbox) as the default YOLO backend, replacing `vsensebox-ultralytics` with the same `ultralytics` imports and configuration format
-  - Extend Python support and CI coverage through Python 3.13
 
 * `pyppbox` [v3.15.0](https://github.com/rathaumons/pyppbox/tree/v3.15.0) - Maintenance and Stability
 

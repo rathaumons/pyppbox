@@ -83,8 +83,10 @@ jobs:
         with:
           path: ${{ runner.temp }}/rfdetr-assets
           key: rfdetr-assets-v1-${{ hashFiles('benchmarks/prepare_rfdetr_assets.py') }}
-      - name: Prepare verified published weights and custom-head fixtures
-        run: python benchmarks/prepare_rfdetr_assets.py --directory "$RUNNER_TEMP/rfdetr-assets" --video examples/data/gta.mp4
+      - name: Prepare verified v1.5.0 data wheel and custom-head fixtures
+        run: |
+          python benchmarks/prepare_rfdetr_assets.py --directory "$RUNNER_TEMP/rfdetr-assets" --video examples/data/gta.mp4
+          cp "$RUNNER_TEMP/rfdetr-assets/assets.json" "$RUNNER_TEMP/rfdetr-results/assets.json"
       - name: Compare all four variants and custom checkpoints offline
         working-directory: ${{ runner.temp }}
         run: python "$GITHUB_WORKSPACE/benchmarks/compare_rfdetr_cpu.py" --baseline-root "$RUNNER_TEMP/rfdetr-baseline-wheel" --candidate-root "$RUNNER_TEMP/rfdetr-candidate-wheel" --assets "$RUNNER_TEMP/rfdetr-assets/assets.json" --output "$RUNNER_TEMP/rfdetr-results" --baseline-ref "$BASELINE_REF" --candidate-ref "$(cat "$RUNNER_TEMP/rfdetr-results/candidate-ref.txt")"

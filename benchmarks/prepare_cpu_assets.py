@@ -38,10 +38,10 @@ def main():
     parser.add_argument('--video', type=Path, required=True)
     args = parser.parse_args()
     directory = args.directory.resolve()
-    wheel_name = 'pyppbox_data_torchreid-1.4.0-py3-none-any.whl'
+    wheel_name = 'pyppbox_data_torchreid-1.5.0-py3-none-any.whl'
     wheel = directory / wheel_name
-    download('https://github.com/rathaumons/pyppbox-data/releases/download/v1.4.0/' + wheel_name,
-             wheel, 'a52382ac0dbd1303cb1d34449a5f41fc62cc74889134e52feb75203d37ae709b')
+    download('https://github.com/rathaumons/pyppbox-data/releases/download/v1.5.0/' + wheel_name,
+             wheel, 'a058119521d2de4ba96e9ba10c2075c3d9ee1a8f1d08a9f97cc6e8724eaf8423')
     detector = directory / 'yolov8n-pose.pt'
     download('https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n-pose.pt',
              detector, 'c6fa93dd1ee4a2c18c900a45c1d864a1c6f7aba75d84f91648a30b7fb641d212')
@@ -64,7 +64,7 @@ def main():
                 shutil.copyfileobj(source, output)
             paths[key] = destination
     manifest = dict(assets={key:dict(path=str(path), sha256=sha256(path)) for key,path in paths.items()},
-                    archive_sha256=sha256(wheel), archive_url='https://github.com/rathaumons/pyppbox-data/releases/tag/v1.4.0')
+                    archive_sha256=sha256(wheel), archive_url='https://github.com/rathaumons/pyppbox-data/releases/tag/v1.5.0')
     target = directory / 'assets.json'
     target.write_text(json.dumps(manifest, indent=2)+'\n', encoding='utf-8')
     print(target)

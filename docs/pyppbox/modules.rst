@@ -22,7 +22,7 @@ For example, the supported `YOLO_Classic` / `YOLO` module can only be used as a 
    |              |                  | * Run on: CPU or GPU (PyTorch)                           |
    +--------------+------------------+----------------------------------------------------------+
 
-``RF_DETR`` is an optional V3.16 detector supporting RF-DETR Nano, Small,
+``RF_DETR`` is an optional V4 detector supporting RF-DETR Nano, Small,
 Medium, and Large through PyTorch. Install the ``rfdetr`` extra on Python 3.10+;
 see :doc:`../examples/example_15` for configuration and usage.
 

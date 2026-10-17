@@ -1,7 +1,7 @@
 15. RF-DETR detection and tracking
 ==================================
 
-``RF_DETR`` is an optional detector for the V3.16 transition release, using the existing
+``RF_DETR`` is an optional detector included in V4 development, using the existing
 configuration files, public pipeline, and GUI. Python **3.10+** is required for
 RF-DETR; existing detectors remain usable without installing this extra.
 
@@ -56,6 +56,73 @@ When a mapping omits ``model_file``, its local default filename follows
 ``model_size``. The GUI also updates a standard default path when switching sizes;
 a custom checkpoint path is retained. Model loading is deferred until selection.
 
+Downloading pretrained weights
+------------------------------
+
+Choose one of the four detection checkpoints supported by this adapter. These
+direct links are from RF-DETR 1.10's published model registry:
+
+.. list-table:: Pretrained RF-DETR detection checkpoints
+   :header-rows: 1
+   :widths: 12 12 35 41
+
+   * - ``model_size``
+     - Resolution
+     - Save as
+     - Download
+   * - ``nano``
+     - 384
+     - ``rf-detr-nano.pth``
+     - `Nano checkpoint <https://storage.googleapis.com/rfdetr/nano_coco/checkpoint_best_regular.pth>`_
+   * - ``small``
+     - 512
+     - ``rf-detr-small.pth``
+     - `Small checkpoint <https://storage.googleapis.com/rfdetr/small_coco/checkpoint_best_regular.pth>`_
+   * - ``medium``
+     - 576
+     - ``rf-detr-medium.pth``
+     - `Medium checkpoint <https://storage.googleapis.com/rfdetr/medium_coco/checkpoint_best_regular.pth>`_
+   * - ``large``
+     - 704
+     - ``rf-detr-large-2026.pth``
+     - `Large checkpoint <https://storage.googleapis.com/rfdetr/rf-detr-large-2026.pth>`_
+
+The first three URLs all end in ``checkpoint_best_regular.pth``; rename each
+download to the corresponding filename above. For example, download Nano into
+your working directory with::
+
+   curl -L --fail -o rf-detr-nano.pth https://storage.googleapis.com/rfdetr/nano_coco/checkpoint_best_regular.pth
+
+Browse to the file in the RF-DETR settings panel and select its matching size.
+Alternatively, the optional `pyppbox-data-rfdetr v1.5.0 wheel
+<https://github.com/rathaumons/pyppbox-data/releases/download/v1.5.0/pyppbox_data_rfdetr-1.5.0-py3-none-any.whl>`_ installs all four
+checkpoints under ``{pyppbox root}/data/modules/rf_detr/``, matching the existing
+internal config paths. See :doc:`../getstarted` for the six v1.5.0 data-wheel
+installation commands and download checksum files. Installing a data wheel does not
+install the RF-DETR runtime; install ``.[rfdetr]`` from the development checkout too.
+
+The data wheel removes optimizer, scheduler, and epoch state from Nano/Small/Medium,
+keeping every model tensor and the architecture/class metadata unchanged. Large's
+published checkpoint is already weights-only. The smaller files produce the same
+inference outputs; this does not change steady-state inference compute. Their
+packaged hashes differ from the direct upstream downloads and are recorded separately
+with the source hashes in ``WEIGHTS.json``. RF-DETR 1.10 may log an original-download
+MD5 warning for these local files; it still loads them without replacing them.
+They cannot resume the original optimizer/scheduler state.
+
+For offline use, install the runtime dependencies and data wheel in advance, or
+select an existing local checkpoint. These four complete checkpoints were tested
+with Python network access blocked. Custom model architectures may have additional
+assets to prepare separately. Never select a generated CI fixture as a production
+model.
+
+Roboflow's `pretrained aliases`_ include more models for its Inference service.
+Those service model IDs are not checkpoint paths for this adapter; xlarge,
+2xlarge, segmentation, and keypoint-preview models are not exposed here.
+
+Automatic downloading and cache
+-------------------------------
+
 An explicitly empty ``model_file: ''`` lets RF-DETR download its pretrained
 checkpoint on first use instead. Set ``RF_HOME`` to choose its cache directory.
 
@@ -87,6 +154,7 @@ uses those defaults; saving the RF-DETR dialog adds its document. Existing detec
 dialogs preserve the other detector documents when saving.
 
 .. _RF-DETR: https://github.com/roboflow/rf-detr
+.. _pretrained aliases: https://docs.roboflow.com/models/pretrained-aliases#rf-detr
 
 Example source
 --------------
@@ -114,6 +182,14 @@ For real CPU/CUDA inference, install the RF-DETR extra and set
 The opt-in test downloads/caches Nano weights if absent and uses the bundled GTA
 video. CUDA is tested when available. Published upstream TensorRT benchmarks do
 not establish the performance of this PyTorch adapter; compare complete pipelines
-on representative clips before selecting a detector. Local real-model validation
-has covered Nano on CPU and CUDA; the other model sizes, custom checkpoints, and
-other devices require their own runtime validation.
+on representative clips before selecting a detector.
+
+The dedicated CPU workflow validates all four variants on Linux x86_64, Windows
+AMD64, and macOS ARM with Python 3.11, RF-DETR 1.10.0, and Torch 2.5.1. It compares
+native/prepared predictions and frozen/current pyppbox wheels, including class
+filters, SORT gaps/recovery, rendered output, offline loading, missing/corrupt
+checkpoints, unavailable devices, reset/close, and independent streams. Generated
+two-class native and Lightning checkpoints exercise class-head loading and numeric
+class IDs; they do not establish trained-model accuracy or support every custom
+architecture. GUI process cleanup is tested with actual owned subprocess trees on
+all three systems. Earlier Nano CUDA checks remain separate from CPU qualification.

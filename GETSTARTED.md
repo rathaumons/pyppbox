@@ -2,6 +2,8 @@
 
 Installing `pyppbox` is very easy and straightforward. You can install it from [PyPI](https://pypi.org/project/pyppbox/) directly or use the prebuilt `.whl` files on [GitHub releases](https://github.com/rathaumons/pyppbox/releases) or install from GitHub directly or build it from source on your own machine. However, in order to get it work, you need to install all the necessary dependencies or requirements for the modules you need.
 
+This checkout documents **V4 development**. The last released V3 is v3.15.0; the development package still reports that version until the release bump. To try the implemented V4 changes, use the `dev` branch (`git switch dev`) and install from that checkout. See the [V4 upgrade guide](https://rathaumons.github.io/pyppbox/pyppbox/v4.html).
+
 
 ## ⚙️ Requirements
 
@@ -67,21 +69,26 @@ You need to install the main package which is `pyppbox` and the data for the mod
     ```
     Run these commands from the repository root, then install the generated wheel in `dist/` with `python -m pip install` followed by its path.
 
-* (Optional, V3.16) Install RF-DETR on Python 3.10+ from a checkout containing this feature:
+* (Optional, V4) Install RF-DETR on Python 3.10+ from the `dev` checkout:
   ```
   python -m pip install ".[rfdetr]"
   ```
-  For a release wheel containing RF-DETR, install it with the `[rfdetr]` extra. Select `RF_DETR` in the GUI or with `setMainDetector()`. Like YOLO, the default config uses GPU `device: 0` and a local model path: `data/modules/rf_detr/rf-detr-nano.pth` under the installed pyppbox package. Select your downloaded checkpoint, or set `model_file: ''` to enable automatic downloading instead; set `device: cpu` for CPU inference. RF-DETR does not need a `pyppbox-data` detector package. Existing configurations work without migration. See [Example 15](https://rathaumons.github.io/pyppbox/examples/example_15.html) for models and custom class IDs.
+  For a release wheel containing RF-DETR, install it with the `[rfdetr]` extra. Earlier V3 releases do not provide this extra. Select `RF_DETR` in the GUI or with `setMainDetector()`. Like YOLO, the default config uses GPU `device: 0` and a local model path: `data/modules/rf_detr/rf-detr-nano.pth` under the installed pyppbox package. Set `device: cpu` for CPU inference. Install the optional `pyppbox-data-rfdetr` wheel below to populate the standard paths, browse to a downloaded checkpoint, or set `model_file: ''` to use RF-DETR's automatic download/cache. Existing configurations work without migration.
+
+  **RF-DETR weights:** [Nano](https://storage.googleapis.com/rfdetr/nano_coco/checkpoint_best_regular.pth), [Small](https://storage.googleapis.com/rfdetr/small_coco/checkpoint_best_regular.pth), [Medium](https://storage.googleapis.com/rfdetr/medium_coco/checkpoint_best_regular.pth), [Large](https://storage.googleapis.com/rfdetr/rf-detr-large-2026.pth). Nano/Small/Medium downloads have the same server filename; save them separately as `rf-detr-nano.pth`, `rf-detr-small.pth`, and `rf-detr-medium.pth`. Keep Large as `rf-detr-large-2026.pth`. [Example 15](https://rathaumons.github.io/pyppbox/examples/example_15.html#downloading-pretrained-weights) lists filenames, destinations, offline setup, and custom class IDs. Roboflow's [pretrained aliases](https://docs.roboflow.com/models/pretrained-aliases#rf-detr) describe its Inference service; pyppbox loads these local PyTorch checkpoints through `rfdetr`.
 
 * Install [`pyppbox-data-xxx`](https://github.com/rathaumons/pyppbox-data/)
-  - Download the latest from [releases](https://github.com/rathaumons/pyppbox-data/releases) or install the ones you need directly:
+  - V4 uses the published **[v1.5.0](https://github.com/rathaumons/pyppbox-data/releases/tag/v1.5.0)** data wheels. Install only the modules you need. The backend extra and data wheel are separate: the RF-DETR data wheel supplies weights, not the `rfdetr` Python runtime.
+  - Download from the release above or install directly:
     ```
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.4.0/pyppbox_data_yolocls-1.4.0-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.4.0/pyppbox_data_yoloult-1.4.0-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.4.0/pyppbox_data_deepsort-1.4.0-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.4.0/pyppbox_data_facenet-1.4.0-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.4.0/pyppbox_data_torchreid-1.4.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.5.0/pyppbox_data_yolocls-1.5.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.5.0/pyppbox_data_yoloult-1.5.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.5.0/pyppbox_data_rfdetr-1.5.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.5.0/pyppbox_data_deepsort-1.5.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.5.0/pyppbox_data_facenet-1.5.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.5.0/pyppbox_data_torchreid-1.5.0-py3-none-any.whl
     ```
+  - Each wheel has a matching `.whl.sha256` file on the release page for download verification.
 
 * Install [`pyppbox-data-gta5`](https://github.com/rathaumons/PoseTReID_DATASET#-introducing-pyppbox-data-gta5)
   - Download the latest from [releases](https://github.com/rathaumons/PoseTReID_DATASET/releases) or install directly:
