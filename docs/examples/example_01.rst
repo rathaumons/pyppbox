@@ -2,7 +2,7 @@ Example 1: Use some basic standalone functions
 ==============================================
 
 - **Description:** Use some standalone functions to detect people in an image, to save the detected people as an output image, to re-identify those people, and to visualize the people with the internal configurations of pyppbox.
-- **Featuring:** 
+- **Featuring:**
    - :py:func:`~pyppbox.standalone.setMainDetector`
    - :py:func:`~pyppbox.standalone.detectPeople`
    - :py:func:`~pyppbox.standalone.setMainReIDer`
@@ -11,8 +11,12 @@ Example 1: Use some basic standalone functions
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 
-.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/dev/examples
+
+Example source
+--------------
 
 .. literalinclude:: ../../examples/example_01_basic.py
-   :encoding: latin-1
+   :encoding: utf-8
+   :language: python
 

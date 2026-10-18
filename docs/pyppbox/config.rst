@@ -27,6 +27,70 @@ Use native booleans for options such as ``show_boxes``. V3.15 also accepts exist
 quoted ``"True"``/``"False"`` values for that field. Config saves preserve general
 string values and replace each file atomically.
 
+.. _device-selection:
+
+GUI and device selection
+------------------------
+
+Open the launcher with ``pyppbox.launchGUI()``, select a module, and open its
+settings. Module dialogs share aligned parameter fields, editable path inputs
+with browse buttons, and a centered Save button separated from the parameters.
+The launcher's papers/GitHub link follows light and dark themes.
+
+RF-DETR, YOLO Ultralytics, Torchreid, ArcFace, and AdaFace use the same editable
+device dropdown. Select a preset or type another value supported by that module,
+such as ``cuda:1``. Presets differ by backend:
+
+.. list-table:: Device dropdown presets
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Module
+     - Presets
+   * - RF-DETR
+     - ``0``, ``cpu``, ``cuda:0``, ``mps``, ``auto``
+   * - YOLO Ultralytics
+     - ``0``, ``cpu``, ``cuda:0``, ``mps``
+   * - Torchreid
+     - ``cpu``, ``cuda``, ``cuda:0``, ``mps``
+   * - ArcFace / AdaFace
+     - ``cpu``, ``cuda``, ``cuda:0``
+
+Saving validates the device syntax and writes the module's configuration.
+Opening a settings panel does not initialize a model or test device availability.
+A listed or accepted value still requires compatible hardware and an installed
+backend that supports it. ArcFace/AdaFace expose CPU and NVIDIA CUDA providers;
+they do not accept ``mps``. Torchreid passes device names to PyTorch, while YOLO
+Ultralytics also accepts backend-specific formats such as comma-separated GPU
+indices.
+
+GPU index ``0`` means the first GPU. RF-DETR and YOLO Ultralytics retain integer
+indices in their configuration; Torchreid and ArcFace/AdaFace normalize an index
+to ``cuda:N``. For example, typing ``2`` selects ``cuda:2`` for these three ReID
+modules.
+
+Automatic selection has different meanings:
+
+* **RF-DETR:** ``auto`` delegates device selection to RF-DETR. The literal
+  ``auto`` is specific to this module.
+* **YOLO Ultralytics:** clear the editable field, or use an empty string or
+  ``null``/``None`` in a configuration, to use the backend's automatic selection.
+  Existing ``None`` values may appear as ``None`` in the editable field.
+* **YOLO Classic:** OpenCV's default CPU backend is used unless OpenCV reports a
+  CUDA-enabled device, in which case the adapter selects its CUDA DNN backend.
+  There is no ``device`` configuration key; the popup's final parameter row shows
+  ``device`` and ``auto by OpenCV`` before Save.
+* **FaceNet / DeepSORT:** TensorFlow places their neural-network operations using
+  its installed build and available devices. Their popups show ``device`` and
+  ``auto by TensorFlow`` in the final parameter row before Save; this read-only
+  display adds no ``device`` config key. DeepSORT's tracking and
+  assignment work remains on CPU. FaceNet's ``gpu_mem`` controls the TensorFlow
+  session's GPU memory fraction; it does not select CPU versus GPU.
+
+Bundled defaults are unchanged: RF-DETR and YOLO Ultralytics request GPU index
+``0``, Torchreid requests ``cuda``, and ArcFace/AdaFace use ``cpu``. Choose ``cpu``
+when using a module without its GPU runtime. See :doc:`../getstarted` for setup.
+
 Validation and safe saves
 -------------------------
 
@@ -49,8 +113,8 @@ provides an explicit preflight for config objects used outside the pipeline.
 The main save and targeted ``dumpDetectorCFG()``, ``dumpTrackerCFG()``, and
 ``dumpReiderCFG()`` methods merge edited fields, retaining extension fields and the
 order of other documents. Settings panels use these targeted saves and remain open
-if validation or writing fails. Unknown module documents remain opaque. RF-DETR's
-existing rejection of unknown options is unchanged. YAML comments are regenerated.
+if validation or writing fails. Unknown module documents remain opaque. RF-DETR,
+ArcFace, and AdaFace reject unknown options. YAML comments are regenerated.
 The bulk ``dumpAll*CFG()`` methods still replace complete document lists.
 
 For several files, ``MyConfigurator.dumpConfigs()`` validates and stages complete

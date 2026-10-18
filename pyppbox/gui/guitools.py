@@ -94,6 +94,14 @@ def resetInternalConfig():
 def launchGUI():
     """Launch the GUI in a child Python process and wait for it to close.
 
+    Module settings share aligned inputs and path/browse rows. RF-DETR, YOLO
+    Ultralytics, Torchreid, ArcFace, and AdaFace have editable device dropdowns
+    with backend-specific presets. A typed value is validated when saved;
+    hardware support is checked by the inference backend. YOLO Classic, FaceNet,
+    and DeepSORT show a final read-only ``device`` row before Save, with
+    ``auto by OpenCV`` or ``auto by TensorFlow`` in the value column. FaceNet's
+    ``gpu_mem`` sets a memory fraction, not the selected device.
+
     Give each launch its own writable state directory, pass the current environment
     plus its session path to the child, and remove owned state after the child exits.
     Stop owned launcher/demo processes and their workers on completion/interruption.

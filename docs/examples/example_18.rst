@@ -1,5 +1,16 @@
-18. Recognize faces and train identity classifiers
-===================================================
+Example 18: Recognize faces and train an ArcFace or AdaFace classifier
+======================================================================
+
+- **Description:** Use a JSON/YAML configuration to recognize a cropped face or train and reload a model-specific identity classifier.
+- **Featuring:**
+   - :py:class:`~pyppbox.config.myconfig.RCFGArcFace`
+   - :py:class:`~pyppbox.config.myconfig.RCFGAdaFace`
+   - :py:class:`~pyppbox.modules.reiders.onnxface.MyArcFace`
+   - :py:class:`~pyppbox.modules.reiders.onnxface.MyAdaFace`
+
+ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
+
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/dev/examples
 
 Install ``.[faces]`` from this checkout and either the ArcFace or AdaFace v1.6.0
 data wheel. The supplied GTA V classifier training environment is documented in
@@ -18,9 +29,9 @@ Save an ``arcface.json`` file with absolute paths matching your installation::
      "device": "cpu"
    }
 
-Run from the repository root::
+Run from the ``examples/`` directory::
 
-   python examples/example_18_onnx_face_reid.py --config arcface.json --image /path/to/face.jpg
+   python example_18_onnx_face_reid.py --config arcface.json --image /path/to/face.jpg
 
 For AdaFace, use ``"ri_name": "AdaFace"`` and the detector, IR18 ONNX model, and
 classifier under ``data/modules/adaface``. The command prints the identity and
@@ -34,5 +45,9 @@ and run inference. Training fits an identity SVM using frozen embeddings, skips
 images with no face, and rejects an identity without usable faces. Model and
 preprocessing fingerprints prevent incompatible classifier reuse.
 
+Example source
+--------------
+
 .. literalinclude:: ../../examples/example_18_onnx_face_reid.py
+   :encoding: utf-8
    :language: python

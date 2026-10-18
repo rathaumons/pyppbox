@@ -2,6 +2,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.gui.configwidgets import config_form
 from pyppbox.gui.numericwidgets import FloatSpinBox, IntSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
@@ -48,11 +49,9 @@ class Ui_YOLOCLS(object):
         self.yl_model_cfg_file_pushButton.setObjectName("yl_model_cfg_file_pushButton")
         self.yl_model_weights_lineEdit = QtWidgets.QLineEdit(yolocls_ui)
         self.yl_model_weights_lineEdit.setGeometry(QtCore.QRect(110, 130, 241, 21))
-        self.yl_model_weights_lineEdit.setReadOnly(True)
         self.yl_model_weights_lineEdit.setObjectName("yl_model_weights_lineEdit")
         self.yl_class_file_lineEdit = QtWidgets.QLineEdit(yolocls_ui)
         self.yl_class_file_lineEdit.setGeometry(QtCore.QRect(110, 70, 241, 21))
-        self.yl_class_file_lineEdit.setReadOnly(True)
         self.yl_class_file_lineEdit.setObjectName("yl_class_file_lineEdit")
         self.yl_conf_spinBox = FloatSpinBox(yolocls_ui)
         self.yl_conf_spinBox.setGeometry(QtCore.QRect(110, 40, 241, 21))
@@ -98,7 +97,6 @@ class Ui_YOLOCLS(object):
         self.yl_repspint_calib_label.setObjectName("yl_repspint_calib_label")
         self.yl_model_cfg_file_lineEdit = QtWidgets.QLineEdit(yolocls_ui)
         self.yl_model_cfg_file_lineEdit.setGeometry(QtCore.QRect(110, 100, 241, 21))
-        self.yl_model_cfg_file_lineEdit.setReadOnly(True)
         self.yl_model_cfg_file_lineEdit.setObjectName("yl_model_cfg_file_lineEdit")
         self.yl_model_weights_label = QtWidgets.QLabel(yolocls_ui)
         self.yl_model_weights_label.setGeometry(QtCore.QRect(10, 130, 91, 16))
@@ -118,6 +116,15 @@ class Ui_YOLOCLS(object):
         self.retranslateUi(yolocls_ui)
         # custom 
         self.loadYL()
+        config_form(yolocls_ui, [
+            (self.yl_nms_label, self.yl_nms_spinBox),
+            (self.yl_conf_label, self.yl_conf_spinBox),
+            (self.yl_class_file_label, self.yl_class_file_lineEdit, self.yl_class_file_pushButton),
+            (self.yl_model_cfg_file_label, self.yl_model_cfg_file_lineEdit, self.yl_model_cfg_file_pushButton),
+            (self.yl_model_weights_label, self.yl_model_weights_lineEdit, self.yl_model_weights_pushButton),
+            (self.yl_model_img_size_label, self.yl_model_imgsize_spinBox),
+            (self.yl_repspint_calib_label, self.yl_repspoint_calib_spinBox),
+        ], self.save_pushButton, automatic_device='OpenCV')
         self.yl_class_file_pushButton.clicked.connect(self.browseClassFile)
         self.yl_model_cfg_file_pushButton.clicked.connect(self.browseModelCFG)
         self.yl_model_weights_pushButton.clicked.connect(self.browseModelWeights)

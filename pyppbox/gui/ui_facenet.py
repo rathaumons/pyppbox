@@ -2,6 +2,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.gui.configwidgets import config_form
 from pyppbox.gui.numericwidgets import FloatSpinBox, IntPairEdit, IntSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
@@ -42,7 +43,6 @@ class Ui_FaceNet(object):
         self.fn_min_confidence_label.setObjectName("fn_min_confidence_label")
         self.fn_model_file_lineEdit = QtWidgets.QLineEdit(facenet_ui)
         self.fn_model_file_lineEdit.setGeometry(QtCore.QRect(110, 70, 241, 21))
-        self.fn_model_file_lineEdit.setReadOnly(True)
         self.fn_model_file_lineEdit.setObjectName("fn_model_file_lineEdit")
         self.fn_classifier_pkl_label = QtWidgets.QLabel(facenet_ui)
         self.fn_classifier_pkl_label.setGeometry(QtCore.QRect(10, 100, 91, 16))
@@ -101,11 +101,9 @@ class Ui_FaceNet(object):
         self.fn_batch_size_label.setObjectName("fn_batch_size_label")
         self.fn_classifier_pkl_lineEdit = QtWidgets.QLineEdit(facenet_ui)
         self.fn_classifier_pkl_lineEdit.setGeometry(QtCore.QRect(110, 100, 241, 21))
-        self.fn_classifier_pkl_lineEdit.setReadOnly(True)
         self.fn_classifier_pkl_lineEdit.setObjectName("fn_classifier_pkl_lineEdit")
         self.fn_train_data_lineEdit = QtWidgets.QLineEdit(facenet_ui)
         self.fn_train_data_lineEdit.setGeometry(QtCore.QRect(110, 130, 241, 21))
-        self.fn_train_data_lineEdit.setReadOnly(True)
         self.fn_train_data_lineEdit.setObjectName("dr_train_data_lineEdit")
         self.fn_model_file_label = QtWidgets.QLabel(facenet_ui)
         self.fn_model_file_label.setGeometry(QtCore.QRect(10, 70, 91, 16))
@@ -131,7 +129,6 @@ class Ui_FaceNet(object):
         self.fn_yl_h_calib_pair.setObjectName("fn_yl_h_calib_pair")
         self.fn_model_det_lineEdit = QtWidgets.QLineEdit(facenet_ui)
         self.fn_model_det_lineEdit.setGeometry(QtCore.QRect(110, 40, 241, 21))
-        self.fn_model_det_lineEdit.setReadOnly(True)
         self.fn_model_det_lineEdit.setObjectName("fn_model_det_lineEdit")
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -140,6 +137,17 @@ class Ui_FaceNet(object):
         self.retranslateUi(facenet_ui)
         # custom
         self.loadFN()
+        config_form(facenet_ui, [
+            (self.fn_gpu_mem_label, self.fn_gpu_mem_spinBox),
+            (self.fn_model_det_label, self.fn_model_det_lineEdit, self.fn_model_det_pushButton),
+            (self.fn_model_file_label, self.fn_model_file_lineEdit, self.fn_model_file_pushButton),
+            (self.fn_classifier_pkl_label, self.fn_classifier_pkl_lineEdit, self.fn_classifier_pkl_pushButton),
+            (self.fn_train_data_label, self.fn_train_data_lineEdit, self.fn_train_data_pushButton),
+            (self.fn_batch_size_label, self.fn_batch_size_spinBox),
+            (self.fn_min_confidence_label, self.fn_min_confidence_spinBox),
+            (self.fn_yl_h_calib_label, self.fn_yl_h_calib_pair),
+            (self.fn_yl_w_calib_label, self.fn_yl_w_calib_pair),
+        ], self.save_pushButton, automatic_device='TensorFlow')
         self.fn_model_det_pushButton.clicked.connect(self.browseModelDet)
         self.fn_model_file_pushButton.clicked.connect(self.browseModelFile)
         self.fn_classifier_pkl_pushButton.clicked.connect(self.browseClassifierFile)

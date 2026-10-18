@@ -1,11 +1,17 @@
+#################################################################################
+# Example of comparing FaceNet, ArcFace, and AdaFace on identity-folder images
+#################################################################################
+
 """Compare one face backend per process on a fixed identity-folder sample.
 
+Run from examples/: python example_17_benchmark_faces.py --help.
 Run backends sequentially to avoid hardware contention. Results include both
 embedding-only and complete recognize() latency. The default split samples 40
 files evenly from each identity's sorted directory: the earlier half trains the
 SVM and calibrates a cosine threshold, the later half tests it. These are held-out
 files, not independent capture sessions. This is not a population benchmark.
 """
+
 import argparse
 import json
 import os
@@ -29,6 +35,15 @@ def main():
     args = parser.parse_args()
     if args.samples_per_identity < 4 or args.iterations < 1 or args.threads < 1:
         parser.error('Use at least four samples per identity and positive iterations/threads.')
+    if args.backend == 'FaceNet':
+        if args.facenet_data is None:
+            parser.error('--facenet-data is required for FaceNet.')
+        if args.device != 'cpu':
+            parser.error('This FaceNet comparison uses CPU TensorFlow.')
+        # Set this before importing TensorFlow so the reported CPU run uses CPU.
+        os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+    elif args.detector is None or args.model is None:
+        parser.error('--detector and --model are required for ArcFace/AdaFace.')
     os.environ['TF_NUM_INTRAOP_THREADS'] = str(args.threads)
     os.environ['TF_NUM_INTEROP_THREADS'] = '1'
     os.environ['OMP_NUM_THREADS'] = str(args.threads)
@@ -43,8 +58,6 @@ def main():
     args.output.mkdir(parents=True, exist_ok=True)
     start = time.perf_counter()
     if args.backend == 'FaceNet':
-        if args.device != 'cpu':
-            parser.error('This native Windows FaceNet comparison uses CPU TensorFlow.')
         from pyppbox.config.myconfig import RCFGFaceNet
         from pyppbox.modules.reiders.facenet import MyFaceNet, df
         root = args.facenet_data.resolve()
@@ -172,8 +185,15 @@ def main():
                               'Latency samples include only successfully detected test crops.',
                   records=records)
     import importlib.metadata
-    report['versions'] = {name: importlib.metadata.version(name) for name in
-                          ('pyppbox', 'numpy', 'scikit-learn', 'tensorflow', 'onnxruntime-gpu', 'torch')}
+    # CPU-only face installs use onnxruntime; record whichever optional runtimes
+    # are installed instead of requiring a GPU distribution for a CPU benchmark.
+    report['versions'] = {}
+    for name in ('pyppbox', 'numpy', 'scikit-learn', 'tensorflow', 'onnxruntime',
+                 'onnxruntime-gpu', 'insightface', 'torch'):
+        try:
+            report['versions'][name] = importlib.metadata.version(name)
+        except importlib.metadata.PackageNotFoundError:
+            pass
     report['detector_model'] = str(args.detector.resolve()) if args.detector else str(root / 'models/det')
     report['embedding_model'] = str(args.model.resolve()) if args.model else str(root / 'models/20180402-114759/20180402-114759.pb')
     (args.output / 'results.json').write_text(json.dumps(report, indent=2), encoding='utf-8')

@@ -1,10 +1,10 @@
 Example 7: Use result tools
 ===========================
 
-- **Description**: Use :class:`~pyppbox.utils.restools.ResIO` to store and generate a result text file.
-- **Featuring**: 
+- **Description:** Use :class:`~pyppbox.utils.restools.ResIO` to store and generate a result text file.
+- **Featuring:**
    - :py:class:`~pyppbox.utils.restools.ResIO`
-   - :py:func:`~pyppbox.standalone.setConfigDir`
+   - :py:func:`~pyppbox.standalone.setMainModules`
    - :py:func:`~pyppbox.standalone.detectPeople`
    - :py:func:`~pyppbox.standalone.trackPeople`
    - :py:func:`~pyppbox.standalone.reidPeople`
@@ -12,7 +12,11 @@ Example 7: Use result tools
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 
-.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/dev/examples
+
+Example source
+--------------
 
 .. literalinclude:: ../../examples/example_07_restools.py
-   :encoding: latin-1
+   :encoding: utf-8
+   :language: python

@@ -1,5 +1,13 @@
-# Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License
-"""Optional RF-DETR detection and SORT tracking; see the --help options."""
+#################################################################################
+# Example of using RF-DETR detection and SORT tracking
+#################################################################################
+
+"""Run from examples/: python example_15_rfdetr.py --device cpu --frames 30.
+
+Install the optional rfdetr extra first. Pass --checkpoint for local weights;
+an empty checkpoint uses RF-DETR's download/cache. Add --show for a video window.
+"""
+
 import argparse
 from pathlib import Path
 
@@ -25,23 +33,25 @@ def main():
     try:
         if not capture.isOpened():
             raise FileNotFoundError(f'Cannot open video: {args.video}')
-        pipeline = MT()
-        pipeline.setMainDetector(dict(dt_name='RF_DETR', model_size=args.model_size,
-                                      model_file=args.checkpoint, person_class_id=args.person_class_id,
-                                      device=args.device, conf=.4))
-        pipeline.setMainTracker('SORT')
-        pipeline.setMainReIDer('None')
-        for index in range(args.frames):
-            ok, frame = capture.read()
-            if not ok:
-                break
-            people, _ = pipeline.detectPeople(frame, img_is_mat=True)
-            people = pipeline.trackPeople(frame, people, img_is_mat=True)
-            print(f'Frame {index}: {len(people)} people; track IDs {[person.cid for person in people]}')
-            if args.show:
-                cv2.imshow('RF-DETR + SORT', visualizePeople(frame, people))
-                if cv2.waitKey(1) & 0xFF == ord('q'):
+        # Set a detector by dictionary and the other stages by their names.
+        with MT() as pipeline:
+            pipeline.setMainDetector(dict(dt_name='RF_DETR', model_size=args.model_size,
+                                          model_file=args.checkpoint, person_class_id=args.person_class_id,
+                                          device=args.device, conf=.4))
+            pipeline.setMainTracker('SORT')
+            pipeline.setMainReIDer('None')
+            for index in range(args.frames):
+                ok, frame = capture.read()
+                if not ok:
                     break
+                # Detect and track Person objects, as in the earlier examples.
+                people, _ = pipeline.detectPeople(frame, img_is_mat=True)
+                people = pipeline.trackPeople(frame, people, img_is_mat=True)
+                print(f'Frame {index}: {len(people)} people; track IDs {[person.cid for person in people]}')
+                if args.show:
+                    cv2.imshow('RF-DETR + SORT', visualizePeople(frame, people))
+                    if cv2.waitKey(1) & 0xFF == ord('q'):
+                        break
     finally:
         capture.release()
         if args.show:

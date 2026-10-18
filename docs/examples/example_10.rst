@@ -1,8 +1,8 @@
 Example 10: Use GT (Ground-truth) as a detector
-=================================================
+===============================================
 
-- **Description**: Use a supported GT (Ground-truth) text file as a detector.
-- **Featuring**: 
+- **Description:** Use a supported GT (Ground-truth) text file as a detector.
+- **Featuring:**
    - :py:func:`~pyppbox.standalone.setMainDetector`
    - :py:func:`~pyppbox.standalone.setMainTracker`
    - :py:func:`~pyppbox.standalone.setMainReIDer`
@@ -13,7 +13,11 @@ Example 10: Use GT (Ground-truth) as a detector
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 
-.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/dev/examples
+
+Example source
+--------------
 
 .. literalinclude:: ../../examples/example_10_detector_gt_file.py
-   :encoding: latin-1
+   :encoding: utf-8
+   :language: python

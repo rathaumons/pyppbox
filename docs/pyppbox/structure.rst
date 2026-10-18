@@ -19,6 +19,10 @@ Base Structure of ``pyppbox``
    │           strings.yaml  .............  Internal config file for unified strings
    ├───data  .............................  Internal data directory, pyppbox-data module
    ├───gui
+   │   ├───configwidgets.py  .............  Shared forms, path rows, and device dropdowns
+   │   ├───linklabel.py  .................  Theme-aware launcher link
+   │   ├───ui_launcher.py  ...............  Module selection and demo launcher
+   │   └───ui_*.py  ......................  Module configuration dialogs
    ├───modules  ..........................  All supported detector/trackers/reiders
    │   ├───detectors  ....................  All supported detectors
    │   │   ├───yolocls  ..................  Detector YOLO_Classic

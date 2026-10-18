@@ -44,7 +44,7 @@ while cap.isOpened():
          body_keypoint_list, 
          confidence_list) = detector.detect(frame, visual=True, classes=0)
 
-        cv2.imshow("pyppbox: example_12_direct_module.py", visual_frame)
+        cv2.imshow("pyppbox: example_13_direct_module.py", visual_frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

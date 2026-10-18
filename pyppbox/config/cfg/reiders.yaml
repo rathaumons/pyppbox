@@ -22,6 +22,38 @@
 # min_confidence: 0.35
 # device: cuda
 ###########################################################
+# --- # ri_name: ArcFace
+# model_det: data/modules/arcface/models/det_10g.onnx
+# model_file: data/modules/arcface/models/w600k_r50.onnx
+# classifier_pkl: data/modules/arcface/classifier/gta5.pkl
+# train_data: data/datasets/GTA_V_DATASET/face_182x182
+# min_confidence: 0.75
+# device: cpu
+# det_size: 320
+# det_thresh: 0.5
+# input_color: RGB
+# input_mean: 127.5
+# input_std: 127.5
+# num_threads: 4
+# yl_h_calibration: [-125, 75]
+# yl_w_calibration: [-55, 55]
+###########################################################
+# --- # ri_name: AdaFace
+# model_det: data/modules/adaface/models/det_10g.onnx
+# model_file: data/modules/adaface/models/adaface_ir18_vgg2.onnx
+# classifier_pkl: data/modules/adaface/classifier/gta5.pkl
+# train_data: data/datasets/GTA_V_DATASET/face_182x182
+# min_confidence: 0.75
+# device: cpu
+# det_size: 320
+# det_thresh: 0.5
+# input_color: RGB
+# input_mean: 127.5
+# input_std: 127.5
+# num_threads: 4
+# yl_h_calibration: [-125, 75]
+# yl_w_calibration: [-55, 55]
+###########################################################
 ri_name: FaceNet
 gpu_mem: 0.585
 model_det: data/modules/facenet/models/det

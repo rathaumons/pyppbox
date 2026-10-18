@@ -21,6 +21,11 @@ class MyTorchreid(object):
     For direct use, call ``load_classifier()`` before ``recognize()`` or construct
     with ``auto_load=True``. Each instance holds its own extractor and classifier.
 
+    ``cfg.device`` is passed to the PyTorch feature extractor. The GUI has an
+    editable device dropdown; CPU, CUDA/indexed GPU, and MPS choices require
+    matching runtime/hardware support. Numeric indices normalize to ``cuda:N``;
+    the literal ``auto`` is not accepted.
+
     Attributes
     ----------
     extractor : object

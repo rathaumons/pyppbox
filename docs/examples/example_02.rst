@@ -2,7 +2,7 @@ Example 2: Use pyppbox's internal config directory
 ==================================================
 
 - **Description:** Use the internal config directory of pyppbox to set the configurations for the supported modules.
-- **Featuring:** 
+- **Featuring:**
    - :py:func:`~pyppbox.standalone.setConfigDir`
    - :py:func:`~pyppbox.standalone.detectPeople`
    - :py:func:`~pyppbox.standalone.trackPeople`
@@ -11,7 +11,11 @@ Example 2: Use pyppbox's internal config directory
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 
-.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/dev/examples
+
+Example source
+--------------
 
 .. literalinclude:: ../../examples/example_02_internal_cfg_directory.py
-   :encoding: latin-1
+   :encoding: utf-8
+   :language: python

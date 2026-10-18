@@ -1,5 +1,5 @@
 #################################################################################
-# Example of retraining all the internal reider classifiers for GTA V dataset
+# Example of retraining FaceNet and both Torchreid classifiers for GTA V dataset
 #################################################################################
 
 import os

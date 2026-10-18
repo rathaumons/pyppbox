@@ -1,6 +1,7 @@
 # Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License
 """RF-DETR settings dialog; editing settings does not load the optional backend."""
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.gui.configwidgets import config_form, device_dropdown
 from pyppbox.gui.numericwidgets import FloatSpinBox, IntSpinBox
 
 from pyppbox.config.myconfig import DCFGRFDETR, MyConfigurator
@@ -23,9 +24,7 @@ class Ui_RFDETR:
         self.model_size_comboBox.addItems(['nano', 'small', 'medium', 'large'])
         self.model_size_comboBox.setCurrentText(cfg.model_size)
         self.model_size_comboBox.setToolTip('Pretrained models use their native resolution and return boxes only.')
-        self.device_comboBox = QtWidgets.QComboBox(dialog)
-        self.device_comboBox.setEditable(True)
-        self.device_comboBox.addItems(['0', 'cpu', 'cuda:0', 'mps', 'auto'])
+        self.device_comboBox = device_dropdown(dialog, ['0', 'cpu', 'cuda:0', 'mps', 'auto'])
         self.device_comboBox.setCurrentText(str(cfg.device))
         self.conf_spinBox = FloatSpinBox(dialog)
         self.conf_spinBox.setRange(0, 1)
@@ -87,6 +86,10 @@ class Ui_RFDETR:
         self.save_pushButton.setDefault(True)
         self.save_pushButton.setFocus()
         self.save_pushButton.clicked.connect(lambda: self.updateCFG(dialog))
+        rows = [(getattr(self, name + '_label'), field, self.model_file_pushButton)
+                if name == 'model_file' else (getattr(self, name + '_label'), field)
+                for name, field in fields]
+        config_form(dialog, rows, self.save_pushButton)
 
     def updateModelSize(self, size):
         path = self.model_file_lineEdit.text().strip().replace('\\', '/')

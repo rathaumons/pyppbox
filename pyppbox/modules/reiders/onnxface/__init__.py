@@ -31,6 +31,11 @@ class ONNXFace:
     SCRFD keypoints, then embedded and L2-normalized. Confidence is the identity
     SVM's probability estimate, not the cosine score or a liveness measurement.
     Instances own their sessions and are not intended for concurrent calls.
+
+    ``cfg.device`` selects CPU (default), ``cuda``, or ``cuda:N``. Configuration
+    normalizes numeric GPU indices; the GUI offers an editable CPU/CUDA dropdown.
+    ``mps`` and ``auto`` are not supported by these adapters. An unavailable or
+    failed CUDA provider raises instead of silently selecting CPU at initialization.
     """
     NAME = None
 

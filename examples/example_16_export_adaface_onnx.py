@@ -1,11 +1,17 @@
+#################################################################################
+# Example of exporting an AdaFace embedding model to ONNX
+#################################################################################
+
 """Export CVLFace AdaFace IR18 VGG2 weights using the original AdaFace network.
 
+Run from examples/: python example_16_export_adaface_onnx.py --help.
 Download pretrained_model/model.pt from the author's model repository:
 https://huggingface.co/minchul/cvlface_adaface_ir18_vgg2
 Clone https://github.com/mk-minchul/AdaFace and pass its path below.
 Requires torch, onnx and onnxruntime; does not modify the source repository.
 The resulting model accepts RGB NCHW floats normalized with (pixel-127.5)/127.5.
 """
+
 import argparse
 import hashlib
 import importlib.util

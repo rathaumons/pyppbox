@@ -12,7 +12,7 @@ Existing projects and configurations
 Existing YAML/JSON files, dictionary inputs, module names, path rules, Person
 attributes, and public facades remain supported. There is no config schema
 migration. Old config directories gain RF-DETR and ArcFace/AdaFace defaults in memory without being
-rewritten. GUI saves retain unknown extension fields and other module documents.
+rewritten. GUI saves retain supported extension fields and other module documents.
 Validation now diagnoses invalid values or missing selected assets before model
 initialization. A grouped config save supports rollback and explicit recovery;
 use one writer and pause readers during that operation.
@@ -21,6 +21,19 @@ The default YOLO dependency is ``pyppbox-ultralytics>=8.4.144`` and still import
 as ``ultralytics``. Follow :doc:`../getstarted` when replacing the earlier fork.
 Core metadata/CI covers Python 3.9–3.13. The optional RF-DETR runtime needs
 Python 3.10+ and ``rfdetr>=1.10.0,<1.11.0``.
+
+GUI configuration and devices
+------------------------------
+
+All module popups share aligned input/path rows and a centered, separated Save
+button. RF-DETR, YOLO Ultralytics, Torchreid, ArcFace, and AdaFace use editable
+device dropdowns with backend-specific presets and validation. YOLO Classic,
+FaceNet, and DeepSORT show a final read-only ``device`` row before Save, with
+``auto by OpenCV`` or ``auto by TensorFlow`` in the value column.
+Device defaults and configuration keys are unchanged. In particular, RF-DETR's
+``auto`` differs from YOLO's empty/``None`` automatic setting, and FaceNet's
+``gpu_mem`` remains a memory limit. See :ref:`device-selection` for the full
+reference. The launcher link also stays readable across light/dark theme changes.
 
 RF-DETR and model data
 --------------------------

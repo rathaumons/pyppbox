@@ -8,6 +8,11 @@ Config Name | ``Class Name``
 FaceNet | ``MyFaceNet``
 -----------------------
 
+The popup's last parameter row shows ``device`` and ``auto by TensorFlow`` before
+Save. TensorFlow's installed build and available devices determine neural-network placement;
+FaceNet exposes no ``device`` key. ``gpu_mem`` sets the session's GPU memory
+fraction and does not force CPU or GPU use. See :ref:`device-selection`.
+
 .. automodule:: pyppbox.modules.reiders.facenet
    :members:
    :undoc-members:
@@ -18,6 +23,12 @@ FaceNet | ``MyFaceNet``
 
 Torchreid | ``MyTorchreid``
 ---------------------------
+
+The device dropdown is editable, with ``cpu``, ``cuda``, ``cuda:0``, and ``mps``
+presets. Type another supported PyTorch device or an indexed GPU such as
+``cuda:1``. Numeric indices normalize to ``cuda:N``; ``auto`` is not accepted.
+The bundled default remains ``cuda``. Availability depends on the installed
+PyTorch runtime and hardware. See :ref:`device-selection`.
 
 .. automodule:: pyppbox.modules.reiders.torchreid
    :members:
@@ -85,6 +96,11 @@ PyTorch 2.5.1+cu121; the ONNX backends used ONNX Runtime GPU 1.20.2 and InsightF
 
 Device selection and model provenance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Both settings dialogs use an editable device dropdown with ``cpu``, ``cuda``,
+and ``cuda:0`` presets. CPU is the default. Type ``cuda:N`` or a GPU index for
+another NVIDIA device; indices normalize to ``cuda:N``. These ONNX adapters do
+not accept ``mps`` or ``auto``. See :ref:`device-selection` for all module choices.
 
 The base install provides CPU ONNX Runtime. For NVIDIA inference, use a compatible
 ``onnxruntime-gpu`` distribution instead of ``onnxruntime``. Match its CUDA and

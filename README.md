@@ -16,7 +16,7 @@
 
 * ` pyppbox = Python + People + Toolbox `
 * Design for both short and long term people detecting, tracking, and re-identifying.
-* Integrate GUI for easy configuration and demo.
+* Integrated GUI for configuration and demos, with editable device choices and automatic-device rows. See [GUI and device settings](https://rathaumons.github.io/pyppbox/pyppbox/config.html#device-selection).
 * Support dictionary and YAML/JSON configuration.
 * Optional ArcFace and AdaFace face recognition with ONNX Runtime, SCRFD alignment, and model-specific identity classifiers. See [face recognizer setup](https://rathaumons.github.io/pyppbox/pyppbox/modules/reiders.html).
 * Use the eight [v1.6.0 model data wheels](https://github.com/rathaumons/pyppbox-data/releases/tag/v1.6.0), including the retrained GTA V identity classifiers. See [installation and compatibility](https://rathaumons.github.io/pyppbox/getstarted.html).

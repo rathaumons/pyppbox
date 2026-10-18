@@ -116,9 +116,11 @@ You need to install the main package which is `pyppbox` and the data for the mod
     <img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_gui.jpg">
   - For related GUI functions and other configurations, check the [Configurations page](https://rathaumons.github.io/pyppbox/pyppbox/config.html).
   - Check the [Examples page](https://rathaumons.github.io/pyppbox/examples.html) for some real coding!
-  - ⚠️ ***ATTENTION*** ⚠️
-    * If you use ***YOLO Ultralytics*** without GPU/CUDA, you must set `cpu` as string for the parameter `device` in its configuration.
-    * The same for ***Torchreid*** without GPU/CUDA, you must set `cpu` as string for the parameter `device` in its configuration.
+  - Device settings:
+    * RF-DETR, YOLO Ultralytics, Torchreid, ArcFace, and AdaFace have editable device dropdowns. Choose a preset or type a supported value such as `cuda:1`; presets reflect each backend's capabilities.
+    * Select `cpu` when using a module without its GPU runtime. The bundled RF-DETR and YOLO Ultralytics defaults request GPU index `0`; Torchreid defaults to `cuda`, while ArcFace/AdaFace default to `cpu`.
+    * YOLO Classic, FaceNet, and DeepSORT show a final read-only `device` row before Save: `auto by OpenCV` or `auto by TensorFlow`. FaceNet's `gpu_mem` controls GPU memory allocation, not CPU/GPU selection.
+    * See [GUI and device selection](https://rathaumons.github.io/pyppbox/pyppbox/config.html#device-selection) for presets, typed values, automatic selection, and hardware/runtime requirements. Selecting a preset does not install a GPU backend.
 
 * Troubleshooting
   - For ***macOS***, if the GUI does not work, you may try Python 3.11 as suggested in Prerequisite section above.

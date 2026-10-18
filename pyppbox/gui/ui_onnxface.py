@@ -1,6 +1,7 @@
 # Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License
 """Face recognizer settings, without importing the optional inference backend."""
 from PyQt6 import QtWidgets
+from pyppbox.gui.configwidgets import config_form, device_dropdown
 from pyppbox.gui.numericwidgets import FloatSpinBox, IntSpinBox, IntPairEdit
 from pyppbox.config.myconfig import MyConfigurator, RCFGArcFace, RCFGAdaFace
 
@@ -15,7 +16,7 @@ class Ui_ONNXFace:
         self.mycfg.setAllRCFG()
         cfg = getattr(self.mycfg, 'rcfg_' + self.name.lower())
         dialog.setWindowTitle(self.name)
-        form = QtWidgets.QFormLayout(dialog)
+        rows = []
         self.fields = {}
         for key in self.cls.DEFAULTS:
             if key == 'ri_name':
@@ -38,10 +39,12 @@ class Ui_ONNXFace:
             elif key in ('yl_h_calibration', 'yl_w_calibration'):
                 widget = IntPairEdit(dialog)
                 widget.setValue(value)
-            elif key in ('device', 'input_color'):
+            elif key == 'device':
+                widget = device_dropdown(dialog, ['cpu', 'cuda', 'cuda:0'])
+                widget.setCurrentText(str(value))
+            elif key == 'input_color':
                 widget = QtWidgets.QComboBox(dialog)
-                widget.addItems(['cpu', 'cuda:0'] if key == 'device' else ['RGB', 'BGR'])
-                widget.setEditable(key == 'device')
+                widget.addItems(['RGB', 'BGR'])
                 widget.setCurrentText(str(value))
             else:
                 widget = QtWidgets.QLineEdit(str(value), dialog)
@@ -49,23 +52,18 @@ class Ui_ONNXFace:
             widget.setObjectName(key + '_field')
             self.fields[key] = widget
             if key in ('model_file', 'model_det', 'classifier_pkl', 'train_data'):
-                row = QtWidgets.QWidget(dialog)
-                layout = QtWidgets.QHBoxLayout(row)
-                layout.setContentsMargins(0, 0, 0, 0)
-                layout.addWidget(widget)
-                button = QtWidgets.QPushButton('...', row)
-                button.setFixedWidth(28)
+                button = QtWidgets.QPushButton('...', dialog)
+                button.setObjectName(key + '_browse_button')
                 button.clicked.connect(lambda checked=False, field=key: self.browse(field))
-                layout.addWidget(button)
-                form.addRow(key, row)
+                rows.append((key, widget, button))
             else:
-                form.addRow(key, widget)
+                rows.append((key, widget))
         self.fields['min_confidence'].setToolTip('Identity SVM probability threshold; requires a new classifier for this model.')
         self.fields['input_color'].setToolTip('Must match the exported model. CVLFace IR18 export: RGB; original AdaFace: BGR.')
         self.save_pushButton = QtWidgets.QPushButton('Save', dialog)
+        self.save_pushButton.setObjectName('save_pushButton')
         self.save_pushButton.clicked.connect(lambda: self.updateCFG(dialog))
-        form.addRow(self.save_pushButton)
-        dialog.resize(620, dialog.sizeHint().height())
+        config_form(dialog, rows, self.save_pushButton)
 
     def browse(self, field):
         widget = self.fields[field]

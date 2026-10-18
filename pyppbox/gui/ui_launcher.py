@@ -12,6 +12,7 @@ from pyppbox.utils.logtools import add_info_log, get_env, set_terminal_log_from_
 set_terminal_log_from_env()
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.gui.linklabel import ThemedLinkLabel
 from ui_yolocls import Ui_YOLOCLS
 from ui_yoloult import Ui_YOLOULT
 from ui_rfdetr import Ui_RFDETR
@@ -191,7 +192,7 @@ class Ui_PYPPBOXLauncher(object):
         self.treid_figure_label.setPixmap(QtGui.QPixmap(joinFPathFull(current_dir, "assets/TReID.png")))
         self.treid_figure_label.setScaledContents(True)
         self.treid_figure_label.setObjectName("treid_figure_label")
-        self.treid_info_label = QtWidgets.QLabel(self.centralwidget)
+        self.treid_info_label = ThemedLinkLabel(self.centralwidget)
         self.treid_info_label.setGeometry(QtCore.QRect(10, 190, 471, 16))
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -201,7 +202,6 @@ class Ui_PYPPBOXLauncher(object):
         font.setStrikeOut(False)
         self.treid_info_label.setFont(font)
         self.treid_info_label.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
-        self.treid_info_label.setStyleSheet("color: rgb(0, 0, 255)")
         self.treid_info_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.treid_info_label.setObjectName("treid_info_label")
         self.first_line = QtWidgets.QFrame(self.centralwidget)
@@ -213,7 +213,6 @@ class Ui_PYPPBOXLauncher(object):
         self.retranslateUi(PYPPBOXLauncher)
         # custom
         self.cfgMapper()
-        self.treid_info_label.mousePressEvent = self.addEffectOnTReIDLabelColor 
         self.treid_info_label.mouseReleaseEvent = self.takeMeToGitHub     
         self.detector_comboBox.currentIndexChanged.connect(self.detectorFilter)
         self.tracker_comboBox.currentIndexChanged.connect(self.trackerFilter)
@@ -459,12 +458,8 @@ class Ui_PYPPBOXLauncher(object):
         elif self.reider_comboBox.currentText().lower() == self.mycfg.unified_strings.none:
             pass
 
-    def addEffectOnTReIDLabelColor(self, _):
-        self.treid_info_label.setStyleSheet("color: rgb(170, 0, 255)")
-
     def takeMeToGitHub(self, _):
         import webbrowser
-        self.treid_info_label.setStyleSheet("color: rgb(0, 0, 255)")
         webbrowser.open('https://github.com/rathaumons/pyppbox.git')
 
 

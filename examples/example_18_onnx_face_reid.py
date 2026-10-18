@@ -1,8 +1,13 @@
+#################################################################################
+# Example of recognizing faces and training an ArcFace or AdaFace classifier
+#################################################################################
+
 """Train or use an ArcFace/AdaFace identity SVM with a JSON/YAML config.
 
-Example: python examples/example_18_onnx_face_reid.py --config arcface.json --image face.jpg
+Run from examples/: python example_18_onnx_face_reid.py --config arcface.json --image face.jpg.
 Add --train to train the identity SVM first. Training needs identity subfolders.
 """
+
 import argparse
 import json
 from pathlib import Path

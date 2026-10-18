@@ -2,6 +2,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.gui.configwidgets import config_form
 from pyppbox.gui.numericwidgets import FloatSpinBox, IntSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
@@ -66,6 +67,11 @@ class Ui_SORT(object):
         self.retranslateUi(sort_ui)
         # custom
         self.loadST()
+        config_form(sort_ui, [
+            (self.st_max_age_label, self.st_max_age_spinBox),
+            (self.st_min_hits_label, self.st_min_hits_spinBox),
+            (self.st_iou_threshold_label, self.st_iou_threshold_spinBox),
+        ], self.save_pushButton)
         self.save_pushButton.clicked.connect(lambda: self.updateCFG(sort_ui))
         QtCore.QMetaObject.connectSlotsByName(sort_ui)
 

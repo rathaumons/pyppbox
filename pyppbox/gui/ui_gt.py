@@ -2,6 +2,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.gui.configwidgets import config_form
 from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.utils.commontools import (normalizePathFDS, getAbsPathFDS, 
@@ -64,7 +65,11 @@ class Ui_GT(object):
         self.save_pushButton.setDefault(True)
         self.retranslateUi(gi_ui)
         # custom
-        self.loadGT()  
+        self.loadGT()
+        config_form(gi_ui, [
+            (self.gt_file_label, self.gt_file_lineEdit, self.gt_file_browse_pushButton),
+            (self.gt_map_label, self.gt_map_lineEdit, self.gt_map_browse_pushButton),
+        ], self.save_pushButton)
         self.gt_file_browse_pushButton.clicked.connect(self.browseGTFile)
         self.gt_map_browse_pushButton.clicked.connect(self.browseGTMap)
         self.save_pushButton.clicked.connect(lambda: self.updateCFG(gi_ui))

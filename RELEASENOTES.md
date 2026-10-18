@@ -18,6 +18,9 @@
   - Supply RF-DETR defaults for older config directories without rewriting their files; preserve other detector configurations when saving settings
   - Show backend failure details in the GUI, including launches without a console on Windows
   - Use numeric controls across detector, tracker, and ReID config panels, preserving decimal precision, signed crop offsets, and unlimited DeepSORT budgets
+  - Share aligned parameter/path rows and a centered Save button across all module popups; keep browse buttons inside the common field column
+  - Reuse editable device dropdowns for RF-DETR, YOLO Ultralytics, Torchreid, ArcFace, and AdaFace, retaining backend-specific presets, validation, and defaults; show `device | auto by OpenCV/TensorFlow` as the last parameter row before Save for YOLO Classic, FaceNet, and DeepSORT
+  - Keep the launcher papers/GitHub link readable in light and dark themes, including theme changes while the GUI is open
   - Use [`pyppbox-ultralytics>=8.4.144`](https://github.com/rathaumons/ultralytics-for-pyppbox) as the default YOLO backend, replacing `vsensebox-ultralytics` with the same `ultralytics` imports and configuration format
   - Extend Python metadata and core CI coverage through Python 3.13; RF-DETR remains optional and has its own Python/backend requirements
   - Reduce ReID crop allocations: resize body regions directly and copy only face regions in both normal and duplicate recognition passes

@@ -272,6 +272,11 @@ class DCFGYOLOCLS(BaseCGF):
 
     Notes
     -----
+    This configuration has no ``device`` key. The adapter selects OpenCV's CUDA
+    DNN backend when OpenCV reports a CUDA-enabled device and otherwise uses its
+    default CPU backend. The GUI displays this automatic-selection behavior above
+    the parameters.
+
     Call ``set()`` with a complete configuration before reading derived attributes
     or passing this object to a runtime module. Construction alone does not supply
     the values from the bundled YAML files. ``set()`` returns None; it is not a
@@ -368,7 +373,10 @@ class DCFGYOLOULT(BaseCGF):
     show_boxes : bool
         Parameter show_boxes of YOLO_Ultralytics.
     device : int or str or list[int] or None
-        Device name, GPU index/indices, or the backend's automatic selection.
+        Device name such as ``cpu``, ``cuda:N``, or ``mps``, or GPU index/indices.
+        Empty string or None delegates selection to Ultralytics; the literal
+        ``auto`` is not accepted. The bundled default is GPU index 0. The GUI
+        dropdown is editable, and device availability remains a backend check.
     max_det : int
         Parameter max_det of YOLO_Ultralytics.
     model_file : str
@@ -485,6 +493,9 @@ class DCFGRFDETR(BaseCGF):
     device : int or str
         GPU index 0 (default), ``cpu``, ``cuda``, ``cuda:N``, ``mps``, or
         ``auto``. Integer indices are retained in configuration documents.
+        ``auto`` delegates selection to RF-DETR. The editable GUI dropdown offers
+        presets and accepts typed indexed devices; availability depends on the
+        installed backend and hardware.
     conf : float
         Minimum detection confidence on a 0-1 scale; defaults to 0.4.
     max_det : int
@@ -849,6 +860,11 @@ class TCFGDeepSORT(BaseCGF):
 
     Notes
     -----
+    There is no ``device`` key. TensorFlow places the appearance encoder's
+    operations according to its installed build and available devices; the
+    tracker and assignment run on CPU. The popup's last parameter row shows
+    ``device`` and ``auto by TensorFlow`` before Save.
+
     Call ``set()`` with a complete configuration before reading derived attributes
     or passing this object to a runtime module. Construction alone does not supply
     the values from the bundled YAML files. ``set()`` returns None; it is not a
@@ -933,7 +949,10 @@ class RCFGFaceNet(BaseCGF):
     ri_name : str
         Configured name of reider FaceNet.
     gpu_mem : float
-        Fraction of GPU memory supplied to the TensorFlow session.
+        Fraction of GPU memory supplied to the TensorFlow session. This is not a
+        CPU/GPU selector: placement follows TensorFlow's installed build and
+        available devices. The config has no ``device`` key; the GUI displays
+        ``device`` and ``auto by TensorFlow`` in its last parameter row before Save.
     model_det : str
         Path of the det directory where stores .npy files.
     model_file : str
@@ -1053,6 +1072,11 @@ class RCFGArcFace(BaseCGF):
     resolves paths as other pyppbox configs do. Both networks are loaded lazily.
     ``min_confidence`` applies to the identity SVM, not cosine similarity.
     Preprocessing settings must match the exported embedding checkpoint.
+
+    ``device`` defaults to ``cpu`` and accepts ``cuda`` or ``cuda:N``; numeric GPU
+    indices normalize to ``cuda:N``. The GUI uses an editable CPU/CUDA dropdown.
+    ``mps`` and ``auto`` are rejected. Requested CUDA must initialize successfully
+    for both detector and embedding sessions, with no silent CPU fallback.
     """
     NAME = 'ArcFace'
     DEFAULTS = dict(ri_name='ArcFace',
@@ -1098,7 +1122,11 @@ class RCFGArcFace(BaseCGF):
 
 
 class RCFGAdaFace(RCFGArcFace):
-    """AdaFace ONNX configuration; defaults match the CVLFace RGB IR18 export."""
+    """AdaFace ONNX configuration matching the CVLFace RGB IR18 export.
+
+    Inherit ArcFace's CPU/CUDA selection, index normalization, and editable device
+    dropdown; defaults use CPU and AdaFace-specific model/classifier paths.
+    """
     NAME = 'AdaFace'
     DEFAULTS = dict(RCFGArcFace.DEFAULTS, ri_name='AdaFace',
                     model_det='data/modules/adaface/models/det_10g.onnx',
@@ -1130,8 +1158,11 @@ class RCFGTorchreid(BaseCGF):
         Configured confidence fraction on a 0-1 scale. Reider instances convert
         this to an integer percentage threshold.
     device : str
-        Device name such as cpu, cuda, or cuda:N. Legacy integer GPU indices
-        are normalized to cuda:N before feature-extractor initialization.
+        PyTorch device name such as ``cpu``, ``cuda``, ``cuda:N``, or ``mps``.
+        Integer GPU indices normalize to ``cuda:N`` before feature-extractor
+        initialization. The GUI dropdown is editable; ``auto`` is not accepted.
+        The bundled default is ``cuda``. Additional device names require a
+        compatible PyTorch runtime and hardware.
     base_model_path : str
         Path of a base model corresponding to the pretrained model or :attr:`model_name`.
     model_dict : ``TorchreidModelDict``

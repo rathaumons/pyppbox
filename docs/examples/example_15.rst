@@ -1,5 +1,17 @@
-15. RF-DETR detection and tracking
-==================================
+Example 15: Use RF-DETR detection and SORT tracking
+===================================================
+
+- **Description:** Detect people with RF-DETR and track them with SORT using the same pipeline and Person objects as the earlier examples.
+- **Featuring:**
+   - :py:meth:`~pyppbox.ppb.mt.MT.setMainDetector`
+   - :py:meth:`~pyppbox.ppb.mt.MT.setMainTracker`
+   - :py:meth:`~pyppbox.ppb.mt.MT.detectPeople`
+   - :py:meth:`~pyppbox.ppb.mt.MT.trackPeople`
+   - :py:func:`~pyppbox.utils.visualizetools.visualizePeople`
+
+ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
+
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/dev/examples
 
 ``RF_DETR`` is an optional detector included in pyppbox V4, using the existing
 configuration files, public pipeline, and GUI. Python **3.10+** is required for
@@ -12,9 +24,10 @@ Install into a virtual environment from this checkout::
 For a release package that includes RF-DETR, use ``python -m pip install
 "pyppbox[rfdetr]"``. Earlier published versions do not provide this extra.
 
-Run from the repository root, using its bundled video::
+Then change to the ``examples/`` directory and run with its bundled video::
 
-   python -m examples.example_15_rfdetr --device cpu --frames 30
+   cd examples
+   python example_15_rfdetr.py --device cpu --frames 30
 
 Use ``--device cuda:0`` for a compatible CUDA PyTorch installation. Add ``--show``
 for an annotated video window, or ``--video path/to/video.mp4`` for another clip.
@@ -41,6 +54,11 @@ The existing ``detectors.yaml`` format accepts this additional document:
    person_class_id: 1
    optimize: True
    repspoint_calibration: 0.25
+
+The GUI's device dropdown is editable: select ``0``, ``cpu``, ``cuda:0``, ``mps``,
+or ``auto``, or type another valid GPU index / ``cuda:N`` value. ``auto`` delegates
+selection to RF-DETR. Other modules use their own presets and automatic-selection
+rules; see :ref:`device-selection`.
 
 Like the YOLO defaults, the bundled config selects GPU ``device: 0`` and a local
 checkpoint under ``data/modules``. Place the Nano weights at
@@ -160,10 +178,13 @@ Example source
 --------------
 
 .. literalinclude:: ../../examples/example_15_rfdetr.py
+   :encoding: utf-8
    :language: python
 
 Validation
 ----------
+
+Run the following validation commands from the repository root.
 
 The core suite exercises the adapter, configuration fallback, and pipeline with
 deterministic model boundaries, without downloading RF-DETR::
