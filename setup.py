@@ -1,12 +1,15 @@
 # Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License
 
 
+from pathlib import Path
+
 from setuptools import find_packages, setup
 
 
 def read_requirements():
-    with open("requirements/requirements.txt") as req_txt:
-        return [line for line in req_txt.read().splitlines()]
+    path = Path(__file__).parent / "requirements" / "requirements.txt"
+    with path.open(encoding="utf-8") as req_txt:
+        return [line for raw in req_txt if (line := raw.strip()) and not line.startswith("#")]
 
 def get_version_string():
     version_py = "pyppbox/__init__.py"
@@ -36,7 +39,7 @@ def main_setup():
         version=get_version_string(),
         url="https://github.com/rathaumons/pyppbox",
         license="AGPL-3.0-or-later",
-        license_files=["LICENSE", "NOTICE", "licenses/GPL-3.0.txt"],
+        license_files=["LICENSE", "NOTICE", "licenses/GPL-3.0.txt", "licenses/InsightFace-MIT.txt"],
         description="Toolbox for people detecting, tracking, and re-identifying.",
         long_description=long_description,
         long_description_content_type="text/markdown",
@@ -46,8 +49,6 @@ def main_setup():
         author="Ratha SIV",
         maintainer="rathaROG",
         install_requires=read_requirements(),
-        extras_require={"rfdetr": ["rfdetr>=1.10.0,<1.11.0"],
-                        "faces": ["insightface>=1.0,<3"]},
         keywords=['Toolbox', 'People Detecting', 'People Tracking', 'People Re-Identification'],
         python_requires=">=3.9",
         classifiers=[

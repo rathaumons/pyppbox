@@ -143,7 +143,7 @@ class RFDETRTests(unittest.TestCase):
         with patch.object(sys, 'version_info', (3, 11)):
             automatic = DCFGRFDETR()
             automatic.set({'model_file': ''})
-            with patch.dict(sys.modules, {'rfdetr': None}), self.assertRaisesRegex(ImportError, r'pyppbox\[rfdetr\]'):
+            with patch.dict(sys.modules, {'rfdetr': None}), self.assertRaisesRegex(ImportError, r'pip install -r requirements/rfdetr\.txt'):
                 MyRFDETR(automatic)
             cfg = DCFGRFDETR()
             cfg.set({'model_file': 'does-not-exist-test.pth'})

@@ -45,6 +45,9 @@ jobs:
           python -m build --no-isolation --wheel --sdist
           python tests/check_distributions.py dist
           python -m pip install --no-deps dist/*.whl
+      - name: Verify CPU and GPU face requirements resolve independently
+        if: matrix.python == '3.11' && matrix.numpy == '>=2'
+        run: python tests/check_face_dependencies.py dist/*.whl
       - name: Test installed wheel outside the checkout
         working-directory: ${{ runner.temp }}
         run: |

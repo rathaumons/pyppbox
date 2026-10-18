@@ -34,12 +34,13 @@ def check_distributions(directory):
                              'pyppbox/config/validation.py', 'pyppbox/utils/batching.py', 'pyppbox/utils/runtime.py',
                              'pyppbox/modules/reiders/torchreid/model_dict.py', 'pyppbox/ppb/mt.py',
                              'pyppbox/modules/detectors/rfdetr/__init__.py', 'pyppbox/gui/processes.py',
-                             'pyppbox/modules/reiders/onnxface/__init__.py', 'pyppbox/gui/ui_onnxface.py'):
+                             'pyppbox/modules/reiders/onnxface/__init__.py',
+                             'pyppbox/modules/reiders/onnxface/scrfd.py', 'pyppbox/gui/ui_onnxface.py'):
                 find_file(required)
 
             # Check complete license/notice contents, not just their filenames.
             repo = Path(__file__).resolve().parents[1]
-            for source in ('LICENSE', 'NOTICE', 'licenses/GPL-3.0.txt'):
+            for source in ('LICENSE', 'NOTICE', 'licenses/GPL-3.0.txt', 'licenses/InsightFace-MIT.txt'):
                 packaged = read_file(find_file(PurePosixPath(source).name)).decode('utf-8')
                 expected = (repo / source).read_text(encoding='utf-8')
                 assert packaged.replace('\r\n', '\n') == expected, (artifact, source)
@@ -56,15 +57,22 @@ def check_distributions(directory):
             assert '8.4.144' in yolo[0].specifier, (artifact, yolo)
             assert not any(requirement.name in ('vsensebox-ultralytics', 'ultralytics')
                            for requirement in requirements), artifact
-            rf = [requirement for requirement in requirements if requirement.name == 'rfdetr']
-            assert len(rf) == 1 and rf[0].marker is not None, (artifact, rf)
-            assert not rf[0].marker.evaluate({'extra': ''}), (artifact, rf)
-            assert rf[0].marker.evaluate({'extra': 'rfdetr'}), (artifact, rf)
-            face = [requirement for requirement in requirements if requirement.name == 'insightface']
-            assert len(face) == 1 and face[0].marker is not None, (artifact, face)
-            assert not face[0].marker.evaluate({'extra': ''}), (artifact, face)
-            assert face[0].marker.evaluate({'extra': 'faces'}), (artifact, face)
-            assert '1.10.0' in rf[0].specifier and '1.11.0' not in rf[0].specifier, (artifact, rf)
+            assert not metadata.get_all('Provides-Extra', []), artifact
+            optional_names = {'rfdetr', 'insightface', 'onnxruntime', 'onnxruntime-gpu'}
+            assert not any(requirement.name in optional_names for requirement in requirements), artifact
+            for filename, runtime in (('rfdetr.txt', 'rfdetr'), ('faces.txt', 'onnxruntime'),
+                                      ('faces_gpu.txt', 'onnxruntime-gpu')):
+                source = 'requirements/' + filename
+                expected = [Requirement(line.strip()) for line in (repo / source).read_text().splitlines()
+                            if line.strip() and not line.lstrip().startswith('#')]
+                assert len(expected) == 1 and expected[0].name == runtime, (artifact, filename, expected)
+                if runtime == 'rfdetr':
+                    assert '1.10.0' in expected[0].specifier and '1.11.0' not in expected[0].specifier
+                if not is_wheel:
+                    packaged = read_file(find_file(source)).decode('utf-8')
+                    assert packaged.replace('\r\n', '\n') == (repo / source).read_text(), (artifact, source)
+            if not is_wheel:
+                find_file('requirements/requirements.txt')
             opencv = [requirement for requirement in requirements if requirement.name == 'opencv-contrib-python']
             assert len(opencv) == 1, (artifact, opencv)
             # Installation must retain Darknet support, including on future major releases.
@@ -74,7 +82,9 @@ def check_distributions(directory):
                 assert version not in opencv[0].specifier, (artifact, opencv[0], version)
             assert (metadata['License-Expression'] or metadata['License']) == 'AGPL-3.0-or-later', artifact
             license_files = metadata.get_all('License-File', [])
-            assert {PurePosixPath(name).name for name in license_files} == {'LICENSE', 'NOTICE', 'GPL-3.0.txt'}, (artifact, license_files)
+            assert {PurePosixPath(name).name for name in license_files} == {
+                'LICENSE', 'NOTICE', 'GPL-3.0.txt', 'InsightFace-MIT.txt'
+            }, (artifact, license_files)
 
             launcher = read_file(find_file('pyppbox/gui/ui_launcher.py')).decode('utf-8')
             assert 'PYPPBOX (AGPLV3+)' in launcher and 'PYPPBOX (GPLV3+)' not in launcher, artifact
@@ -92,7 +102,7 @@ def check_distributions(directory):
                 packaged = read_file(find_file(source)).decode('utf-8')
                 assert packaged.replace('\r\n', '\n') == (repo / source).read_text(encoding='utf-8'), (artifact, source)
 
-        print(f'{artifact.name}: code/configs, default YOLO backend, OpenCV bound, AGPL metadata, and third-party notices verified; local plans excluded')
+        print(f'{artifact.name}: code/configs, base-only dependencies, optional requirements files, default YOLO backend, OpenCV bound, AGPL metadata, and third-party notices verified; local plans excluded')
 
 
 if __name__ == '__main__':

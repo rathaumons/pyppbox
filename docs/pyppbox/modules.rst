@@ -33,7 +33,7 @@ presets, runtime requirements, and the OpenCV/TensorFlow automatic-device rows.
        * Runtime: PyTorch; configurable device
    * - RF-DETR
      - ``RF_DETR``
-     - * Integration: optional ``rfdetr`` extra on Python 3.10+
+     - * Integration: optional ``requirements/rfdetr.txt`` on Python 3.10+
        * Models: RF-DETR Nano, Small, Medium, and Large
        * Runtime: PyTorch; configurable device
        * Example: :doc:`../examples/example_15`
@@ -91,14 +91,14 @@ the next module selection.
        * Classifier training: :doc:`../examples/example_12`
    * - ArcFace
      - ``ArcFace``
-     - * Integration: optional ``faces`` extra on Python 3.10+
+     - * Integration: optional ``requirements/faces.txt`` or ``requirements/faces_gpu.txt`` on Python 3.10+
        * Models: SCRFD alignment and local ArcFace R50 ONNX embeddings
        * Runtime: ONNX Runtime on CPU or NVIDIA CUDA; configurable device
        * Identity SVM: separate ArcFace classifier trained with frozen embeddings
        * Examples: :doc:`../examples/example_17`, :doc:`../examples/example_18`
    * - AdaFace
      - ``AdaFace``
-     - * Integration: optional ``faces`` extra on Python 3.10+
+     - * Integration: optional ``requirements/faces.txt`` or ``requirements/faces_gpu.txt`` on Python 3.10+
        * Models: SCRFD alignment and local AdaFace IR18 ONNX embeddings
        * Runtime: ONNX Runtime on CPU or NVIDIA CUDA; configurable device
        * Identity SVM: separate AdaFace classifier trained with frozen embeddings

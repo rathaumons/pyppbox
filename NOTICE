@@ -37,5 +37,18 @@ License: MIT. The full copyright, permission, and warranty notices remain
 in each source file. The pyppbox-owned align.cmd helper in the same
 directory is covered by pyppbox's AGPL notice.
 
+SCRFD inference adapter
+-----------------------
+Location: pyppbox/modules/reiders/onnxface/scrfd.py
+Original author: Jia Guo (insightface.ai), 2021-05-04
+Upstream: https://github.com/deepinsight/insightface
+Source: python-package/insightface/model_zoo/scrfd.py at commit
+81929474ec02e54e3655f6841bced800009c592d
+License: MIT, as stated in the upstream README. Attribution and the full
+permission and warranty terms are included in licenses/InsightFace-MIT.txt.
+Adapted for pyppbox's single-resolution ONNX sessions, including input/output
+validation. Downloads, session factories, and other SDK features are omitted.
+pyppbox's modifications are covered by its AGPL-3.0-or-later license.
+
 External dependencies, model weights, and datasets are governed by their
 own licenses. pyppbox's license change does not alter those licenses.

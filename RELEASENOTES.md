@@ -9,7 +9,7 @@
   - Improve performance and stability in the existing pyppbox pipeline
   - Preserve working V3 configurations and public interfaces, including `pyppbox.standalone`
   - Measure optimizations against the V3.15 correctness baseline
-  - Support optional RF-DETR Nano, Small, Medium, and current Large detection models through `RF_DETR`, with an RF-DETR GUI panel and [Example 15](https://rathaumons.github.io/pyppbox/examples/example_15.html); install `pyppbox[rfdetr]` on Python 3.10+
+  - Support optional RF-DETR Nano, Small, Medium, and current Large detection models through `RF_DETR`, with an RF-DETR GUI panel and [Example 15](https://rathaumons.github.io/pyppbox/examples/example_15.html); install `requirements/rfdetr.txt` with `python -m pip install -r` on Python 3.10+
   - Use all eight [`pyppbox-data` v1.6.0](https://github.com/rathaumons/pyppbox-data/releases/tag/v1.6.0) wheels in installation docs and CI, including RF-DETR, ArcFace, and AdaFace
   - Add optional ArcFace R50 and AdaFace IR18 face recognition with SCRFD alignment, local ONNX models, CPU/CUDA selection, and model-specific identity SVMs; include configuration validation, GUI settings, and examples 16–18
   - Load the v1.6.0 ArcFace/AdaFace data wheels with the internal defaults; reject incompatible classifier/model fingerprints and keep existing FaceNet behavior

@@ -4,7 +4,8 @@
 
 """Run from examples/: python example_15_rfdetr.py --device cpu --frames 30.
 
-Install the optional rfdetr extra first. Pass --checkpoint for local weights;
+Install requirements/rfdetr.txt from the repository root first.
+Pass --checkpoint for local weights;
 an empty checkpoint uses RF-DETR's download/cache. Add --show for a video window.
 """
 

@@ -4,7 +4,7 @@
 # detector: None | YOLO_Classic | YOLO_Ultralytics | RF_DETR | GT
 # tracker: None | Centroid | SORT | DeepSORT
 # reider: None | FaceNet | ArcFace | AdaFace | Torchreid
-# RF_DETR requires pyppbox[rfdetr]; ArcFace/AdaFace require pyppbox[faces].
+# Optional runtimes: requirements/rfdetr.txt and requirements/faces.txt (or faces_gpu.txt).
 # Install the selected module's model/data wheel and update paths in this folder.
 ###########################################################
 detector: YOLO_Ultralytics

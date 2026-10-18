@@ -1,0 +1,3 @@
+# Optional ArcFace/AdaFace inference on CPU.
+# Choose this or faces_gpu.txt; install only one ONNX Runtime distribution.
+onnxruntime>=1.20.2,<2

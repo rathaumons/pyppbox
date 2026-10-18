@@ -1,3 +1,2 @@
 # Optional RF-DETR inference backend; requires Python 3.10+.
-# Keep in sync with setup.py extras_require.
 rfdetr>=1.10.0,<1.11.0

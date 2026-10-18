@@ -50,7 +50,7 @@ class MyRFDETR:
         self.model = None
         try:
             if sys.version_info < (3, 10):
-                raise ImportError('RF_DETR requires Python 3.10+ and pyppbox[rfdetr].')
+                raise ImportError('RF_DETR requires Python 3.10+ and requirements/rfdetr.txt.')
             if cfg.model_file and not Path(cfg.model_file).is_file():
                 raise FileNotFoundError(f'RF_DETR checkpoint not found: {cfg.model_file}')
             try:
@@ -58,7 +58,8 @@ class MyRFDETR:
             except ModuleNotFoundError as error:
                 if error.name != 'rfdetr':
                     raise
-                raise ImportError('RF_DETR is optional. Install it with: pip install "pyppbox[rfdetr]"') from error
+                raise ImportError('RF_DETR is optional. From the pyppbox repository root, run: '
+                                  'python -m pip install -r requirements/rfdetr.txt') from error
             self.cfg = cfg
             model_class = getattr(rfdetr, {
                 'nano': 'RFDETRNano', 'small': 'RFDETRSmall',

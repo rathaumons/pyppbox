@@ -1316,7 +1316,7 @@ class MyCFGHeaders(object):
                 "# model_file: data/modules/yolo_ultralytics/yolov8s-pose.pt\n"
                 "# repspoint_calibration: 0.25\n"
                 "###########################################################\n"
-                "# --- # RF_DETR (optional: pyppbox[rfdetr], Python 3.10+)\n"
+                "# --- # RF_DETR (optional: requirements/rfdetr.txt, Python 3.10+)\n"
                 "# dt_name: RF_DETR\n"
                 "# conf: 0.4\n"
                 "# model_size: nano\n"

@@ -46,10 +46,30 @@ local ONNX embedding model, and a separately trained identity SVM. They use the
 existing ``Person.faceid`` / ``faceid_conf`` fields, crop calibration, duplicate
 pass, configuration APIs, and GUI settings. FaceNet retains its existing behavior.
 
-Install the optional dependencies from this ``dev`` checkout with Python 3.10
-or newer::
+pyppbox includes a small SCRFD inference adapter adapted from InsightFace's
+MIT-licensed code; attribution and terms are included in ``NOTICE`` and
+``licenses/InsightFace-MIT.txt``. The InsightFace Python package is not a runtime
+dependency. The adapter uses the configured ONNX session directly and supports
+float32 NCHW SCRFD models with five landmarks (9 or 15 outputs), including the
+packaged ``det_10g.onnx``. Model weights retain their own licenses.
 
-   python -m pip install ".[faces]"
+pyppbox performs the 112x112 alignment through scikit-image's public
+``estimate_transform('similarity', ...)`` API. It retains the canonical ArcFace
+landmarks and OpenCV warp used by existing classifiers, and supports
+scikit-image 0.20 and newer without calling InsightFace's deprecated alignment
+helper. No dependency source patches or warning filters are needed.
+
+With Python 3.10 or newer, install one face requirements file from the
+repository root. For CPU inference::
+
+   python -m pip install -r requirements/faces.txt
+
+For NVIDIA GPU inference, use the GPU requirements and follow the runtime setup below::
+
+   python -m pip install -r requirements/faces_gpu.txt
+
+These files supplement the base dependencies. Install pyppbox separately as
+described in :ref:`getstarted-page`.
 
 Packaged models and GTA V classifiers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -92,11 +112,41 @@ and ``cuda:0`` presets. CPU is the default. Type ``cuda:N`` or a GPU index for
 another NVIDIA device; indices normalize to ``cuda:N``. These ONNX adapters do
 not accept ``mps`` or ``auto``. See :ref:`device-selection` for all module choices.
 
-The base install provides CPU ONNX Runtime. For NVIDIA inference, use a compatible
-``onnxruntime-gpu`` distribution instead of ``onnxruntime``. Match its CUDA and
-cuDNN requirements to the installed runtime. Requested CUDA initialization errors
-raise instead of silently producing CPU results. See the
+``requirements/faces.txt`` selects ``onnxruntime``; ``requirements/faces_gpu.txt``
+selects ``onnxruntime-gpu``. The requirements do not detect your PyTorch/CUDA version.
+Match the runtime's CUDA and cuDNN requirements to the installed libraries.
+Requested CUDA initialization errors raise instead of silently producing CPU
+results. See the
 `ONNX Runtime CUDA compatibility guide <https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html>`_.
+
+For the Windows PyTorch ``2.5.1+cu121`` setup (CUDA 12.1, cuDNN 9),
+``onnxruntime-gpu==1.20.2`` has been verified with both face reiders. Install
+the GPU requirements with this version::
+
+   python -m pip install -r requirements/faces_gpu.txt "onnxruntime-gpu==1.20.2"
+
+Run this command with the same Python interpreter that launches pyppbox, then
+restart its Python/GUI process. This version is specific to that CUDA setup;
+other environments should select a matching build from the compatibility guide.
+The PyPI ONNX Runtime GPU packages switched to CUDA 13 by default in 1.27.
+Importing a CUDA 12 PyTorch build cannot supply their CUDA 13 libraries.
+
+A fresh installation using ``faces_gpu.txt`` selects only the GPU runtime: no InsightFace
+package, CPU runtime dependency, or post-install cleanup is needed. Choose one
+face requirements file per environment, since CPU and GPU runtimes share an import namespace.
+When switching from CPU, or if both packages are installed, close pyppbox and
+remove both runtimes before reinstalling the GPU requirements::
+
+   python -m pip uninstall -y onnxruntime onnxruntime-gpu
+   python -m pip install -r requirements/faces_gpu.txt
+
+The packages share runtime files; reinstalling after both are removed ensures
+the GPU package is complete. Include any CUDA-compatible version pin in the
+reinstall command, as in the example above, and restart pyppbox afterwards.
+No removal is needed in a fresh environment. The GPU runtime also supports
+``device=cpu``; installing both runtimes is unnecessary. A provider appearing in
+``get_available_providers()`` does not prove that its CUDA libraries can load.
+pyppbox also checks the providers of the actual embedding and detector sessions.
 
 Weights are explicit local files; configuration inspection never downloads or
 loads a model. For ArcFace, select the detector ``det_10g.onnx`` and embedding

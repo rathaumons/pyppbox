@@ -17,7 +17,8 @@ ONNX export. This advanced example reproduces the export using the author's
 CVLFace checkpoint and the original AdaFace architecture. It does not download
 weights or train a network.
 
-Install the ``faces`` extra and ``onnx``, obtain the
+From the repository root, run
+``python -m pip install -r requirements/faces.txt onnx``, obtain the
 `CVLFace IR18 VGG2 checkpoint <https://huggingface.co/minchul/cvlface_adaface_ir18_vgg2>`_,
 and clone the `original AdaFace architecture <https://github.com/mk-minchul/AdaFace>`_.
 Run from the ``examples/`` directory::

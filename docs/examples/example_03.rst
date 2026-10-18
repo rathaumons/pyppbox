@@ -25,8 +25,9 @@ Replace ``C:/pyppbox_v3`` in the module config files with your installed
    reider: ArcFace
 
 Use ``reider: AdaFace`` to select AdaFace instead. The new modules use ``cpu``
-in these sample configs. Install ``.[rfdetr]`` and/or ``.[faces]`` from the
-repository root and obtain the data wheels for the selected modules before
+in these sample configs. Install ``requirements/rfdetr.txt`` and/or
+``requirements/faces.txt`` using ``python -m pip install -r`` from the repository
+root and obtain the data wheels for the selected modules before
 running. ArcFace and AdaFace each need their own model and classifier paths.
 See :doc:`../pyppbox/modules/detectors`, :doc:`../pyppbox/modules/reiders`, and
 :ref:`device-selection` for requirements and device choices.

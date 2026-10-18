@@ -22,7 +22,7 @@
 # model_file: data/modules/yolo_ultralytics/yolov8s-pose.pt
 # repspoint_calibration: 0.25
 ###########################################################
-# --- # RF_DETR (optional: pyppbox[rfdetr], Python 3.10+)
+# --- # RF_DETR (optional: requirements/rfdetr.txt, Python 3.10+)
 # dt_name: RF_DETR
 # conf: 0.4
 # model_size: nano

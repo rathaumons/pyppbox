@@ -189,7 +189,7 @@ def main():
     # are installed instead of requiring a GPU distribution for a CPU benchmark.
     report['versions'] = {}
     for name in ('pyppbox', 'numpy', 'scikit-learn', 'tensorflow', 'onnxruntime',
-                 'onnxruntime-gpu', 'insightface', 'torch'):
+                 'onnxruntime-gpu', 'torch'):
         try:
             report['versions'][name] = importlib.metadata.version(name)
         except importlib.metadata.PackageNotFoundError:

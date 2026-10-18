@@ -1,7 +1,7 @@
 # Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License
 """Optional ArcFace/AdaFace ONNX inference with SCRFD five-point alignment.
 
-Importing this module does not import InsightFace or ONNX Runtime. Models are
+Importing this module does not import ONNX Runtime. Models are
 local files and are never downloaded implicitly. Classifiers are backend- and
 checkpoint-specific; FaceNet pickles cannot be reused.
 """
@@ -12,6 +12,13 @@ from pathlib import Path
 
 import cv2
 import numpy as np
+
+
+# ArcFace's canonical five landmarks for a 112x112 crop. Keep float32 to
+# preserve the alignment used by existing classifier fingerprints.
+_ARCFACE_LANDMARKS = np.array(
+    [[38.2946, 51.6963], [73.5318, 51.5014], [56.0252, 71.7366],
+     [41.5493, 92.3655], [70.7299, 92.2041]], dtype=np.float32)
 
 
 def _sha256(path):
@@ -76,10 +83,13 @@ class ONNXFace:
             return
         try:
             import onnxruntime as ort
-            from insightface.model_zoo.scrfd import SCRFD
         except ImportError as error:
-            raise ImportError('ArcFace/AdaFace require the optional face dependencies: '
-                              'python -m pip install "pyppbox[faces]" (Python 3.10+).') from error
+            raise ImportError('ArcFace/AdaFace require the optional face dependencies. '
+                              'From the pyppbox repository root, run python -m pip install -r '
+                              'requirements/faces.txt for CPU, or use requirements/faces_gpu.txt '
+                              'with matching CUDA/cuDNN for NVIDIA '
+                              '(Python 3.10+).') from error
+        from .scrfd import SCRFD
         self.cfg.validateRuntime()
         options = ort.SessionOptions()
         options.intra_op_num_threads = self.cfg.num_threads
@@ -108,9 +118,7 @@ class ONNXFace:
                 or isinstance(shape[0], int) and shape[0] != 1
                 or inputs[0].type != 'tensor(float)'):
             raise ValueError('Embedding model must accept one NCHW float32 input with shape [N,3,112,112].')
-        detector = SCRFD(model_file=self.cfg.model_det, session=det_session)
-        detector.prepare(ctx_id=index if cuda else -1,
-                         input_size=(self.cfg.det_size, self.cfg.det_size),
+        detector = SCRFD(session=det_session, input_size=(self.cfg.det_size, self.cfg.det_size),
                          det_thresh=self.cfg.det_thresh)
         self.input_name = inputs[0].name
         self.session, self.detector = session, detector
@@ -125,7 +133,7 @@ class ONNXFace:
     def align_face(self, image, is_bgr=True):
         """Return the aligned BGR 112x112 face, or None when detection fails."""
         self._ensure_models()
-        from insightface.utils.face_align import norm_crop
+        from skimage.transform import estimate_transform
         image = self._image(image, is_bgr)
         boxes, points = self.detector.detect(image)
         if not len(boxes):
@@ -133,7 +141,15 @@ class ONNXFace:
         if points is None or np.asarray(points).shape != (len(boxes), 5, 2):
             raise ValueError('Detector must provide five alignment landmarks for each face.')
         areas = (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1])
-        return norm_crop(image, points[int(np.argmax(areas))], image_size=112)
+        landmarks = np.asarray(points)[int(np.argmax(areas))]
+        if not np.isfinite(landmarks).all():
+            raise ValueError('Face alignment landmarks must be finite.')
+        # This public factory supports scikit-image >=0.20, including the
+        # constructor-based API in 0.26+, without calling deprecated methods.
+        transform = estimate_transform('similarity', landmarks, _ARCFACE_LANDMARKS)
+        if not transform or not np.isfinite(transform.params).all():
+            raise ValueError('Cannot estimate face alignment from these landmarks.')
+        return cv2.warpAffine(image, transform.params[:2], (112, 112), borderValue=0.0)
 
     def embed_aligned(self, image, is_bgr=True):
         """Embed an already aligned 112x112 crop; return a normalized vector."""

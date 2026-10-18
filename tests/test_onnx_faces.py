@@ -7,10 +7,12 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import warnings
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 import numpy as np
+import cv2
 from sklearn.svm import SVC
 
 from pyppbox.config.myconfig import RCFGArcFace, RCFGAdaFace, MyConfigurator
@@ -56,6 +58,64 @@ class ONNXFaceTests(unittest.TestCase):
         backend.input_name = 'images'
         backend.session.run.return_value = [np.array([[3., 4.]], dtype=np.float32)]
         return backend
+
+    def test_model_loading_without_insightface(self):
+        embedding, detector = Mock(), Mock()
+        embedding.get_inputs.return_value = [SimpleNamespace(name='face', shape=[1, 3, 112, 112],
+                                                             type='tensor(float)')]
+        detector.get_inputs.return_value = [SimpleNamespace(name='image', shape=[1, 3, 'h', 'w'],
+                                                            type='tensor(float)')]
+        detector.get_outputs.return_value = [SimpleNamespace(name=str(i)) for i in range(9)]
+        ort = SimpleNamespace(SessionOptions=Mock(), InferenceSession=Mock(side_effect=[embedding, detector]))
+        backend = MyArcFace(RCFGArcFace())
+        with patch.dict(sys.modules, {'onnxruntime': ort, 'insightface': None}), \
+                patch.object(RCFGArcFace, 'validateRuntime'):
+            backend._ensure_models()
+        self.assertIs(backend.session, embedding)
+        self.assertIs(backend.detector.session, detector)
+        detector.set_providers.assert_not_called()
+
+    def test_alignment_preserves_crop_and_selects_largest_face_without_insightface(self):
+        canonical = np.array(
+            [[38.2946, 51.6963], [73.5318, 51.5014], [56.0252, 71.7366],
+             [41.5493, 92.3655], [70.7299, 92.2041]], dtype=np.float32)
+        matrix = np.array([[.8, -.6, 30.], [.6, .8, -20.]])
+        landmarks = (canonical - matrix[:, 2]) @ matrix[:, :2]
+        image = np.random.default_rng(7).integers(0, 256, (160, 160, 3), dtype=np.uint8)
+        expected = cv2.warpAffine(image, matrix, (112, 112), borderValue=0.0)
+        for cls in (MyArcFace, MyAdaFace):
+            with self.subTest(backend=cls.NAME):
+                backend = self.fake_backend(cls)
+                backend.detector = Mock()
+                backend.detector.detect.return_value = (
+                    np.array([[0, 0, 10, 10, .9], [0, 0, 150, 150, .8]]),
+                    np.stack([landmarks + 25, landmarks]))
+                with warnings.catch_warnings(), patch.dict(sys.modules, {'insightface': None}):
+                    warnings.simplefilter('error', FutureWarning)
+                    aligned = backend.align_face(image)
+                    rgb_aligned = backend.align_face(image[:, :, ::-1], is_bgr=False)
+                np.testing.assert_array_equal(aligned, expected)
+                np.testing.assert_array_equal(rgb_aligned, expected)
+                np.testing.assert_array_equal(backend.detector.detect.call_args.args[0], image)
+
+    def test_alignment_returns_none_for_no_detection(self):
+        backend = self.fake_backend()
+        backend.detector = Mock()
+        backend.detector.detect.return_value = (np.empty((0, 5)), None)
+        self.assertIsNone(backend.align_face(np.zeros((112, 112, 3), np.uint8)))
+
+    def test_alignment_rejects_missing_nonfinite_and_degenerate_landmarks(self):
+        backend = self.fake_backend()
+        backend.detector = Mock()
+        image = np.zeros((112, 112, 3), np.uint8)
+        for points, message in ((None, 'five alignment'), (np.zeros((1, 4, 2)), 'five alignment'),
+                                (np.full((1, 5, 2), np.nan), 'finite'),
+                                (np.full((1, 5, 2), np.inf), 'finite'),
+                                (np.zeros((1, 5, 2)), 'Cannot estimate')):
+            with self.subTest(message=message):
+                backend.detector.detect.return_value = (np.array([[0, 0, 100, 100, .9]]), points)
+                with self.assertRaisesRegex(ValueError, message):
+                    backend.align_face(image)
 
     def test_preprocessing_channel_order_and_normalization(self):
         for color, expected in [('RGB', [30, 20, 10]), ('BGR', [10, 20, 30])]:

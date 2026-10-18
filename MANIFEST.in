@@ -1,5 +1,6 @@
 include *.md *.in *.toml *.yaml LICENSE NOTICE
 recursive-include licenses *.txt
+include requirements/requirements.txt requirements/rfdetr.txt requirements/faces.txt requirements/faces_gpu.txt
 global-include pyppbox *.*
 exclude .gitignore
 recursive-exclude .git *.*

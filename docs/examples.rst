@@ -7,7 +7,7 @@ wheels first; see :ref:`getstarted-page`.
 
 Examples 1–14 use the existing standalone/direct-module interfaces. Examples
 15–18 require this V4 development checkout on ``dev`` and the dependencies listed
-on their pages. Install optional extras from the repository root before changing
+on their pages. Install optional requirements from the repository root before changing
 directories.
 
 All example scripts use the repository's ``examples/`` directory as their working

@@ -18,7 +18,7 @@ model_path: C:/pyppbox_v3/data/modules/torchreid/models/torchreid/osnet_ain_ms_d
 min_confidence: 0.35
 device: cpu
 ---
-# Optional: pyppbox[faces], Python 3.10+, and the ArcFace data wheel.
+# Optional: requirements/faces.txt (or faces_gpu.txt), Python 3.10+, and the ArcFace data wheel.
 ri_name: ArcFace
 model_det: C:/pyppbox_v3/data/modules/arcface/models/det_10g.onnx
 model_file: C:/pyppbox_v3/data/modules/arcface/models/w600k_r50.onnx
@@ -35,7 +35,7 @@ num_threads: 4
 yl_h_calibration: [-125, 75]
 yl_w_calibration: [-55, 55]
 ---
-# Optional: pyppbox[faces], Python 3.10+, and the AdaFace data wheel.
+# Optional: requirements/faces.txt (or faces_gpu.txt), Python 3.10+, and the AdaFace data wheel.
 ri_name: AdaFace
 model_det: C:/pyppbox_v3/data/modules/adaface/models/det_10g.onnx
 model_file: C:/pyppbox_v3/data/modules/adaface/models/adaface_ir18_vgg2.onnx

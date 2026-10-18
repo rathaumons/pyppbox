@@ -5,8 +5,9 @@
 </div>
 
 Run **all examples from this `examples/` directory**. Install the package, optional
-extras, and required model/data wheels first, following the getting-started guide.
-Install checkout extras such as `.[rfdetr]` or `.[faces]` from the repository root
+module requirements, and required model/data wheels first, following the getting-started guide.
+Install optional requirements with `python -m pip install -r requirements/rfdetr.txt`
+or `python -m pip install -r requirements/faces.txt` from the repository root
 before changing directories.
 
 From the repository root:
@@ -39,7 +40,8 @@ The `cfg/` directory used by example 3 includes all supported modules, including
 `RF_DETR`, `ArcFace`, and `AdaFace`. Select modules in `cfg/main.yaml` and edit
 their parameter blocks in `cfg/detectors.yaml`, `cfg/trackers.yaml`, or
 `cfg/reiders.yaml`. The new modules use CPU in these sample configs. Install
-`.[rfdetr]` for RF-DETR or `.[faces]` for ArcFace/AdaFace, plus the selected
+`requirements/rfdetr.txt` for RF-DETR or `requirements/faces.txt` for ArcFace/AdaFace
+using `python -m pip install -r` from the repository root, plus the selected
 model's data wheel; see their module guides. Each face ReIDer uses its own
 classifier file.
 

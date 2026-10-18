@@ -1,0 +1,4 @@
+# Optional ArcFace/AdaFace inference on NVIDIA GPUs.
+# Choose this instead of faces.txt; the GPU runtime also supports CPU inference.
+# Match ONNX Runtime to your CUDA/cuDNN runtime; see requirements/README.md.
+onnxruntime-gpu>=1.20.2,<2

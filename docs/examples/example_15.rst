@@ -15,14 +15,11 @@ Example 15: Use RF-DETR detection and SORT tracking
 
 ``RF_DETR`` is an optional detector included in pyppbox V4, using the existing
 configuration files, public pipeline, and GUI. Python **3.10+** is required for
-RF-DETR; existing detectors remain usable without installing this extra.
+RF-DETR; existing detectors remain usable without installing this backend.
 
-Install into a virtual environment from this checkout::
+After installing pyppbox, install the optional requirements from the repository root::
 
-   python -m pip install ".[rfdetr]"
-
-For a release package that includes RF-DETR, use ``python -m pip install
-"pyppbox[rfdetr]"``. Earlier published versions do not provide this extra.
+   python -m pip install -r requirements/rfdetr.txt
 
 Then change to the ``examples/`` directory and run with its bundled video::
 
@@ -117,7 +114,7 @@ Alternatively, the optional `pyppbox-data-rfdetr v1.6.0 wheel
 checkpoints under ``{pyppbox root}/data/modules/rf_detr/``, matching the existing
 internal config paths. See :doc:`../getstarted` for installation commands.
 Installing a data wheel does not
-install the RF-DETR runtime; install ``.[rfdetr]`` from the source checkout too.
+install the RF-DETR runtime; install ``requirements/rfdetr.txt`` as shown above too.
 
 For data-package details, see
 `pyppbox-data <https://github.com/rathaumons/pyppbox-data/>`_.
@@ -189,7 +186,7 @@ For the offscreen RF-DETR settings dialog, with PyQt6 installed::
 
    python -m unittest discover -s tests/integration -p test_rfdetr_gui.py -v
 
-For real CPU/CUDA inference, install the RF-DETR extra and set
+For real CPU/CUDA inference, install the RF-DETR requirements above and set
 ``PYPPBOX_RUN_RFDETR=1`` before running::
 
    python -m unittest discover -s tests/integration -p test_rfdetr_model.py -v
