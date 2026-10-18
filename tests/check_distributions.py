@@ -33,7 +33,8 @@ def check_distributions(directory):
             for required in ('pyppbox/config/cfg/main.yaml', 'pyppbox/config/torchreidmodels.py',
                              'pyppbox/config/validation.py', 'pyppbox/utils/batching.py', 'pyppbox/utils/runtime.py',
                              'pyppbox/modules/reiders/torchreid/model_dict.py', 'pyppbox/ppb/mt.py',
-                             'pyppbox/modules/detectors/rfdetr/__init__.py', 'pyppbox/gui/processes.py'):
+                             'pyppbox/modules/detectors/rfdetr/__init__.py', 'pyppbox/gui/processes.py',
+                             'pyppbox/modules/reiders/onnxface/__init__.py', 'pyppbox/gui/ui_onnxface.py'):
                 find_file(required)
 
             # Check complete license/notice contents, not just their filenames.
@@ -59,6 +60,10 @@ def check_distributions(directory):
             assert len(rf) == 1 and rf[0].marker is not None, (artifact, rf)
             assert not rf[0].marker.evaluate({'extra': ''}), (artifact, rf)
             assert rf[0].marker.evaluate({'extra': 'rfdetr'}), (artifact, rf)
+            face = [requirement for requirement in requirements if requirement.name == 'insightface']
+            assert len(face) == 1 and face[0].marker is not None, (artifact, face)
+            assert not face[0].marker.evaluate({'extra': ''}), (artifact, face)
+            assert face[0].marker.evaluate({'extra': 'faces'}), (artifact, face)
             assert '1.10.0' in rf[0].specifier and '1.11.0' not in rf[0].specifier, (artifact, rf)
             opencv = [requirement for requirement in requirements if requirement.name == 'opencv-contrib-python']
             assert len(opencv) == 1, (artifact, opencv)

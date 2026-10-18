@@ -19,6 +19,10 @@ Base Structure of ``pyppbox``
    │           strings.yaml  .............  Internal config file for unified strings
    ├───data  .............................  Internal data directory, pyppbox-data module
    ├───gui
+   │   ├───configwidgets.py  .............  Shared forms, path rows, and device dropdowns
+   │   ├───linklabel.py  .................  Theme-aware launcher link
+   │   ├───ui_launcher.py  ...............  Module selection and demo launcher
+   │   └───ui_*.py  ......................  Module configuration dialogs
    ├───modules  ..........................  All supported detector/trackers/reiders
    │   ├───detectors  ....................  All supported detectors
    │   │   ├───yolocls  ..................  Detector YOLO_Classic
@@ -30,7 +34,8 @@ Base Structure of ``pyppbox``
    │   │   └───deepsort  .................  Tracker DeepSORT
    │   └───reiders  ......................  All supported reiders
    │       ├───facenet  ..................  Reider FaceNet
-   │       └───torchreid  ................  Reider Torchreid
+   │       ├───torchreid  ................  Reider Torchreid
+   │       └───onnxface  .................  Optional ArcFace and AdaFace adapters
    ├───ppb  ..............................  Pipeline API and per-instance MT class
    ├───standalone  .......................  Public facade for the shared pipeline
    └───utils  ............................  Utilities including visualization, evaluation, etc.
@@ -75,9 +80,21 @@ Data: ``pyppbox-data`` and ``pyppbox-data-gta5``
        │               *.mp4
        ├───logs  .........................  Legacy logs, retained for compatibility
        ├───modules  ......................  Data directory, part of pyppbox-data module
+       │   ├───arcface  ..................  Optional pyppbox-data-arcface v1.6.0
+       │   │   ├───classifier
+       │   │   │       gta5.pkl
+       │   │   └───models
+       │   │           det_10g.onnx
+       │   │           w600k_r50.onnx
+       │   ├───adaface  ..................  Optional pyppbox-data-adaface v1.6.0
+       │   │   ├───classifier
+       │   │   │       gta5.pkl
+       │   │   └───models
+       │   │           det_10g.onnx
+       │   │           adaface_ir18_vgg2.onnx
        │   ├───deepsort  .................  Directory, consists of all data for DeepSORT
        │   │       mars-small128.pb
-       │   ├───rf_detr  ..................  Optional pyppbox-data-rfdetr v1.5.0
+       │   ├───rf_detr  ..................  Optional pyppbox-data-rfdetr v1.6.0
        │   │       rf-detr-nano.pth
        │   │       rf-detr-small.pth
        │   │       rf-detr-medium.pth
@@ -118,7 +135,10 @@ another writable location. GUI launch handoffs are isolated per launch; installe
 ``gui/tmp`` files serve only as legacy defaults. Configuration, asset, and explicit
 result-export paths retain their existing behavior.
 
-All six module data wheels use version **1.5.0** for V4; the independently
+All eight module data wheels use version **1.6.0** for V4; the independently
 versioned GTA V dataset is unchanged. See :doc:`../getstarted` for installation and
 :doc:`../examples/example_15` for direct RF-DETR weight downloads. Data wheels
 supply assets only and do not install their inference backends.
+The four ReID data packages also include ``TRAINING.json`` and ``WEIGHTS.json``
+for the five retrained GTA V classifiers. See :doc:`modules/reiders` for
+classifier dependencies and the model-specific ONNX paths.

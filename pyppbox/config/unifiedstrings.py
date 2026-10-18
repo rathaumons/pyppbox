@@ -139,6 +139,8 @@ class UnifiedStrings(object):
         self.centroid = data['centroid']
         # reider
         self.facenet = data['facenet']
+        self.arcface = data.get('arcface', 'arcface')
+        self.adaface = data.get('adaface', 'adaface')
         self.torchreid = data['torchreid']
         # internal
         self.dtname_yl = data['dtname_yl']
@@ -183,6 +185,10 @@ class UnifiedStrings(object):
             res = input_str.title().replace("Deepsort", "DeepSORT")
         elif self.facenet.lower() == input_str.lower():
             res= input_str.title().replace("Facenet", "FaceNet")
+        elif self.arcface.lower() == input_str.lower():
+            res = 'ArcFace'
+        elif self.adaface.lower() == input_str.lower():
+            res = 'AdaFace'
         elif self.torchreid.lower() == input_str.lower():
             res = input_str.title()
         elif self.none.lower() == input_str.lower():

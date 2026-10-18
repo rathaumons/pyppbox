@@ -15,6 +15,11 @@ class MyYOLOULT(object):
     """Class used as a custom layer or interface for interacting with 
     detector module YOLO_Ultralytics which uses .pt model.
 
+    ``cfg.device`` is forwarded to Ultralytics. Use ``cpu``, GPU indices,
+    ``cuda:N``, or another device supported by the installed backend. An empty
+    string or None uses its automatic selection; the literal ``auto`` is not a
+    pyppbox YOLO device value. The settings popup provides an editable dropdown.
+
     Attributes
     ----------
     cfg : pyppbox.config.myconfig.DCFGYOLOULT

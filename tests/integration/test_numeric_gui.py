@@ -144,7 +144,8 @@ class NumericGUIConfigTests(unittest.TestCase):
                 for filename, key in (('detectors.yaml','dt_name'),('trackers.yaml','tk_name'),('reiders.yaml','ri_name')):
                     path=Path(folder)/filename; docs=loadDocumentList(path)
                     for doc in docs:
-                        if doc[key] != 'RF_DETR':  # RF-DETR intentionally rejects unknown options.
+                        # These schemas intentionally reject unknown options.
+                        if doc[key] not in ('RF_DETR', 'ArcFace', 'AdaFace'):
                             doc['extension']={'keep':['001',False,42]}
                     docs.insert(1,{key:'CustomModule','opaque':{'keep':'value'}})
                     dumpDocDictList(path,docs,''); before[filename]=docs

@@ -1,5 +1,5 @@
 # Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License
-"""Published v1.5.0 RF-DETR data wheel and generated custom-head fixtures."""
+"""Published v1.6.0 RF-DETR data wheel and generated custom-head fixtures."""
 import argparse
 import json
 from pathlib import Path
@@ -28,10 +28,10 @@ def main():
     parser.add_argument('--video',type=Path,required=True)
     args=parser.parse_args()
     root=args.directory.resolve(); root.mkdir(parents=True,exist_ok=True)
-    wheel_name='pyppbox_data_rfdetr-1.5.0-py3-none-any.whl'
+    wheel_name='pyppbox_data_rfdetr-1.6.0-py3-none-any.whl'
     wheel=root/wheel_name
-    download('https://github.com/rathaumons/pyppbox-data/releases/download/v1.5.0/'+wheel_name,
-             wheel,'6b26b811891d5a22fa1481382d74acf457a55362018ecda676942a1cc1d4ffa3')
+    download('https://github.com/rathaumons/pyppbox-data/releases/download/v1.6.0/'+wheel_name,
+             wheel,'da45c05df2167ae2d414ffcc7e2e659ce9fd18c237c83d59ffddaa897538a4d2')
     assets={}
     # Use the shipped inference checkpoints, extracting only named members of
     # the checksum-verified wheel into the benchmark's own directory.
@@ -68,7 +68,7 @@ def main():
     assets['video']=dict(path=str(video),sha256=sha256(video))
     target=root/'assets.json'
     manifest=dict(assets=assets,archive_sha256=sha256(wheel),
-                  archive_url='https://github.com/rathaumons/pyppbox-data/releases/tag/v1.5.0')
+                  archive_url='https://github.com/rathaumons/pyppbox-data/releases/tag/v1.6.0')
     target.write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
     print(target)
 

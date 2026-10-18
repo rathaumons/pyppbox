@@ -14,6 +14,8 @@ deepsort: deepsort
 centroid: centroid
 # reider
 facenet: facenet
+arcface: arcface
+adaface: adaface
 torchreid: torchreid
 # internal
 dtname_yl: DYL

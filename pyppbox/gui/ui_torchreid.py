@@ -2,6 +2,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.gui.configwidgets import config_form, device_dropdown
 from pyppbox.gui.numericwidgets import FloatSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
@@ -64,7 +65,6 @@ class Ui_Torchreid(object):
         self.dr_classifier_pkl_label.setObjectName("dr_classifier_pkl_label")
         self.dr_model_path_lineEdit = QtWidgets.QLineEdit(torchreid_ui)
         self.dr_model_path_lineEdit.setGeometry(QtCore.QRect(110, 100, 241, 21))
-        self.dr_model_path_lineEdit.setReadOnly(True)
         self.dr_model_path_lineEdit.setObjectName("dr_model_path_lineEdit")
         self.dr_train_data_pushButton = QtWidgets.QPushButton(torchreid_ui)
         self.dr_train_data_pushButton.setGeometry(QtCore.QRect(360, 40, 21, 24))
@@ -89,14 +89,12 @@ class Ui_Torchreid(object):
         self.dr_train_data_label.setObjectName("dr_train_data_label")
         self.dr_train_data_lineEdit = QtWidgets.QLineEdit(torchreid_ui)
         self.dr_train_data_lineEdit.setGeometry(QtCore.QRect(110, 40, 241, 21))
-        self.dr_train_data_lineEdit.setReadOnly(True)
         self.dr_train_data_lineEdit.setObjectName("dr_train_data_lineEdit")
         self.dr_classifier_pkl_pushButton = QtWidgets.QPushButton(torchreid_ui)
         self.dr_classifier_pkl_pushButton.setGeometry(QtCore.QRect(360, 10, 21, 24))
         self.dr_classifier_pkl_pushButton.setObjectName("dr_classifier_pkl_pushButton")
         self.dr_classifier_pkl_lineEdit = QtWidgets.QLineEdit(torchreid_ui)
         self.dr_classifier_pkl_lineEdit.setGeometry(QtCore.QRect(110, 10, 241, 21))
-        self.dr_classifier_pkl_lineEdit.setReadOnly(True)
         self.dr_classifier_pkl_lineEdit.setObjectName("dr_classifier_pkl_lineEdit")
         self.dr_devices_label = QtWidgets.QLabel(torchreid_ui)
         self.dr_devices_label.setGeometry(QtCore.QRect(10, 160, 91, 16))
@@ -104,13 +102,22 @@ class Ui_Torchreid(object):
                                         QtCore.Qt.AlignmentFlag.AlignTrailing|
                                         QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.dr_devices_label.setObjectName("dr_devices_label")
-        self.dr_device_lineEdit = QtWidgets.QLineEdit(torchreid_ui)
-        self.dr_device_lineEdit.setGeometry(QtCore.QRect(110, 160, 241, 21))
+        self.dr_device_comboBox = device_dropdown(torchreid_ui, ['cpu', 'cuda', 'cuda:0', 'mps'])
+        self.dr_device_comboBox.setObjectName('dr_device_comboBox')
+        self.dr_device_lineEdit = self.dr_device_comboBox.lineEdit()
         self.dr_device_lineEdit.setObjectName("dr_device_lineEdit")
         self.retranslateUi(torchreid_ui)
         # custom
         self.md = TorchreidModelDict()
         self.loadDR()
+        config_form(torchreid_ui, [
+            (self.dr_classifier_pkl_label, self.dr_classifier_pkl_lineEdit, self.dr_classifier_pkl_pushButton),
+            (self.dr_train_data_label, self.dr_train_data_lineEdit, self.dr_train_data_pushButton),
+            (self.dr_model_name_label, self.dr_model_name_lineEdit),
+            (self.dr_model_path_label, self.dr_model_path_lineEdit, self.dr_model_path_pushButton),
+            (self.dr_min_confidence_label, self.dr_min_confidence_spinBox),
+            (self.dr_devices_label, self.dr_device_comboBox),
+        ], self.save_pushButton)
         self.dr_classifier_pkl_pushButton.clicked.connect(self.browseClassifierPKL)
         self.dr_train_data_pushButton.clicked.connect(self.browseTrainData)
         self.dr_model_path_pushButton.clicked.connect(self.browseModelPath)
@@ -139,7 +146,7 @@ class Ui_Torchreid(object):
         self.dr_model_name_lineEdit.setText(str(self.mycfg.rcfg_torchreid.model_name))
         self.dr_model_path_lineEdit.setText(getAbsPathFDS(self.mycfg.rcfg_torchreid.model_path))
         self.dr_min_confidence_spinBox.setValue(self.mycfg.rcfg_torchreid.min_confidence)
-        self.dr_device_lineEdit.setText(str(self.mycfg.rcfg_torchreid.device))
+        self.dr_device_comboBox.setCurrentText(str(self.mycfg.rcfg_torchreid.device))
 
     def updateCFG(self, torchreid_ui):
         device = self.dr_device_lineEdit.text().strip()

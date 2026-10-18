@@ -1,3 +1,4 @@
+# Replace C:/pyppbox_v3 with your installed pyppbox directory.
 dt_name: YOLO_Classic
 nms: 0.7
 conf: 0.4
@@ -15,6 +16,17 @@ show_boxes: False
 device: 0
 max_det: 100
 model_file: C:/pyppbox_v3/data/modules/yolo_ultralytics/yolov8s-pose.pt
+repspoint_calibration: 0.25
+---
+# Optional: pyppbox[rfdetr], Python 3.10+, and RF-DETR Nano weights.
+dt_name: RF_DETR
+conf: 0.4
+model_size: nano
+device: cpu
+max_det: 100
+model_file: C:/pyppbox_v3/data/modules/rf_detr/rf-detr-nano.pth
+person_class_id: 1
+optimize: true
 repspoint_calibration: 0.25
 ---
 dt_name: GT

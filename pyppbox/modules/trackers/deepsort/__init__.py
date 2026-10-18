@@ -23,6 +23,11 @@ from .origin.tracker import Tracker as DSTracker
 class MyDeepSORT(object):
 
     """Class used as a custom layer or interface for interacting with DeepSORT tracker.
+
+    TensorFlow selects the appearance encoder's device according to its installed
+    build and available hardware. Tracking and assignment run on CPU. There is no
+    ``device`` config key; the popup's last parameter row shows ``device`` and
+    ``auto by TensorFlow`` before Save.
     """
 
     def __init__(self, cfg):

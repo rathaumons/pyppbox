@@ -2,6 +2,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.gui.configwidgets import config_form
 from pyppbox.gui.numericwidgets import IntSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
@@ -48,6 +49,9 @@ class Ui_Centroid(object):
         self.retranslateUi(centroid_ui)
         # custom 
         self.loadCT()
+        config_form(centroid_ui, [
+            (self.ct_max_distance_label, self.ct_max_distance_spinBox),
+        ], self.save_pushButton)
         self.save_pushButton.clicked.connect(lambda: self.updateCFG(centroid_ui))
         QtCore.QMetaObject.connectSlotsByName(centroid_ui)
 

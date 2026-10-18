@@ -13,6 +13,10 @@ from pyppbox.utils.persontools import Person, findRepspoint, findRepspointBB
 class MyRFDETR:
     """Adapt RF-DETR boxes to pyppbox's existing detector and Person interfaces.
 
+    The editable GUI device field accepts CPU, CUDA/indexed GPU, MPS, and
+    ``auto`` settings. Integer indices are passed as ``cuda:N``; ``auto`` leaves
+    selection to RF-DETR. The installed backend and hardware determine availability.
+
     Attributes
     ----------
     cfg : pyppbox.config.myconfig.DCFGRFDETR

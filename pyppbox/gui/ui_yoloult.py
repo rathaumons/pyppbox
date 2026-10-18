@@ -2,6 +2,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.gui.configwidgets import config_form, device_dropdown
 from pyppbox.gui.numericwidgets import FloatSpinBox, IntSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
@@ -83,8 +84,10 @@ class Ui_YOLOULT(object):
                                       QtCore.Qt.AlignmentFlag.AlignTrailing|
                                       QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.boxes_label.setObjectName("boxes_label")
-        self.device_lineEdit = QtWidgets.QLineEdit(parent=yoloult_ui)
-        self.device_lineEdit.setGeometry(QtCore.QRect(110, 130, 241, 21))
+        self.device_comboBox = device_dropdown(yoloult_ui, ['0', 'cpu', 'cuda:0', 'mps'])
+        self.device_comboBox.setObjectName('device_comboBox')
+        self.device_comboBox.setToolTip('Leave empty for automatic selection, or choose/type a device.')
+        self.device_lineEdit = self.device_comboBox.lineEdit()
         self.device_lineEdit.setObjectName("device_lineEdit")
         self.save_pushButton = QtWidgets.QPushButton(parent=yoloult_ui)
         self.save_pushButton.setGeometry(QtCore.QRect(150, 260, 91, 31))
@@ -98,7 +101,6 @@ class Ui_YOLOULT(object):
         self.model_file_lineEdit = QtWidgets.QLineEdit(parent=yoloult_ui)
         self.model_file_lineEdit.setGeometry(QtCore.QRect(110, 190, 241, 21))
         self.model_file_lineEdit.setObjectName("model_file_lineEdit")
-        self.model_file_lineEdit.setReadOnly(True)
         self.repspoint_calib_label = QtWidgets.QLabel(parent=yoloult_ui)
         self.repspoint_calib_label.setGeometry(QtCore.QRect(10, 220, 91, 16))
         self.repspoint_calib_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
@@ -121,6 +123,16 @@ class Ui_YOLOULT(object):
         self.retranslateUi(yoloult_ui)
         # custom 
         self.loadYLUTLT()
+        config_form(yoloult_ui, [
+            (self.conf_label, self.conf_spinBox),
+            (self.iou_label, self.iou_spinBox),
+            (self.imgsz_label, self.imgsz_spinBox),
+            (self.boxes_label, self.boxes_comboBox),
+            (self.devices_label, self.device_comboBox),
+            (self.max_det_label, self.max_det_spinBox),
+            (self.model_file_label, self.model_file_lineEdit, self.model_file_pushButton),
+            (self.repspoint_calib_label, self.repspoint_calib_spinBox),
+        ], self.save_pushButton)
         self.model_file_pushButton.clicked.connect(self.browseModelFile)
         self.save_pushButton.clicked.connect(lambda: self.updateCFG(yoloult_ui))
         QtCore.QMetaObject.connectSlotsByName(yoloult_ui)
@@ -147,7 +159,7 @@ class Ui_YOLOULT(object):
         self.conf_spinBox.setValue(self.mycfg.dcfg_yolout.conf)
         self.iou_spinBox.setValue(self.mycfg.dcfg_yolout.iou)
         self.imgsz_spinBox.setValue(self.mycfg.dcfg_yolout.imgsz)
-        self.device_lineEdit.setText(str(self.mycfg.dcfg_yolout.device))
+        self.device_comboBox.setCurrentText(str(self.mycfg.dcfg_yolout.device))
         self.max_det_spinBox.setValue(self.mycfg.dcfg_yolout.max_det)
         self.model_file_lineEdit.setText(getAbsPathFDS(self.mycfg.dcfg_yolout.model_file))
         self.repspoint_calib_spinBox.setValue(self.mycfg.dcfg_yolout.repspoint_calibration)

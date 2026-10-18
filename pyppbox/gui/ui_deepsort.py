@@ -2,6 +2,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pyppbox.gui.configwidgets import config_form
 from pyppbox.gui.numericwidgets import FloatSpinBox, OptionalIntSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
@@ -48,7 +49,6 @@ class Ui_DeepSORT(object):
         self.ds_cosine_distance_label.setObjectName("ds_cosine_distance_label")
         self.ds_model_file_lineEdit = QtWidgets.QLineEdit(deepsort_ui)
         self.ds_model_file_lineEdit.setGeometry(QtCore.QRect(110, 100, 241, 21))
-        self.ds_model_file_lineEdit.setReadOnly(True)
         self.ds_model_file_lineEdit.setObjectName("ds_model_file_lineEdit")
         self.ds_nn_budget_spinBox = OptionalIntSpinBox(deepsort_ui)
         self.ds_nn_budget_spinBox.setGeometry(QtCore.QRect(110, 10, 241, 21))
@@ -82,6 +82,12 @@ class Ui_DeepSORT(object):
         self.retranslateUi(deepsort_ui)
         # custom 
         self.loadDS()
+        config_form(deepsort_ui, [
+            (self.ds_nn_budget_label, self.ds_nn_budget_spinBox),
+            (self.ds_max_overlap_label, self.ds_max_overlap_spinBox),
+            (self.ds_cosine_distance_label, self.ds_cosine_distance_spinBox),
+            (self.ds_model_file_label, self.ds_model_file_lineEdit, self.ds_model_file_pushButton),
+        ], self.save_pushButton, automatic_device='TensorFlow')
         self.ds_model_file_pushButton.clicked.connect(self.browseModelFile)
         self.save_pushButton.clicked.connect(lambda: self.updateCFG(deepsort_ui))
         QtCore.QMetaObject.connectSlotsByName(deepsort_ui)

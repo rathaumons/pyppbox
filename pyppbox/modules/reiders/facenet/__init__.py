@@ -36,6 +36,11 @@ class MyFaceNet(object):
     with ``auto_load=True``. Loading creates a TensorFlow session and loads MTCNN,
     FaceNet weights, and the classifier pickle with its ordered class names.
 
+    TensorFlow selects devices using its installed build and available hardware;
+    there is no ``device`` config key. ``cfg.gpu_mem`` controls the session's GPU
+    memory fraction, not CPU/GPU selection. The GUI's last parameter row shows
+    ``device`` and ``auto by TensorFlow`` before Save.
+
     Attributes
     ----------
     sess : object

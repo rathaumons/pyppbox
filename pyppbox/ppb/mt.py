@@ -17,7 +17,7 @@ from pyppbox.config.myconfig import (
     MyConfigurator, NoneCFG,
     DCFGYOLOCLS, DCFGYOLOULT, DCFGRFDETR, DCFGGT,
     TCFGCentroid, TCFGSORT, TCFGDeepSORT, 
-    RCFGFaceNet, RCFGTorchreid, 
+    RCFGFaceNet, RCFGTorchreid, RCFGArcFace, RCFGAdaFace,
 )
 
 # Classes & tools
@@ -154,7 +154,8 @@ class MT(object):
                 'Centroid': (TCFGCentroid, 'tcfg_centroid'), 'SORT': (TCFGSORT, 'tcfg_sort'),
                 'DeepSORT': (TCFGDeepSORT, 'tcfg_deepsort')}),
             'ri': ('ri_name', 'reider', 'setAllRCFG', {
-                'FaceNet': (RCFGFaceNet, 'rcfg_facenet'), 'Torchreid': (RCFGTorchreid, 'rcfg_torchreid')})}
+                'FaceNet': (RCFGFaceNet, 'rcfg_facenet'), 'Torchreid': (RCFGTorchreid, 'rcfg_torchreid'),
+                'ArcFace': (RCFGArcFace, 'rcfg_arcface'), 'AdaFace': (RCFGAdaFace, 'rcfg_adaface')})}
         key, selection, loader, classes = specs[stage]
         configured = self.__cfg_is_set__ if configured is None else configured
         if isConfigInput(value):
@@ -209,6 +210,10 @@ class MT(object):
             from pyppbox.modules.trackers.deepsort import MyDeepSORT as factory
         elif name == 'FaceNet':
             from pyppbox.modules.reiders.facenet import MyFaceNet as factory
+        elif name == 'ArcFace':
+            from pyppbox.modules.reiders.onnxface import MyArcFace as factory
+        elif name == 'AdaFace':
+            from pyppbox.modules.reiders.onnxface import MyAdaFace as factory
         elif name == 'Torchreid':
             from pyppbox.modules.reiders.torchreid import MyTorchreid as factory
         else:
@@ -690,7 +695,7 @@ class MT(object):
         ----------
         reider : str or dict or list
             Defaults to ``""``. An empty string uses the selected main configuration.
-            A supported name (FaceNet, Torchreid, or "None") loads settings from ``reiders.yaml`` in the
+            A supported name (FaceNet, ArcFace, AdaFace, Torchreid, or "None") loads settings from ``reiders.yaml`` in the
             selected directory, defaulting to the internal directory. Alternatively,
             provide a complete dictionary, inline YAML/JSON mapping, YAML/JSON file path,
             or legacy list containing one mapping. Custom paths within a mapping resolve
@@ -798,7 +803,7 @@ class MT(object):
         return res, tuple(reid_count)
 
     def __reidNormal__(self, img, people):
-        if self.__ri_cfg__.ri_name.lower() == self.__unistrings__.facenet:
+        if self.__ri_cfg__.ri_name in ('FaceNet', 'ArcFace', 'AdaFace'):
             return self.__reidFaceNormal__(img, people)
         elif self.__ri_cfg__.ri_name.lower() == self.__unistrings__.torchreid:
             return self.__reidDeepNormal__(img, people)
@@ -806,7 +811,7 @@ class MT(object):
             return self.__reidEmpty__(img, people)
 
     def __reidDupkiller__(self, img, people):
-        if self.__ri_cfg__.ri_name.lower() == self.__unistrings__.facenet:
+        if self.__ri_cfg__.ri_name in ('FaceNet', 'ArcFace', 'AdaFace'):
             return self.__reidDupFacekiller__(img, people)
         elif self.__ri_cfg__.ri_name.lower() == self.__unistrings__.torchreid:
             return self.__reidDupDeepkiller__(img, people)
@@ -1008,7 +1013,7 @@ class MT(object):
         config, configured = self._select_stage('ri', reider, candidate_cfg)
         config = copy(config)
         if config.ri_name == 'None':
-            raise ValueError('Classifier training requires FaceNet or Torchreid.')
+            raise ValueError('Classifier training requires FaceNet, ArcFace, AdaFace, or Torchreid.')
         if train_data != "":
             if not isExist(train_data):
                 add_error_log(f"---PYPPBOX : train_data='{train_data}' does not exist.")

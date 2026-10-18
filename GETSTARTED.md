@@ -2,7 +2,7 @@
 
 Installing `pyppbox` is very easy and straightforward. You can install it from [PyPI](https://pypi.org/project/pyppbox/) directly or use the prebuilt `.whl` files on [GitHub releases](https://github.com/rathaumons/pyppbox/releases) or install from GitHub directly or build it from source on your own machine. However, in order to get it work, you need to install all the necessary dependencies or requirements for the modules you need.
 
-This checkout contains **pyppbox V4 (4.0.0)**. For source installation, use the `main` branch. Existing V3 projects can keep their configuration files; see the [V4 upgrade guide](https://rathaumons.github.io/pyppbox/pyppbox/v4.html) for compatibility and runtime changes.
+This checkout contains **pyppbox V4 development** on `dev`. The package version remains **3.15.0** until the release bump. Existing V3 projects can keep their configuration files; see the [V4 upgrade guide](https://rathaumons.github.io/pyppbox/pyppbox/v4.html) for compatibility and runtime changes.
 
 
 ## ⚙️ Requirements
@@ -60,7 +60,7 @@ You need to install the main package which is `pyppbox` and the data for the mod
     ``` 
   - Or install directly from GitHub:
     ```
-    pip install git+https://github.com/rathaumons/pyppbox.git
+    pip install git+https://github.com/rathaumons/pyppbox.git@dev
     ```
   - Or build from source:
     ```
@@ -77,18 +77,28 @@ You need to install the main package which is `pyppbox` and the data for the mod
 
   **RF-DETR weights:** [Nano](https://storage.googleapis.com/rfdetr/nano_coco/checkpoint_best_regular.pth), [Small](https://storage.googleapis.com/rfdetr/small_coco/checkpoint_best_regular.pth), [Medium](https://storage.googleapis.com/rfdetr/medium_coco/checkpoint_best_regular.pth), [Large](https://storage.googleapis.com/rfdetr/rf-detr-large-2026.pth). Nano/Small/Medium downloads have the same server filename; save them separately as `rf-detr-nano.pth`, `rf-detr-small.pth`, and `rf-detr-medium.pth`. Keep Large as `rf-detr-large-2026.pth`. [Example 15](https://rathaumons.github.io/pyppbox/examples/example_15.html#downloading-pretrained-weights) lists filenames, destinations, offline setup, and custom class IDs. Roboflow's [pretrained aliases](https://docs.roboflow.com/models/pretrained-aliases#rf-detr) describe its Inference service; pyppbox loads these local PyTorch checkpoints through `rfdetr`.
 
+* (Optional, V4) Install ArcFace and AdaFace from the `dev` checkout on Python 3.10+:
+  ```
+  python -m pip install ".[faces]"
+  ```
+  Earlier pyppbox releases do not include these adapters. Install either face data wheel below, then select `ArcFace` or `AdaFace` in the GUI or with `setMainReIDer()`. Each wheel supplies its own detector, embedding model, and identity classifier; CPU is the default. See [face recognizer setup](https://rathaumons.github.io/pyppbox/pyppbox/modules/reiders.html#arcface-and-adaface) for inference, training, CUDA configuration, and model terms.
+
 * Install [`pyppbox-data-xxx`](https://github.com/rathaumons/pyppbox-data/)
-  - V4 uses the published **[v1.5.0](https://github.com/rathaumons/pyppbox-data/releases/tag/v1.5.0)** data wheels. Install only the modules you need. The backend extra and data wheel are separate: the RF-DETR data wheel supplies weights, not the `rfdetr` Python runtime.
+  - V4 uses all eight **[v1.6.0](https://github.com/rathaumons/pyppbox-data/releases/tag/v1.6.0)** module data wheels. Install only the modules you need. Data wheels supply assets; install the `rfdetr` or `faces` runtime extra separately when using those adapters. The data version is independent of the pyppbox package version.
   - Download from the release above or install directly:
     ```
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.5.0/pyppbox_data_yolocls-1.5.0-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.5.0/pyppbox_data_yoloult-1.5.0-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.5.0/pyppbox_data_rfdetr-1.5.0-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.5.0/pyppbox_data_deepsort-1.5.0-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.5.0/pyppbox_data_facenet-1.5.0-py3-none-any.whl
-    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.5.0/pyppbox_data_torchreid-1.5.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.6.0/pyppbox_data_yolocls-1.6.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.6.0/pyppbox_data_yoloult-1.6.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.6.0/pyppbox_data_rfdetr-1.6.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.6.0/pyppbox_data_deepsort-1.6.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.6.0/pyppbox_data_facenet-1.6.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.6.0/pyppbox_data_torchreid-1.6.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.6.0/pyppbox_data_arcface-1.6.0-py3-none-any.whl
+    pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.6.0/pyppbox_data_adaface-1.6.0-py3-none-any.whl
     ```
   - Each wheel has a matching `.whl.sha256` file on the release page for download verification.
+  - The five packaged identity SVMs (FaceNet, both Torchreid variants, ArcFace, and AdaFace) were retrained for this release. Their training versions are recorded below for provenance. The general pyppbox configuration/API support remains Python 3.9–3.13.
+  - Training used Python 3.11.16, NumPy 2.4.6, SciPy 1.17.1, scikit-image 0.26.0, scikit-learn 1.9.0, TensorFlow 2.21.0, and PyTorch 2.5.1+cu121. ArcFace/AdaFace also used ONNX Runtime GPU 1.20.2 and InsightFace 2.1. TensorFlow served FaceNet on CPU; Torchreid and the ONNX face models used CUDA. These are training-environment versions, not dependencies installed by the data wheels. Each ReID payload includes `TRAINING.json` and `WEIGHTS.json` with provenance and hashes.
 
 * Install [`pyppbox-data-gta5`](https://github.com/rathaumons/PoseTReID_DATASET#-introducing-pyppbox-data-gta5)
   - Download the latest from [releases](https://github.com/rathaumons/PoseTReID_DATASET/releases) or install directly:
@@ -106,12 +116,13 @@ You need to install the main package which is `pyppbox` and the data for the mod
     <img src="https://raw.githubusercontent.com/rathaROG/screenshot/master/pyppbox/pyppbox_gui.jpg">
   - For related GUI functions and other configurations, check the [Configurations page](https://rathaumons.github.io/pyppbox/pyppbox/config.html).
   - Check the [Examples page](https://rathaumons.github.io/pyppbox/examples.html) for some real coding!
-  - ⚠️ ***ATTENTION*** ⚠️
-    * If you use ***YOLO Ultralytics*** without GPU/CUDA, you must set `cpu` as string for the parameter `device` in its configuration.
-    * The same for ***Torchreid*** without GPU/CUDA, you must set `cpu` as string for the parameter `device` in its configuration.
+  - Device settings:
+    * RF-DETR, YOLO Ultralytics, Torchreid, ArcFace, and AdaFace have editable device dropdowns. Choose a preset or type a supported value such as `cuda:1`; presets reflect each backend's capabilities.
+    * Select `cpu` when using a module without its GPU runtime. The bundled RF-DETR and YOLO Ultralytics defaults request GPU index `0`; Torchreid defaults to `cuda`, while ArcFace/AdaFace default to `cpu`.
+    * YOLO Classic, FaceNet, and DeepSORT show a final read-only `device` row before Save: `auto by OpenCV` or `auto by TensorFlow`. FaceNet's `gpu_mem` controls GPU memory allocation, not CPU/GPU selection.
+    * See [GUI and device selection](https://rathaumons.github.io/pyppbox/pyppbox/config.html#device-selection) for presets, typed values, automatic selection, and hardware/runtime requirements. Selecting a preset does not install a GPU backend.
 
 * Troubleshooting
-  - If loading a ReID classifier reports `InconsistentVersionWarning`, recreate the environment used to train it or retrain it in the current environment. [Scikit-learn does not support loading models across different versions](https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations). [Example 12](https://rathaumons.github.io/pyppbox/examples/example_12.html) retrains the bundled GTA V classifiers and overwrites their configured `.pkl` files.
   - For ***macOS***, if the GUI does not work, you may try Python 3.11 as suggested in Prerequisite section above.
   - For ***Linux***, if the GUI does not work, you might need to install these:
     ```

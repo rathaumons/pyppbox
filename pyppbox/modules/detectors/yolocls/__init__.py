@@ -19,6 +19,13 @@ class MyYOLOCLS(object):
         YOLO_Classic.
     model : ``cv::dnn::DetectionModel``
         A detection model object of OpenCV's deep learning network.
+
+    Notes
+    -----
+    Device selection is automatic. The GUI's last parameter row shows ``device``
+    and ``auto by OpenCV`` before Save.
+    OpenCV's CUDA DNN backend is selected when it reports a CUDA-enabled device;
+    otherwise the default CPU backend is used. There is no ``device`` config key.
     """
 
     def __init__(self, cfg):

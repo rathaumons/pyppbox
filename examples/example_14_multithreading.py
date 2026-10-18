@@ -26,7 +26,7 @@ def ppb_task(input, main_configs, name="Task"):
                 reidentified_people,
                 show_reid=reid_count
             )
-            cv2.imshow("pyppbox: example_13_multithreading.py (" + name + ")", visualized_mat)
+            cv2.imshow("pyppbox: example_14_multithreading.py (" + name + ")", visualized_mat)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
         else:

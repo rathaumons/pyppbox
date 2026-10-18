@@ -1,17 +1,44 @@
 💡 Examples
 ===========
 
-The examples below will help you make the most use of **pyppbox**. Before you try these examples, make sure you already installed **pyppbox V3+** or check :ref:`getstarted-page` if you haven't already.
+The examples below demonstrate **pyppbox** configuration, detection, tracking,
+ReID, evaluation, and optional modules. Install the package and required model/data
+wheels first; see :ref:`getstarted-page`.
 
-ℹ️ Source code and **required input files** are available here: `{pyppbox repo}/examples`_.
+Examples 1–14 use the existing standalone/direct-module interfaces. Examples
+15–18 require this V4 development checkout on ``dev`` and the dependencies listed
+on their pages. Install optional extras from the repository root before changing
+directories.
 
-.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
+All example scripts use the repository's ``examples/`` directory as their working
+directory. From the repository root::
 
-Run examples 1–14 with the repository's ``examples/`` directory as the working directory.
-The optional RF-DETR example 15 runs as a module from the repository root.
-Examples 3, 4, 5, 11, and 13 contain ``C:/pyppbox_v3/`` placeholders in their scripts
-or custom configs; replace these with your installed ``pyppbox`` directory. Find it
-with ``python -c "import os, pyppbox; print(os.path.dirname(pyppbox.__file__))"``.
+   cd examples
+   python example_01_basic.py
+
+For the newer command-line examples, use the same working directory::
+
+   python example_15_rfdetr.py --device cpu --frames 30
+   python example_16_export_adaface_onnx.py --help
+   python example_17_benchmark_faces.py --help
+   python example_18_onnx_face_reid.py --help
+
+Relative ``data/``, ``cfg/``, ``single_config/``, configuration-file, and output
+paths resolve from this working directory. Examples 3, 4, 5, 11, and 13 contain
+``C:/pyppbox_v3/`` placeholders in their scripts or custom configs; replace these
+with your installed ``pyppbox`` directory. Find it with::
+
+   python -c "import os, pyppbox; print(os.path.dirname(pyppbox.__file__))"
+
+Example 12 retrains FaceNet and both Torchreid classifiers; example 18 handles
+ArcFace/AdaFace classifier training. The v1.6.0 training environment and model
+requirements are documented in :doc:`pyppbox/modules/reiders`. Device settings
+and automatic selection are described in :ref:`device-selection`.
+
+ℹ️ Source code and **required input files** are available here:
+`{pyppbox repo}/examples`_.
+
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/dev/examples
 
 .. toctree::
    :maxdepth: 1
@@ -31,6 +58,9 @@ with ``python -c "import os, pyppbox; print(os.path.dirname(pyppbox.__file__))"`
    examples/example_13
    examples/example_14
    examples/example_15
+   examples/example_16
+   examples/example_17
+   examples/example_18
 
 |
 
