@@ -17,9 +17,9 @@ cd examples
 python example_01_basic.py
 ```
 
-Examples 1–14 cover the existing configuration, detection, tracking, ReID,
-evaluation, direct-module, and multithreading interfaces. Examples 15–18 require
-the V4 development checkout on `dev`:
+Examples 1–14 cover configuration, detection, tracking, ReID, evaluation,
+direct-module, and multithreading interfaces. Example 12 also includes the V4
+ArcFace/AdaFace reiders. Examples 15–18 cover additional V4 workflows:
 
 | Example | Purpose | Run from `examples/` |
 | --- | --- | --- |
@@ -45,6 +45,10 @@ using `python -m pip install -r` from the repository root, plus the selected
 model's data wheel; see their module guides. Each face ReIDer uses its own
 classifier file.
 
-Example 12 overwrites the configured FaceNet and both Torchreid GTA V classifiers.
-Use example 18 for ArcFace/AdaFace identity classifiers. Neural-network weights
-remain frozen during identity-classifier training.
+Example 12 retrains five GTA V identity classifiers: FaceNet, Torchreid OSNet-AIN,
+Torchreid OSNet, ArcFace, and AdaFace. It overwrites their configured classifier
+files; change the output paths to keep the supplied files, or remove entries from
+the training loop to select specific reiders. The two ONNX reiders default to CPU;
+install their optional runtime and data wheels first. Example 18 demonstrates
+training and recognizing a face with a custom ArcFace/AdaFace configuration.
+Neural-network weights remain frozen during identity-classifier training.

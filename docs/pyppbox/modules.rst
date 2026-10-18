@@ -95,6 +95,7 @@ the next module selection.
        * Models: SCRFD alignment and local ArcFace R50 ONNX embeddings
        * Runtime: ONNX Runtime on CPU or NVIDIA CUDA; configurable device
        * Identity SVM: separate ArcFace classifier trained with frozen embeddings
+       * Classifier training: :doc:`../examples/example_12`
        * Examples: :doc:`../examples/example_17`, :doc:`../examples/example_18`
    * - AdaFace
      - ``AdaFace``
@@ -102,6 +103,7 @@ the next module selection.
        * Models: SCRFD alignment and local AdaFace IR18 ONNX embeddings
        * Runtime: ONNX Runtime on CPU or NVIDIA CUDA; configurable device
        * Identity SVM: separate AdaFace classifier trained with frozen embeddings
+       * Classifier training: :doc:`../examples/example_12`
        * Examples: :doc:`../examples/example_16`, :doc:`../examples/example_17`, :doc:`../examples/example_18`
 
 ArcFace and AdaFace use their respective v1.6.0 data wheels for the supplied
