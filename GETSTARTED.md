@@ -31,6 +31,7 @@ Existing V3 projects can keep their configuration files when upgrading to V4; se
   - For CPU-only on any platform, the Setup section below installs the base dependencies. Install any optional module requirements listed below as needed.
   - For GPU (CUDA) on ***Windows***:
     - Run the `cmd` installer [`install_req_py3_cuda121.cmd`](https://github.com/rathaumons/pyppbox/blob/main/requirements/install_req_py3_cuda121.cmd) (Or [`install_req_py3_cuda.cmd`](https://github.com/rathaumons/pyppbox/blob/main/requirements/install_req_py3_cuda.cmd) for CUDA 11.8)
+    - For a fresh V4 setup on Windows with Python 3.10–3.12 and CUDA 12.1, use [`install_v4_req_py3_cuda121.cmd`](https://github.com/rathaumons/pyppbox/blob/main/requirements/install_v4_req_py3_cuda121.cmd) instead; it also includes RF-DETR, ArcFace, and AdaFace.
     - These scripts install CUDA-enabled **PyTorch**. FaceNet and DeepSORT use **TensorFlow**: native Windows GPU support ended with TensorFlow 2.10. For newer TensorFlow GPU builds, follow the [official Linux/WSL2 instructions](https://www.tensorflow.org/install/pip); installing CUDA-enabled PyTorch does not enable TensorFlow GPU support.
   - For GPU (CUDA) on ***Linux***:
     - Install the CUDA version of [TensorFlow](https://www.tensorflow.org/install) and [PyTorch](https://pytorch.org/get-started/locally/).
