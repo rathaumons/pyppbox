@@ -3,7 +3,7 @@
 ###########################################################
 # detector: None | YOLO_Classic | YOLO_Ultralytics | RF_DETR | GT
 # tracker: None | Centroid | SORT | DeepSORT
-# reider: None | FaceNet | Torchreid
+# reider: None | FaceNet | ArcFace | AdaFace | Torchreid
 ###########################################################
 detector: YOLO_Classic
 tracker: SORT

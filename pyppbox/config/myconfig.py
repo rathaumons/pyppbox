@@ -1046,6 +1046,66 @@ class RCFGFaceNet(BaseCGF):
         return dict(self.config, **facenet_doc)
 
 
+class RCFGArcFace(BaseCGF):
+    """Optional ONNX face recognizer with explicit local detector and weights.
+
+    ``set`` overlays defaults, validates without loading inference libraries, and
+    resolves paths as other pyppbox configs do. Both networks are loaded lazily.
+    ``min_confidence`` applies to the identity SVM, not cosine similarity.
+    Preprocessing settings must match the exported embedding checkpoint.
+    """
+    NAME = 'ArcFace'
+    DEFAULTS = dict(ri_name='ArcFace',
+                    model_det='data/modules/arcface/models/det_10g.onnx',
+                    model_file='data/modules/arcface/models/w600k_r50.onnx',
+                    classifier_pkl='data/modules/arcface/classifier/gta5.pkl',
+                    train_data='data/datasets/GTA_V_DATASET/face_182x182', min_confidence=0.75,
+                    device='cpu', det_size=320, det_thresh=0.5,
+                    input_color='RGB', input_mean=127.5, input_std=127.5,
+                    num_threads=4, yl_h_calibration=[-125, 75], yl_w_calibration=[-55, 55])
+
+    def __init__(self, relative_to_pyppbox_root=False):
+        super().__init__()
+        self.from_dir = internal_root_dir if relative_to_pyppbox_root else ''
+        self.set({})
+
+    def set(self, input):
+        supplied = getCFGDict(input)
+        unknown = set(supplied) - set(self.DEFAULTS)
+        if unknown:
+            raise ValueError(f'Unknown {self.NAME} configuration keys: {sorted(unknown)}')
+        values = validate_config(type(self).__name__, dict(self.DEFAULTS, **supplied), self.unified_strings)
+        values['ri_name'] = self.unified_strings.getUnifiedFormat(values['ri_name'])
+        if values['ri_name'] != self.NAME:
+            raise ValueError(f'ri_name must be {self.NAME}.')
+        if values['device'] != 'cpu' and not values['device'].startswith('cuda'):
+            raise ValueError('device must be cpu, cuda, or cuda:N for ONNX face recognition.')
+        if values['det_size'] % 32:
+            raise ValueError('det_size must be a positive multiple of 32.')
+        for field in ('model_det', 'model_file', 'classifier_pkl', 'train_data'):
+            if not values[field]:
+                raise ValueError(f'{field} must be a nonempty path.')
+            values[field] = getAdaptiveAbsPathFDS(self.from_dir, values[field])
+        # Publish only after every field has passed validation.
+        self.__dict__.update(values)
+        self.config = self.getDocument()
+
+    def getDocument(self):
+        result = {field: getattr(self, field) for field in self.DEFAULTS}
+        for field in ('model_det', 'model_file', 'classifier_pkl', 'train_data'):
+            result[field] = normalizePathFDS(internal_root_dir, result[field])
+        return result
+
+
+class RCFGAdaFace(RCFGArcFace):
+    """AdaFace ONNX configuration; defaults match the CVLFace RGB IR18 export."""
+    NAME = 'AdaFace'
+    DEFAULTS = dict(RCFGArcFace.DEFAULTS, ri_name='AdaFace',
+                    model_det='data/modules/adaface/models/det_10g.onnx',
+                    model_file='data/modules/adaface/models/adaface_ir18_vgg2.onnx',
+                    classifier_pkl='data/modules/adaface/classifier/gta5.pkl')
+
+
 class RCFGTorchreid(BaseCGF):
 
     """A class used to store the necessary configurations of reider Torchreid.
@@ -1189,7 +1249,7 @@ class MyCFGHeaders(object):
                 "###########################################################\n"
                 "# detector: None | YOLO_Classic | YOLO_Ultralytics | RF_DETR | GT\n"
                 "# tracker: None | Centroid | SORT | DeepSORT\n"
-                "# reider: None | FaceNet | Torchreid\n"
+                "# reider: None | FaceNet | ArcFace | AdaFace | Torchreid\n"
                 "###########################################################\n")
         return header
 
@@ -1477,7 +1537,7 @@ class MyConfigurator(PYPPBOXStructure):
             selected = self.mcfg.config[stage]
             supported = {'detector': ('YOLO_Classic', 'YOLO_Ultralytics', 'RF_DETR', 'GT', 'None'),
                          'tracker': ('Centroid', 'SORT', 'DeepSORT', 'None'),
-                         'reider': ('FaceNet', 'Torchreid', 'None')}
+                         'reider': ('FaceNet', 'ArcFace', 'AdaFace', 'Torchreid', 'None')}
             if selected not in supported[stage]:
                 raise ValueError(f'main.yaml: unsupported {stage} selection: {selected}.')
             documents = loadDocumentList(filename)
@@ -1702,9 +1762,13 @@ class MyConfigurator(PYPPBOXStructure):
         """
         if isinstance(relative_to_pyppbox_root, bool):
             self.rcfg_facenet = RCFGFaceNet(relative_to_pyppbox_root)
+            self.rcfg_arcface = RCFGArcFace(relative_to_pyppbox_root)
+            self.rcfg_adaface = RCFGAdaFace(relative_to_pyppbox_root)
             self.rcfg_torchreid = RCFGTorchreid(relative_to_pyppbox_root)
         elif relative_to_pyppbox_root is None:
             self.rcfg_facenet = RCFGFaceNet(self.relative_to_pyppbox_root)
+            self.rcfg_arcface = RCFGArcFace(self.relative_to_pyppbox_root)
+            self.rcfg_adaface = RCFGAdaFace(self.relative_to_pyppbox_root)
             self.rcfg_torchreid = RCFGTorchreid(self.relative_to_pyppbox_root)
         else:
             msg = "MyConfigurator : setAllRCFG() -> 'relative_to_pyppbox_root' is not valid."
@@ -1721,6 +1785,10 @@ class MyConfigurator(PYPPBOXStructure):
                 if d['ri_name'].lower() == self.unified_strings.facenet:
                     self.rcfg_facenet.set(d)
                     self.ri_map.append(self.rcfg_facenet.ri_name)
+                elif d['ri_name'].lower() in (self.unified_strings.arcface, self.unified_strings.adaface):
+                    config = getattr(self, 'rcfg_' + d['ri_name'].lower())
+                    config.set(d)
+                    self.ri_map.append(config.ri_name)
                 elif d['ri_name'].lower() == self.unified_strings.torchreid:
                     self.rcfg_torchreid.set(d)
                     self.ri_map.append(self.rcfg_torchreid.ri_name)
@@ -1794,6 +1862,11 @@ class MyConfigurator(PYPPBOXStructure):
                 if cfg['ri_name'].lower() == self.unified_strings.facenet:
                     self.rcfg_facenet = RCFGFaceNet(relative_to_pyppbox_root)
                     self.rcfg_facenet.set(cfg)
+                elif cfg['ri_name'].lower() in (self.unified_strings.arcface, self.unified_strings.adaface):
+                    cls = RCFGArcFace if cfg['ri_name'].lower() == self.unified_strings.arcface else RCFGAdaFace
+                    config = cls(relative_to_pyppbox_root)
+                    config.set(cfg)
+                    setattr(self, 'rcfg_' + cfg['ri_name'].lower(), config)
                 elif cfg['ri_name'].lower() == self.unified_strings.torchreid:
                     self.rcfg_torchreid = RCFGTorchreid(relative_to_pyppbox_root)
                     self.rcfg_torchreid.set(cfg)
@@ -1902,7 +1975,7 @@ class MyConfigurator(PYPPBOXStructure):
         classes = {'YOLO_Classic': DCFGYOLOCLS, 'YOLO_Ultralytics': DCFGYOLOULT,
                    'RF_DETR': DCFGRFDETR, 'GT': DCFGGT, 'Centroid': TCFGCentroid,
                    'SORT': TCFGSORT, 'DeepSORT': TCFGDeepSORT, 'FaceNet': RCFGFaceNet,
-                   'Torchreid': RCFGTorchreid}
+                   'Torchreid': RCFGTorchreid, 'ArcFace': RCFGArcFace, 'AdaFace': RCFGAdaFace}
         for document in documents:
             if not isinstance(document.get(key), str) or not document[key].strip():
                 raise ValueError(f'{key} must be a nonempty module name.')

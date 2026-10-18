@@ -1,9 +1,9 @@
 V4 upgrade guide
 ================
 
-**pyppbox v4.0.0** follows **v3.15.0**, the final V3 release. It adds RF-DETR and
-performance/stability improvements while retaining the existing config formats.
-Source installation uses the ``main`` branch. See
+**V4 development** is on ``dev``. The package version remains **3.15.0** until
+release. This checkout adds RF-DETR, ArcFace/AdaFace, and performance/stability
+improvements while retaining the existing config formats. See
 :doc:`../releasenotes` for the complete implemented changes.
 
 Existing projects and configurations
@@ -11,7 +11,7 @@ Existing projects and configurations
 
 Existing YAML/JSON files, dictionary inputs, module names, path rules, Person
 attributes, and public facades remain supported. There is no config schema
-migration. Old config directories gain RF-DETR defaults in memory without being
+migration. Old config directories gain RF-DETR and ArcFace/AdaFace defaults in memory without being
 rewritten. GUI saves retain unknown extension fields and other module documents.
 Validation now diagnoses invalid values or missing selected assets before model
 initialization. A grouped config save supports rollback and explicit recovery;
@@ -26,15 +26,31 @@ RF-DETR and model data
 --------------------------
 
 RF-DETR supports Nano, Small, Medium, and current Large detection checkpoints.
-Install the runtime extra separately from the optional data wheel. All six module
-data wheels are available in the `v1.5.0 release
-<https://github.com/rathaumons/pyppbox-data/releases/tag/v1.5.0>`_, including
-``pyppbox-data-rfdetr``; GTA V data
+Install the runtime extra separately from the optional data wheel. All eight module
+data wheels use the `v1.6.0 release
+<https://github.com/rathaumons/pyppbox-data/releases/tag/v1.6.0>`_, including
+``pyppbox-data-rfdetr``, ``pyppbox-data-arcface``, and ``pyppbox-data-adaface``; GTA V data
 keeps its independent version. The RF-DETR wheel populates the standard
 ``data/modules/rf_detr`` paths, or you can browse to individual downloaded weights
 or use automatic caching. :doc:`../examples/example_15` provides direct downloads,
 filenames, class IDs, and offline instructions. CPU use requires ``device: cpu``;
 the shipped detector default remains GPU index 0.
+
+ArcFace, AdaFace, and identity classifiers
+------------------------------------------
+
+Install ``.[faces]`` from this checkout and either v1.6.0 face data wheel. Each
+contains its own SCRFD detector, embedding model, and GTA V identity classifier.
+``setMainReIDer('ArcFace')`` or ``setMainReIDer('AdaFace')`` then uses the bundled
+paths. Both default to CPU; CUDA requires a compatible ONNX Runtime GPU build.
+The existing FaceNet and Torchreid interfaces are retained. See
+:doc:`modules/reiders` for direct inference, training, model terms, and thresholds.
+
+All five v1.6.0 identity SVMs were retrained: FaceNet, Torchreid OSNet-AIN and
+OSNet, ArcFace, and AdaFace. Training used scikit-learn 1.9.0 on Python 3.11.16.
+Training versions, datasets, and hashes are included in each ReID
+payload's ``TRAINING.json`` and ``WEIGHTS.json``. Embedding/detector weights were
+preserved; these are five-character GTA V classifiers, not general identity lists.
 
 Pipeline ownership and cleanup
 ------------------------------

@@ -20,6 +20,7 @@ from ui_centroid import Ui_Centroid
 from ui_sort import Ui_SORT
 from ui_deepsort import Ui_DeepSORT
 from ui_facenet import Ui_FaceNet
+from ui_onnxface import Ui_ONNXFace
 from ui_torchreid import Ui_Torchreid
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
 from pyppbox.gui.guihub import loadUITMP, loadInputTMP, writeInputTMP, _gui_session
@@ -449,6 +450,10 @@ class Ui_PYPPBOXLauncher(object):
             tmp_QDialog.exec()
         elif self.reider_comboBox.currentText().lower() == self.mycfg.unified_strings.torchreid:
             ui = Ui_Torchreid(self.cfg_mode, self.cfg_dir)
+            ui.setupUi(tmp_QDialog)
+            tmp_QDialog.exec()
+        elif self.reider_comboBox.currentText() in ('ArcFace', 'AdaFace'):
+            ui = Ui_ONNXFace(self.cfg_mode, self.cfg_dir, self.reider_comboBox.currentText())
             ui.setupUi(tmp_QDialog)
             tmp_QDialog.exec()
         elif self.reider_comboBox.currentText().lower() == self.mycfg.unified_strings.none:

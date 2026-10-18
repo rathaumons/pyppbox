@@ -94,10 +94,10 @@ your working directory with::
    curl -L --fail -o rf-detr-nano.pth https://storage.googleapis.com/rfdetr/nano_coco/checkpoint_best_regular.pth
 
 Browse to the file in the RF-DETR settings panel and select its matching size.
-Alternatively, the optional `pyppbox-data-rfdetr v1.5.0 wheel
-<https://github.com/rathaumons/pyppbox-data/releases/download/v1.5.0/pyppbox_data_rfdetr-1.5.0-py3-none-any.whl>`_ installs all four
+Alternatively, the optional `pyppbox-data-rfdetr v1.6.0 wheel
+<https://github.com/rathaumons/pyppbox-data/releases/download/v1.6.0/pyppbox_data_rfdetr-1.6.0-py3-none-any.whl>`_ installs all four
 checkpoints under ``{pyppbox root}/data/modules/rf_detr/``, matching the existing
-internal config paths. See :doc:`../getstarted` for the six v1.5.0 data-wheel
+internal config paths. See :doc:`../getstarted` for all eight v1.6.0 data-wheel
 installation commands and download checksum files. Installing a data wheel does not
 install the RF-DETR runtime; install ``.[rfdetr]`` from the source checkout too.
 

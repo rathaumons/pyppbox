@@ -177,7 +177,7 @@ jobs:
         with:
           path: ${{ runner.temp }}/rfdetr-assets
           key: rfdetr-assets-v1-${{ hashFiles('benchmarks/prepare_rfdetr_assets.py') }}
-      - name: Prepare verified v1.5.0 data wheel and custom-head fixtures
+      - name: Prepare verified v1.6.0 data wheel and custom-head fixtures
         run: |
           python benchmarks/prepare_rfdetr_assets.py --directory "$RUNNER_TEMP/rfdetr-assets" --video examples/data/gta.mp4
           cp "$RUNNER_TEMP/rfdetr-assets/assets.json" "$RUNNER_TEMP/rfdetr-results/assets.json"

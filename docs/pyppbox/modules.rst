@@ -66,6 +66,12 @@ the next module selection.
    |              |                  | * Model: OSNet-AIN, OSNet, MLFN                          |
    |              |                  | * Run on: CPU or GPU (PyTorch)                           |
    +--------------+------------------+----------------------------------------------------------+
+   | ArcFace      | ArcFace          | * Optional SCRFD alignment and local ONNX embeddings     |
+   |              |                  | * CPU or NVIDIA CUDA; separate identity SVM              |
+   +--------------+------------------+----------------------------------------------------------+
+   | AdaFace      | AdaFace          | * Optional AdaFace ONNX export and SCRFD alignment       |
+   |              |                  | * CPU or NVIDIA CUDA; separate identity SVM              |
+   +--------------+------------------+----------------------------------------------------------+
 
 |
 

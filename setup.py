@@ -46,7 +46,8 @@ def main_setup():
         author="Ratha SIV",
         maintainer="rathaROG",
         install_requires=read_requirements(),
-        extras_require={"rfdetr": ["rfdetr>=1.10.0,<1.11.0"]},
+        extras_require={"rfdetr": ["rfdetr>=1.10.0,<1.11.0"],
+                        "faces": ["insightface>=1.0,<3"]},
         keywords=['Toolbox', 'People Detecting', 'People Tracking', 'People Re-Identification'],
         python_requires=">=3.9",
         classifiers=[

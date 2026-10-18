@@ -9,6 +9,9 @@ The examples below will help you make the most use of **pyppbox**. Before you tr
 
 Run examples 1–14 with the repository's ``examples/`` directory as the working directory.
 The optional RF-DETR example 15 runs as a module from the repository root.
+Examples 16–18 cover the optional ArcFace/AdaFace integration and also run from
+the repository root. They require the ``dev`` checkout and ``faces`` extra.
+The v1.6.0 classifier training environment is documented in :doc:`pyppbox/modules/reiders`.
 Examples 3, 4, 5, 11, and 13 contain ``C:/pyppbox_v3/`` placeholders in their scripts
 or custom configs; replace these with your installed ``pyppbox`` directory. Find it
 with ``python -c "import os, pyppbox; print(os.path.dirname(pyppbox.__file__))"``.
@@ -31,6 +34,9 @@ with ``python -c "import os, pyppbox; print(os.path.dirname(pyppbox.__file__))"`
    examples/example_13
    examples/example_14
    examples/example_15
+   examples/example_16
+   examples/example_17
+   examples/example_18
 
 |
 

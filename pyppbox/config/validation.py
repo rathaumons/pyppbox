@@ -15,12 +15,15 @@ _FIELDS = {
     'TCFGDeepSORT': 'tk_name nn_budget nms_max_overlap max_cosine_distance model_file',
     'RCFGFaceNet': 'ri_name gpu_mem model_det model_file classifier_pkl train_data batch_size min_confidence yl_h_calibration yl_w_calibration',
     'RCFGTorchreid': 'ri_name classifier_pkl train_data model_name model_path min_confidence device',
+    'RCFGArcFace': 'ri_name model_det model_file classifier_pkl train_data min_confidence device det_size det_thresh input_color input_mean input_std num_threads yl_h_calibration yl_w_calibration',
+    'RCFGAdaFace': 'ri_name model_det model_file classifier_pkl train_data min_confidence device det_size det_thresh input_color input_mean input_std num_threads yl_h_calibration yl_w_calibration',
 }
 _PATHS = {'class_file', 'model_cfg_file', 'model_weights', 'model_file', 'gt_file',
           'gt_map_file', 'model_det', 'classifier_pkl', 'train_data', 'model_path'}
 _MODULE_NAMES = dict(DCFGYOLOCLS='YOLO_Classic', DCFGYOLOULT='YOLO_Ultralytics', DCFGGT='GT',
                      TCFGCentroid='Centroid', TCFGSORT='SORT', TCFGDeepSORT='DeepSORT',
-                     RCFGFaceNet='FaceNet', RCFGTorchreid='Torchreid')
+                     RCFGFaceNet='FaceNet', RCFGTorchreid='Torchreid',
+                     RCFGArcFace='ArcFace', RCFGAdaFace='AdaFace')
 
 
 def _number(value, field, minimum=None, maximum=None, integer=False):
@@ -89,12 +92,20 @@ def validate_config(class_name, document, unified_strings):
             if not isinstance(path, str) or '\0' in path:
                 raise ValueError(f'{class_name}: {field} must be a path string.')
             result[field] = path
-        elif field in ('conf', 'iou', 'nms', 'iou_threshold', 'nms_max_overlap', 'min_confidence', 'gpu_mem'):
+        elif field in ('conf', 'iou', 'nms', 'iou_threshold', 'nms_max_overlap', 'min_confidence', 'gpu_mem', 'det_thresh'):
             result[field] = _number(value, field, 0, 1)
         elif field in ('max_age', 'min_hits', 'nn_budget'):
             result[field] = None if field == 'nn_budget' and value is None else _number(value, field, 0, integer=True)
-        elif field in ('imgsz', 'model_image_size', 'max_det', 'batch_size'):
+        elif field in ('imgsz', 'model_image_size', 'max_det', 'batch_size', 'det_size', 'num_threads'):
             result[field] = _number(value, field, 1, integer=True)
+        elif field == 'input_color':
+            if not isinstance(value, str) or value.upper() not in ('RGB', 'BGR'):
+                raise ValueError('input_color must be RGB or BGR.')
+            result[field] = value.upper()
+        elif field in ('input_mean', 'input_std'):
+            result[field] = _number(value, field)
+            if field == 'input_std' and result[field] <= 0:
+                raise ValueError('input_std must be positive.')
         elif field in ('repspoint_calibration', 'max_cosine_distance', 'max_spread'):
             # Representative-point offsets may be signed; cosine distances can exceed one.
             result[field] = _number(value, field, None if field == 'repspoint_calibration' else 0)
@@ -103,7 +114,7 @@ def validate_config(class_name, document, unified_strings):
                 raise ValueError(f'{field} must contain two finite signed offsets.')
             result[field] = [_number(v, field) for v in value]
         elif field == 'device':
-            result[field] = _device(value, class_name == 'RCFGTorchreid')
+            result[field] = _device(value, class_name in ('RCFGTorchreid', 'RCFGArcFace', 'RCFGAdaFace'))
         elif field == 'show_boxes':
             if isinstance(value, str) and value.strip().lower() in ('true', 'false'):
                 value = value.strip().lower() == 'true'
@@ -139,3 +150,8 @@ def validate_runtime(config, classifier=False):
                     raise ValueError(f'{name}: model_det is missing {filename}: {path}')
     if name == 'RCFGTorchreid' and any(size <= 0 for size in config.model_wh):
         raise ValueError(f'{name}: model_path has no input dimensions in the Torchreid model catalog: {config.model_path}')
+    if name in ('RCFGArcFace', 'RCFGAdaFace'):
+        required = ('model_det', 'model_file') + (('classifier_pkl',) if classifier else ())
+        for field in required:
+            if not os.path.isfile(getattr(config, field)):
+                raise ValueError(f'{name}: {field} must be an existing file: {getattr(config, field)}')

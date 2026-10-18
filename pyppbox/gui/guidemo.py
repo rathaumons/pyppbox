@@ -43,7 +43,7 @@ gt_map_txt = cfg.dcfg_gt.gt_map_file
 
 # Find id_mode for setGTByGTMap() of MyEVA
 id_mode = "deepid"
-if cfg.mcfg.reider.lower() == cfg.unified_strings.facenet:
+if cfg.mcfg.reider in ('FaceNet', 'ArcFace', 'AdaFace'):
     id_mode = "faceid"
 
 eva.setGTByGTMap(gt_map_txt=gt_map_txt, input_video=input_source, id_mode=id_mode)

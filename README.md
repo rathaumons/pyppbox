@@ -18,5 +18,7 @@
 * Design for both short and long term people detecting, tracking, and re-identifying.
 * Integrate GUI for easy configuration and demo.
 * Support dictionary and YAML/JSON configuration.
+* Optional ArcFace and AdaFace face recognition with ONNX Runtime, SCRFD alignment, and model-specific identity classifiers. See [face recognizer setup](https://rathaumons.github.io/pyppbox/pyppbox/modules/reiders.html).
+* Use the eight [v1.6.0 model data wheels](https://github.com/rathaumons/pyppbox-data/releases/tag/v1.6.0), including the retrained GTA V identity classifiers. See [installation and compatibility](https://rathaumons.github.io/pyppbox/getstarted.html).
 * Support [[GTA_V_Dataset]](https://github.com/rathaumons/PoseTReID_DATASET) -> Real-time online and offline evaluation.
 * Check our papers: 1 [[IEEE]](https://ieeexplore.ieee.org/document/9271712) | 2 [[IEEE]](https://ieeexplore.ieee.org/document/9946587) [[arxiv]](https://doi.org/10.48550/arxiv.2205.10086)
