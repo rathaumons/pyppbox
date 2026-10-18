@@ -4,8 +4,6 @@
 
 * `pyppbox` V4 (unreleased) - Performance and Stability
 
-  Development is on `dev`; the package version remains 3.15.0 until release.
-
   - Improve performance and stability in the existing pyppbox pipeline
   - Preserve working V3 configurations and public interfaces, including `pyppbox.standalone`
   - Measure optimizations against the V3.15 correctness baseline
