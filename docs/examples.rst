@@ -31,8 +31,8 @@ with your installed ``pyppbox`` directory. Find it with::
    python -c "import os, pyppbox; print(os.path.dirname(pyppbox.__file__))"
 
 Example 12 retrains FaceNet and both Torchreid classifiers; example 18 handles
-ArcFace/AdaFace classifier training. The v1.6.0 training environment and model
-requirements are documented in :doc:`pyppbox/modules/reiders`. Device settings
+ArcFace/AdaFace classifier training. Model requirements are documented in
+:doc:`pyppbox/modules/reiders`. Device settings
 and automatic selection are described in :ref:`device-selection`.
 
 ℹ️ Source code and **required input files** are available here:

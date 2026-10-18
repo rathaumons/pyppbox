@@ -139,6 +139,4 @@ All eight module data wheels use version **1.6.0** for V4; the independently
 versioned GTA V dataset is unchanged. See :doc:`../getstarted` for installation and
 :doc:`../examples/example_15` for direct RF-DETR weight downloads. Data wheels
 supply assets only and do not install their inference backends.
-The four ReID data packages also include ``TRAINING.json`` and ``WEIGHTS.json``
-for the five retrained GTA V classifiers. See :doc:`modules/reiders` for
-classifier dependencies and the model-specific ONNX paths.
+See :doc:`modules/reiders` for the model-specific ONNX paths.

@@ -81,18 +81,8 @@ For a cropped face image, use the public backend directly::
    finally:
        backend.close()
 
-Use ``RCFGAdaFace`` and ``MyAdaFace`` for the other model. The packaged classifiers
-identify Amanda, Franklin, Lester, Michael, and Trevor from GTA V. FaceNet used
-2,957 training faces; ArcFace and AdaFace each used 2,949 and skipped eight images
-with no detected face. The two Torchreid classifiers each used 150 body crops.
-These full-dataset training counts are not held-out recognition scores.
-
-All five identity SVMs were trained with scikit-learn 1.9.0 on Python 3.11.16.
-These versions describe the training environment. Training also used
-NumPy 2.4.6, SciPy 1.17.1, scikit-image 0.26.0, TensorFlow 2.21.0, and
-PyTorch 2.5.1+cu121; the ONNX backends used ONNX Runtime GPU 1.20.2 and InsightFace
-2.1. The data wheels install assets only. Per-module ``TRAINING.json`` and
-``WEIGHTS.json`` record training provenance and file hashes.
+Use ``RCFGAdaFace`` and ``MyAdaFace`` for the other model. For packaged model and
+classifier details, see `pyppbox-data <https://github.com/rathaumons/pyppbox-data/>`_.
 
 Device selection and model provenance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -13,8 +13,7 @@ Example 18: Recognize faces and train an ArcFace or AdaFace classifier
 .. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/dev/examples
 
 Install ``.[faces]`` from this checkout and either the ArcFace or AdaFace v1.6.0
-data wheel. The supplied GTA V classifier training environment is documented in
-:doc:`../pyppbox/modules/reiders`.
+data wheel.
 For direct inference with the packaged defaults, see
 :doc:`../pyppbox/modules/reiders`. This command-line example accepts a JSON/YAML
 configuration for custom model paths and identity classifiers.

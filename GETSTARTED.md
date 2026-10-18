@@ -96,9 +96,7 @@ You need to install the main package which is `pyppbox` and the data for the mod
     pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.6.0/pyppbox_data_arcface-1.6.0-py3-none-any.whl
     pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.6.0/pyppbox_data_adaface-1.6.0-py3-none-any.whl
     ```
-  - Each wheel has a matching `.whl.sha256` file on the release page for download verification.
-  - The five packaged identity SVMs (FaceNet, both Torchreid variants, ArcFace, and AdaFace) were retrained for this release. Their training versions are recorded below for provenance. The general pyppbox configuration/API support remains Python 3.9–3.13.
-  - Training used Python 3.11.16, NumPy 2.4.6, SciPy 1.17.1, scikit-image 0.26.0, scikit-learn 1.9.0, TensorFlow 2.21.0, and PyTorch 2.5.1+cu121. ArcFace/AdaFace also used ONNX Runtime GPU 1.20.2 and InsightFace 2.1. TensorFlow served FaceNet on CPU; Torchreid and the ONNX face models used CUDA. These are training-environment versions, not dependencies installed by the data wheels. Each ReID payload includes `TRAINING.json` and `WEIGHTS.json` with provenance and hashes.
+  - [Read more about the data packages](https://github.com/rathaumons/pyppbox-data/).
 
 * Install [`pyppbox-data-gta5`](https://github.com/rathaumons/PoseTReID_DATASET#-introducing-pyppbox-data-gta5)
   - Download the latest from [releases](https://github.com/rathaumons/PoseTReID_DATASET/releases) or install directly:

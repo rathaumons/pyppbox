@@ -115,18 +115,12 @@ Browse to the file in the RF-DETR settings panel and select its matching size.
 Alternatively, the optional `pyppbox-data-rfdetr v1.6.0 wheel
 <https://github.com/rathaumons/pyppbox-data/releases/download/v1.6.0/pyppbox_data_rfdetr-1.6.0-py3-none-any.whl>`_ installs all four
 checkpoints under ``{pyppbox root}/data/modules/rf_detr/``, matching the existing
-internal config paths. See :doc:`../getstarted` for all eight v1.6.0 data-wheel
-installation commands and download checksum files. Installing a data wheel does not
+internal config paths. See :doc:`../getstarted` for installation commands.
+Installing a data wheel does not
 install the RF-DETR runtime; install ``.[rfdetr]`` from the source checkout too.
 
-The data wheel removes optimizer, scheduler, and epoch state from Nano/Small/Medium,
-keeping every model tensor and the architecture/class metadata unchanged. Large's
-published checkpoint is already weights-only. The smaller files produce the same
-inference outputs; this does not change steady-state inference compute. Their
-packaged hashes differ from the direct upstream downloads and are recorded separately
-with the source hashes in ``WEIGHTS.json``. RF-DETR 1.10 may log an original-download
-MD5 warning for these local files; it still loads them without replacing them.
-They cannot resume the original optimizer/scheduler state.
+For data-package details, see
+`pyppbox-data <https://github.com/rathaumons/pyppbox-data/>`_.
 
 For offline use, install the runtime dependencies and data wheel in advance, or
 select an existing local checkpoint. These four complete checkpoints were tested
