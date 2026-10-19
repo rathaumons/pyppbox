@@ -1,7 +1,7 @@
 # Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License
 
 
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 from pyppbox.gui.configwidgets import config_form, device_dropdown
 from pyppbox.gui.numericwidgets import FloatSpinBox, IntSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
@@ -22,67 +22,29 @@ class Ui_YOLOULT(object):
     
     def setupUi(self, yoloult_ui):
         yoloult_ui.setObjectName("yoloult_ui")
-        yoloult_ui.resize(390, 300)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, 
-                                           QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(yoloult_ui.sizePolicy().hasHeightForWidth())
-        yoloult_ui.setSizePolicy(sizePolicy)
-        yoloult_ui.setMinimumSize(QtCore.QSize(390, 300))
-        yoloult_ui.setMaximumSize(QtCore.QSize(390, 300))
         self.max_det_spinBox = IntSpinBox(parent=yoloult_ui)
-        self.max_det_spinBox.setGeometry(QtCore.QRect(110, 160, 241, 21))
         self.max_det_spinBox.setObjectName("max_det_spinBox")
         self.devices_label = QtWidgets.QLabel(parent=yoloult_ui)
-        self.devices_label.setGeometry(QtCore.QRect(10, 130, 91, 16))
-        self.devices_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                        QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                        QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.devices_label.setObjectName("devices_label")
         self.conf_spinBox = FloatSpinBox(parent=yoloult_ui)
-        self.conf_spinBox.setGeometry(QtCore.QRect(110, 10, 241, 21))
         self.conf_spinBox.setObjectName("conf_spinBox")
         self.imgsz_spinBox = IntSpinBox(parent=yoloult_ui)
         self.imgsz_spinBox.setMinimum(1)
         self.imgsz_spinBox.setSingleStep(32)
-        self.imgsz_spinBox.setGeometry(QtCore.QRect(110, 70, 241, 21))
         self.imgsz_spinBox.setObjectName("imgsz_spinBox")
         self.iou_spinBox = FloatSpinBox(parent=yoloult_ui)
-        self.iou_spinBox.setGeometry(QtCore.QRect(110, 40, 241, 21))
         self.iou_spinBox.setObjectName("iou_spinBox")
         self.conf_label = QtWidgets.QLabel(parent=yoloult_ui)
-        self.conf_label.setGeometry(QtCore.QRect(10, 10, 91, 16))
-        self.conf_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                     QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                     QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.conf_label.setObjectName("conf_label")
         self.model_file_pushButton = QtWidgets.QPushButton(parent=yoloult_ui)
-        self.model_file_pushButton.setGeometry(QtCore.QRect(360, 190, 21, 24))
         self.model_file_pushButton.setObjectName("model_file_pushButton")
         self.iou_label = QtWidgets.QLabel(parent=yoloult_ui)
-        self.iou_label.setGeometry(QtCore.QRect(10, 40, 91, 16))
-        self.iou_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                    QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                    QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.iou_label.setObjectName("iou_label")
         self.imgsz_label = QtWidgets.QLabel(parent=yoloult_ui)
-        self.imgsz_label.setGeometry(QtCore.QRect(10, 70, 91, 16))
-        self.imgsz_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                      QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                      QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.imgsz_label.setObjectName("imgsz_label")
         self.max_det_label = QtWidgets.QLabel(parent=yoloult_ui)
-        self.max_det_label.setGeometry(QtCore.QRect(10, 160, 91, 16))
-        self.max_det_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                        QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                        QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.max_det_label.setObjectName("max_det_label")
         self.boxes_label = QtWidgets.QLabel(parent=yoloult_ui)
-        self.boxes_label.setGeometry(QtCore.QRect(10, 100, 91, 16))
-        self.boxes_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                      QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                      QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.boxes_label.setObjectName("boxes_label")
         self.device_comboBox = device_dropdown(yoloult_ui, ['0', 'cpu', 'cuda:0', 'mps'])
         self.device_comboBox.setObjectName('device_comboBox')
@@ -90,35 +52,19 @@ class Ui_YOLOULT(object):
         self.device_lineEdit = self.device_comboBox.lineEdit()
         self.device_lineEdit.setObjectName("device_lineEdit")
         self.save_pushButton = QtWidgets.QPushButton(parent=yoloult_ui)
-        self.save_pushButton.setGeometry(QtCore.QRect(150, 260, 91, 31))
         self.save_pushButton.setObjectName("save_pushButton")
         self.model_file_label = QtWidgets.QLabel(parent=yoloult_ui)
-        self.model_file_label.setGeometry(QtCore.QRect(10, 190, 91, 16))
-        self.model_file_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                           QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                           QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.model_file_label.setObjectName("model_file_label")
         self.model_file_lineEdit = QtWidgets.QLineEdit(parent=yoloult_ui)
-        self.model_file_lineEdit.setGeometry(QtCore.QRect(110, 190, 241, 21))
         self.model_file_lineEdit.setObjectName("model_file_lineEdit")
         self.repspoint_calib_label = QtWidgets.QLabel(parent=yoloult_ui)
-        self.repspoint_calib_label.setGeometry(QtCore.QRect(10, 220, 91, 16))
-        self.repspoint_calib_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                                QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                                QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.repspoint_calib_label.setObjectName("repspoint_calib_label")
         self.repspoint_calib_spinBox = FloatSpinBox(parent=yoloult_ui)
-        self.repspoint_calib_spinBox.setGeometry(QtCore.QRect(110, 220, 241, 21))
         self.repspoint_calib_spinBox.setObjectName("repspoint_calib_spinBox")
         self.boxes_comboBox = QtWidgets.QComboBox(parent=yoloult_ui)
-        self.boxes_comboBox.setGeometry(QtCore.QRect(110, 100, 241, 21))
         self.boxes_comboBox.setObjectName("boxes_comboBox")
         self.boxes_comboBox.addItem("")
         self.boxes_comboBox.addItem("")
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.save_pushButton.setFont(font)
-        self.save_pushButton.setDefault(True)
         self.save_pushButton.setFocus()
         self.retranslateUi(yoloult_ui)
         # custom 

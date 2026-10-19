@@ -11,7 +11,7 @@ Example 3: Set a custom config directory
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 
-.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/dev/examples
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
 
 The ``examples/cfg/`` directory contains configurations for every supported
 detector, tracker, and reider, including ``RF_DETR``, ``ArcFace``, and ``AdaFace``.

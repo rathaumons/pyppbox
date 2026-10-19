@@ -44,14 +44,7 @@ if hasattr(os, 'register_at_fork') and not getattr(__logger__, '_pyppbox_at_fork
 
 # Remove old logs
 def cleanup_old_logs():
-    """Delete pyppbox-named regular log files whose modification time is over one day old.
-
-    Only legacy timestamp names and new timestamp/PID/token names in the current
-    user log directory are eligible. Skip symlinks, directories, current-process
-    logs, and live POSIX owners. Filesystem races/permission errors are harmless.
-    Returns None. Cleanup runs when a file sink is first opened, not at import.
-    Calling this function directly cleans regardless of the file-log toggle.
-    """
+    """Remove pyppbox logs older than one day, skipping symlinks and known live owners."""
     global __log_dir__, __max_age__
     try:
         filenames = os.listdir(__log_dir__)
@@ -256,35 +249,19 @@ def disable_other_loggers():
             disable_this_logger(name=name, level=logging.ERROR)
 
 def disable_terminal_log():
-    """Disable pyppbox's terminal-log default and update the process environment.
-
-    Set ``PYPPBOX_DISABLE_TERMINAL_LOG=1`` so subsequently launched children
-    inherit the choice. Returns None. Explicit per-call terminal-log overrides,
-    ordinary print calls, and messages from third-party libraries are unaffected.
-    """
+    """Disable terminal logging and pass the setting to child processes."""
     global __terminal_log__
     __terminal_log__ = False
     os.environ['PYPPBOX_DISABLE_TERMINAL_LOG'] = "1"
 
 def enable_terminal_log():
-    """Enable pyppbox's terminal-log default and update the process environment.
-
-    Set ``PYPPBOX_DISABLE_TERMINAL_LOG=0`` so subsequently launched children
-    inherit the choice. Returns None. Explicit per-call terminal-log overrides,
-    ordinary print calls, and messages from third-party libraries are unaffected.
-    """
+    """Enable terminal logging and pass the setting to child processes."""
     global __terminal_log__
     __terminal_log__ = True
     os.environ['PYPPBOX_DISABLE_TERMINAL_LOG'] = "0"
 
 def get_terminal_log_status():
-    """Return the current default for pyppbox terminal logging.
-
-    Returns
-    -------
-    bool
-        True when enabled; False when disabled.
-    """
+    """Return whether terminal logging is enabled."""
     global __terminal_log__
     return __terminal_log__
 

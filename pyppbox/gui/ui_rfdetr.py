@@ -1,6 +1,6 @@
 # Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License
 """RF-DETR settings dialog; editing settings does not load the optional backend."""
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 from pyppbox.gui.configwidgets import config_form, device_dropdown
 from pyppbox.gui.numericwidgets import FloatSpinBox, IntSpinBox
 
@@ -17,8 +17,6 @@ class Ui_RFDETR:
         dialog.setObjectName('rfdetr_ui')
         dialog.setWindowTitle('RF-DETR')
         dialog.setFixedSize(390, 300)
-        dialog.setSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed,
-                             QtWidgets.QSizePolicy.Policy.Fixed)
 
         self.model_size_comboBox = QtWidgets.QComboBox(dialog)
         self.model_size_comboBox.addItems(['nano', 'small', 'medium', 'large'])
@@ -60,30 +58,19 @@ class Ui_RFDETR:
             ('repspoint_calib', self.calibration_spinBox),
             ('optimize', self.optimize_comboBox),
         ]
-        for index, (name, field) in enumerate(fields):
-            top = 10 + 30 * index
+        for name, field in fields:
             label = QtWidgets.QLabel(name, dialog)
             label.setObjectName(name + '_label')
-            label.setGeometry(10, top, 91, 16)
-            label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight |
-                               QtCore.Qt.AlignmentFlag.AlignVCenter)
             field.setObjectName(name + '_field')
-            field.setGeometry(110, top, 241, 21)
             label.setBuddy(field)
             setattr(self, name + '_label', label)
 
         self.model_file_pushButton = QtWidgets.QPushButton('...', dialog)
         self.model_file_pushButton.setObjectName('model_file_pushButton')
-        self.model_file_pushButton.setGeometry(360, 160, 21, 24)
         self.model_file_pushButton.setToolTip('Browse for a model checkpoint')
         self.model_file_pushButton.clicked.connect(self.browseModelFile)
         self.save_pushButton = QtWidgets.QPushButton('Save', dialog)
         self.save_pushButton.setObjectName('save_pushButton')
-        self.save_pushButton.setGeometry(150, 260, 91, 31)
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.save_pushButton.setFont(font)
-        self.save_pushButton.setDefault(True)
         self.save_pushButton.setFocus()
         self.save_pushButton.clicked.connect(lambda: self.updateCFG(dialog))
         rows = [(getattr(self, name + '_label'), field, self.model_file_pushButton)

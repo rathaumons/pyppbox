@@ -1,7 +1,7 @@
 # Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License
 
 
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 from pyppbox.gui.configwidgets import config_form
 from pyppbox.gui.numericwidgets import IntSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
@@ -21,31 +21,12 @@ class Ui_Centroid(object):
 
     def setupUi(self, centroid_ui):
         centroid_ui.setObjectName("centroid_ui")
-        centroid_ui.resize(390, 90)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, 
-                                           QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(centroid_ui.sizePolicy().hasHeightForWidth())
-        centroid_ui.setSizePolicy(sizePolicy)
-        centroid_ui.setMinimumSize(QtCore.QSize(390, 90))
-        centroid_ui.setMaximumSize(QtCore.QSize(390, 90))
         self.save_pushButton = QtWidgets.QPushButton(centroid_ui)
-        self.save_pushButton.setGeometry(QtCore.QRect(150, 50, 91, 31))
         self.save_pushButton.setObjectName("save_pushButton")
         self.ct_max_distance_spinBox = IntSpinBox(centroid_ui)
-        self.ct_max_distance_spinBox.setGeometry(QtCore.QRect(110, 10, 241, 21))
         self.ct_max_distance_spinBox.setObjectName("ct_max_distance_spinBox")
         self.ct_max_distance_label = QtWidgets.QLabel(centroid_ui)
-        self.ct_max_distance_label.setGeometry(QtCore.QRect(10, 10, 91, 16))
-        self.ct_max_distance_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                                QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                                QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.ct_max_distance_label.setObjectName("ct_max_distance_label")
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.save_pushButton.setFont(font)
-        self.save_pushButton.setDefault(True)
         self.retranslateUi(centroid_ui)
         # custom 
         self.loadCT()

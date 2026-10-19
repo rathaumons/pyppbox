@@ -1,7 +1,7 @@
 # Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License
 
 
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 from pyppbox.gui.configwidgets import config_form
 from pyppbox.gui.numericwidgets import FloatSpinBox, IntSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
@@ -21,49 +21,20 @@ class Ui_SORT(object):
 
     def setupUi(self, sort_ui):
         sort_ui.setObjectName("sort_ui")
-        sort_ui.resize(390, 150)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, 
-                                           QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(sort_ui.sizePolicy().hasHeightForWidth())
-        sort_ui.setSizePolicy(sizePolicy)
-        sort_ui.setMinimumSize(QtCore.QSize(390, 150))
-        sort_ui.setMaximumSize(QtCore.QSize(390, 150))
         self.save_pushButton = QtWidgets.QPushButton(sort_ui)
-        self.save_pushButton.setGeometry(QtCore.QRect(150, 110, 91, 31))
         self.save_pushButton.setObjectName("save_pushButton")
         self.st_min_hits_label = QtWidgets.QLabel(sort_ui)
-        self.st_min_hits_label.setGeometry(QtCore.QRect(10, 40, 91, 16))
-        self.st_min_hits_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                            QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                            QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.st_min_hits_label.setObjectName("st_min_hits_label")
         self.st_iou_threshold_spinBox = FloatSpinBox(sort_ui)
-        self.st_iou_threshold_spinBox.setGeometry(QtCore.QRect(110, 70, 241, 21))
         self.st_iou_threshold_spinBox.setObjectName("st_iou_threshold_spinBox")
         self.st_min_hits_spinBox = IntSpinBox(sort_ui)
-        self.st_min_hits_spinBox.setGeometry(QtCore.QRect(110, 40, 241, 21))
         self.st_min_hits_spinBox.setObjectName("st_min_hits_spinBox")
         self.st_max_age_label = QtWidgets.QLabel(sort_ui)
-        self.st_max_age_label.setGeometry(QtCore.QRect(10, 10, 91, 16))
-        self.st_max_age_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                           QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                           QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.st_max_age_label.setObjectName("st_max_age_label")
         self.st_iou_threshold_label = QtWidgets.QLabel(sort_ui)
-        self.st_iou_threshold_label.setGeometry(QtCore.QRect(10, 70, 91, 16))
-        self.st_iou_threshold_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                                 QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                                 QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.st_iou_threshold_label.setObjectName("st_iou_threshold_label")
         self.st_max_age_spinBox = IntSpinBox(sort_ui)
-        self.st_max_age_spinBox.setGeometry(QtCore.QRect(110, 10, 241, 21))
         self.st_max_age_spinBox.setObjectName("st_max_age_spinBox")
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.save_pushButton.setFont(font)
-        self.save_pushButton.setDefault(True)
         self.retranslateUi(sort_ui)
         # custom
         self.loadST()

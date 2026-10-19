@@ -1,6 +1,5 @@
 """Config validation and save failures must be caught without loading models."""
 import copy
-import os
 from pathlib import Path
 import shutil
 import tempfile
@@ -108,51 +107,11 @@ class ConfigHardeningTests(unittest.TestCase):
                 cfg.dumpDetectorCFG({'dt_name':'YOLO_Ultralytics','conf':float('nan')})
             self.assertEqual(path.read_bytes(),before)
 
-    def test_multi_file_save_rolls_back_and_cleans_up_on_second_replace_failure(self):
-        with tempfile.TemporaryDirectory() as directory:
-            cfg=self.copy_configs(directory)
-            paths=[Path(cfg.main_yaml),Path(cfg.trackers_yaml)]
-            before=[p.read_bytes() for p in paths]
-            main=tools.loadDocument(paths[0]); main['tracker']='Centroid'
-            trackers=tools.loadDocumentList(paths[1]); trackers[1]['max_age']=7
-            replace=tools.os.replace; calls=[]
-            def failing(source,destination):
-                if str(destination)==str(paths[1].resolve()) and not calls:
-                    calls.append(True); raise OSError('injected second replacement failure')
-                return replace(source,destination)
-            with patch.object(tools.os,'replace',side_effect=failing):
-                with self.assertRaisesRegex(ValueError,'injected second'):
-                    cfg.dumpConfigs(main=main,trackers=trackers)
-            self.assertEqual([p.read_bytes() for p in paths],before)
-            self.assertFalse(list(Path(directory).glob('.pyppbox-save-*')))
-            cfg.dumpConfigs(main=main,trackers=trackers)
-            self.assertEqual(tools.loadDocument(paths[0]), main)
-            self.assertEqual(tools.loadDocumentList(paths[1]),trackers)
-
-    def test_multi_file_serialization_failure_changes_nothing(self):
-        with tempfile.TemporaryDirectory() as directory:
-            cfg=self.copy_configs(directory); path=Path(cfg.main_yaml); before=path.read_bytes()
-            with self.assertRaises(ValueError):
-                cfg.dumpConfigs(main={'detector':'None','tracker':'None','reider':'None'},
-                                trackers=[{'tk_name':'Custom','opaque':object()}])
-            self.assertEqual(path.read_bytes(),before)
-
-    @unittest.skipIf(os.name == 'nt', 'POSIX file modes and symlinks')
-    def test_group_save_preserves_symlinks_and_modes(self):
-        with tempfile.TemporaryDirectory() as directory:
-            cfg=self.copy_configs(directory)
-            path=Path(cfg.main_yaml); target=Path(directory)/'actual-main.yaml'
-            path.rename(target); target.chmod(0o640); path.symlink_to(target)
-            main={'detector':'None','tracker':'None','reider':'None'}
-            cfg.dumpConfigs(main=main,trackers=[self.docs['SORT']])
-            self.assertTrue(path.is_symlink())
-            self.assertEqual(target.stat().st_mode & 0o777,0o640)
-            self.assertEqual(tools.loadDocument(path),main)
 
     def test_empty_main_and_unnamed_documents_cannot_be_saved(self):
         with tempfile.TemporaryDirectory() as directory:
             cfg=m.MyConfigurator(directory)
-            for call in (lambda:cfg.dumpConfigs(main={}),lambda:cfg.dumpMainCFG({}),
+            for call in (lambda:cfg.dumpMainCFG({}),
                          lambda:cfg.dumpAllTCFG([{}])):
                 with self.assertRaises(ValueError):
                     call()
@@ -180,56 +139,6 @@ class ConfigHardeningTests(unittest.TestCase):
             self.assertEqual(cfg.dcfg_rfdetr.model_size,'nano')
             self.assertEqual(tools.loadDocumentList(cfg.detectors_yaml),[])
 
-    def test_interrupted_save_recovers_and_failed_rollback_retains_backups(self):
-        for interrupted in (True, False):
-            with self.subTest(interrupted=interrupted), tempfile.TemporaryDirectory() as directory:
-                cfg=self.copy_configs(directory)
-                original={p.name:p.read_bytes() for p in Path(directory).glob('*.yaml')}
-                main=tools.loadDocument(cfg.main_yaml); main['tracker']='Centroid'
-                trackers=tools.loadDocumentList(cfg.trackers_yaml); trackers[1]['max_age']=7
-                replace=tools.os.replace
-                class Interrupted(BaseException):
-                    pass
-                def fail(source,destination):
-                    if str(source).endswith('1.staged'):
-                        raise Interrupted() if interrupted else OSError('write failed')
-                    if not interrupted and str(source).endswith('.restore'):
-                        raise OSError('rollback failed')
-                    return replace(source,destination)
-                with patch.object(tools.os,'replace',side_effect=fail):
-                    with self.assertRaises(Interrupted if interrupted else ValueError):
-                        cfg.dumpConfigs(main=main,trackers=trackers)
-                self.assertTrue(list(Path(directory).glob('.pyppbox-save-*')))
-                with self.assertRaisesRegex(ValueError,'recovery'):
-                    cfg.dumpConfigs(main=main)
-                with self.assertRaisesRegex(ValueError,'recovery'):
-                    cfg.dumpMainCFG(main)
-                tools.recoverConfigSave(directory)
-                self.assertEqual({p.name:p.read_bytes() for p in Path(directory).glob('*.yaml')},original)
-                self.assertFalse(list(Path(directory).glob('.pyppbox-save-*')))
-
-    @unittest.skipIf(os.name == 'nt', 'POSIX read-only files in a writable config directory')
-    def test_recovery_retries_readonly_restore_left_by_a_failed_rollback(self):
-        with tempfile.TemporaryDirectory() as directory:
-            cfg = self.copy_configs(directory)
-            original = {path.name:path.read_bytes() for path in Path(directory).glob('*.yaml')}
-            for path in Path(directory).glob('*.yaml'):
-                path.chmod(0o444)
-            replace = tools.os.replace
-            def fail(source, destination):
-                if str(source).endswith(('1.staged', '.restore')):
-                    raise OSError('temporary storage error')
-                return replace(source, destination)
-            with patch.object(tools.os, 'replace', side_effect=fail), self.assertRaises(ValueError):
-                cfg.dumpConfigs(main={'detector':'None','tracker':'None','reider':'None'},
-                                trackers=[self.docs['SORT']])
-            pending = next(Path(directory).glob('.pyppbox-save-*'))
-            self.assertTrue(list(pending.glob('*.restore')))
-            tools.recoverConfigSave(directory)
-            self.assertFalse(list(Path(directory).glob('.pyppbox-save-*')))
-            for path in Path(directory).glob('*.yaml'):
-                self.assertEqual(path.read_bytes(), original[path.name])
-                self.assertEqual(path.stat().st_mode & 0o777, 0o444)
 
     def test_runtime_preflight_stops_pipeline_before_constructor_and_classifier_load(self):
         import sys
@@ -251,30 +160,6 @@ class ConfigHardeningTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,'classifier_pkl'):
                     pipeline.reidPeople(None,[],img_is_mat=True)
                 backend.return_value.load_classifier.assert_not_called()
-
-    def test_interrupted_new_files_are_removed_and_completed_groups_remain(self):
-        for complete in (False,True):
-            with self.subTest(complete=complete), tempfile.TemporaryDirectory() as directory:
-                cfg=m.MyConfigurator(directory)
-                class Interrupted(BaseException):
-                    pass
-                if complete:
-                    failure=patch.object(tools,'_clean_save',side_effect=Interrupted())
-                else:
-                    replace=tools.os.replace
-                    def fail(source,destination):
-                        if str(source).endswith('1.staged'):
-                            raise Interrupted()
-                        return replace(source,destination)
-                    failure=patch.object(tools.os,'replace',side_effect=fail)
-                main={'detector':'None','tracker':'None','reider':'None'}
-                with failure, self.assertRaises(Interrupted):
-                    cfg.dumpConfigs(main=main,trackers=[self.docs['SORT']])
-                tools.recoverConfigSave(directory)
-                if complete:
-                    self.assertEqual(tools.loadDocument(cfg.main_yaml),main)
-                else:
-                    self.assertEqual(list(Path(directory).iterdir()),[])
 
 
 if __name__ == '__main__':

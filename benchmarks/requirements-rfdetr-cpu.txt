@@ -1,5 +1,0 @@
-# Qualification environment only; runtime dependency bounds remain unchanged.
--r requirements-cpu.txt
-rfdetr==1.10.0
-transformers==5.16.1
-supervision==0.30.2

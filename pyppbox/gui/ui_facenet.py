@@ -1,7 +1,7 @@
 # Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License
 
 
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 from pyppbox.gui.configwidgets import config_form
 from pyppbox.gui.numericwidgets import FloatSpinBox, IntPairEdit, IntSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
@@ -23,117 +23,54 @@ class Ui_FaceNet(object):
 
     def setupUi(self, facenet_ui):
         facenet_ui.setObjectName("facenet_ui")
-        facenet_ui.resize(390, 330)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, 
-                                           QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(facenet_ui.sizePolicy().hasHeightForWidth())
-        facenet_ui.setSizePolicy(sizePolicy)
-        facenet_ui.setMinimumSize(QtCore.QSize(390, 330))
-        facenet_ui.setMaximumSize(QtCore.QSize(390, 330))
         self.save_pushButton = QtWidgets.QPushButton(facenet_ui)
-        self.save_pushButton.setGeometry(QtCore.QRect(150, 290, 91, 31))
         self.save_pushButton.setObjectName("save_pushButton")
         self.fn_min_confidence_label = QtWidgets.QLabel(facenet_ui)
-        self.fn_min_confidence_label.setGeometry(QtCore.QRect(10, 190, 91, 16))
-        self.fn_min_confidence_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                                  QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                                  QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.fn_min_confidence_label.setObjectName("fn_min_confidence_label")
         self.fn_model_file_lineEdit = QtWidgets.QLineEdit(facenet_ui)
-        self.fn_model_file_lineEdit.setGeometry(QtCore.QRect(110, 70, 241, 21))
         self.fn_model_file_lineEdit.setObjectName("fn_model_file_lineEdit")
         self.fn_classifier_pkl_label = QtWidgets.QLabel(facenet_ui)
-        self.fn_classifier_pkl_label.setGeometry(QtCore.QRect(10, 100, 91, 16))
-        self.fn_classifier_pkl_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                                  QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                                  QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.fn_classifier_pkl_label.setObjectName("fn_classifier_pkl_label")
         self.fn_train_data_label = QtWidgets.QLabel(facenet_ui)
-        self.fn_train_data_label.setGeometry(QtCore.QRect(10, 130, 91, 16))
-        self.fn_train_data_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                              QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                              QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.fn_train_data_label.setObjectName("dr_train_data_label")
         self.fn_yl_h_calib_label = QtWidgets.QLabel(facenet_ui)
-        self.fn_yl_h_calib_label.setGeometry(QtCore.QRect(10, 220, 91, 16))
-        self.fn_yl_h_calib_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                              QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                              QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.fn_yl_h_calib_label.setObjectName("fn_yl_h_calib_label")
         self.fn_gpu_mem_label = QtWidgets.QLabel(facenet_ui)
-        self.fn_gpu_mem_label.setGeometry(QtCore.QRect(10, 10, 91, 16))
-        self.fn_gpu_mem_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                           QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                           QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.fn_gpu_mem_label.setObjectName("fn_gpu_mem_label")
         self.fn_model_file_pushButton = QtWidgets.QPushButton(facenet_ui)
-        self.fn_model_file_pushButton.setGeometry(QtCore.QRect(360, 70, 21, 24))
         self.fn_model_file_pushButton.setObjectName("fn_model_file_pushButton")
         self.fn_yl_w_calib_label = QtWidgets.QLabel(facenet_ui)
-        self.fn_yl_w_calib_label.setGeometry(QtCore.QRect(10, 250, 91, 16))
-        self.fn_yl_w_calib_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                              QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                              QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.fn_yl_w_calib_label.setObjectName("fn_yl_w_calib_label")
         self.fn_model_det_pushButton = QtWidgets.QPushButton(facenet_ui)
-        self.fn_model_det_pushButton.setGeometry(QtCore.QRect(360, 40, 21, 24))
         self.fn_model_det_pushButton.setObjectName("fn_model_det_pushButton")
         self.fn_model_det_label = QtWidgets.QLabel(facenet_ui)
-        self.fn_model_det_label.setGeometry(QtCore.QRect(10, 40, 91, 16))
-        self.fn_model_det_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                             QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                             QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.fn_model_det_label.setObjectName("fn_model_det_label")
         self.fn_yl_w_calib_pair = IntPairEdit(facenet_ui)
-        self.fn_yl_w_calib_pair.setGeometry(QtCore.QRect(110, 250, 241, 21))
         self.fn_yl_w_calib_pair.setObjectName("fn_yl_w_calib_pair")
         self.fn_batch_size_spinBox = IntSpinBox(facenet_ui)
         self.fn_batch_size_spinBox.setMinimum(1)
-        self.fn_batch_size_spinBox.setGeometry(QtCore.QRect(110, 160, 241, 21))
         self.fn_batch_size_spinBox.setObjectName("fn_batch_size_spinBox")
         self.fn_batch_size_label = QtWidgets.QLabel(facenet_ui)
-        self.fn_batch_size_label.setGeometry(QtCore.QRect(10, 160, 91, 16))
-        self.fn_batch_size_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                              QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                              QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.fn_batch_size_label.setObjectName("fn_batch_size_label")
         self.fn_classifier_pkl_lineEdit = QtWidgets.QLineEdit(facenet_ui)
-        self.fn_classifier_pkl_lineEdit.setGeometry(QtCore.QRect(110, 100, 241, 21))
         self.fn_classifier_pkl_lineEdit.setObjectName("fn_classifier_pkl_lineEdit")
         self.fn_train_data_lineEdit = QtWidgets.QLineEdit(facenet_ui)
-        self.fn_train_data_lineEdit.setGeometry(QtCore.QRect(110, 130, 241, 21))
         self.fn_train_data_lineEdit.setObjectName("dr_train_data_lineEdit")
         self.fn_model_file_label = QtWidgets.QLabel(facenet_ui)
-        self.fn_model_file_label.setGeometry(QtCore.QRect(10, 70, 91, 16))
-        self.fn_model_file_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                              QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                              QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.fn_model_file_label.setObjectName("fn_model_file_label")
         self.fn_gpu_mem_spinBox = FloatSpinBox(facenet_ui)
         self.fn_gpu_mem_spinBox.setSingleStep(0.01)
-        self.fn_gpu_mem_spinBox.setGeometry(QtCore.QRect(110, 10, 241, 21))
         self.fn_gpu_mem_spinBox.setObjectName("fn_gpu_mem_spinBox")
         self.fn_min_confidence_spinBox = FloatSpinBox(facenet_ui)
-        self.fn_min_confidence_spinBox.setGeometry(QtCore.QRect(110, 190, 241, 21))
         self.fn_min_confidence_spinBox.setObjectName("fn_min_confidence_spinBox")
         self.fn_classifier_pkl_pushButton = QtWidgets.QPushButton(facenet_ui)
-        self.fn_classifier_pkl_pushButton.setGeometry(QtCore.QRect(360, 100, 21, 24))
         self.fn_classifier_pkl_pushButton.setObjectName("fn_classifier_pkl_pushButton")
         self.fn_train_data_pushButton = QtWidgets.QPushButton(facenet_ui)
-        self.fn_train_data_pushButton.setGeometry(QtCore.QRect(360, 130, 21, 24))
         self.fn_train_data_pushButton.setObjectName("dr_train_data_pushButton")
         self.fn_yl_h_calib_pair = IntPairEdit(facenet_ui)
-        self.fn_yl_h_calib_pair.setGeometry(QtCore.QRect(110, 220, 241, 21))
         self.fn_yl_h_calib_pair.setObjectName("fn_yl_h_calib_pair")
         self.fn_model_det_lineEdit = QtWidgets.QLineEdit(facenet_ui)
-        self.fn_model_det_lineEdit.setGeometry(QtCore.QRect(110, 40, 241, 21))
         self.fn_model_det_lineEdit.setObjectName("fn_model_det_lineEdit")
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.save_pushButton.setFont(font)
-        self.save_pushButton.setDefault(True)
         self.retranslateUi(facenet_ui)
         # custom
         self.loadFN()

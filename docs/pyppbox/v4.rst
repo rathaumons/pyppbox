@@ -1,158 +1,37 @@
 V4 upgrade guide
 ================
 
-V4 adds RF-DETR, ArcFace, and AdaFace, along with changes to configuration
-validation, pipeline cleanup, and ReID performance. This guide explains what
-to check when upgrading an existing V3 project. See :doc:`../getstarted` for
-installation commands and :doc:`../releasenotes` for the full change list.
+V4 adds RF-DETR, ArcFace, and AdaFace. Existing V3 configuration files and
+public interfaces remain supported; no configuration migration is required.
+See :doc:`../getstarted` for installation and :doc:`../releasenotes` for changes.
 
-Existing projects and configurations
-----------------------------------------
+Dependencies and new modules
+----------------------------
 
-Existing YAML/JSON formats, dictionary inputs, module names, and path rules
-remain supported, as do ``Person`` objects and the ``pyppbox.standalone`` and
-``pyppbox.ppb`` interfaces. No configuration schema migration is required.
-Old config directories gain RF-DETR and ArcFace/AdaFace defaults in memory
-without rewriting their files.
+* YOLO now uses ``pyppbox-ultralytics>=8.4.144``. Remove an existing
+  ``ultralytics`` or ``vsensebox-ultralytics`` installation as described in
+  :doc:`../getstarted`.
+* RF-DETR, ArcFace, and AdaFace require Python 3.10+ and their optional
+  requirements files. Installation extras have been replaced by these files.
+* RF-DETR defaults to Nano on GPU 0. Install ``pyppbox-data-rfdetr`` or select
+  a local checkpoint. See :doc:`../examples/example_15` for weights and setup.
+* ArcFace and AdaFace default to CPU. Each has its own model/data wheel and
+  identity classifier; existing FaceNet/Torchreid classifiers cannot be reused.
+  See :doc:`modules/reiders` for recognition and training.
 
-Configuration validation is stricter. Invalid values and missing assets for a
-selected module now raise errors before that module is initialized. Opening a
-settings panel does not require model files or test device availability.
-Fix the reported setting or model path before retrying; see
-:doc:`config` for the accepted values and path rules.
+Existing projects
+-----------------
 
-Targeted GUI saves preserve supported extension fields and other module
-documents. RF-DETR, ArcFace, and AdaFace reject unknown options, and YAML
-comments are regenerated when saving. Grouped saves support rollback and
-explicit recovery after interruption. Use one writer and pause readers during
-a grouped save; :doc:`config` describes the recovery procedure.
+Old config directories receive defaults for the new modules in memory.
+Invalid settings and missing inference assets now fail before model loading.
+GUI saves preserve other modules and extension fields; YAML comments are
+regenerated. See :doc:`config` for paths, devices, and validation.
 
-Dependencies
-------------
+Use ``MT`` as a context manager or call ``close()`` to release models.
+``reset()`` starts another stream while retaining loaded models. Failed model
+replacement leaves the active pipeline usable; see :doc:`standalone`.
+Logs and GUI state use a writable user directory; see :doc:`utils`.
 
-The YOLO dependency is now ``pyppbox-ultralytics>=8.4.144`` and still imports
-as ``ultralytics``. Follow the replacement instructions in :doc:`../getstarted`
-if your environment contains ``ultralytics`` or ``vsensebox-ultralytics``.
-``YOLO_Classic`` continues to require OpenCV 4.x, enforced by
-``opencv-contrib-python<5`` in the base requirements.
-
-Core package metadata and compatibility CI cover Python 3.9–3.13. Use Python
-3.10 or newer for RF-DETR, ArcFace, or AdaFace. Optional runtimes are installed
-from the files under ``requirements/``; pyppbox no longer defines installation
-extras. Install the chosen runtime and its model/data wheel separately, using
-the commands in :doc:`../getstarted`.
-
-GUI configuration and devices
-------------------------------
-
-RF-DETR, YOLO Ultralytics, Torchreid, ArcFace, and AdaFace have editable device
-dropdowns. Choose a preset or enter a value supported by that backend, such as
-``cuda:1``. Selecting a device does not install its GPU runtime.
-
-Existing modules retain their device defaults. RF-DETR defaults to GPU index
-``0``; ArcFace and AdaFace default to ``cpu``. RF-DETR's ``auto`` delegates to
-its backend, while YOLO uses an empty/``None`` setting for automatic selection.
-ArcFace and AdaFace accept CPU or CUDA devices and raise if requested CUDA
-initialization fails.
-
-YOLO Classic, FaceNet, and DeepSORT show a read-only ``device`` row with
-``auto by OpenCV`` or ``auto by TensorFlow``. This display adds no configuration
-key. FaceNet's ``gpu_mem`` remains a memory limit. See :ref:`device-selection`
-for the supported values and runtime requirements.
-
-RF-DETR and model data
---------------------------
-
-RF-DETR is an optional V4 detector supporting Nano, Small, Medium, and Large
-detection checkpoints. Install ``requirements/rfdetr.txt`` from the repository
-root; it selects ``rfdetr>=1.10.0,<1.11.0``. The optional
-``pyppbox-data-rfdetr`` v1.6.0 wheel supplies the model files. See
-:doc:`../getstarted` for installation commands.
-
-After installing the requirements, select ``RF_DETR`` in the GUI or with
-``setMainDetector('RF_DETR')``. Like YOLO, the bundled config uses GPU
-``device: 0`` and the local model path
-``data/modules/rf_detr/rf-detr-nano.pth`` under the installed pyppbox package.
-Set ``device: cpu`` for CPU inference. The ``pyppbox-data-rfdetr`` wheel populates
-the standard paths. You can also browse to a downloaded checkpoint, or set
-``model_file: ''`` to use RF-DETR's automatic download/cache. A local checkpoint
-must match the configured ``model_size``.
-
-**RF-DETR weights:**
-`Nano <https://storage.googleapis.com/rfdetr/nano_coco/checkpoint_best_regular.pth>`_,
-`Small <https://storage.googleapis.com/rfdetr/small_coco/checkpoint_best_regular.pth>`_,
-`Medium <https://storage.googleapis.com/rfdetr/medium_coco/checkpoint_best_regular.pth>`_,
-and `Large <https://storage.googleapis.com/rfdetr/rf-detr-large-2026.pth>`_.
-Nano/Small/Medium downloads have the same server filename; save them separately
-as ``rf-detr-nano.pth``, ``rf-detr-small.pth``, and ``rf-detr-medium.pth``.
-Keep Large as ``rf-detr-large-2026.pth``. :doc:`../examples/example_15` lists
-filenames, destinations, offline setup, and custom class IDs. Roboflow's
-`pretrained aliases <https://docs.roboflow.com/models/pretrained-aliases#rf-detr>`_
-describe its Inference service; pyppbox loads these local PyTorch checkpoints
-through ``rfdetr``.
-
-ArcFace, AdaFace, and identity classifiers
-------------------------------------------
-
-ArcFace and AdaFace are optional V4 reiders. Choose one runtime requirements
-file: ``requirements/faces.txt`` for CPU, or ``requirements/faces_gpu.txt`` for
-NVIDIA GPU with compatible CUDA/cuDNN libraries. The GPU runtime also supports
-CPU inference. When switching from an existing CPU installation, follow the
-removal and reinstall sequence in :doc:`../getstarted`.
-
-pyppbox supplies SCRFD inference and face alignment without requiring the
-InsightFace Python package. Install the v1.6.0 ``pyppbox-data-arcface`` or
-``pyppbox-data-adaface`` wheel for the selected reider. Each contains its own
-SCRFD detector, embedding model, and GTA V identity classifier; AdaFace does
-not require the ArcFace data wheel.
-
-Select ``ArcFace`` or ``AdaFace`` in the GUI, or call
-``setMainReIDer('ArcFace')`` or ``setMainReIDer('AdaFace')`` on your pipeline.
-Both use the bundled paths and default to CPU. Set ``device: cuda`` or an
-indexed CUDA device after installing the GPU runtime.
-
-FaceNet and Torchreid remain available. Their identity classifiers cannot be
-reused with ArcFace or AdaFace: use the supplied classifier or train one for
-your chosen embedding model. See :doc:`modules/reiders` for inference,
-classifier training, thresholds, CUDA setup, and model license terms.
-
-Pipeline ownership and cleanup
-------------------------------
-
-Create one ``MT`` per independent stream and use its context manager or
-``close()`` to release owned models and sessions. ``reset()`` clears tracking
-and identity state between streams while retaining loaded models. It does not
-reset existing ``Person`` objects or guarantee that track IDs restart at zero.
-The shared ``pyppbox.standalone`` pipeline remains available for a single
-stream. Calls on one pipeline are not synchronized.
-
-Replacing a detector, tracker, or reider initializes its replacement before
-activating it. If initialization fails, the current pipeline remains usable.
-Allow memory for both models during replacement. See :doc:`standalone` for
-cleanup, reset, and replacement examples.
-
-GUI launcher/demo processes stop their owned workers on exit or interruption,
-including when the parent process disappears. Logs and GUI state now use
-directories under the user's runtime location; ``PYPPBOX_RUNTIME_DIR``
-overrides that location. pyppbox leaves application root logging unchanged.
-Configuration edits and explicit model/result paths retain their existing
-destinations. Use a writable custom config directory if the installation is
-read-only. See :doc:`utils` for logging controls and runtime paths.
-
-Performance and result changes
-------------------------------
-
-V4 reduces ReID crop allocations, indexes GT/DeepSORT metadata, avoids repeated
-result-list copies, and defers runtime imports. Torchreid batching is opt-in
-through ``reidPeople(batch_size=...)``; the default remains ``batch_size=1``.
-Batching can change confidence values slightly, and larger batches can be
-slower on CPU. Measure speed and identity results with your models and video
-before enabling it; see :doc:`standalone` for examples.
-
-Invalid or entirely out-of-frame ReID crops are skipped while retaining the
-person's existing identity and confidence. DeepSORT now preserves the correct
-association between a detection and its metadata after suppression, which can
-change identity results previously affected by mismatched associations.
-Result recording rejects out-of-order or misaligned frames before writing.
-``ResIO`` retains recorded snapshots, so its memory use grows with the recording
-duration.
+DeepSORT fixes detection-to-track metadata associations, and ReID skips empty
+or out-of-frame crops. Torchreid batching remains opt-in with ``batch_size``;
+the default scalar behavior is unchanged.

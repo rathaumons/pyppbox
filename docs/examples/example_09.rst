@@ -7,7 +7,7 @@ Example 9: Compare a generated result to a reference or ground-truth
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 
-.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/dev/examples
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
 
 Example source
 --------------

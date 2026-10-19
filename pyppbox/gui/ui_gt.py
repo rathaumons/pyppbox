@@ -1,7 +1,7 @@
 # Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License
 
 
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 from pyppbox.gui.configwidgets import config_form
 from pyppbox.config.unifiedstrings import UnifiedStrings
 from pyppbox.config.myconfig import MyConfigurator as MyCFG
@@ -23,46 +23,20 @@ class Ui_GT(object):
 
     def setupUi(self, gi_ui):
         gi_ui.setObjectName("gi_ui")
-        gi_ui.resize(390, 120)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, 
-                                           QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(gi_ui.sizePolicy().hasHeightForWidth())
-        gi_ui.setSizePolicy(sizePolicy)
-        gi_ui.setMinimumSize(QtCore.QSize(390, 120))
-        gi_ui.setMaximumSize(QtCore.QSize(390, 120))
         self.gt_file_browse_pushButton = QtWidgets.QPushButton(gi_ui)
-        self.gt_file_browse_pushButton.setGeometry(QtCore.QRect(360, 10, 21, 24))
         self.gt_file_browse_pushButton.setObjectName("gt_file_browse_pushButton")
         self.gt_map_browse_pushButton = QtWidgets.QPushButton(gi_ui)
-        self.gt_map_browse_pushButton.setGeometry(QtCore.QRect(360, 40, 21, 24))
         self.gt_map_browse_pushButton.setObjectName("gt_map_browse_pushButton")
         self.save_pushButton = QtWidgets.QPushButton(gi_ui)
-        self.save_pushButton.setGeometry(QtCore.QRect(150, 80, 91, 31))
         self.save_pushButton.setObjectName("save_pushButton")
         self.gt_file_lineEdit = QtWidgets.QLineEdit(gi_ui)
-        self.gt_file_lineEdit.setGeometry(QtCore.QRect(110, 10, 241, 21))
         self.gt_file_lineEdit.setObjectName("gt_file_lineEdit")
         self.gt_file_label = QtWidgets.QLabel(gi_ui)
-        self.gt_file_label.setGeometry(QtCore.QRect(10, 10, 91, 16))
-        self.gt_file_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                        QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                        QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.gt_file_label.setObjectName("gt_file_label")
         self.gt_map_lineEdit = QtWidgets.QLineEdit(gi_ui)
-        self.gt_map_lineEdit.setGeometry(QtCore.QRect(110, 40, 241, 21))
         self.gt_map_lineEdit.setObjectName("gt_map_lineEdit")
         self.gt_map_label = QtWidgets.QLabel(gi_ui)
-        self.gt_map_label.setGeometry(QtCore.QRect(10, 40, 91, 16))
-        self.gt_map_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                       QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                       QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.gt_map_label.setObjectName("gt_map_label")
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.save_pushButton.setFont(font)
-        self.save_pushButton.setDefault(True)
         self.retranslateUi(gi_ui)
         # custom
         self.loadGT()

@@ -5,10 +5,9 @@ import os
 from typing import Any, Dict, List, Union, Optional
 
 from .unifiedstrings import UnifiedStrings
-from .validation import validate_config, validate_runtime
+from .validation import validate_config, validate_runtime, _number
 from .configtools import (PYPPBOXStructure, getCFGDict, getCFGDictList, 
-                          loadDocumentList, dumpDocDict, dumpDocDictList, _dump_config_files,
-                          _check_pending_save)
+                          loadDocumentList, dumpDocDict, dumpDocDictList)
 from pyppbox.utils.logtools import add_warning_log, add_error_log
 from pyppbox.utils.commontools import (
     getFileName, 
@@ -477,46 +476,10 @@ class DCFGYOLOULT(BaseCGF):
 
 
 class DCFGRFDETR(BaseCGF):
-    """Configuration for the optional RF-DETR detection backend.
+    """RF-DETR settings for Nano, Small, Medium, and Large detection models.
 
-    Attributes
-    ----------
-    dt_name : str
-        Canonical detector name, ``RF_DETR``.
-    model_size : str
-        ``nano`` (default), ``small``, ``medium``, or ``large``. Each uses its
-        published input resolution. Segmentation and Plus models are not included.
-    model_file : str
-        Local checkpoint, defaulting to the selected model's filename under
-        ``data/modules/rf_detr``. Empty uses RF-DETR's download/cache instead.
-        Custom checkpoints must match ``model_size``.
-    device : int or str
-        GPU index 0 (default), ``cpu``, ``cuda``, ``cuda:N``, ``mps``, or
-        ``auto``. Integer indices are retained in configuration documents.
-        ``auto`` delegates selection to RF-DETR. The editable GUI dropdown offers
-        presets and accepts typed indexed devices; availability depends on the
-        installed backend and hardware.
-    conf : float
-        Minimum detection confidence on a 0-1 scale; defaults to 0.4.
-    max_det : int
-        Maximum returned detections after class/width filtering; defaults to 100.
-    person_class_id : int
-        Native RF-DETR class ID for people; defaults to 1 for pretrained COCO
-        models. Set the correct ID for custom checkpoints (often 0).
-    optimize : bool
-        Defaults to True. Prepare an inference-only model in place without JIT
-        compilation. Set False to retain the original upstream model instance.
-    repspoint_calibration : float
-        Box representative-point calibration in [0, 1]; defaults to 0.25.
-    from_dir : str
-        Root used to resolve relative checkpoint paths.
-
-    Notes
-    -----
-    Construction supplies defaults without importing RF-DETR or downloading
-    weights. ``set()`` overlays a mapping on those defaults, not on previous
-    values. Existing detector configurations retain their original behavior.
-    """
+    Defaults select Nano on GPU 0 with a local checkpoint. An empty model_file
+    enables automatic downloading; omitted paths follow model_size."""
 
     DEFAULTS = dict(dt_name='RF_DETR', conf=0.4, model_size='nano', device=0,
                     max_det=100, model_file='data/modules/rf_detr/rf-detr-nano.pth', person_class_id=1,
@@ -568,26 +531,9 @@ class DCFGRFDETR(BaseCGF):
         if 'model_file' not in supplied:
             values['model_file'] = 'data/modules/rf_detr/' + self.MODEL_FILES[values['model_size']]
         for name in ('conf', 'repspoint_calibration'):
-            value = values[name]
-            if isinstance(value, bool):
-                raise ValueError(f'{name} must be a number in [0, 1].')
-            try:
-                value = float(value)
-            except (TypeError, ValueError, OverflowError) as error:
-                raise ValueError(f'{name} must be a number in [0, 1].') from error
-            if not 0 <= value <= 1:
-                raise ValueError(f'{name} must be a number in [0, 1].')
-            values[name] = value
+            values[name] = float(_number(values[name], name, 0, 1))
         for name, minimum in (('max_det', 1), ('person_class_id', 0)):
-            value = values[name]
-            try:
-                integer = int(value)
-                valid = not isinstance(value, bool) and integer == float(value) and integer >= minimum
-            except (TypeError, ValueError, OverflowError) as error:
-                raise ValueError(f'{name} must be an integer >= {minimum}.') from error
-            if not valid:
-                raise ValueError(f'{name} must be an integer >= {minimum}.')
-            values[name] = integer
+            values[name] = _number(values[name], name, minimum, integer=True)
         optimize = values['optimize']
         if isinstance(optimize, str) and optimize.lower() in ('true', 'false'):
             optimize = optimize.lower() == 'true'
@@ -1066,18 +1012,10 @@ class RCFGFaceNet(BaseCGF):
 
 
 class RCFGArcFace(BaseCGF):
-    """Optional ONNX face recognizer with explicit local detector and weights.
+    """ArcFace ONNX settings, with local models and CPU inference by default.
 
-    ``set`` overlays defaults, validates without loading inference libraries, and
-    resolves paths as other pyppbox configs do. Both networks are loaded lazily.
-    ``min_confidence`` applies to the identity SVM, not cosine similarity.
-    Preprocessing settings must match the exported embedding checkpoint.
-
-    ``device`` defaults to ``cpu`` and accepts ``cuda`` or ``cuda:N``; numeric GPU
-    indices normalize to ``cuda:N``. The GUI uses an editable CPU/CUDA dropdown.
-    ``mps`` and ``auto`` are rejected. Requested CUDA must initialize successfully
-    for both detector and embedding sessions, with no silent CPU fallback.
-    """
+    device accepts cpu, cuda, or cuda:N. CUDA initialization must succeed for
+    both the face detector and embedding model."""
     NAME = 'ArcFace'
     DEFAULTS = dict(ri_name='ArcFace',
                     model_det='data/modules/arcface/models/det_10g.onnx',
@@ -1122,11 +1060,7 @@ class RCFGArcFace(BaseCGF):
 
 
 class RCFGAdaFace(RCFGArcFace):
-    """AdaFace ONNX configuration matching the CVLFace RGB IR18 export.
-
-    Inherit ArcFace's CPU/CUDA selection, index normalization, and editable device
-    dropdown; defaults use CPU and AdaFace-specific model/classifier paths.
-    """
+    """AdaFace settings using the CVLFace RGB IR18 export and its own classifier."""
     NAME = 'AdaFace'
     DEFAULTS = dict(RCFGArcFace.DEFAULTS, ri_name='AdaFace',
                     model_det='data/modules/adaface/models/det_10g.onnx',
@@ -1931,7 +1865,6 @@ class MyConfigurator(PYPPBOXStructure):
             Main selection fields to merge into main.yaml. Existing extension
             fields are retained. A new file requires all three stage selections.
         """
-        _check_pending_save(self.cfg_dir)
         document = {**getCFGDict(self.main_yaml), **getCFGDict(document)} if os.path.exists(self.main_yaml) else getCFGDict(document)
         if not document:
             raise ValueError('The main configuration must contain detector, tracker, and reider.')
@@ -1939,48 +1872,18 @@ class MyConfigurator(PYPPBOXStructure):
         dumpDocDict(self.main_yaml, document, self.cfg_headers.mainHeader())
 
     def dumpDetectorCFG(self, document: Dict[str, Any]):
-        """Save one detector while preserving other documents and their order.
-
-        Parameters
-        ----------
-        document : dict
-            Detector mapping containing ``dt_name``. Merge supplied fields into
-            matching documents, or append a complete document if absent. Retain
-            extension fields and save this file atomically after validation.
-
-        Notes
-        -----
-        Existing YAML values for other detectors are retained. Comments are
-        regenerated using the existing writer; live models are not reloaded.
-        """
+        """Merge one detector mapping, preserving other modules and extension fields."""
         self._dump_module(document, 'dt_name', self.detectors_yaml)
 
     def dumpTrackerCFG(self, document: Dict[str, Any]):
-        """Merge one tracker mapping into trackers.yaml, retaining extension fields
-        and all other documents in their existing order. Validate before saving.
-
-        Parameters
-        ----------
-        document : dict
-            Tracker name in ``tk_name`` and fields to update. A new tracker requires
-            a complete mapping. Unknown modules retain their opaque settings.
-        """
+        """Merge one tracker mapping, preserving other modules and extension fields."""
         self._dump_module(document, 'tk_name', self.trackers_yaml)
 
     def dumpReiderCFG(self, document: Dict[str, Any]):
-        """Merge one ReID mapping into reiders.yaml, retaining extension fields
-        and all other documents in their existing order. Validate before saving.
-
-        Parameters
-        ----------
-        document : dict
-            ReID name in ``ri_name`` and fields to update. A new reider requires
-            a complete mapping. Unknown modules retain their opaque settings.
-        """
+        """Merge one ReID mapping, preserving other modules and extension fields."""
         self._dump_module(document, 'ri_name', self.reiders_yaml)
 
     def _dump_module(self, document, key, filename):
-        _check_pending_save(self.cfg_dir)
         document = getCFGDict(document)
         if key not in document or not isinstance(document[key], str) or not document[key].strip():
             raise ValueError(f'{key} must be a nonempty module name.')
@@ -2015,48 +1918,6 @@ class MyConfigurator(PYPPBOXStructure):
             if cls is not None:
                 cls().set(document)
 
-    def dumpConfigs(self, main=None, detectors=None, trackers=None, reiders=None):
-        """Save complete selected config documents as a recoverable group.
-
-        Parameters
-        ----------
-        main : dict or None
-            Complete main mapping. None leaves main.yaml untouched.
-        detectors : list[dict] or None
-            Complete detector documents. None leaves detectors.yaml untouched.
-        trackers : list[dict] or None
-            Complete tracker documents. None leaves trackers.yaml untouched.
-        reiders : list[dict] or None
-            Complete ReID documents. None leaves reiders.yaml untouched.
-
-        Notes
-        -----
-        Validate and serialize everything before replacing files. On a handled
-        write failure, restore the originals, including their exact bytes. If
-        interrupted, stop other users of the directory and call
-        :func:`~pyppbox.config.configtools.recoverConfigSave` before retrying.
-        Retain recovery folders if restoration fails. This is not a transaction
-        for concurrent readers/writers; use one writer and pause readers. Resolved
-        symlink targets must be on the same filesystem as the config directory.
-        Existing per-file dump methods keep their replacement semantics.
-        """
-        files = []
-        if main is not None:
-            main = getCFGDict(main)
-            if not main:
-                raise ValueError('The main configuration must contain detector, tracker, and reider.')
-            MainCFG().set(main)
-            files.append(('main.yaml', main, self.cfg_headers.mainHeader(), True))
-        for name, documents, key, header in (
-                ('detectors', detectors, 'dt_name', self.cfg_headers.detectorHeader),
-                ('trackers', trackers, 'tk_name', self.cfg_headers.trackerHeader),
-                ('reiders', reiders, 'ri_name', self.cfg_headers.reiderHeader)):
-            if documents is not None:
-                documents = getCFGDictList(documents)
-                self._validate_documents(documents, key)
-                files.append((name + '.yaml', documents, header(), False))
-        if files:
-            _dump_config_files(self.cfg_dir, files)
 
     def dumpAllDCFG(self, document_list: List[Dict[str, Any]]):
         """Dump the detectors' configurations to detectors.yaml.
@@ -2066,7 +1927,6 @@ class MyConfigurator(PYPPBOXStructure):
         document_list : List[Dict[str, Any]]
             A list of multiple documents of the configurations.
         """
-        _check_pending_save(self.cfg_dir)
         document_list = getCFGDictList(document_list)
         self._validate_documents(document_list, 'dt_name')
         dumpDocDictList(self.detectors_yaml, document_list, self.cfg_headers.detectorHeader())
@@ -2079,7 +1939,6 @@ class MyConfigurator(PYPPBOXStructure):
         document_list : List[Dict[str, Any]]
             A list of multiple documents of the configurations.
         """
-        _check_pending_save(self.cfg_dir)
         document_list = getCFGDictList(document_list)
         self._validate_documents(document_list, 'tk_name')
         dumpDocDictList(self.trackers_yaml, document_list, self.cfg_headers.trackerHeader())
@@ -2092,8 +1951,6 @@ class MyConfigurator(PYPPBOXStructure):
         document_list : List[Dict[str, Any]]
             A list of multiple documents of the configurations.
         """
-        _check_pending_save(self.cfg_dir)
         document_list = getCFGDictList(document_list)
         self._validate_documents(document_list, 'ri_name')
         dumpDocDictList(self.reiders_yaml, document_list, self.cfg_headers.reiderHeader())
-

@@ -10,7 +10,7 @@ Example 16: Export an AdaFace embedding model to ONNX
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 
-.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/dev/examples
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
 
 The v1.6.0 ``pyppbox-data-adaface`` wheel already contains a verified IR18 VGG2
 ONNX export. This advanced example reproduces the export using the author's

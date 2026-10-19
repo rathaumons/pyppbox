@@ -4,13 +4,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 
 
 def device_dropdown(parent, choices):
-    """Create an editable device dropdown with backend-specific presets.
-
-    ``choices`` supplies display strings; it does not restrict typed values or
-    change their meaning. Callers load the current configuration into the editor
-    and validate its value on Save. This helper does not import an inference
-    backend, enumerate hardware, or translate RF-DETR's ``auto`` for other modules.
-    """
+    """Create an editable device selector with backend-specific presets."""
     dropdown = QtWidgets.QComboBox(parent)
     dropdown.setEditable(True)
     dropdown.setInsertPolicy(QtWidgets.QComboBox.InsertPolicy.NoInsert)
@@ -37,19 +31,9 @@ def path_input_row(parent, line_edit, browse_button):
 
 
 def config_form(dialog, rows, save_button, automatic_device=None):
-    """Lay out every module with one label column and one full-width field column.
+    """Lay out (label, field[, browse_button]) rows and a Save button.
 
-    A row is ``(label, field)`` or ``(label, path_input, browse_button)``.
-    Existing widget objects and their signal connections are preserved.
-    ``automatic_device``, when provided, adds a final read-only ``device`` row
-    with ``auto by <backend>`` before Save, using the same two-column alignment.
-    The shared layout supplies aligned labels, full-width fields, and a centered
-    Save button with a gap above it. The caller retains its own save handler.
-    """
-    # Older dialogs set a fixed height before constructing their controls.
-    # Let the form calculate it from the current font and platform style.
-    dialog.setMinimumHeight(0)
-    dialog.setMaximumHeight(16777215)
+    automatic_device adds a read-only device row for OpenCV/TensorFlow."""
     form = QtWidgets.QFormLayout(dialog)
     form.setContentsMargins(10, 10, 10, 10)
     form.setHorizontalSpacing(9)

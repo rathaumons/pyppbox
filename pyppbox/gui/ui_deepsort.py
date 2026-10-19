@@ -1,7 +1,7 @@
 # Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License
 
 
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 from pyppbox.gui.configwidgets import config_form
 from pyppbox.gui.numericwidgets import FloatSpinBox, OptionalIntSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
@@ -23,62 +23,27 @@ class Ui_DeepSORT(object):
 
     def setupUi(self, deepsort_ui):
         deepsort_ui.setObjectName("deepsort_ui")
-        deepsort_ui.resize(390, 180)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, 
-                                           QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(deepsort_ui.sizePolicy().hasHeightForWidth())
-        deepsort_ui.setSizePolicy(sizePolicy)
-        deepsort_ui.setMinimumSize(QtCore.QSize(390, 180))
-        deepsort_ui.setMaximumSize(QtCore.QSize(390, 180))
         self.save_pushButton = QtWidgets.QPushButton(deepsort_ui)
-        self.save_pushButton.setGeometry(QtCore.QRect(150, 140, 91, 31))
         self.save_pushButton.setObjectName("save_pushButton")
         self.ds_max_overlap_spinBox = FloatSpinBox(deepsort_ui)
-        self.ds_max_overlap_spinBox.setGeometry(QtCore.QRect(110, 40, 241, 21))
         self.ds_max_overlap_spinBox.setObjectName("ds_max_overlap_spinBox")
         self.ds_model_file_pushButton = QtWidgets.QPushButton(deepsort_ui)
-        self.ds_model_file_pushButton.setGeometry(QtCore.QRect(360, 100, 21, 24))
         self.ds_model_file_pushButton.setObjectName("ds_model_file_pushButton")
         self.ds_cosine_distance_label = QtWidgets.QLabel(deepsort_ui)
-        self.ds_cosine_distance_label.setGeometry(QtCore.QRect(10, 70, 91, 16))
-        self.ds_cosine_distance_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                                   QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                                   QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.ds_cosine_distance_label.setObjectName("ds_cosine_distance_label")
         self.ds_model_file_lineEdit = QtWidgets.QLineEdit(deepsort_ui)
-        self.ds_model_file_lineEdit.setGeometry(QtCore.QRect(110, 100, 241, 21))
         self.ds_model_file_lineEdit.setObjectName("ds_model_file_lineEdit")
         self.ds_nn_budget_spinBox = OptionalIntSpinBox(deepsort_ui)
-        self.ds_nn_budget_spinBox.setGeometry(QtCore.QRect(110, 10, 241, 21))
         self.ds_nn_budget_spinBox.setObjectName("ds_nn_budget_spinBox")
         self.ds_model_file_label = QtWidgets.QLabel(deepsort_ui)
-        self.ds_model_file_label.setGeometry(QtCore.QRect(10, 100, 91, 16))
-        self.ds_model_file_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                              QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                              QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.ds_model_file_label.setObjectName("ds_model_file_label")
         self.ds_cosine_distance_spinBox = FloatSpinBox(deepsort_ui)
         self.ds_cosine_distance_spinBox.setMaximum(2.0)
-        self.ds_cosine_distance_spinBox.setGeometry(QtCore.QRect(110, 70, 241, 21))
         self.ds_cosine_distance_spinBox.setObjectName("ds_cosine_distance_spinBox")
         self.ds_nn_budget_label = QtWidgets.QLabel(deepsort_ui)
-        self.ds_nn_budget_label.setGeometry(QtCore.QRect(10, 10, 91, 16))
-        self.ds_nn_budget_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                             QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                             QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.ds_nn_budget_label.setObjectName("ds_nn_budget_label")
         self.ds_max_overlap_label = QtWidgets.QLabel(deepsort_ui)
-        self.ds_max_overlap_label.setGeometry(QtCore.QRect(10, 40, 91, 16))
-        self.ds_max_overlap_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                               QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                               QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.ds_max_overlap_label.setObjectName("ds_max_overlap_label")
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.save_pushButton.setFont(font)
-        self.save_pushButton.setDefault(True)
         self.retranslateUi(deepsort_ui)
         # custom 
         self.loadDS()

@@ -10,7 +10,7 @@ Example 18: Recognize faces and train an ArcFace or AdaFace classifier
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 
-.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/dev/examples
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
 
 Install ``requirements/faces.txt`` using ``python -m pip install -r`` from the
 repository root and either the ArcFace or AdaFace v1.6.0 data wheel. For NVIDIA

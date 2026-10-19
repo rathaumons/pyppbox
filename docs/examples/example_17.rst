@@ -10,7 +10,7 @@ Example 17: Compare FaceNet, ArcFace, and AdaFace
 
 ℹ️ **Source code and input file(s)** -> `{pyppbox repo}/examples`_
 
-.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/dev/examples
+.. _{pyppbox repo}/examples: https://github.com/rathaumons/pyppbox/tree/main/examples
 
 This benchmark measures FaceNet, ArcFace, or AdaFace in a separate process.
 Install the matching runtime dependencies and obtain the v1.6.0 data wheel for

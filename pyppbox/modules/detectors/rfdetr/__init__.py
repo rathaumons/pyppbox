@@ -11,42 +11,14 @@ from pyppbox.utils.persontools import Person, findRepspoint, findRepspointBB
 
 
 class MyRFDETR:
-    """Adapt RF-DETR boxes to pyppbox's existing detector and Person interfaces.
+    """Convert RF-DETR detections to pyppbox boxes and Person objects.
 
-    The editable GUI device field accepts CPU, CUDA/indexed GPU, MPS, and
-    ``auto`` settings. Integer indices are passed as ``cuda:N``; ``auto`` leaves
-    selection to RF-DETR. The installed backend and hardware determine availability.
-
-    Attributes
-    ----------
-    cfg : pyppbox.config.myconfig.DCFGRFDETR
-        Validated detector configuration.
-    model : object
-        RF-DETR model, retained across frames. With ``cfg.optimize=True``, the
-        upstream model is prepared in place for inference only; training/export
-        require a separate RF-DETR instance.
-    """
+    cfg selects the checkpoint, model size, device, and confidence threshold."""
 
     def __init__(self, cfg):
-        """Load one RF-DETR model and optionally prepare it for inference.
+        """Load the configured checkpoint; an empty model_file permits downloading.
 
-        Parameters
-        ----------
-        cfg : pyppbox.config.myconfig.DCFGRFDETR
-            Model, device, confidence, and people-class configuration.
-
-        Raises
-        ------
-        ImportError
-            Python is older than 3.10 or the optional backend is not installed.
-        FileNotFoundError
-            The configured local checkpoint does not exist.
-
-        Notes
-        -----
-        An empty ``model_file`` lets RF-DETR download its pretrained checkpoint
-        to its cache (controlled by ``RF_HOME``). Backend/device failures propagate.
-        """
+        Requires Python 3.10+ and requirements/rfdetr.txt."""
         self.model = None
         try:
             if sys.version_info < (3, 10):

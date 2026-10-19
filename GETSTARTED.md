@@ -32,7 +32,7 @@ Existing V3 projects can keep their configuration files when upgrading to V4; se
   - For GPU (CUDA) on ***Windows***:
     - Run the `cmd` installer [`install_req_py3_cuda121.cmd`](https://github.com/rathaumons/pyppbox/blob/main/requirements/install_req_py3_cuda121.cmd) (Or [`install_req_py3_cuda.cmd`](https://github.com/rathaumons/pyppbox/blob/main/requirements/install_req_py3_cuda.cmd) for CUDA 11.8)
     - For a fresh V4 setup on Windows with Python 3.10–3.12 and CUDA 12.1, use [`install_v4_req_py3_cuda121.cmd`](https://github.com/rathaumons/pyppbox/blob/main/requirements/install_v4_req_py3_cuda121.cmd) instead; it also includes RF-DETR, ArcFace, and AdaFace.
-    - These scripts install CUDA-enabled **PyTorch**. FaceNet and DeepSORT use **TensorFlow**: native Windows GPU support ended with TensorFlow 2.10. For newer TensorFlow GPU builds, follow the [official Linux/WSL2 instructions](https://www.tensorflow.org/install/pip); installing CUDA-enabled PyTorch does not enable TensorFlow GPU support.
+    - These scripts enable PyTorch CUDA. FaceNet/DeepSORT use CPU TensorFlow on modern native Windows; see [TensorFlow GPU setup](https://www.tensorflow.org/install/pip) for WSL2.
   - For GPU (CUDA) on ***Linux***:
     - Install the CUDA version of [TensorFlow](https://www.tensorflow.org/install) and [PyTorch](https://pytorch.org/get-started/locally/).
     - Install the [`requirements.txt`](https://github.com/rathaumons/pyppbox/blob/main/requirements/requirements.txt):
@@ -42,7 +42,7 @@ Existing V3 projects can keep their configuration files when upgrading to V4; se
   - For GPU (CUDA) on ***macOS***:
     - Not available
 
-* (Optional, V4) Install module requirements on Python 3.10+ from the repository root. These files supplement the base dependencies; install only those needed by your modules. See the [requirements guide](https://github.com/rathaumons/pyppbox/tree/main/requirements) for details.
+* (Optional, V4) Install the requirements for your modules from the repository root, using Python 3.10+:
   - RF-DETR:
     ```sh
     python -m pip install -r requirements/rfdetr.txt
@@ -55,12 +55,12 @@ Existing V3 projects can keep their configuration files when upgrading to V4; se
     ```sh
     python -m pip install -r requirements/faces_gpu.txt
     ```
-    If switching from CPU, or if both runtimes are already installed, close pyppbox and use this sequence instead. Removing both packages first avoids leaving overlapping runtime files behind:
+    When switching from CPU, close pyppbox and remove both packages before reinstalling the GPU runtime:
     ```sh
     python -m pip uninstall -y onnxruntime onnxruntime-gpu
     python -m pip install -r requirements/faces_gpu.txt
     ```
-    Choose an ONNX Runtime GPU version compatible with your CUDA/cuDNN libraries. The GPU runtime also supports CPU inference; install only one face requirements file. The requirements guide includes the tested CUDA 12.1 setup. Model/data wheels are installed separately in Setup below.
+    Choose one face runtime. See the [requirements guide](https://github.com/rathaumons/pyppbox/tree/main/requirements) for CUDA-compatible versions; model/data wheels are installed below.
 
 * (Optional) For GPU-Only (CUDA) -> Verify the installed dependencies:
   - Execute the `test_gpu.py`
@@ -91,7 +91,7 @@ You need to install the main package which is `pyppbox` and the data for the mod
     Run these commands from the repository root, then install the generated wheel in `dist/` with `python -m pip install` followed by its path.
 
 * Install [`pyppbox-data-xxx`](https://github.com/rathaumons/pyppbox-data/)
-  - V4 uses all eight **[v1.6.0](https://github.com/rathaumons/pyppbox-data/releases/tag/v1.6.0)** module data wheels. Install only the modules you need. Data wheels supply assets; install the optional module requirements above when using RF-DETR, ArcFace, or AdaFace. The data version is independent of the pyppbox package version.
+  - Install the **[v1.6.0](https://github.com/rathaumons/pyppbox-data/releases/tag/v1.6.0)** data wheels for the modules you need.
   - Download from the release above or install directly:
     ```
     pip install https://github.com/rathaumons/pyppbox-data/releases/download/v1.6.0/pyppbox_data_yolocls-1.6.0-py3-none-any.whl

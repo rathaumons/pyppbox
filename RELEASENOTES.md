@@ -4,48 +4,17 @@
 
 * `pyppbox` V4 (unreleased) - Performance and Stability
 
-  - Improve performance and stability in the existing pyppbox pipeline
-  - Preserve working V3 configurations and public interfaces, including `pyppbox.standalone`
-  - Measure optimizations against the V3.15 correctness baseline
-  - Support optional RF-DETR Nano, Small, Medium, and current Large detection models through `RF_DETR`, with an RF-DETR GUI panel and [Example 15](https://rathaumons.github.io/pyppbox/examples/example_15.html); install `requirements/rfdetr.txt` with `python -m pip install -r` on Python 3.10+
-  - Use all eight [`pyppbox-data` v1.6.0](https://github.com/rathaumons/pyppbox-data/releases/tag/v1.6.0) wheels in installation docs and CI, including RF-DETR, ArcFace, and AdaFace
-  - Add optional ArcFace R50 and AdaFace IR18 face recognition with SCRFD alignment, local ONNX models, CPU/CUDA selection, and model-specific identity SVMs; include configuration validation, GUI settings, and examples 16–18
-  - Load the v1.6.0 ArcFace/AdaFace data wheels with the internal defaults; reject incompatible classifier/model fingerprints and keep existing FaceNet behavior
-  - Supply RF-DETR defaults for older config directories without rewriting their files; preserve other detector configurations when saving settings
-  - Show backend failure details in the GUI, including launches without a console on Windows
-  - Use numeric controls across detector, tracker, and ReID config panels, preserving decimal precision, signed crop offsets, and unlimited DeepSORT budgets
-  - Share aligned parameter/path rows and a centered Save button across all module popups; keep browse buttons inside the common field column
-  - Reuse editable device dropdowns for RF-DETR, YOLO Ultralytics, Torchreid, ArcFace, and AdaFace, retaining backend-specific presets, validation, and defaults; show `device | auto by OpenCV/TensorFlow` as the last parameter row before Save for YOLO Classic, FaceNet, and DeepSORT
-  - Keep the launcher papers/GitHub link readable in light and dark themes, including theme changes while the GUI is open
-  - Use [`pyppbox-ultralytics>=8.4.144`](https://github.com/rathaumons/ultralytics-for-pyppbox) as the default YOLO backend, replacing `vsensebox-ultralytics` with the same `ultralytics` imports and configuration format
-  - Extend Python metadata and core CI coverage through Python 3.13; RF-DETR remains optional and has its own Python/backend requirements
-  - Reduce ReID crop allocations: resize body regions directly and copy only face regions in both normal and duplicate recognition passes
-  - Clip ReID crop bounds to the frame; skip malformed or entirely invisible regions while retaining the person's existing identity and confidence
-  - Add a reproducible ReID crop benchmark with output fingerprints, latency samples, and allocation measurements
-  - Index loaded GT frames for direct lookup while retaining row references and refreshing the index on reload
-  - Avoid rebuilding the accumulated result list during frame-local sorting; reject out-of-order or misaligned result records before writing
-  - Share YOLO prediction, conversion, filtering, and drawing paths while preserving detection order and box/pose/confidence alignment; transfer only the result fields in use
-  - Initialize YOLO pose drawing from model task metadata, including custom checkpoint names, with the legacy filename fallback retained
-  - Use indexed DeepSORT metadata lookup and carry actual detection associations through NMS; prevent repeated boxes or unmatched predicted tracks from overwriting another person's ID and metadata
-  - Read Torchreid configuration/model metadata without importing its runtime package, retaining the legacy catalog imports and YAML format
-  - Load SORT's plotting/image dependencies only for its display demo; defer standalone pipeline imports and shared-instance creation until first use
-  - Validate existing configuration fields before model initialization, retaining safe legacy values and path rules; diagnose missing selected settings and inference assets
-  - Preserve extension fields, custom modules, and document order in GUI saves; retain indexed device selections and keep settings dialogs open on save errors
-  - Add recoverable grouped configuration saves with staging, rollback, and explicit recovery after interruption
-  - Add pipeline close/context-manager support and stream reset while retaining loaded models; release owned TensorFlow sessions and tracking metadata
-  - Construct replacement stages before publishing them, retaining the working pipeline on initialization failure and cleaning up unsuccessful candidates
-  - Preserve working FaceNet sessions/classifiers on failed reloads, close training sessions on success or failure, and avoid constructing the training reider twice
-  - Add bounded, opt-in Torchreid inference batches through `reidPeople(batch_size=...)` and direct `recognize_batch()`, retaining scalar defaults and existing configs
-  - Preserve per-person ReID counts, crop preprocessing, and duplicate-group order; retry failed batches per person and recheck numerically close identity decisions using scalar inference
-  - Use the named pyppbox logger without configuring application root logging; open unique user log files lazily and tolerate log I/O failures
-  - Isolate GUI launch handoffs per session, store remembered state outside the package with atomic writes, and retain read-only legacy-state readers without changing YAML configs
-  - Add paired CPU pipeline benchmarks against the released V3.15 wheel on Linux, Windows, and macOS; verify output/identity equivalence and record advisory stage timings, latency percentiles, and sampled memory
-  - Keep enabled file logging compatible with Python 3.9, retry read-only temporary config restores after an interrupted rollback, and recognize internal GUI config paths across Windows path aliases/case
-  - Stop owned GUI launcher/demo workers on exit or interruption, using private Windows jobs and POSIX sessions with parent-loss cleanup
-  - Validate RF-DETR Nano/Small/Medium/Large on CPU against native predictions, offline checkpoints, generated custom class heads and Lightning checkpoints, failed replacements, and independent streams
-  - Pass 27 core source/installed-wheel compatibility jobs plus six CPU model/GUI jobs across Linux, Windows, and macOS, including real descendant-process cleanup
+  - Add RF-DETR Nano/Small/Medium/Large detection and ArcFace/AdaFace face recognition, with GUI settings, examples, and v1.6.0 model/data wheels.
+  - Use `pyppbox-ultralytics>=8.4.144` for YOLO and requirements files for optional modules; add a fresh-install Windows CUDA 12.1 script.
+  - Improve numeric, path, and device controls in module settings; preserve unrelated settings when saving.
+  - Validate configuration and inference assets before loading models. Existing configuration files remain supported.
+  - Add pipeline `close()`, context-manager support, and stream `reset()`; preserve the active pipeline if model replacement fails.
+  - Reduce startup imports and ReID allocations, index GT/DeepSORT metadata, and add optional Torchreid batching.
+  - Fix DeepSORT detection associations, invalid ReID crops, and result ordering.
+  - Store logs and GUI state outside the package and clean up owned GUI workers.
+  - Extend core compatibility coverage through Python 3.13. New optional modules require Python 3.10+.
 
-  CPU timings depend on the workload and platform; no universal speedup or 15% target is claimed. Custom checkpoint fixtures validate loading and class mapping, not trained-model accuracy. See the [V4 upgrade guide](https://rathaumons.github.io/pyppbox/pyppbox/v4.html) for compatibility and runtime behavior.
+  See the [V4 upgrade guide](https://rathaumons.github.io/pyppbox/pyppbox/v4.html) for setup and compatibility.
 
 ## **pyppbox V3 - Make Simpler and Faster**
 

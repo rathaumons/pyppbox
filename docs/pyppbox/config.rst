@@ -3,144 +3,53 @@
 Configurations
 ==============
 
-Configuration inputs and paths
-------------------------------
+Inputs and paths
+----------------
 
-V3.15 keeps the existing configuration keys and file layout. Module setters accept
-a supported name, a dictionary, a raw YAML/JSON mapping, or a YAML/JSON file path.
-A legacy list containing one mapping is also accepted. Single-module setters need
-one document; files listing several modules belong in a configuration directory
-or in the configurator's bulk loaders.
+Module setters accept a module name, dictionary, YAML/JSON mapping, or file
+path. Multi-document files belong in a config directory or bulk loader.
+``"None"`` disables a stage.
 
-The internal configuration directory contains ``main.yaml``, ``detectors.yaml``,
-``trackers.yaml``, and ``reiders.yaml``. Paths inside these internal configs resolve
-relative to the installed ``pyppbox`` directory. Paths in custom configurations
-resolve relative to the current working directory unless a config class is created
-with ``relative_to_pyppbox_root=True``. Absolute model paths work in either case.
-The location of a custom YAML/JSON file does not become the base for its model paths.
+A config directory contains ``main.yaml``, ``detectors.yaml``, ``trackers.yaml``,
+and ``reiders.yaml``. Internal model paths resolve from the installed package;
+custom paths resolve from the working directory. Absolute paths work in both.
+A custom YAML file's location does not change this base directory.
 
-Use ``setConfigDir(config_dir=None, load_all=True)`` to load the selected internal
-modules. The default ``load_all=False`` selects the config directory without loading
-models. The module name ``"None"`` disables a stage; it is a string.
-
-Use native booleans for options such as ``show_boxes``. V3.15 also accepts existing
-quoted ``"True"``/``"False"`` values for that field. Config saves preserve general
-string values and replace each file atomically.
+``setConfigDir(None, load_all=True)`` loads the selected internal modules.
+The default ``load_all=False`` changes the configuration without loading models.
+Use ``relative_to_pyppbox_root=True`` when constructing config objects that
+should resolve paths from the installed package.
 
 .. _device-selection:
 
-GUI and device selection
-------------------------
+Devices
+-------
 
-Open the launcher with ``pyppbox.launchGUI()``, select a module, and open its
-settings. Module dialogs share aligned parameter fields, editable path inputs
-with browse buttons, and a centered Save button separated from the parameters.
-The launcher's papers/GitHub link follows light and dark themes.
+Select a preset or type a supported value in the GUI's device field:
 
-RF-DETR, YOLO Ultralytics, Torchreid, ArcFace, and AdaFace use the same editable
-device dropdown. Select a preset or type another value supported by that module,
-such as ``cuda:1``. Presets differ by backend:
+* **RF-DETR:** GPU index, ``cpu``, ``cuda:N``, ``mps``, or ``auto``; default ``0``.
+* **YOLO Ultralytics:** backend-supported device or GPU indices; an empty value
+  selects automatically.
+* **Torchreid:** PyTorch device, such as ``cpu``, ``cuda``, or ``cuda:N``.
+* **ArcFace/AdaFace:** ``cpu``, ``cuda``, or ``cuda:N``; default ``cpu``.
+* **YOLO Classic:** OpenCV selects CPU/CUDA according to its build and hardware.
+* **FaceNet/DeepSORT:** TensorFlow selects devices; FaceNet's ``gpu_mem`` limits
+  GPU memory and does not select a device.
 
-.. list-table:: Device dropdown presets
-   :header-rows: 1
-   :widths: 30 70
+Device selection requires a compatible installed runtime. Opening a settings
+panel does not load a model. See :doc:`../getstarted` for dependencies.
 
-   * - Module
-     - Presets
-   * - RF-DETR
-     - ``0``, ``cpu``, ``cuda:0``, ``mps``, ``auto``
-   * - YOLO Ultralytics
-     - ``0``, ``cpu``, ``cuda:0``, ``mps``
-   * - Torchreid
-     - ``cpu``, ``cuda``, ``cuda:0``, ``mps``
-   * - ArcFace / AdaFace
-     - ``cpu``, ``cuda``, ``cuda:0``
+Validation and saving
+---------------------
 
-Saving validates the device syntax and writes the module's configuration.
-Opening a settings panel does not initialize a model or test device availability.
-A listed or accepted value still requires compatible hardware and an installed
-backend that supports it. ArcFace/AdaFace expose CPU and NVIDIA CUDA providers;
-they do not accept ``mps``. Torchreid passes device names to PyTorch, while YOLO
-Ultralytics also accepts backend-specific formats such as comma-separated GPU
-indices.
+Settings are validated before use, and inference files are checked before
+loading models. Training data and GT mapping files are not required for normal
+inference. RF-DETR, ArcFace, and AdaFace reject unknown configuration keys.
 
-GPU index ``0`` means the first GPU. RF-DETR and YOLO Ultralytics retain integer
-indices in their configuration; Torchreid and ArcFace/AdaFace normalize an index
-to ``cuda:N``. For example, typing ``2`` selects ``cuda:2`` for these three ReID
-modules.
-
-Automatic selection has different meanings:
-
-* **RF-DETR:** ``auto`` delegates device selection to RF-DETR. The literal
-  ``auto`` is specific to this module.
-* **YOLO Ultralytics:** clear the editable field, or use an empty string or
-  ``null``/``None`` in a configuration, to use the backend's automatic selection.
-  Existing ``None`` values may appear as ``None`` in the editable field.
-* **YOLO Classic:** OpenCV's default CPU backend is used unless OpenCV reports a
-  CUDA-enabled device, in which case the adapter selects its CUDA DNN backend.
-  There is no ``device`` configuration key; the popup's final parameter row shows
-  ``device`` and ``auto by OpenCV`` before Save.
-* **FaceNet / DeepSORT:** TensorFlow places their neural-network operations using
-  its installed build and available devices. Their popups show ``device`` and
-  ``auto by TensorFlow`` in the final parameter row before Save; this read-only
-  display adds no ``device`` config key. DeepSORT's tracking and
-  assignment work remains on CPU. FaceNet's ``gpu_mem`` controls the TensorFlow
-  session's GPU memory fraction; it does not select CPU versus GPU.
-
-Bundled defaults are unchanged: RF-DETR and YOLO Ultralytics request GPU index
-``0``, Torchreid requests ``cuda``, and ArcFace/AdaFace use ``cpu``. Choose ``cpu``
-when using a module without its GPU runtime. See :doc:`../getstarted` for setup.
-
-Validation and safe saves
--------------------------
-
-V4 retains these formats, keys, defaults, and path rules.
-Supported config classes validate required settings, finite numeric values, positive
-image/batch sizes, nonnegative tracker counts, path types, and device syntax before
-initializing models. Numeric strings and quoted boolean values are normalized where
-safe. Signed representative-point and face-crop offsets, zero SORT counts, and
-``nn_budget=None`` remain valid. DeepSORT cosine distance may exceed one.
-
-Reading a configuration or opening its settings panel does not require installed
-model files. The pipeline checks inference assets before constructing a stage and
-checks deferred ReID classifier assets when loading them. Training directories and
-GT mapping files are not required for ordinary inference. Ultralytics retains its
-backend-managed downloads and supported model formats; RF-DETR retains its explicit
-local-checkpoint or empty-path download modes. Device availability and checkpoint
-contents remain backend checks. ``BaseCGF.validateRuntime(classifier=True)`` also
-provides an explicit preflight for config objects used outside the pipeline.
-
-The main save and targeted ``dumpDetectorCFG()``, ``dumpTrackerCFG()``, and
-``dumpReiderCFG()`` methods merge edited fields, retaining extension fields and the
-order of other documents. Settings panels use these targeted saves and remain open
-if validation or writing fails. Unknown module documents remain opaque. RF-DETR,
-ArcFace, and AdaFace reject unknown options. YAML comments are regenerated.
-The bulk ``dumpAll*CFG()`` methods still replace complete document lists.
-
-For several files, ``MyConfigurator.dumpConfigs()`` validates and stages complete
-documents before replacing any file. A handled write error restores the exact
-original bytes. If the process is interrupted, retained ``.pyppbox-save-*`` folders
-allow explicit recovery::
-
-    from pyppbox.config.configtools import recoverConfigSave
-    recoverConfigSave("my-config-directory")
-
-Stop users of that config directory before recovery. Use one writer and pause
-readers during a group save: readers can observe intermediate file combinations.
-Recovery restores unfinished saves and retains completed saves. Backups remain
-available if restoration fails, and configurator saves refuse to overwrite a pending
-group. Resolved symlink targets must share the config directory's filesystem.
-Power-loss durability depends on the filesystem. Individual file replacement
-remains atomic; this does not provide concurrent multi-file transactions.
-
-Torchreid model metadata
-------------------------
-
-Configuration loading and the Torchreid settings panel read the model catalog
-through ``pyppbox.config.torchreidmodels`` without importing the ReID runtime
-package. The catalog YAML file, custom catalog paths, filename matching, and
-image dimensions retain their existing behavior. Imports from
-``pyppbox.modules.reiders.torchreid.model_dict`` remain supported.
+GUI saves and ``dumpDetectorCFG()``, ``dumpTrackerCFG()``, and ``dumpReiderCFG()``
+merge edited fields, preserving other modules and extension fields. The bulk
+``dumpAll*CFG()`` methods replace complete document lists. File replacement is
+atomic; YAML comments are regenerated.
 
 pyppbox.gui.guitools
 --------------------

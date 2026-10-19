@@ -1,7 +1,7 @@
 # Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License
 
 
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 from pyppbox.gui.configwidgets import config_form, device_dropdown
 from pyppbox.gui.numericwidgets import FloatSpinBox
 from pyppbox.config.unifiedstrings import UnifiedStrings
@@ -26,81 +26,35 @@ class Ui_Torchreid(object):
 
     def setupUi(self, torchreid_ui):
         torchreid_ui.setObjectName("torchreid_ui")
-        torchreid_ui.resize(390, 240)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, 
-                                           QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(torchreid_ui.sizePolicy().hasHeightForWidth())
-        torchreid_ui.setSizePolicy(sizePolicy)
-        torchreid_ui.setMinimumSize(QtCore.QSize(390, 240))
-        torchreid_ui.setMaximumSize(QtCore.QSize(390, 240))
         self.dr_model_path_label = QtWidgets.QLabel(torchreid_ui)
-        self.dr_model_path_label.setGeometry(QtCore.QRect(10, 100, 91, 16))
-        self.dr_model_path_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                              QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                              QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.dr_model_path_label.setObjectName("dr_model_path_label")
         self.dr_min_confidence_spinBox = FloatSpinBox(torchreid_ui)
-        self.dr_min_confidence_spinBox.setGeometry(QtCore.QRect(110, 130, 241, 21))
         self.dr_min_confidence_spinBox.setObjectName("dr_min_confidence_spinBox")
         self.save_pushButton = QtWidgets.QPushButton(torchreid_ui)
-        self.save_pushButton.setGeometry(QtCore.QRect(150, 200, 91, 31))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.save_pushButton.setFont(font)
-        self.save_pushButton.setDefault(True)
         self.save_pushButton.setObjectName("save_pushButton")
         self.dr_min_confidence_label = QtWidgets.QLabel(torchreid_ui)
-        self.dr_min_confidence_label.setGeometry(QtCore.QRect(10, 130, 91, 16))
-        self.dr_min_confidence_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                                  QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                                  QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.dr_min_confidence_label.setObjectName("dr_min_confidence_label")
         self.dr_classifier_pkl_label = QtWidgets.QLabel(torchreid_ui)
-        self.dr_classifier_pkl_label.setGeometry(QtCore.QRect(10, 10, 91, 16))
-        self.dr_classifier_pkl_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                                  QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                                  QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.dr_classifier_pkl_label.setObjectName("dr_classifier_pkl_label")
         self.dr_model_path_lineEdit = QtWidgets.QLineEdit(torchreid_ui)
-        self.dr_model_path_lineEdit.setGeometry(QtCore.QRect(110, 100, 241, 21))
         self.dr_model_path_lineEdit.setObjectName("dr_model_path_lineEdit")
         self.dr_train_data_pushButton = QtWidgets.QPushButton(torchreid_ui)
-        self.dr_train_data_pushButton.setGeometry(QtCore.QRect(360, 40, 21, 24))
         self.dr_train_data_pushButton.setObjectName("dr_train_data_pushButton")
         self.dr_model_name_lineEdit = QtWidgets.QLineEdit(torchreid_ui)
-        self.dr_model_name_lineEdit.setGeometry(QtCore.QRect(110, 70, 241, 21))
         self.dr_model_name_lineEdit.setObjectName("dr_model_name_lineEdit")
         self.dr_model_path_pushButton = QtWidgets.QPushButton(torchreid_ui)
-        self.dr_model_path_pushButton.setGeometry(QtCore.QRect(360, 100, 21, 24))
         self.dr_model_path_pushButton.setObjectName("dr_model_path_pushButton")
         self.dr_model_name_label = QtWidgets.QLabel(torchreid_ui)
-        self.dr_model_name_label.setGeometry(QtCore.QRect(10, 70, 91, 16))
-        self.dr_model_name_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                              QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                              QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.dr_model_name_label.setObjectName("dr_model_name_label")
         self.dr_train_data_label = QtWidgets.QLabel(torchreid_ui)
-        self.dr_train_data_label.setGeometry(QtCore.QRect(10, 40, 91, 16))
-        self.dr_train_data_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                              QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                              QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.dr_train_data_label.setObjectName("dr_train_data_label")
         self.dr_train_data_lineEdit = QtWidgets.QLineEdit(torchreid_ui)
-        self.dr_train_data_lineEdit.setGeometry(QtCore.QRect(110, 40, 241, 21))
         self.dr_train_data_lineEdit.setObjectName("dr_train_data_lineEdit")
         self.dr_classifier_pkl_pushButton = QtWidgets.QPushButton(torchreid_ui)
-        self.dr_classifier_pkl_pushButton.setGeometry(QtCore.QRect(360, 10, 21, 24))
         self.dr_classifier_pkl_pushButton.setObjectName("dr_classifier_pkl_pushButton")
         self.dr_classifier_pkl_lineEdit = QtWidgets.QLineEdit(torchreid_ui)
-        self.dr_classifier_pkl_lineEdit.setGeometry(QtCore.QRect(110, 10, 241, 21))
         self.dr_classifier_pkl_lineEdit.setObjectName("dr_classifier_pkl_lineEdit")
         self.dr_devices_label = QtWidgets.QLabel(torchreid_ui)
-        self.dr_devices_label.setGeometry(QtCore.QRect(10, 160, 91, 16))
-        self.dr_devices_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|
-                                        QtCore.Qt.AlignmentFlag.AlignTrailing|
-                                        QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.dr_devices_label.setObjectName("dr_devices_label")
         self.dr_device_comboBox = device_dropdown(torchreid_ui, ['cpu', 'cuda', 'cuda:0', 'mps'])
         self.dr_device_comboBox.setObjectName('dr_device_comboBox')
