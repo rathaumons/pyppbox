@@ -35,6 +35,13 @@ Use ``MT`` as a context manager or call ``close()`` to release models.
 replacement leaves the active pipeline usable; see :doc:`standalone`.
 Logs and GUI state use a writable user directory; see :doc:`utils`.
 
+Result exports, ground-truth files, and video-to-GT mapping files now use UTF-8.
+Readers also accept a UTF-8 BOM. Re-save older files that use a local Windows
+encoding, such as CP1252, as UTF-8 before loading; ASCII files work unchanged.
+Exports keep the ``res_<timestamp>_full.txt`` name when available and add numbered
+suffixes when needed, so rapid or concurrent exports preserve earlier results.
+Failed writes remove their temporary file and filename reservation.
+
 DeepSORT fixes detection-to-track metadata associations, and ReID skips empty
 or out-of-frame crops. Torchreid batching remains opt-in with ``batch_size``;
 the default scalar behavior is unchanged.

@@ -10,6 +10,7 @@ import numpy as np
 from pyppbox.utils import evatools
 from pyppbox.utils.evatools import MyEVA, compareRes2Ref
 from pyppbox.utils.persontools import Person
+from pyppbox.utils.restools import ResIO
 
 
 def row(frame, name, x):
@@ -83,6 +84,30 @@ class EvaluationTests(unittest.TestCase):
             result = self.evaluate(row(0, 'Alice', 0) + row(0, 'Bob', 100),
                                    [person('Alice', 0), person('Alice', 0)], mode)
             self.assertEqual(result, (0, 1, 1, 0, 2, .5))
+
+    def test_unicode_gt_and_predictions_have_no_identity_errors(self):
+        names = ['José', '测试', 'សុខា', 'Zoë 🧑']
+        reference = ''.join(row(0, name, i * 100) for i, name in enumerate(names))
+        predictions = [person(name, i * 100) for i, name in enumerate(names)]
+        for mode in ('deepid', 'faceid'):
+            with self.subTest(mode=mode):
+                self.assertEqual(self.evaluate(reference, predictions, mode), (0, 0, 0, 0, 4, 1.))
+
+    def test_unicode_exports_round_trip_through_offline_evaluation(self):
+        for method in ('dump', 'dumpAll'):
+            with self.subTest(method=method), tempfile.TemporaryDirectory() as folder:
+                reference = Path(folder) / '参照.txt'
+                reference.write_text(row(0, '测试', 0), encoding='utf-8-sig')
+                recorder = ResIO()
+                recorder.addPerson(0, person('测试', 0))
+                getattr(recorder, method)(folder)
+                result, = Path(folder).glob('res_*.txt')
+                box_index = 4 if method == 'dump' else 5
+                id_indices = (2,) if method == 'dump' else (2, 3)
+                for id_index in id_indices:
+                    self.assertEqual(compareRes2Ref(result, reference,
+                                                   res_box_xyxy_index=box_index,
+                                                   res_compare_index=id_index), (0, 0, 0, 1, 1.))
 
     def test_geometry_not_identity_determines_assignment(self):
         result = self.evaluate(row(0, 'Alice', 0) + row(0, 'Bob', 100),

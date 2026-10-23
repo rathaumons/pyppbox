@@ -34,8 +34,9 @@ class GTIO(object):
         Parameters
         ----------
         gt_map_txt : str
-            Mapping file with one ``video_filename:gt_filename`` pair per line when
-            using the default separator. Use basenames, without blank rows.
+            UTF-8 mapping file (an optional BOM is accepted) with one
+            ``video_filename:gt_filename`` pair per line when using the default
+            separator. Use basenames, without blank rows.
         splitter : str
             Defaults to ``':'``. One nonempty character absent from both filenames.
 
@@ -56,7 +57,7 @@ class GTIO(object):
             add_error_log(msg)
             raise ValueError(msg)
         try:
-            with open(gt_map_txt, 'r') as map_file:
+            with open(gt_map_txt, 'r', encoding='utf-8-sig') as map_file:
                 self.map_lines = map_file.readlines()
                 for line in self.map_lines:
                     line = formatLineInGTMap(line, splitter=splitter)
@@ -103,9 +104,10 @@ class GTIO(object):
         Parameters
         ----------
         gt_file_txt : str
-            Input file with no blank rows. Columns begin with frame index, representative
-            point, identity, xywh box, and xyxy box. Additional columns remain available
-            as text, which also allows the offline evaluator to read result files.
+            UTF-8 input file (an optional BOM is accepted) with no blank rows. Columns
+            begin with frame index, representative point, identity, xywh box, and xyxy
+            box. Additional columns remain available as text, which also allows the
+            offline evaluator to read result files.
 
         Returns
         -------
@@ -134,7 +136,7 @@ class GTIO(object):
         total_detections = 0
         init_frame = 0
         try:
-            with open(gt_file_txt, 'r') as gt_file:
+            with open(gt_file_txt, 'r', encoding='utf-8-sig') as gt_file:
                 gt_lines = gt_file.readlines()
                 same_frame = 0
                 gt_frame = []

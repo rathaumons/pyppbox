@@ -1,8 +1,11 @@
 # Copyright (c) 2026 UMONS-Numediart | AGPL-3.0 License
 
 
+import os
+import tempfile
 import numpy as np
 
+from contextlib import contextmanager, ExitStack
 from copy import deepcopy
 
 from .persontools import Person
@@ -14,6 +17,33 @@ from .commontools import (joinFPathFull, getGlobalRootDir, isExist,
 default_dump_dir = joinFPathFull(getGlobalRootDir(), "data/res/")
 default_dump_file = joinFPathFull(default_dump_dir, "res.txt")
 default_dumpall_file = joinFPathFull(default_dump_dir, "res_all.txt")
+
+
+@contextmanager
+def _new_result_file(path):
+    """Reserve a unique name, then replace it with the completed UTF-8 export."""
+    stem, extension = os.path.splitext(path)
+    suffix = 0
+    with ExitStack() as cleanup:
+        while True:
+            destination = path if suffix == 0 else f'{stem}_{suffix}{extension}'
+            try:
+                reservation = open(destination, 'x', encoding='utf-8')
+            except FileExistsError:
+                suffix += 1
+            else:
+                # Exclusive creation also prevents collisions between processes.
+                cleanup.callback(os.unlink, destination)
+                reservation.close()
+                break
+        with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8',
+                                         dir=os.path.dirname(destination),
+                                         prefix='.pyppbox-res-', suffix='.tmp', delete=False) as output:
+            cleanup.callback(os.unlink, output.name)
+            yield destination, output
+        os.replace(output.name, destination)
+        cleanup.pop_all()
+
 
 class ResIO(object):
 
@@ -111,14 +141,16 @@ class ResIO(object):
 
         Notes
         -----
-        Writes a timestamped ``res_<timestamp>_full.txt`` and returns None;
+        Writes a UTF-8 ``res_<timestamp>_full.txt`` and returns None;
         the path is reported through logging. The directory must already exist; a
         missing requested directory falls back to the package's ``data/res`` directory.
         People are sorted by representative-point x within each consecutive frame group.
         Frame indexes must be nondecreasing and ``frames``/``people`` must have equal
         lengths; invalid ordering or alignment raises ValueError before writing.
-        Stored records are retained after writing. Calls within the same timestamp
-        second can overwrite the same output file.
+        Stored records are retained after writing. If the name is already taken,
+        a numbered suffix (``_full_1.txt``, ``_full_2.txt``, ...) is reserved exclusively,
+        including across concurrent exporters. Contents are written to a temporary file
+        before replacing the reservation; failed exports clean up their new files.
         """
         dump_file = self.__generateFileName__(dump_dir)
         if id_mode != "deepid":
@@ -132,7 +164,7 @@ class ResIO(object):
         dump_mode = int(dump_mode)
         if dump_mode < 1 and dump_mode > 3:
             add_warning_log("-----RESIO : 'dump_mode' is out of range -> Override 'dump_mode=3'")
-        with open(dump_file, 'w') as dumpfile:
+        with _new_result_file(dump_file) as (dump_file, dumpfile):
             for f, p in zip(self.frames, self.sorted_people):
                 dump_str = ""
                 if dump_mode == 1:
@@ -192,21 +224,23 @@ class ResIO(object):
 
         Notes
         -----
-        Writes a timestamped ``res_<timestamp>_full.txt`` and returns None;
+        Writes a UTF-8 ``res_<timestamp>_full.txt`` and returns None;
         the path is reported through logging. The directory must already exist; a
         missing requested directory falls back to the package's ``data/res`` directory.
         People are sorted by representative-point x within each consecutive frame group.
         Frame indexes must be nondecreasing and ``frames``/``people`` must have equal
         lengths; invalid ordering or alignment raises ValueError before writing.
-        Stored records are retained after writing. Calls within the same timestamp
-        second can overwrite the same output file.
+        Stored records are retained after writing. If the name is already taken,
+        a numbered suffix (``_full_1.txt``, ``_full_2.txt``, ...) is reserved exclusively,
+        including across concurrent exporters. Contents are written to a temporary file
+        before replacing the reservation; failed exports clean up their new files.
         """
         dump_file = self.__generateFileName__(dump_dir)
         dump_mode = int(dump_mode)
         self.__sort_people_by_x__()
         if dump_mode < 1 and dump_mode > 3:
             add_warning_log("-----RESIO : 'dump_mode' is out of range -> Override 'dump_mode=3'")
-        with open(dump_file, 'w') as dumpfile:
+        with _new_result_file(dump_file) as (dump_file, dumpfile):
             for f, p in zip(self.frames, self.sorted_people):
                 dump_str = ""
                 tmp_deepid = p.deepid
