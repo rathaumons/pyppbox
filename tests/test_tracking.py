@@ -13,6 +13,7 @@ from unittest.mock import Mock, patch
 import numpy as np
 
 from pyppbox.modules.trackers.sort import MySORT
+from pyppbox.modules.trackers.sort.origin import sort
 from pyppbox.modules.trackers import centroid
 from pyppbox.ppb.mt import MT
 from pyppbox.utils.persontools import Person
@@ -87,9 +88,9 @@ class TrackingTests(unittest.TestCase):
             self.assertEqual(tracks, [])
 
     def test_centroid_assignment_fallback(self):
-        broken_lap = SimpleNamespace(lapjvxa=Mock(side_effect=RuntimeError('injected LAP failure')))
-        for backend in (None, broken_lap, centroid.lap):
-            with self.subTest(backend=backend), patch.object(centroid, 'lap', backend):
+        broken_lap = SimpleNamespace(lapjv=Mock(side_effect=RuntimeError('injected LAP failure')))
+        for backend in (None, SimpleNamespace(), broken_lap, centroid.laprust):
+            with self.subTest(backend=backend), patch.object(centroid, 'laprust', backend):
                 tracker = centroid.MyCentroid(SimpleNamespace(max_spread=30))
                 previous = tracker.update([person(0), person(50)])
                 cids = [p.cid for p in previous]
@@ -105,25 +106,64 @@ class TrackingTests(unittest.TestCase):
         cid = tracker.update([person()])[0].cid
         self.assertNotEqual(tracker.update([person(100)])[0].cid, cid)
 
+    def test_laprust_pair_outputs_for_square_rectangular_and_empty_costs(self):
+        assignment = self.load_deepsort_assignment()
+        wide = np.array([[.3, .1, .8], [.05, .4, .9]])
+        wide.setflags(write=False)
+        cases = [wide[:, :2], wide, wide.T, np.empty((0, 2)),
+                 np.empty((2, 0)), np.empty((0, 0))]
+        for module, solve, dtype in ((sort, sort.linear_assignment, np.int32),
+                                     (centroid, centroid._linear_assignment, np.int32),
+                                     (assignment, assignment._linear_assignment, np.int64)):
+            for costs in cases:
+                with self.subTest(module=module.__name__, shape=costs.shape):
+                    solver = Mock(wraps=module.laprust.lapjv)
+                    with patch.object(module, 'laprust', SimpleNamespace(lapjv=solver)):
+                        pairs = solve(costs)
+                    expected = np.array([[0, 1], [1, 0]]) if costs.size else np.empty((0, 2))
+                    np.testing.assert_array_equal(pairs, expected)
+                    self.assertEqual(pairs.dtype, dtype)
+                    solver.assert_called_once()
+
+    def test_sort_assignment_preserves_iou_post_filtering(self):
+        # A finite solver cost_limit would select only (0, 0) in the first case.
+        # SORT solves the full assignment first, retaining both off-diagonal pairs.
+        cases = [(np.array([[.9, .6, 0.], [.6, .1, 0.]], dtype=np.float32),
+                  ([[0, 1], [1, 0]], [], [2])),
+                 (np.array([[.5, .6], [.4, .9]], dtype=np.float32),
+                  ([[0, 0], [1, 1]], [], [])),
+                 (np.zeros((2, 3), dtype=np.float32), ([], [0, 1], [0, 1, 2]))]
+        for ious, expected in cases:
+            with self.subTest(ious=ious), patch.object(sort, 'iou_batch', return_value=ious), \
+                    patch.object(sort, 'linear_assignment', wraps=sort.linear_assignment) as solve:
+                matches, unmatched_detections, unmatched_tracks = sort.associate_detections_to_trackers(
+                    np.zeros((ious.shape[0], 4)), np.zeros((ious.shape[1], 4)), iou_threshold=.5)
+                np.testing.assert_array_equal(matches, np.array(expected[0], dtype=np.int32).reshape(-1, 2))
+                np.testing.assert_array_equal(unmatched_detections, expected[1])
+                np.testing.assert_array_equal(unmatched_tracks, expected[2])
+                solve.assert_called_once()
+
     def test_deepsort_assignment_backends_preserve_matches_and_gating(self):
         assignment = self.load_deepsort_assignment()
-        lap_solver = Mock(wraps=assignment.lap.lapjvxa)
-        backends = [('lapx', SimpleNamespace(lapjvxa=lap_solver)),
+        lap_solver = Mock(wraps=assignment.laprust.lapjv)
+        backends = [('laprust', SimpleNamespace(lapjv=lap_solver)),
                     ('unavailable', None), ('missing_api', SimpleNamespace()),
-                    ('failed', SimpleNamespace(lapjvxa=Mock(side_effect=RuntimeError('LAP failure'))))]
+                    ('failed', SimpleNamespace(lapjv=Mock(side_effect=RuntimeError('LAP failure'))))]
         wide = np.array([[.3, .1, .8], [.05, .4, .9]], dtype=np.float32)
         cases = [(wide[:, :2], ([(0, 1), (1, 0)], [], [])),
                  (wide, ([(0, 1), (1, 0)], [], [2])),
                  (wide.T, ([(0, 1), (1, 0)], [2], [])),
                  (np.array([[.6, .7], [.8, np.inf]]), ([], [0, 1], [0, 1])),
                  (np.array([[.5]]), ([(0, 0)], [], [])),
+                 # A finite .5 cost_limit would reject the second track instead.
+                 (np.array([[0., .25], [.250005, 1.]]), ([(0, 1), (1, 0)], [], [])),
                  (np.empty((0, 2)), ([], [], [0, 1])),
                  (np.empty((2, 0)), ([], [0, 1], [])),
                  (np.empty((0, 0)), ([], [], []))]
         for name, backend in backends:
             for costs, expected in cases:
                 with self.subTest(backend=name, costs=costs), \
-                        patch.object(assignment, 'lap', backend), \
+                        patch.object(assignment, 'laprust', backend), \
                         patch.object(assignment, 'linear_sum_assignment',
                                      wraps=assignment.linear_sum_assignment) as fallback:
                     lap_solver.reset_mock()
@@ -133,14 +173,14 @@ class TrackingTests(unittest.TestCase):
                     self.assertEqual(tuple(sorted(part) for part in result), expected)
                     has_costs = bool(costs.size)
                     self.assertEqual(metric.call_count, int(has_costs))
-                    self.assertEqual(lap_solver.call_count, int(name == 'lapx' and has_costs))
-                    self.assertEqual(fallback.call_count, int(name != 'lapx' and has_costs))
+                    self.assertEqual(lap_solver.call_count, int(name == 'laprust' and has_costs))
+                    self.assertEqual(fallback.call_count, int(name != 'laprust' and has_costs))
 
     def test_deepsort_assignment_preserves_precision_and_index_mapping(self):
         assignment = self.load_deepsort_assignment()
         costs = np.array([[1., 1. + 1e-9, 3.], [1., 1., 3.]])
-        for backend in (assignment.lap, None):
-            with self.subTest(backend=backend), patch.object(assignment, 'lap', backend):
+        for backend in (assignment.laprust, None):
+            with self.subTest(backend=backend), patch.object(assignment, 'laprust', backend):
                 result = assignment.min_cost_matching(
                     Mock(return_value=costs.copy()), 2., [None] * 5, [None] * 9,
                     track_indices=[4, 2], detection_indices=[8, 1, 6])
@@ -148,16 +188,16 @@ class TrackingTests(unittest.TestCase):
 
     def test_deepsort_invalid_costs_use_scipy_validation(self):
         assignment = self.load_deepsort_assignment()
-        backend = SimpleNamespace(lapjvxa=Mock())
+        backend = SimpleNamespace(lapjv=Mock())
         for invalid in (np.nan, -np.inf):
-            with self.subTest(cost=invalid), patch.object(assignment, 'lap', backend), \
+            with self.subTest(cost=invalid), patch.object(assignment, 'laprust', backend), \
                     patch.object(assignment, 'linear_sum_assignment',
                                  wraps=assignment.linear_sum_assignment) as fallback:
                 with self.assertRaises(ValueError):
                     assignment.min_cost_matching(
                         Mock(return_value=np.array([[invalid]])), .5, [None], [None])
                 fallback.assert_called_once()
-        backend.lapjvxa.assert_not_called()
+        backend.lapjv.assert_not_called()
 
     def test_gt_mode_setter_order_and_override(self):
         with tempfile.TemporaryDirectory() as directory:

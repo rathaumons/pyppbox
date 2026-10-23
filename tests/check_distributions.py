@@ -52,6 +52,10 @@ def check_distributions(directory):
             metadata = BytesParser().parsebytes(read_file(metadata_name))
             assert 'Programming Language :: Python :: 3.13' in metadata.get_all('Classifier', []), artifact
             requirements = [Requirement(value) for value in metadata.get_all('Requires-Dist', [])]
+            laprust = [requirement for requirement in requirements if requirement.name == 'laprust']
+            assert len(laprust) == 1 and laprust[0].marker is None, (artifact, laprust)
+            assert '1.0.0' in laprust[0].specifier and '0.9.0' not in laprust[0].specifier, (artifact, laprust)
+            assert not any(requirement.name in ('lap', 'lapx') for requirement in requirements), artifact
             yolo = [requirement for requirement in requirements if requirement.name == 'pyppbox-ultralytics']
             assert len(yolo) == 1 and yolo[0].marker is None, (artifact, yolo)
             assert '8.4.144' in yolo[0].specifier, (artifact, yolo)
@@ -102,7 +106,7 @@ def check_distributions(directory):
                 packaged = read_file(find_file(source)).decode('utf-8')
                 assert packaged.replace('\r\n', '\n') == (repo / source).read_text(encoding='utf-8'), (artifact, source)
 
-        print(f'{artifact.name}: code/configs, base-only dependencies, optional requirements files, default YOLO backend, OpenCV bound, AGPL metadata, and third-party notices verified; local plans excluded')
+        print(f'{artifact.name}: code/configs, base-only dependencies, laprust solver, optional requirements files, default YOLO backend, OpenCV bound, AGPL metadata, and third-party notices verified; local plans excluded')
 
 
 if __name__ == '__main__':

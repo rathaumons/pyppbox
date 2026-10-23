@@ -20,28 +20,21 @@ import numpy as np
 
 from filterpy.kalman import KalmanFilter
 
-# lapx (https://github.com/rathaROG/lapx) uses the "lap" import name.
-# The original gatagat/lap package does not provide lapjvx/lapjvxa.
-import lap
+import laprust
 
 
 
 def linear_assignment(cost_matrix):
   """
-  LAPX wrapper with best practices:
+  laprust assignment wrapper:
   - Ensures float32 and C-contiguous
   - Uses extend_cost only when the matrix is rectangular
   - Returns (k,2) int32 [row, col] pairs
   """
   cm = np.ascontiguousarray(cost_matrix, dtype=np.float32)
   extend = (cm.shape[0] != cm.shape[1])
-  pairs = lap.lapjvxa(cm, extend_cost=extend, return_cost=False)
-  # if pairs is None:
-  #   return np.empty((0, 2), dtype=np.int32)
-  # pairs = np.asarray(pairs, dtype=np.int32)
-  # if pairs.ndim != 2 or pairs.shape[1] != 2:
-  #   pairs = pairs.reshape((-1, 2)).astype(np.int32, copy=False)
-  return pairs
+  pairs = laprust.lapjv(cm, extend_cost=extend, return_cost=False, output="pairs")
+  return pairs.astype(np.int32, copy=False)
 
 
 def iou_batch(bb_test, bb_gt):

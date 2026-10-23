@@ -4,25 +4,23 @@ from scipy.optimize import linear_sum_assignment
 from pyppbox.utils.logtools import add_warning_log
 
 try:
-    # lapx (https://github.com/rathaROG/lapx) uses the "lap" import name.
-    # The original gatagat/lap package does not provide lapjvx/lapjvxa.
-    import lap
+    import laprust
 except Exception:
-    lap = None
+    laprust = None
 
 
 INFTY_COST = 1e+5
 
 
 def _linear_assignment(cost_matrix):
-    """Return assignment pairs using lapx, falling back to SciPy if needed."""
+    """Return assignment pairs using laprust, falling back to SciPy if needed."""
     # Keep the input precision and let SciPy validate any non-finite costs.
-    if lap is not None and np.isfinite(cost_matrix).all():
+    if laprust is not None and np.isfinite(cost_matrix).all():
         try:
-            return lap.lapjvxa(cost_matrix, extend_cost=cost_matrix.shape[0] != cost_matrix.shape[1],
-                              return_cost=False)
+            return laprust.lapjv(cost_matrix, extend_cost=cost_matrix.shape[0] != cost_matrix.shape[1],
+                                 return_cost=False, output="pairs")
         except Exception as exc:
-            add_warning_log(f"DeepSORT : LAP failed; using SciPy assignment: {exc}")
+            add_warning_log(f"DeepSORT : laprust failed; using SciPy assignment: {exc}")
     rows, cols = linear_sum_assignment(cost_matrix)
     return np.column_stack((rows, cols))
 

@@ -11,6 +11,7 @@
   - Add pipeline `close()`, context-manager support, and stream `reset()`; preserve the active pipeline if model replacement fails.
   - Reduce startup imports and ReID allocations, index GT/DeepSORT metadata, and add optional Torchreid batching.
   - Fix DeepSORT detection associations, invalid ReID crops, and result ordering.
+  - Replace LAPX with [laprust](https://github.com/rathaROG/laprust) for SORT, Centroid, DeepSORT, and evaluation matching; retain existing SciPy fallbacks and matching thresholds.
   - Store logs and GUI state outside the package and clean up owned GUI workers.
   - Extend core compatibility coverage through Python 3.13. New optional modules require Python 3.10+.
 

@@ -22,10 +22,10 @@ def person(name, x):
 
 class EvaluationTests(unittest.TestCase):
     def test_assignment_backends_preserve_counts(self):
-        lap_solver = Mock(wraps=evatools.lap.lapjvx)
-        backends = [('lapx', SimpleNamespace(lapjvx=lap_solver)),
+        lap_solver = Mock(wraps=evatools.laprust.lapjv)
+        backends = [('laprust', SimpleNamespace(lapjv=lap_solver)),
                     ('unavailable', None), ('missing_api', SimpleNamespace()),
-                    ('failed', SimpleNamespace(lapjvx=Mock(side_effect=RuntimeError('LAP failure'))))]
+                    ('failed', SimpleNamespace(lapjv=Mock(side_effect=RuntimeError('LAP failure'))))]
         cases = [([0, 20], ['Alice', 'Bob'], [8, -10], ['Bob', 'Alice'], (0, 0, 0)),
                  ([0, 100], ['Alice', 'Bob'], [100, 0, 200], ['Wrong', 'Alice', 'Extra'], (1, 0, 1)),
                  ([0, 100, 200], ['Alice', 'Bob', 'Carol'], [100, 0], ['Bob', 'Alice'], (0, 1, 0)),
@@ -37,7 +37,7 @@ class EvaluationTests(unittest.TestCase):
         for name, backend in backends:
             for ref_x, ref_ids, pred_x, pred_ids, expected in cases:
                 with self.subTest(backend=name, references=ref_x, predictions=pred_x), \
-                        patch.object(evatools, 'lap', backend), \
+                        patch.object(evatools, 'laprust', backend), \
                         patch.object(evatools, 'linear_sum_assignment',
                                      wraps=evatools.linear_sum_assignment) as fallback:
                     lap_solver.reset_mock()
@@ -46,8 +46,8 @@ class EvaluationTests(unittest.TestCase):
                         [[x, 0, x + 20, 40] for x in pred_x], pred_ids, 16)
                     self.assertEqual(result, expected)
                     has_costs = bool(ref_x and pred_x)
-                    self.assertEqual(lap_solver.call_count, int(name == 'lapx' and has_costs))
-                    self.assertEqual(fallback.call_count, int(name != 'lapx' and has_costs))
+                    self.assertEqual(lap_solver.call_count, int(name == 'laprust' and has_costs))
+                    self.assertEqual(fallback.call_count, int(name != 'laprust' and has_costs))
 
     def test_assignment_preserves_float64_precision(self):
         # Rounding to float32 turns the unique diagonal optimum into a tie.
@@ -57,6 +57,17 @@ class EvaluationTests(unittest.TestCase):
         np.testing.assert_array_equal(rows, [0, 1])
         np.testing.assert_array_equal(cols, [0, 1])
         fallback.assert_not_called()
+
+    def test_invalid_costs_use_scipy_validation(self):
+        backend = SimpleNamespace(lapjv=Mock())
+        for invalid in (np.nan, -np.inf):
+            with self.subTest(cost=invalid), patch.object(evatools, 'laprust', backend), \
+                    patch.object(evatools, 'linear_sum_assignment',
+                                 wraps=evatools.linear_sum_assignment) as fallback:
+                with self.assertRaises(ValueError):
+                    evatools._linear_assignment(np.array([[invalid]]))
+                fallback.assert_called_once()
+        backend.lapjv.assert_not_called()
 
     def evaluate(self, reference, people, id_mode='deepid'):
         with tempfile.TemporaryDirectory() as directory:

@@ -10,21 +10,21 @@ from pyppbox.utils.logtools import add_error_log, add_warning_log
 from scipy.optimize import linear_sum_assignment
 
 try:
-    # lapx (https://github.com/rathaROG/lapx) uses the "lap" import name.
-    # The original gatagat/lap package does not provide lapjvx/lapjvxa.
-    import lap
+    import laprust
 except Exception:
-    lap = None
+    laprust = None
 
 
 def _linear_assignment(cost_matrix: np.ndarray):
-    """Return one-to-one assignments, falling back to SciPy if LAP is unavailable."""
+    """Return one-to-one pairs using laprust, falling back to SciPy if needed."""
     cm = np.ascontiguousarray(cost_matrix, dtype=np.float32)
-    if lap is not None:
+    if laprust is not None:
         try:
-            return lap.lapjvxa(cm, extend_cost=cm.shape[0] != cm.shape[1], return_cost=False)
+            pairs = laprust.lapjv(cm, extend_cost=cm.shape[0] != cm.shape[1],
+                                  return_cost=False, output="pairs")
+            return pairs.astype(np.int32, copy=False)
         except Exception as e:
-            add_warning_log(f"MyCentroid : LAP failed; using SciPy assignment: {e}")
+            add_warning_log(f"MyCentroid : laprust failed; using SciPy assignment: {e}")
     rows, cols = linear_sum_assignment(cm)
     return np.column_stack((rows, cols)).astype(np.int32)
 

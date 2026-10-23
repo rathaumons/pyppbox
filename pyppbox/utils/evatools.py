@@ -9,11 +9,9 @@ from .commontools import joinFPathFull, getAbsPathFDS, isExist, getAncestorDir
 from .logtools import add_info_log, add_warning_log, add_error_log
 
 try:
-    # lapx (https://github.com/rathaROG/lapx) uses the "lap" import name.
-    # The original gatagat/lap package does not provide lapjvx/lapjvxa.
-    import lap
+    import laprust
 except Exception:
-    lap = None
+    laprust = None
 
 
 class MyEVA(object):
@@ -488,14 +486,14 @@ class TKOReider(object):
 
 
 def _linear_assignment(cost_matrix):
-    """Prefer lapx, with SciPy as a fallback for unavailable or failed LAP solves."""
-    # LAP does not validate non-finite costs; let SciPy handle those safely.
-    if lap is not None and np.isfinite(cost_matrix).all():
+    """Prefer laprust, with SciPy as a fallback for unavailable or failed solves."""
+    # Let SciPy validate non-finite costs before they reach the native solver.
+    if laprust is not None and np.isfinite(cost_matrix).all():
         try:
-            return lap.lapjvx(cost_matrix, extend_cost=cost_matrix.shape[0] != cost_matrix.shape[1],
-                             return_cost=False)
+            return laprust.lapjv(cost_matrix, extend_cost=cost_matrix.shape[0] != cost_matrix.shape[1],
+                                 return_cost=False, output="indices")
         except Exception as exc:
-            add_warning_log(f"Evaluation : LAP failed; using SciPy assignment: {exc}")
+            add_warning_log(f"Evaluation : laprust failed; using SciPy assignment: {exc}")
     return linear_sum_assignment(cost_matrix)
 
 

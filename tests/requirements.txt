@@ -8,4 +8,4 @@ scikit-image>=0.20.0
 scikit-learn>=1.2.2
 matplotlib
 filterpy
-lapx>=0.9.4
+laprust>=1.0.0

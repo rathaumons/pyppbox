@@ -11,6 +11,9 @@ Dependencies and new modules
 * YOLO now uses ``pyppbox-ultralytics>=8.4.144``. Remove an existing
   ``ultralytics`` or ``vsensebox-ultralytics`` installation as described in
   :doc:`../getstarted`.
+* Tracking and evaluation now use ``laprust>=1.0.0`` in place of LAPX.
+  Matching thresholds and the existing SciPy fallbacks are retained.
+  Equally optimal assignments can differ between solvers.
 * RF-DETR, ArcFace, and AdaFace require Python 3.10+ and their optional
   requirements files. Installation extras have been replaced by these files.
 * RF-DETR defaults to Nano on GPU 0. Install ``pyppbox-data-rfdetr`` or select
