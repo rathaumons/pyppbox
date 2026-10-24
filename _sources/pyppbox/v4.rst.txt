@@ -1,0 +1,60 @@
+V4 upgrade guide
+================
+
+pyppbox 4.0.0 is the general V4 release and adds RF-DETR, ArcFace, and AdaFace.
+Existing V3 configuration files and public interfaces remain supported;
+no configuration migration is required.
+See :doc:`../getstarted` for installation and :doc:`../releasenotes` for changes.
+
+Upgrade from V3 or a V4 release candidate with:
+
+.. code-block:: sh
+
+   python -m pip install --upgrade "pyppbox==4.0.0"
+   python -c "import pyppbox; print(pyppbox.__version__)"
+
+The version check should print ``4.0.0``. Core compatibility covers Python
+3.9–3.13; the new optional modules require Python 3.10+. Use the matching
+``v4.0.0`` repository tag for requirements files and examples, and the
+``v1.6.0`` module data wheels listed in the setup guide.
+
+Dependencies and new modules
+----------------------------
+
+* YOLO now uses ``pyppbox-ultralytics>=8.4.144``. Remove an existing
+  ``ultralytics`` or ``vsensebox-ultralytics`` installation as described in
+  :doc:`../getstarted`.
+* Tracking and evaluation now use ``laprust>=1.0.0`` in place of ``lapx``.
+  Matching thresholds and the existing SciPy fallbacks are retained.
+  Equally optimal assignments can differ between solvers.
+* RF-DETR, ArcFace, and AdaFace require Python 3.10+ and their optional
+  requirements files. Installation extras have been replaced by these files.
+* RF-DETR defaults to Nano on GPU 0. Install ``pyppbox-data-rfdetr`` or select
+  a local checkpoint. See :doc:`../examples/example_15` for weights and setup.
+* ArcFace and AdaFace default to CPU. Each has its own model/data wheel and
+  identity classifier; existing FaceNet/Torchreid classifiers cannot be reused.
+  See :doc:`modules/reiders` for recognition and training.
+
+Existing projects
+-----------------
+
+Old config directories receive defaults for the new modules in memory.
+Invalid settings and missing inference assets now fail before model loading.
+GUI saves preserve other modules and extension fields; YAML comments are
+regenerated. See :doc:`config` for paths, devices, and validation.
+
+Use ``MT`` as a context manager or call ``close()`` to release models.
+``reset()`` starts another stream while retaining loaded models. Failed model
+replacement leaves the active pipeline usable; see :doc:`standalone`.
+Logs and GUI state use a writable user directory; see :doc:`utils`.
+
+Result exports, ground-truth files, and video-to-GT mapping files now use UTF-8.
+Readers also accept a UTF-8 BOM. Re-save older files that use a local Windows
+encoding, such as CP1252, as UTF-8 before loading; ASCII files work unchanged.
+Exports keep the ``res_<timestamp>_full.txt`` name when available and add numbered
+suffixes when needed, so rapid or concurrent exports preserve earlier results.
+Failed writes remove their temporary file and filename reservation.
+
+DeepSORT fixes detection-to-track metadata associations, and ReID skips empty
+or out-of-frame crops. Torchreid batching remains opt-in with ``batch_size``;
+the default scalar behavior is unchanged.
