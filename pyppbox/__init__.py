@@ -41,7 +41,7 @@ def __getattr__(name):
         return obj
     raise AttributeError(f"---PYPPBOX : Couldn't find attribute '{name}'")
 
-__version__ = '4.0.0rc1'
+__version__ = '4.0.0'
 __author__ = 'Ratha SIV'
 __description__ = 'Toolbox for people detecting, tracking, and re-identifying.'
 __homepage__ = 'https://rathaumons.github.io/pyppbox'
