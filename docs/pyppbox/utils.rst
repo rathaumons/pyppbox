@@ -14,6 +14,11 @@ pyppbox.utils.evatools
 pyppbox.utils.gttools
 ---------------------
 
+Ground-truth files and video-to-GT maps use UTF-8, with or without a UTF-8 BOM.
+Non-Latin identities and filenames are preserved. Convert older files saved
+in a local encoding such as CP1252 to UTF-8 before loading them. These readers
+are also used by online and offline evaluation.
+
 .. automodule:: pyppbox.utils.gttools
    :members:
    :undoc-members:
@@ -66,6 +71,16 @@ pyppbox.utils.persontools
 
 pyppbox.utils.restools
 ----------------------
+
+``ResIO.dump()`` and ``dumpAll()`` write UTF-8 files named
+``res_<timestamp>_full.txt``. If that name is taken, exports use
+``res_<timestamp>_full_1.txt``, ``res_<timestamp>_full_2.txt``, and so on.
+Exclusive filename reservation protects earlier results during rapid or
+concurrent exports. Failed writes clean up their temporary file and reservation.
+
+Both methods return ``None`` and log the actual output path. Stored records
+remain available after export. Choose an existing writable output directory;
+a missing directory falls back to the package's ``data/res`` directory.
 
 .. automodule:: pyppbox.utils.restools
    :members:

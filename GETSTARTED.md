@@ -1,6 +1,6 @@
 # 🚀 Getting Started
 
-Installing `pyppbox` is very easy and straightforward. You can install it from [PyPI](https://pypi.org/project/pyppbox/) directly or use the prebuilt `.whl` files on [GitHub releases](https://github.com/rathaumons/pyppbox/releases) or install from GitHub directly or build it from source on your own machine. However, in order to get it work, you need to install all the necessary dependencies or requirements for the modules you need.
+This guide covers **pyppbox 4.0.0**, the general V4 release. Install it from [PyPI](https://pypi.org/project/pyppbox/), use a prebuilt wheel from [GitHub releases](https://github.com/rathaumons/pyppbox/releases), or build from source. Install the optional dependencies and model/data wheels for the modules you need.
 
 Existing V3 projects can keep their configuration files when upgrading to V4; see the [V4 upgrade guide](https://rathaumons.github.io/pyppbox/pyppbox/v4.html) for compatibility, runtime changes, and configuring RF-DETR, ArcFace, and AdaFace.
 
@@ -11,7 +11,7 @@ Existing V3 projects can keep their configuration files when upgrading to V4; se
 
 * Prerequisite: 
   - Python [[3.9-3.13]](https://www.python.org/downloads/) (For ***macOS*** GUI troubleshooting, try Python 3.11)
-  - Local pyppbox repo: `git clone https://github.com/rathaumons/pyppbox.git`
+  - For the examples, requirements files, or source build, clone the matching release: `git clone --branch v4.0.0 https://github.com/rathaumons/pyppbox.git`
 
 * Before you install dependencies/requirements:
   - For Linux, recommend changing `python3` to `python`: `sudo apt install python-is-python3`
@@ -77,11 +77,12 @@ You need to install the main package which is `pyppbox` and the data for the mod
 * Install `pyppbox`
   - Use the latest `.whl` from [releases](https://github.com/rathaumons/pyppbox/releases) or install from [PyPI](https://pypi.org/project/pyppbox/):
     ```
-    pip install pyppbox
+    python -m pip install --upgrade "pyppbox==4.0.0"
     ``` 
-  - Or install directly from GitHub:
+    This also upgrades an installed V4 release candidate. Verify the version with `python -c "import pyppbox; print(pyppbox.__version__)"`; it should print `4.0.0`.
+  - Or install the release directly from GitHub:
     ```
-    pip install git+https://github.com/rathaumons/pyppbox.git
+    python -m pip install --upgrade git+https://github.com/rathaumons/pyppbox.git@v4.0.0
     ```
   - Or build from source:
     ```

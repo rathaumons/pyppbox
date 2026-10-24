@@ -3,6 +3,11 @@ Supported Trackers
 
 Config Name | ``Class Name``
 
+Centroid, SORT, and DeepSORT use ``laprust>=1.0.0`` for assignment solving.
+Centroid and DeepSORT retain their SciPy fallback if laprust is unavailable or
+the solve fails. Matching thresholds are unchanged, but equally optimal
+assignments can differ from those produced by the previous lapx solver.
+
 ----
 
 Centroid | ``MyCentroid``

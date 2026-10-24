@@ -2,7 +2,7 @@
 
 ## **pyppbox V4 - Performance and Stability**
 
-* `pyppbox` V4 (unreleased) - Performance and Stability
+* `pyppbox` [v4.0.0](https://github.com/rathaumons/pyppbox/tree/v4.0.0) - Performance and Stability
 
   - Add RF-DETR Nano/Small/Medium/Large detection and ArcFace/AdaFace face recognition, with GUI settings, examples, and v1.6.0 model/data wheels.
   - Use `pyppbox-ultralytics>=8.4.144` for YOLO and requirements files for optional modules; add a fresh-install Windows CUDA 12.1 script.
@@ -12,11 +12,11 @@
   - Reduce startup imports and ReID allocations, index GT/DeepSORT metadata, and add optional Torchreid batching.
   - Fix DeepSORT detection associations, invalid ReID crops, and result ordering.
   - Use UTF-8 for result exports, ground truth, and video-to-GT maps; prevent export filename collisions and clean up failed writes.
-  - Replace LAPX with [laprust](https://github.com/rathaROG/laprust) for SORT, Centroid, DeepSORT, and evaluation matching; retain existing SciPy fallbacks and matching thresholds.
+  - Replace lapx with [laprust](https://github.com/rathaROG/laprust) for SORT, Centroid, DeepSORT, and evaluation matching; retain existing SciPy fallbacks and matching thresholds.
   - Store logs and GUI state outside the package and clean up owned GUI workers.
   - Extend core compatibility coverage through Python 3.13. New optional modules require Python 3.10+.
 
-  See the [V4 upgrade guide](https://rathaumons.github.io/pyppbox/pyppbox/v4.html) for setup and compatibility.
+  Upgrade with `python -m pip install --upgrade "pyppbox==4.0.0"`, including from a V4 release candidate. Existing V3 configurations remain supported. Ground-truth and mapping files must use UTF-8; convert older files saved in a local encoding before loading. See the [V4 upgrade guide](https://rathaumons.github.io/pyppbox/pyppbox/v4.html) for setup and compatibility.
 
 ## **pyppbox V3 - Make Simpler and Faster**
 
